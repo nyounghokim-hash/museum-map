@@ -7,6 +7,21 @@ function generateSlug(title: string) {
     return title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Math.random().toString(36).substring(2, 6);
 }
 
+export async function GET() {
+    try {
+        const user = await requireAuth();
+        const collections = await prisma.collection.findMany({
+            where: { userId: user.id },
+            include: { _count: { select: { items: true } } },
+            orderBy: { createdAt: 'desc' },
+        });
+        return successResponse(collections);
+    } catch (err: any) {
+        if (err.message === 'UNAUTHORIZED') return errorResponse('UNAUTHORIZED', 'Auth required', 401);
+        return errorResponse('INTERNAL_SERVER_ERROR', 'Failed to fetch collections', 500);
+    }
+}
+
 export async function POST(req: NextRequest) {
     try {
         const user = await requireAuth();

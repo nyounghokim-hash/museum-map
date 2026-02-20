@@ -22,30 +22,24 @@ export async function GET(req: NextRequest) {
                 return errorResponse('INVALID_BBOX', 'Invalid bounding box parameters. Expected minLng,minLat,maxLng,maxLat', 400);
             }
             const [minLng, minLat, maxLng, maxLat] = parts;
-
-            const conditions: Prisma.Sql[] = [];
+            const conditions: any[] = [];
             conditions.push(Prisma.sql`ST_Contains(ST_MakeEnvelope(${minLng}, ${minLat}, ${maxLng}, ${maxLat}, 4326), "location")`);
-
             if (query) {
                 conditions.push(Prisma.sql`"name" ILIKE ${'%' + query + '%'}`);
             }
             if (country) {
                 conditions.push(Prisma.sql`"country" = ${country}`);
             }
-
             const whereClause = Prisma.sql`WHERE ${Prisma.join(conditions, ' AND ')}`;
-
             museums = await prisma.$queryRaw`
-        SELECT "id", "name", "description", "country", "city", "type", "website", "imageUrl", "latitude", "longitude", "popularityScore"
-        FROM "Museum"
-        ${whereClause}
-        ORDER BY "popularityScore" DESC
-        LIMIT ${limit} OFFSET ${offset}
-      `;
-
-            // Note: Getting count requires a separate raw query if needed for exact total, defaulting to a mock total for MVP if using bbox
+                SELECT "id", "name", "description", "country", "city", "type", "website", "imageUrl", "latitude", "longitude", "popularityScore"
+                FROM "Museum"
+                ${whereClause}
+                ORDER BY "popularityScore" DESC
+                LIMIT ${limit} OFFSET ${offset}
+            `;
+            // Note: Getting count requires a separate raw query if needed for exact total
             total = Array.isArray(museums) ? museums.length : 0;
-
         } else {
             // Standard search without spatial bounds
             const where: Prisma.MuseumWhereInput = {};
@@ -55,7 +49,6 @@ export async function GET(req: NextRequest) {
             if (country) {
                 where.country = country;
             }
-
             const [data, count] = await Promise.all([
                 prisma.museum.findMany({
                     where,
@@ -69,7 +62,6 @@ export async function GET(req: NextRequest) {
                 }),
                 prisma.museum.count({ where })
             ]);
-
             museums = data;
             total = count;
         }

@@ -26,11 +26,9 @@ export default function CollectionsPage() {
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-4 sm:p-8 sm:mt-10">
-            <div className="flex justify-between items-center mb-6 sm:mb-8">
+            <div className="mb-6 sm:mb-8">
                 <h1 className="text-2xl sm:text-3xl font-extrabold">My Collections</h1>
-                <button className="bg-black text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-neutral-800 transition-colors">
-                    + New Folder
-                </button>
+                <p className="text-gray-500 mt-2 text-sm">Your saved museum folders.</p>
             </div>
 
             {loading ? (
@@ -76,6 +74,20 @@ export default function CollectionsPage() {
                         </Link>
                     ))}
                 </div>
+            )}
+
+            {/* Add New Collection card */}
+            {!loading && (
+                <Link href="/collections/new" className="block mt-4">
+                    <div className="border-2 border-dashed border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-center hover:border-black hover:bg-gray-50 transition-all cursor-pointer group active:scale-[0.98]">
+                        <div className="w-10 h-10 rounded-full bg-gray-100 group-hover:bg-black flex items-center justify-center transition-colors mb-2">
+                            <svg className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </div>
+                        <span className="text-sm font-semibold text-gray-400 group-hover:text-black transition-colors">New Collection</span>
+                    </div>
+                </Link>
             )}
         </div>
     );

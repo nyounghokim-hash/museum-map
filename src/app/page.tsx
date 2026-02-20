@@ -10,6 +10,7 @@ export default function MainPage() {
   const [museums, setMuseums] = useState<any[]>([]);
   const [selectedMuseum, setSelectedMuseum] = useState<any | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>('All');
+  const [countExpanded, setCountExpanded] = useState(false);
 
   useEffect(() => {
     fetch('/api/museums?limit=2000')
@@ -62,11 +63,34 @@ export default function MainPage() {
           </div>
         </div>
 
-        {/* Museum count */}
-        <div className="absolute bottom-4 right-4 z-10 pointer-events-none">
-          <span className="bg-black/80 text-white text-xs font-medium px-3 py-1.5 rounded-full backdrop-blur-md">
-            {filteredMuseums.length.toLocaleString()} museums
-          </span>
+        {/* Museum count — clickable expandable badge */}
+        <div className="absolute bottom-4 right-4 z-10">
+          <button
+            onClick={() => setCountExpanded(prev => !prev)}
+            className={`bg-black/80 text-white backdrop-blur-md rounded-2xl shadow-lg cursor-pointer hover:bg-black/90 active:scale-95 transition-all duration-300 overflow-hidden ${countExpanded ? 'px-5 py-3' : 'px-3 py-1.5 text-xs'
+              }`}
+            style={{ transition: 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
+          >
+            <span className="font-bold text-sm">
+              {filteredMuseums.length.toLocaleString()} museums
+            </span>
+            {countExpanded && (
+              <div className="mt-2 space-y-1 animate-fadeInUp text-left">
+                <div className="flex justify-between gap-6 text-xs">
+                  <span className="text-white/60">Public</span>
+                  <span className="font-medium">{museums.filter(m => m.type === 'Public').length.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between gap-6 text-xs">
+                  <span className="text-white/60">Private</span>
+                  <span className="font-medium">{museums.filter(m => m.type === 'Private').length.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between gap-6 text-xs">
+                  <span className="text-white/60">Foundation</span>
+                  <span className="font-medium">{museums.filter(m => m.type === 'Foundation').length.toLocaleString()}</span>
+                </div>
+              </div>
+            )}
+          </button>
         </div>
       </div>
 
@@ -97,7 +121,7 @@ export default function MainPage() {
           )}
 
           {/* Content */}
-          <div className="p-5 space-y-5">
+          <div className="p-5 space-y-5 stagger-children">
             {/* Name — allow 2 lines */}
             <div>
               <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-1">
@@ -202,16 +226,6 @@ export default function MainPage() {
         </div>
       )}
 
-      {/* Slide-in animation */}
-      <style jsx global>{`
-        @keyframes slideIn {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-        .animate-slideIn {
-          animation: slideIn 250ms ease-out;
-        }
-      `}</style>
     </div>
   );
 }

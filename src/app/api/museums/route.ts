@@ -1,6 +1,5 @@
 import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
 import { successResponse, errorResponse } from '@/lib/api-utils';
 
 export async function GET(req: NextRequest) {
@@ -13,10 +12,7 @@ export async function GET(req: NextRequest) {
         const limit = Math.min(parseInt(searchParams.get('limit') || '50', 10), 2000);
         const offset = (page - 1) * limit;
 
-        let museums;
-        let total = 0;
-
-        const where: Prisma.MuseumWhereInput = {};
+        const where: any = {};
 
         if (bbox) {
             const parts = bbox.split(',').map(Number);
@@ -24,7 +20,6 @@ export async function GET(req: NextRequest) {
                 return errorResponse('INVALID_BBOX', 'Invalid bounding box parameters. Expected minLng,minLat,maxLng,maxLat', 400);
             }
             const [minLng, minLat, maxLng, maxLat] = parts;
-            // Use latitude/longitude columns for bbox filtering instead of PostGIS
             where.longitude = { gte: minLng, lte: maxLng };
             where.latitude = { gte: minLat, lte: maxLat };
         }
@@ -49,10 +44,8 @@ export async function GET(req: NextRequest) {
             }),
             prisma.museum.count({ where })
         ]);
-        museums = data;
-        total = count;
 
-        return successResponse({ data: museums, total, page, limit });
+        return successResponse({ data, total: count, page, limit });
     } catch (err: any) {
         console.error('API Error /museums:', err);
         return errorResponse('INTERNAL_SERVER_ERROR', 'Failed to fetch museums', 500, err.message);

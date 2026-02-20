@@ -31,8 +31,7 @@ export default function MainPage() {
 
   const handleSave = async (id: string) => {
     await fetch('/api/saves', { method: 'POST', body: JSON.stringify({ museumId: id }) });
-    alert('Saved to default folder!');
-    router.push('/saved');
+    alert('Saved!');
   };
 
   const filteredMuseums = activeFilter === 'All'

@@ -26,7 +26,7 @@ export default function MyCollectionsPage() {
     };
 
     return (
-        <div className="max-w-[1080px] mx-auto px-4 py-4 sm:p-8 sm:mt-10">
+        <div className="w-full max-w-[1080px] mx-auto px-4 py-4 sm:px-6 sm:py-8 md:px-8 mt-4 sm:mt-8">
             <div className="mb-6 sm:mb-8">
                 <h1 className="text-2xl sm:text-3xl font-extrabold dark:text-white">{t('collections.title', locale)}</h1>
                 <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">{t('collections.subtitle', locale)}</p>

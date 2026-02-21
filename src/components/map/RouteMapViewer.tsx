@@ -14,9 +14,13 @@ export interface RouteStop {
 interface Props {
     stops: RouteStop[];
     onStopClick?: (stop: RouteStop) => void;
+    darkMode?: boolean;
 }
 
-export default function RouteMapViewer({ stops, onStopClick }: Props) {
+const LIGHT_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
+const DARK_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+
+export default function RouteMapViewer({ stops, onStopClick, darkMode = false }: Props) {
     const mapContainer = useRef<HTMLDivElement>(null);
     const mapRef = useRef<maplibregl.Map | null>(null);
     const initializedRef = useRef(false);
@@ -56,10 +60,15 @@ export default function RouteMapViewer({ stops, onStopClick }: Props) {
 
         const map = new maplibregl.Map({
             container: mapContainer.current,
-            style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+            style: darkMode ? DARK_STYLE : LIGHT_STYLE,
             bounds,
             fitBoundsOptions: { padding: 60 },
             minZoom: 2,
+        });
+
+        // Save initial darkMode state to compare later
+        map.on('style.load', () => {
+            // Nothing special needed on style.load right now for route map, but could re-add sources here
         });
 
         map.on('load', () => {
@@ -138,6 +147,67 @@ export default function RouteMapViewer({ stops, onStopClick }: Props) {
         return () => { map.remove(); mapRef.current = null; initializedRef.current = false; };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // Only mount once
+
+    // Handle dark mode changes
+    const darkModeRef = useRef(darkMode);
+    useEffect(() => {
+        if (!mapRef.current || darkModeRef.current === darkMode) return;
+        darkModeRef.current = darkMode;
+
+        const map = mapRef.current;
+        map.setStyle(darkMode ? DARK_STYLE : LIGHT_STYLE);
+
+        // Re-add sources and layers when style changes
+        map.once('style.load', () => {
+            // Route line source + layers
+            map.addSource('route-line', {
+                type: 'geojson',
+                data: buildLineGeoJSON(stops) as any,
+            });
+
+            map.addLayer({
+                id: 'route-line-layer',
+                type: 'line',
+                source: 'route-line',
+                layout: { 'line-join': 'round', 'line-cap': 'round' },
+                paint: { 'line-color': '#000000', 'line-width': 3, 'line-dasharray': [2, 2], 'line-opacity': 0.6 },
+            });
+            map.addLayer({
+                id: 'route-line-bg',
+                type: 'line',
+                source: 'route-line',
+                layout: { 'line-join': 'round', 'line-cap': 'round' },
+                paint: { 'line-color': '#000000', 'line-width': 5, 'line-opacity': 0.08 },
+            }, 'route-line-layer');
+
+            // Stops source + layers
+            map.addSource('route-stops', {
+                type: 'geojson',
+                data: buildStopsGeoJSON(stops) as any,
+            });
+
+            map.addLayer({
+                id: 'route-stop-circles',
+                type: 'circle',
+                source: 'route-stops',
+                paint: { 'circle-color': '#000000', 'circle-radius': 16, 'circle-stroke-width': 3, 'circle-stroke-color': '#ffffff' },
+            });
+            map.addLayer({
+                id: 'route-stop-labels',
+                type: 'symbol',
+                source: 'route-stops',
+                layout: { 'text-field': ['to-string', ['get', 'order']], 'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-size': 13, 'text-allow-overlap': true },
+                paint: { 'text-color': '#ffffff' },
+            });
+            map.addLayer({
+                id: 'route-stop-name',
+                type: 'symbol',
+                source: 'route-stops',
+                layout: { 'text-field': ['get', 'name'], 'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'], 'text-size': 11, 'text-offset': [0, 2.2], 'text-anchor': 'top', 'text-max-width': 12 },
+                paint: { 'text-color': '#333333', 'text-halo-color': '#ffffff', 'text-halo-width': 1.5 },
+            });
+        });
+    }, [darkMode, buildLineGeoJSON, buildStopsGeoJSON, stops]);
 
     // Update sources when stops change (smooth, no map recreation)
     useEffect(() => {

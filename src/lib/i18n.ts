@@ -100,7 +100,7 @@ type TranslationKeys = {
 
 const translations: Record<Locale, TranslationKeys> = {
     en: {
-        'nav.mapExplore': 'Map Explore',
+        'nav.mapExplore': 'Map',
         'nav.myCollections': 'My Collections',
         'nav.myPick': 'My Pick',
         'nav.myPlans': 'My Plans',
@@ -163,7 +163,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'theme.dark': 'Dark',
     },
     ko: {
-        'nav.mapExplore': '지도 탐색',
+        'nav.mapExplore': '지도',
         'nav.myCollections': '내 컬렉션',
         'nav.myPick': '마이 픽',
         'nav.myPlans': '내 여행',
@@ -226,7 +226,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'theme.dark': '다크',
     },
     ja: {
-        'nav.mapExplore': 'マップ探索',
+        'nav.mapExplore': 'マップ',
         'nav.myCollections': 'コレクション',
         'nav.myPick': 'マイピック',
         'nav.myPlans': '旅行プラン',
@@ -289,7 +289,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'theme.dark': 'ダーク',
     },
     de: {
-        'nav.mapExplore': 'Karte erkunden',
+        'nav.mapExplore': 'Karte',
         'nav.myCollections': 'Sammlungen',
         'nav.myPick': 'Meine Auswahl',
         'nav.myPlans': 'Meine Pläne',
@@ -352,7 +352,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'theme.dark': 'Dunkel',
     },
     fr: {
-        'nav.mapExplore': 'Explorer la carte',
+        'nav.mapExplore': 'Carte',
         'nav.myCollections': 'Collections',
         'nav.myPick': 'Ma Sélection',
         'nav.myPlans': 'Mes Plans',
@@ -415,7 +415,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'theme.dark': 'Sombre',
     },
     es: {
-        'nav.mapExplore': 'Explorar Mapa',
+        'nav.mapExplore': 'Mapa',
         'nav.myCollections': 'Colecciones',
         'nav.myPick': 'Mi Selección',
         'nav.myPlans': 'Mis Planes',
@@ -478,7 +478,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'theme.dark': 'Oscuro',
     },
     pt: {
-        'nav.mapExplore': 'Explorar Mapa',
+        'nav.mapExplore': 'Mapa',
         'nav.myCollections': 'Coleções',
         'nav.myPick': 'Minha Seleção',
         'nav.myPlans': 'Meus Planos',
@@ -541,7 +541,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'theme.dark': 'Escuro',
     },
     'zh-CN': {
-        'nav.mapExplore': '探索地图',
+        'nav.mapExplore': '地图',
         'nav.myCollections': '我的收藏',
         'nav.myPick': '我的精选',
         'nav.myPlans': '我的计划',
@@ -604,7 +604,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'theme.dark': '深色',
     },
     'zh-TW': {
-        'nav.mapExplore': '探索地圖',
+        'nav.mapExplore': '地圖',
         'nav.myCollections': '我的收藏',
         'nav.myPick': '我的精選',
         'nav.myPlans': '我的計畫',

@@ -10,16 +10,18 @@ import { t, translateCategory, translateDescription } from '@/lib/i18n';
 import { useTranslatedText } from '@/hooks/useTranslation';
 
 const MapLibreViewer = dynamic(() => import('@/components/map/MapLibreViewer'), { ssr: false });
+const RouteMapViewer = dynamic(() => import('@/components/map/RouteMapViewer'), { ssr: false });
 
 export default function MainPage() {
   const [museums, setMuseums] = useState<any[]>([]);
   const [selectedMuseum, setSelectedMuseum] = useState<any | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [countExpanded, setCountExpanded] = useState(false);
-  const { locale } = useApp();
+  const { locale, darkMode } = useApp();
   const { showAlert } = useModal();
   const router = useRouter();
   const [activeTrip, setActiveTrip] = useState<any>(null);
+  const [isViewingActiveRoute, setIsViewingActiveRoute] = useState(false);
 
   useEffect(() => {
     fetch('/api/museums?limit=2000')
@@ -57,70 +59,91 @@ export default function MainPage() {
     : null;
 
   const translatedDesc = useTranslatedText(selectedMuseum?.description, locale);
+  const isDarkMode = darkMode;
 
   return (
     <div className="relative w-full h-[calc(100vh-3.5rem)] flex">
       {/* Map */}
       <div className={`relative flex-1 transition-all duration-300 ${selectedMuseum ? 'hidden sm:block' : ''}`}>
-        <MapLibreViewer museums={filteredMuseums} onMuseumClick={handleMuseumClick} />
+        {isViewingActiveRoute && activeTrip ? (
+          <RouteMapViewer
+            stops={activeTrip.stops}
+            darkMode={isDarkMode}
+            onStopClick={(stop) => {
+              if (stop.museumId) handleMuseumClick(stop.museumId);
+            }}
+          />
+        ) : (
+          <MapLibreViewer
+            museums={filteredMuseums}
+            onMuseumClick={handleMuseumClick}
+            darkMode={isDarkMode}
+          />
+        )}
 
-        {/* Search & Filters overlay — stacked */}
-        <div className="absolute top-4 left-4 right-4 z-10 flex flex-col gap-2 sm:gap-3 pointer-events-none">
-          <div className="pointer-events-auto w-full sm:max-w-sm">
-            <input
-              type="text"
-              placeholder={t('map.search', locale)}
-              className="w-full bg-white/80 backdrop-blur-md border border-white p-3 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-black text-sm"
-            />
+        {/* Filters overlay — stacked */}
+        {!isViewingActiveRoute && (
+          <div className="absolute top-4 left-4 right-4 z-10 flex flex-col gap-2 sm:gap-3 pointer-events-none">
+            <div className="flex gap-2 pointer-events-auto overflow-x-auto pb-1 scrollbar-hide">
+              {['All', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Art Gallery', 'General Museum', 'Cultural Center'].map(f => (
+                <FilterChip key={f} active={activeFilter === f} onClick={() => setActiveFilter(f)}>
+                  {translateCategory(f, locale)}
+                </FilterChip>
+              ))}
+            </div>
           </div>
-          <div className="flex gap-2 pointer-events-auto overflow-x-auto pb-1 scrollbar-hide">
-            {['All', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Art Gallery', 'General Museum', 'Cultural Center'].map(f => (
-              <FilterChip key={f} active={activeFilter === f} onClick={() => setActiveFilter(f)}>
-                {translateCategory(f, locale)}
-              </FilterChip>
-            ))}
-          </div>
-        </div>
+        )}
 
         {/* Museum count — clickable expandable badge */}
-        <div className="absolute bottom-4 right-4 z-10">
-          <button
-            onClick={() => setCountExpanded(prev => !prev)}
-            className={`bg-black/80 text-white backdrop-blur-md rounded-2xl shadow-lg cursor-pointer hover:bg-black/90 active:scale-95 transition-all duration-300 overflow-hidden ${countExpanded ? 'px-5 py-3' : 'px-3 py-1.5 text-xs'
-              }`}
-            style={{ transition: 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
-          >
-            <span className="font-bold text-sm">
-              {filteredMuseums.length.toLocaleString()} {t('map.museums', locale)}
-            </span>
-            {countExpanded && (
-              <div className="mt-2 space-y-1 animate-fadeInUp text-left">
-                {['Art Gallery', 'General Museum', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Cultural Center'].map(cat => {
-                  const count = museums.filter(m => m.type === cat).length;
-                  if (count === 0) return null;
-                  return (
-                    <div key={cat} className="flex justify-between gap-6 text-xs">
-                      <span className="text-white/60">{translateCategory(cat, locale)}</span>
-                      <span className="font-medium">{count.toLocaleString()}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </button>
-        </div>
+        {!isViewingActiveRoute && (
+          <div className="absolute bottom-4 right-4 z-10">
+            <button
+              onClick={() => setCountExpanded(prev => !prev)}
+              className={`bg-black/80 text-white backdrop-blur-md rounded-2xl shadow-lg cursor-pointer hover:bg-black/90 active:scale-95 transition-all duration-300 overflow-hidden ${countExpanded ? 'px-5 py-3' : 'px-3 py-1.5 text-xs'
+                }`}
+              style={{ transition: 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
+            >
+              <span className="font-bold text-sm">
+                {filteredMuseums.length.toLocaleString()} {t('map.museums', locale)}
+              </span>
+              {countExpanded && (
+                <div className="mt-2 space-y-1 animate-fadeInUp text-left">
+                  {['Art Gallery', 'General Museum', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Cultural Center'].map(cat => {
+                    const count = museums.filter(m => m.type === cat).length;
+                    if (count === 0) return null;
+                    return (
+                      <div key={cat} className="flex justify-between gap-6 text-xs">
+                        <span className="text-white/60">{translateCategory(cat, locale)}</span>
+                        <span className="font-medium">{count.toLocaleString()}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </button>
+          </div>
+        )}
 
         {/* Active Route Button */}
         {activeTrip && !selectedMuseum && (
           <div className="absolute bottom-4 left-4 z-10">
-            <button
-              onClick={() => router.push(`/plans/${activeTrip.planId}`)}
-              className="bg-blue-600 text-white px-4 py-2.5 rounded-2xl font-bold text-sm shadow-lg shadow-blue-600/30 hover:bg-blue-700 active:scale-95 transition-all flex items-center gap-2 backdrop-blur-md"
-            >
-              <span className="animate-pulse">🚀</span>
-              {t('plans.viewActiveRoute', locale)}
-              <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{activeTrip.title}</span>
-            </button>
+            {isViewingActiveRoute ? (
+              <button
+                onClick={() => setIsViewingActiveRoute(false)}
+                className="bg-white/90 dark:bg-neutral-900/90 text-black dark:text-white px-4 py-2.5 rounded-2xl font-bold text-sm shadow-lg shadow-black/10 hover:bg-gray-50 dark:hover:bg-neutral-800 active:scale-95 transition-all flex items-center gap-2 backdrop-blur-md border border-gray-200 dark:border-neutral-800"
+              >
+                ✕ 닫기
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsViewingActiveRoute(true)}
+                className="bg-blue-600 text-white px-4 py-2.5 rounded-2xl font-bold text-sm shadow-lg shadow-blue-600/30 hover:bg-blue-700 active:scale-95 transition-all flex items-center gap-2 backdrop-blur-md"
+              >
+                <span className="animate-pulse">🚀</span>
+                {t('plans.viewActiveRoute', locale)}
+                <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{activeTrip.title}</span>
+              </button>
+            )}
           </div>
         )}
       </div>

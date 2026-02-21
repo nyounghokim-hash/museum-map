@@ -44,7 +44,7 @@ export default function SavedPage() {
     };
 
     return (
-        <div className="max-w-[1080px] mx-auto px-4 py-4 sm:p-6 sm:mt-6">
+        <div className="w-full max-w-[1080px] mx-auto px-4 py-4 sm:px-6 sm:py-8 md:px-8 mt-4 sm:mt-8">
             <div className="mb-6 sm:mb-8">
                 <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight dark:text-white">{t('saved.title', locale)}</h1>
                 <p className="text-gray-500 dark:text-gray-400 mt-1 sm:mt-2 text-sm">{t('saved.subtitle', locale)}</p>

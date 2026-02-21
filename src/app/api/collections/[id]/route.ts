@@ -3,6 +3,28 @@ import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
 import { successResponse, errorResponse } from '@/lib/api-utils';
 
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    try {
+        const { id } = await params;
+        const collection = await prisma.collection.findUnique({
+            where: { id },
+            include: {
+                user: { select: { name: true, image: true } },
+                items: {
+                    include: { museum: { select: { id: true, name: true, imageUrl: true, city: true, country: true } } },
+                    orderBy: { order: 'asc' }
+                }
+            }
+        });
+
+        if (!collection) return errorResponse('NOT_FOUND', 'Collection not found', 404);
+
+        return successResponse(collection);
+    } catch (err) {
+        return errorResponse('INTERNAL_SERVER_ERROR', 'Failed to fetch collection', 500);
+    }
+}
+
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
         const user = await requireAuth();

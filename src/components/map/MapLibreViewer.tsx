@@ -1,15 +1,9 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-
-interface Museum {
-  id: string;
-  name: string;
-  latitude: number;
-  longitude: number;
-  type: string;
-}
+import { type Museum } from '@prisma/client';
+import { createRoot } from 'react-dom/client';
 
 // Category → SVG icon path
 const CATEGORY_ICONS: Record<string, string> = {
@@ -171,30 +165,72 @@ export default function MapLibreViewer({
       });
 
       // Click handlers
-      map.on('click', 'unclustered-bg', (e) => {
+      map.on('click', 'unclustered-bg', (e: any) => {
         if (!e.features || e.features.length === 0) return;
         const props = e.features[0].properties;
         if (props?.id) onMuseumClickRef.current(props.id);
       });
-      map.on('click', 'unclustered-icon', (e) => {
+      map.on('click', 'unclustered-icon', (e: any) => {
         if (!e.features || e.features.length === 0) return;
         const props = e.features[0].properties;
         if (props?.id) onMuseumClickRef.current(props.id);
       });
-      map.on('click', 'clusters', (e) => {
+      map.on('click', 'clusters', (e: any) => {
         const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
         if (!features.length) return;
         const clusterId = features[0].properties?.cluster_id;
         const source = map.getSource('museums') as maplibregl.GeoJSONSource;
-        source.getClusterExpansionZoom(clusterId).then((zoom) => {
-          const geometry = features[0].geometry;
+
+        // Always fly to it slightly to center
+        const geometry = features[0].geometry;
+        if (geometry.type === 'Point') {
+          map.flyTo({ center: geometry.coordinates as [number, number], zoom: map.getZoom(), duration: 300 });
+        }
+
+        source.getClusterLeaves(clusterId, 100, 0).then((leaves) => {
+          if (!leaves || leaves.length === 0) return;
+
+          const popupNode = document.createElement('div');
+          const root = createRoot(popupNode);
+
+          const listItems = leaves.map((lf: any, idx: number) => {
+            const p = lf.properties;
+            return (
+              <div
+                key={idx}
+                className="px-4 py-3 border-b border-gray-100 dark:border-neutral-800 last:border-0 hover:bg-gray-50 dark:hover:bg-neutral-800 cursor-pointer"
+                onClick={() => {
+                  if (p?.id) onMuseumClickRef.current(p.id);
+                }}
+              >
+                <div className="font-bold text-gray-900 dark:text-white text-sm truncate">{p?.name}</div>
+                <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5 truncate flex items-center gap-1.5">
+                  {p?.country ? `${p.city}, ${p.country}` : p?.city}
+                  {p?.type && (
+                    <>
+                      <span>•</span>
+                      <span className="capitalize">{p.type}</span>
+                    </>
+                  )}
+                </div>
+              </div>
+            );
+          });
+
+          root.render(
+            <div className="max-h-60 overflow-y-auto w-48 bg-white dark:bg-neutral-900 rounded-lg shadow-xl" style={{ overscrollBehavior: 'contain' }}>
+              <div className="sticky top-0 bg-gray-100 dark:bg-neutral-800 px-3 py-1.5 text-xs font-bold text-gray-600 dark:text-gray-300 border-b border-gray-200 dark:border-neutral-700 z-10">
+                {leaves.length} Museums
+              </div>
+              {listItems}
+            </div>
+          );
+
           if (geometry.type === 'Point') {
-            map.flyTo({
-              center: geometry.coordinates as [number, number],
-              zoom: zoom ?? 10,
-              duration: 600,
-              essential: true,
-            });
+            new maplibregl.Popup({ closeButton: false, maxWidth: '240px', offset: 15 })
+              .setLngLat(geometry.coordinates as [number, number])
+              .setDOMContent(popupNode)
+              .addTo(map);
           }
         }).catch(() => { });
       });
@@ -271,15 +307,64 @@ export default function MapLibreViewer({
       });
 
       // Re-register click handlers
-      map.on('click', 'unclustered-bg', (e) => { if (e.features?.[0]?.properties?.id) onMuseumClickRef.current(e.features[0].properties.id); });
-      map.on('click', 'unclustered-icon', (e) => { if (e.features?.[0]?.properties?.id) onMuseumClickRef.current(e.features[0].properties.id); });
-      map.on('click', 'clusters', (e) => {
+      map.on('click', 'unclustered-bg', (e: any) => { if (e.features?.[0]?.properties?.id) onMuseumClickRef.current(e.features[0].properties.id); });
+      map.on('click', 'unclustered-icon', (e: any) => { if (e.features?.[0]?.properties?.id) onMuseumClickRef.current(e.features[0].properties.id); });
+      map.on('click', 'clusters', (e: any) => {
         const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
         if (!features.length) return;
         const source = map.getSource('museums') as maplibregl.GeoJSONSource;
-        source.getClusterExpansionZoom(features[0].properties?.cluster_id).then((z) => {
-          const g = features[0].geometry;
-          if (g.type === 'Point') map.flyTo({ center: g.coordinates as [number, number], zoom: z ?? 10, duration: 600, essential: true });
+        const clusterId = features[0].properties?.cluster_id;
+
+        const geometry = features[0].geometry;
+        if (geometry.type === 'Point') {
+          map.flyTo({ center: geometry.coordinates as [number, number], zoom: map.getZoom(), duration: 300 });
+        }
+
+        source.getClusterLeaves(clusterId, 100, 0).then((leaves) => {
+          if (!leaves || leaves.length === 0) return;
+
+          const popupNode = document.createElement('div');
+          const root = createRoot(popupNode);
+
+          const listItems = leaves.map((lf: any, idx: number) => {
+            const p = lf.properties;
+            return (
+              <div
+                key={idx}
+                className="px-4 py-3 border-b border-gray-100 dark:border-neutral-700 last:border-0 hover:bg-gray-50 dark:hover:bg-neutral-800 cursor-pointer"
+                onClick={() => {
+                  if (p?.id) onMuseumClickRef.current(p.id);
+                }}
+              >
+                <div className="font-bold text-gray-900 dark:text-neutral-100 text-sm truncate">{p?.name}</div>
+                <div className="text-[11px] text-gray-500 dark:text-neutral-400 mt-0.5 truncate flex items-center gap-1.5">
+                  {p?.country ? `${p.city}, ${p.country}` : p?.city}
+                  {p?.type && (
+                    <>
+                      <span>•</span>
+                      <span className="capitalize">{p.type}</span>
+                    </>
+                  )}
+                </div>
+              </div>
+            );
+          });
+
+          root.render(
+            <div className="max-h-60 overflow-y-auto w-48 bg-white dark:bg-neutral-900 rounded-lg shadow-xl" style={{ overscrollBehavior: 'contain' }}>
+              <div className="sticky top-0 bg-gray-100 dark:bg-neutral-800 px-3 py-1.5 text-xs font-bold text-gray-600 dark:text-gray-300 border-b border-gray-200 dark:border-neutral-700 z-10">
+                {leaves.length} Museums
+              </div>
+              {listItems}
+            </div>
+          );
+
+          if (geometry.type === 'Point') {
+            new maplibregl.Popup({ closeButton: false, maxWidth: '240px', offset: 15 })
+              .setLngLat(geometry.coordinates as [number, number])
+              .setDOMContent(popupNode)
+              .addTo(map);
+          }
         }).catch(() => { });
       });
       map.on('mouseenter', 'clusters', () => { map.getCanvas().style.cursor = 'pointer'; });

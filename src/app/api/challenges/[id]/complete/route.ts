@@ -12,16 +12,20 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
             where: { userId_challengeId: { userId: user.id, challengeId } }
         });
 
-        if (!progress) return errorResponse('NOT_FOUND', 'You have not joined this challenge yet.', 404);
-        if (progress.status === 'COMPLETED') return successResponse(progress);
+        if (!progress) return errorResponse('NOT_JOINED', 'Not joined', 400);
 
-        // In a real scenario, we'd query the DB to check if rules are met e.g:
-        // "Visited 3 museums in Europe". We simulate validation here for MVP.
-        // ...
+        if (progress.completed) return successResponse(progress);
 
+        // Very basic MVP example: just setting complete to true.
+        // In reality, this would evaluate actual criteria logic (e.g., number of reviews).
         const updated = await prisma.challengeProgress.update({
-            where: { id: progress.id },
-            data: { status: 'COMPLETED', completedAt: new Date() }
+            where: {
+                userId_challengeId: {
+                    userId: user.id,
+                    challengeId: challengeId
+                }
+            },
+            data: { completed: true, completedAt: new Date() }
         });
 
         return successResponse(updated);

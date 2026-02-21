@@ -17,30 +17,52 @@ export default function PlanDetailPage() {
     const [error, setError] = useState<string | null>(null);
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const { locale } = useApp();
-    const { showAlert } = useModal();
+    const { showAlert, showConfirm } = useModal();
     const router = useRouter();
 
     // Drag reorder state
     const [dragIndex, setDragIndex] = useState<number | null>(null);
     const [overIndex, setOverIndex] = useState<number | null>(null);
     const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [hydrated, setHydrated] = useState(false);
+    const [activeTripId, setActiveTripId] = useState<string | null>(null);
+    const [stops, setStops] = useState<any[]>([]);
     const [isDragging, setIsDragging] = useState(false);
 
+    // Initial fetch
     useEffect(() => {
         fetch(`/api/plans/${id}`)
-            .then(r => r.json())
-            .then(res => {
-                if (res.data) setPlan(res.data);
-                else setError(res.error?.message || 'Plan not found');
+            .then(res => res.json())
+            .then(data => {
+                if (data.data) {
+                    setPlan(data.data);
+                    // Initialize stops array respecting db order or array index
+                    const dbStops = data.data.stops?.sort((a: any, b: any) => a.order - b.order) || [];
+                    setStops(dbStops);
+                } else {
+                    setError('Plan not found');
+                }
                 setLoading(false);
             })
-            .catch(() => { setError('Failed to load plan'); setLoading(false); });
+            .catch(() => {
+                setError('Failed to load plan');
+                setLoading(false);
+            });
+
+        // Hydrate active trip
+        const stored = localStorage.getItem('activeTrip');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (parsed?.planId) setActiveTripId(parsed.planId);
+            } catch (e) {
+                console.error('Failed to parse parse active trip', e);
+            }
+        }
+        setHydrated(true); // Set hydrated to true after initial load
     }, [id]);
 
-    const stops = useMemo(() => {
-        if (!plan?.stops) return [];
-        return [...plan.stops].sort((a: any, b: any) => a.order - b.order);
-    }, [plan]);
+    // Removed useMemo for stops as it's now a state variable
 
     const routeStops = useMemo(() => {
         return stops
@@ -76,7 +98,8 @@ export default function PlanDetailPage() {
             newStops.splice(overIndex, 0, moved);
             // Update order field
             const updated = newStops.map((s, i) => ({ ...s, order: i }));
-            setPlan((prev: any) => ({ ...prev, stops: updated }));
+            setStops(updated); // Update the state variable
+            setPlan((prev: any) => ({ ...prev, stops: updated })); // Also update plan for consistency
 
             // Persist to API (fire and forget)
             fetch(`/api/plans/${id}`, {
@@ -110,12 +133,22 @@ export default function PlanDetailPage() {
         const tripData = {
             planId: id,
             title: plan.title || 'AutoRoute',
-            stops: routeStops,
-            startedAt: new Date().toISOString(),
+            stops: stops, // Changed from routeStops to stops
+            startTime: new Date().toISOString() // Changed from startedAt to startTime
         };
         localStorage.setItem('activeTrip', JSON.stringify(tripData));
+        setActiveTripId(id as string); // Set activeTripId
         showAlert(t('plans.tripStarted', locale));
-    }, [plan, id, routeStops, showAlert, locale]);
+        router.push('/'); // Redirect to home
+    }, [plan, stops, id, router, showAlert, locale]);
+
+    const handleEndTrip = useCallback(() => {
+        showConfirm(t('plans.confirmEndTrip', locale) || '정말로 투어를 종료하시겠습니까?', () => {
+            localStorage.removeItem('activeTrip');
+            setActiveTripId(null);
+            showAlert(t('plans.tripEnded', locale) || '투어가 종료되었습니다.');
+        });
+    }, [locale, showAlert, showConfirm]);
 
     const handleStopClick = useCallback((stop: any) => {
         if (stop.museumId) {
@@ -130,7 +163,7 @@ export default function PlanDetailPage() {
         setIsDragging(false);
     }, []);
 
-    if (loading) return <div className="p-20 text-center text-lg font-semibold animate-pulse dark:text-white">Loading plan...</div>;
+    if (loading) return <div className="p-20 text-center text-lg font-semibold animate-pulse dark:text-gray-300">{t('plans.loading', locale)}</div>;
 
     if (error) return (
         <div className="p-20 text-center">
@@ -215,13 +248,13 @@ export default function PlanDetailPage() {
                         })}
 
                         {stops.length === 0 && (
-                            <p className="text-sm text-gray-400 dark:text-gray-500 pl-12">No stops in this plan.</p>
+                            <p className="text-sm text-gray-400 dark:text-gray-500 pl-12">{t('plans.noStops', locale)}</p>
                         )}
                     </div>
 
                     {isDragging && (
                         <p className="text-xs text-blue-500 dark:text-blue-400 text-center mt-3 animate-pulse">
-                            Drag to reorder → tap to place
+                            {t('plans.dragReorder', locale)}
                         </p>
                     )}
 
@@ -230,14 +263,23 @@ export default function PlanDetailPage() {
                             onClick={handleSave}
                             className="w-full bg-gray-100 dark:bg-neutral-800 text-black dark:text-white py-3 rounded-lg font-bold hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors active:scale-[0.98]"
                         >
-                            💾 Save
+                            {t('plans.saveButton', locale)}
                         </button>
-                        <button
-                            onClick={handleStartTrip}
-                            className="w-full bg-black dark:bg-white text-white dark:text-black py-3 rounded-lg font-bold hover:bg-neutral-800 dark:hover:bg-gray-200 transition-colors active:scale-[0.98]"
-                        >
-                            🚀 Start Trip
-                        </button>
+                        {activeTripId === plan?.id ? (
+                            <button
+                                onClick={handleEndTrip}
+                                className="w-full bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 py-3 rounded-lg font-bold hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors active:scale-[0.98]"
+                            >
+                                🛑 {t('plans.endTrip', locale)}
+                            </button>
+                        ) : (
+                            <button
+                                onClick={handleStartTrip}
+                                className="w-full bg-black dark:bg-white text-white dark:text-black py-3 rounded-lg font-bold hover:bg-neutral-800 dark:hover:bg-gray-200 transition-colors active:scale-[0.98]"
+                            >
+                                {t('plans.startTripButton', locale)}
+                            </button>
+                        )}
                         <Link
                             href="/plans"
                             className="block w-full text-center bg-white dark:bg-neutral-900 text-black dark:text-white border border-gray-200 dark:border-neutral-700 py-3 rounded-lg font-bold hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
@@ -255,7 +297,7 @@ export default function PlanDetailPage() {
                 ) : (
                     <div className="w-full h-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center">
                         <span className="text-zinc-500 font-medium bg-white/50 dark:bg-black/50 px-4 py-2 rounded-full backdrop-blur-md">
-                            No route data available
+                            {t('plans.noRouteData', locale)}
                         </span>
                     </div>
                 )}

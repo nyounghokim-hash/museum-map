@@ -150,44 +150,40 @@ export default function MainPage() {
 
       {/* Detail Panel — slides in from the right on desktop, full screen on mobile */}
       {selectedMuseum && (
-        <div className="w-full sm:w-[420px] h-full bg-white border-l border-gray-200 overflow-y-auto shrink-0 animate-slideIn z-20">
+        <div className="w-full sm:w-[420px] h-full bg-white dark:bg-neutral-900 border-l border-gray-200 dark:border-neutral-800 overflow-y-auto shrink-0 animate-slideIn z-20">
           {/* Close button */}
           <button
             onClick={() => setSelectedMuseum(null)}
-            className="sticky top-0 z-30 w-full flex items-center gap-2 px-4 py-3 bg-white/90 backdrop-blur-md border-b border-gray-100 text-sm font-medium text-gray-500 hover:text-black transition-colors"
+            className="sticky top-0 z-30 w-full flex items-center gap-2 px-4 py-3 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border-b border-gray-100 dark:border-neutral-800 text-sm font-medium text-gray-500 hover:text-black dark:text-neutral-400 dark:hover:text-neutral-100 transition-colors"
           >
             {t('detail.backToMap', locale)}
           </button>
 
           {/* Cover Image */}
-          {selectedMuseum.imageUrl ? (
-            <div className="relative h-48 sm:h-56 w-full overflow-hidden">
-              <img
-                src={selectedMuseum.imageUrl}
-                alt={selectedMuseum.name}
-                className="w-full h-full object-cover"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-            </div>
-          ) : (
-            <div className="h-32 w-full bg-gradient-to-br from-gray-100 to-gray-200" />
-          )}
+          <div className="relative h-48 sm:h-56 w-full overflow-hidden">
+            <img
+              src={selectedMuseum.imageUrl || '/defaultimg.png'}
+              alt={selectedMuseum.name}
+              className="w-full h-full object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).src = '/defaultimg.png'; }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          </div>
 
           {/* Content */}
           <div className="p-5 space-y-5 stagger-children">
             {/* Name — allow 2 lines */}
             <div>
-              <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-1">
+              <p className="text-xs font-bold tracking-widest text-gray-400 dark:text-neutral-400 uppercase mb-1">
                 {translateCategory(selectedMuseum.type, locale)} • {selectedMuseum.city}, {selectedMuseum.country}
               </p>
-              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-gray-900 leading-tight line-clamp-2">
+              <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-gray-900 dark:text-neutral-50 leading-tight line-clamp-2">
                 {selectedMuseum.name}
               </h2>
             </div>
 
             {/* Description */}
-            <p className="text-sm text-gray-600 leading-relaxed">
+            <p className="text-sm text-gray-600 dark:text-neutral-300 leading-relaxed">
               {translatedDesc || translateDescription(selectedMuseum.description, locale)}
             </p>
 
@@ -215,9 +211,9 @@ export default function MainPage() {
               if (!hours || Object.keys(hours).length === 0) return null;
 
               return (
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">{t('detail.openingHours', locale)}</h3>
-                  <div className="text-sm text-gray-700 space-y-1">
+                <div className="bg-gray-50 dark:bg-neutral-800/50 border border-transparent dark:border-neutral-800 rounded-xl p-4">
+                  <h3 className="text-xs font-bold text-gray-500 dark:text-neutral-400 uppercase tracking-wider mb-2">{t('detail.openingHours', locale)}</h3>
+                  <div className="text-sm text-gray-700 dark:text-neutral-200 space-y-1">
                     {hours.info ? (
                       <p className="text-sm">{hours.info}</p>
                     ) : (
@@ -229,7 +225,7 @@ export default function MainPage() {
                       ))
                     )}
                   </div>
-                  <p className="text-[10px] text-gray-400 mt-2 italic">{t('detail.hoursVary', locale)}</p>
+                  <p className="text-[10px] text-gray-400 dark:text-neutral-500 mt-2 italic">{t('detail.hoursVary', locale)}</p>
                 </div>
               );
             })()}
@@ -237,13 +233,13 @@ export default function MainPage() {
             {/* Map Navigation */}
             {mapLinks && (
               <div>
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">{t('detail.getDirections', locale)}</h3>
+                <h3 className="text-xs font-bold text-gray-500 dark:text-neutral-400 uppercase tracking-wider mb-2">{t('detail.getDirections', locale)}</h3>
                 <div className="flex gap-2">
                   <a
                     href={appleDevice ? mapLinks.appleDirections : mapLinks.googleDirections}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 bg-blue-600 text-white px-3 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition active:scale-95 shadow-md"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 bg-blue-600 dark:bg-blue-600/90 text-white px-3 py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 dark:hover:bg-blue-600 transition active:scale-95 shadow-md"
                   >
                     🗺️ {appleDevice ? 'Apple Maps' : 'Google Maps'}
                   </a>
@@ -251,7 +247,7 @@ export default function MainPage() {
                     href={appleDevice ? mapLinks.googleDirections : mapLinks.appleDirections}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-1.5 bg-white border text-gray-600 px-3 py-2.5 rounded-xl text-sm font-bold hover:bg-gray-50 transition active:scale-95"
+                    className="inline-flex items-center justify-center gap-1.5 bg-white dark:bg-neutral-800/80 border dark:border-neutral-700 text-gray-600 dark:text-neutral-300 px-3 py-2.5 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-neutral-700 transition active:scale-95"
                   >
                     📍
                   </a>
@@ -263,7 +259,7 @@ export default function MainPage() {
             <div className="flex gap-3 pt-2">
               <button
                 onClick={() => handleSave(selectedMuseum.id)}
-                className="flex-1 bg-black text-white py-3 rounded-xl font-bold shadow-lg shadow-black/20 hover:bg-neutral-800 transition-all active:scale-95 text-sm"
+                className="flex-1 bg-black text-white dark:bg-neutral-100 dark:text-neutral-900 py-3 rounded-xl font-bold shadow-lg shadow-black/20 hover:bg-neutral-800 dark:hover:bg-white transition-all active:scale-95 text-sm"
               >
                 {t('detail.pick', locale)}
               </button>
@@ -271,7 +267,7 @@ export default function MainPage() {
                 onClick={() => {
                   window.open(`/review/new?museumId=${selectedMuseum.id}`, '_self');
                 }}
-                className="flex-1 bg-white text-black border border-gray-200 py-3 rounded-xl font-bold shadow-sm hover:bg-gray-50 transition-all active:scale-95 text-sm"
+                className="flex-1 bg-white dark:bg-neutral-800/80 text-black dark:text-neutral-200 border border-gray-200 dark:border-neutral-700 py-3 rounded-xl font-bold shadow-sm hover:bg-gray-50 dark:hover:bg-neutral-700 transition-all active:scale-95 text-sm"
               >
                 {t('detail.writeReview', locale)}
               </button>
@@ -280,16 +276,16 @@ export default function MainPage() {
             {/* Guest Book Preview */}
             {selectedMuseum.reviews && selectedMuseum.reviews.length > 0 && (
               <div>
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">{t('detail.guestbook', locale)}</h3>
+                <h3 className="text-xs font-bold text-gray-500 dark:text-neutral-400 uppercase tracking-wider mb-3">{t('detail.guestbook', locale)}</h3>
                 <div className="space-y-3">
                   {selectedMuseum.reviews.slice(0, 3).map((r: any, i: number) => {
-                    const pastels = ['bg-amber-50', 'bg-blue-50', 'bg-pink-50'];
+                    const pastels = ['bg-amber-50 dark:bg-amber-400/10 dark:text-amber-100', 'bg-blue-50 dark:bg-blue-400/10 dark:text-blue-100', 'bg-pink-50 dark:bg-pink-400/10 dark:text-pink-100'];
                     return (
-                      <div key={r.id} className={`${pastels[i % 3]} rounded-lg p-3 text-sm relative`}>
+                      <div key={r.id} className={`${pastels[i % 3]} rounded-lg p-3 text-sm relative text-gray-800 dark:border dark:border-white/5`}>
                         <p className="italic leading-relaxed" style={{ fontFamily: "'Georgia', serif" }}>
                           &ldquo;{r.content}&rdquo;
                         </p>
-                        <p className="text-[10px] text-gray-500 mt-1.5 font-medium">— {r.user?.name || 'Anonymous'}</p>
+                        <p className="text-[10px] text-gray-500 dark:text-neutral-400 opacity-80 mt-1.5 font-medium">— {r.user?.name || 'Anonymous'}</p>
                       </div>
                     );
                   })}

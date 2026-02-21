@@ -1,12 +1,13 @@
 'use client';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Locale, getLocaleFromCountry } from '@/lib/i18n';
+import { Locale, getLocaleFromCountry, t } from '@/lib/i18n';
 
 interface AppContextType {
     locale: Locale;
     setLocale: (l: Locale) => void;
     darkMode: boolean;
     setDarkMode: (d: boolean) => void;
+    t: (key: string, loc?: Locale) => string;
 }
 
 const AppContext = createContext<AppContextType>({
@@ -14,6 +15,7 @@ const AppContext = createContext<AppContextType>({
     setLocale: () => { },
     darkMode: false,
     setDarkMode: () => { },
+    t: (key: string) => key,
 });
 
 export function useApp() {
@@ -71,7 +73,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (!initialized) return null;
 
     return (
-        <AppContext.Provider value={{ locale, setLocale, darkMode, setDarkMode }}>
+        <AppContext.Provider value={{ locale, setLocale, darkMode, setDarkMode, t: (key, loc) => t(key as any, loc || locale) }}>
             {children}
         </AppContext.Provider>
     );

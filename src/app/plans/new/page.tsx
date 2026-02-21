@@ -2,6 +2,8 @@
 import { useState, useEffect, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GlassPanel } from '@/components/ui/glass';
+import { useApp } from '@/components/AppContext';
+import { t } from '@/lib/i18n';
 import dynamic from 'next/dynamic';
 
 const RouteMapViewer = dynamic(() => import('@/components/map/RouteMapViewer'), { ssr: false });
@@ -12,6 +14,7 @@ function AutoRouteContent() {
     const [route, setRoute] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const { locale } = useApp();
 
     useEffect(() => {
         const ids = searchParams.get('museums');
@@ -102,12 +105,12 @@ function AutoRouteContent() {
         }
     };
 
-    if (loading) return <div className="p-20 text-center text-lg font-semibold animate-pulse">Generating optimally organized route...</div>;
+    if (loading) return <div className="p-20 text-center text-lg font-semibold animate-pulse dark:text-gray-300">{t('plans.generating', locale)}</div>;
 
     return (
         <div className="max-w-5xl mx-auto p-6 mt-6">
-            <h1 className="text-3xl font-extrabold tracking-tight mb-2">Review AutoRoute</h1>
-            <p className="text-gray-500 mb-8">We&apos;ve sorted your selected museums geographically. Give your plan a name and date.</p>
+            <h1 className="text-3xl font-extrabold tracking-tight mb-2 dark:text-white">{t('plans.reviewAutoRoute', locale)}</h1>
+            <p className="text-gray-500 dark:text-gray-400 mb-8">{t('plans.reviewAutoRouteDesc', locale)}</p>
 
             {/* Mini Route Map Preview */}
             {routeStops.length > 0 && (
@@ -118,29 +121,29 @@ function AutoRouteContent() {
 
             <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex-1 space-y-4">
-                    <form onSubmit={handleSavePlan} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm mb-6">
+                    <form onSubmit={handleSavePlan} className="bg-white dark:bg-neutral-900 p-6 rounded-2xl border border-gray-100 dark:border-neutral-800 shadow-sm mb-6">
                         <div className="mb-4">
-                            <label className="block text-sm font-bold text-gray-700 mb-2">Trip Title</label>
-                            <input name="title" required type="text" placeholder="e.g. My Paris Art Tour" className="w-full border-gray-300 rounded-lg p-3 bg-gray-50 border focus:bg-white focus:ring-black focus:border-black transition" />
+                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('plans.tripTitle', locale)}</label>
+                            <input name="title" required type="text" placeholder={t('plans.tripTitlePlaceholder', locale)} className="w-full border-gray-300 dark:border-neutral-700 rounded-lg p-3 bg-gray-50 dark:bg-neutral-800 border focus:bg-white dark:focus:bg-neutral-900 focus:ring-black dark:focus:ring-white focus:border-black dark:focus:border-white transition dark:text-white" />
                         </div>
                         <div className="mb-6">
-                            <label className="block text-sm font-bold text-gray-700 mb-2">Starting Date</label>
-                            <input name="date" required type="date" className="w-full border-gray-300 rounded-lg p-3 bg-gray-50 border focus:bg-white focus:ring-black focus:border-black transition" />
+                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('plans.startingDate', locale)}</label>
+                            <input name="date" required type="date" className="w-full border-gray-300 dark:border-neutral-700 rounded-lg p-3 bg-gray-50 dark:bg-neutral-800 border focus:bg-white dark:focus:bg-neutral-900 focus:ring-black dark:focus:ring-white focus:border-black dark:focus:border-white transition dark:text-white" />
                         </div>
                         <button
                             type="submit"
                             disabled={saving}
-                            className="w-full bg-black text-white font-bold py-3 rounded-xl shadow-lg hover:bg-neutral-800 transition active:scale-95 disabled:opacity-50"
+                            className="w-full bg-black dark:bg-white text-white dark:text-black font-bold py-3 rounded-xl shadow-lg hover:bg-neutral-800 dark:hover:bg-gray-200 transition active:scale-95 disabled:opacity-50"
                         >
-                            {saving ? 'Saving...' : 'Confirm & Save Plan'}
+                            {saving ? t('plans.saving', locale) : t('plans.confirmSave', locale)}
                         </button>
                     </form>
                 </div>
 
                 <div className="w-full md:w-96">
                     <GlassPanel className="p-6 relative">
-                        <h3 className="text-lg font-bold mb-6">Route Itinerary</h3>
-                        <div className="absolute left-10 top-20 bottom-10 w-0.5 bg-gray-200 z-0"></div>
+                        <h3 className="text-lg font-bold mb-6 dark:text-white">{t('plans.routeItinerary', locale)}</h3>
+                        <div className="absolute left-10 top-20 bottom-10 w-0.5 bg-gray-200 dark:bg-neutral-700 z-0"></div>
 
                         <div className="space-y-6 relative z-10">
                             {route.map((stop, i) => (
@@ -148,10 +151,10 @@ function AutoRouteContent() {
                                     <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-md">
                                         {i + 1}
                                     </div>
-                                    <div className="bg-white/80 p-3 rounded-lg border border-gray-100 flex-1 backdrop-blur-sm shadow-sm">
-                                        <h4 className="font-bold text-sm">{stop.name}</h4>
-                                        <p className="text-xs text-gray-500 mt-1">
-                                            Est. {new Date(stop.expectedArrival).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    <div className="bg-white/80 dark:bg-neutral-900/80 p-3 rounded-lg border border-gray-100 dark:border-neutral-800 flex-1 backdrop-blur-sm shadow-sm">
+                                        <h4 className="font-bold text-sm dark:text-white">{stop.name}</h4>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                            {t('plans.est', locale)} {new Date(stop.expectedArrival).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </p>
                                     </div>
                                 </div>

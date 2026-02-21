@@ -23,7 +23,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
             data: {
                 userId: user.id,
                 challengeId,
-                status: 'IN_PROGRESS'
             }
         });
 

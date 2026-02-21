@@ -11,8 +11,20 @@ export default function MyPlansPage() {
     const [loading, setLoading] = useState(true);
     const { locale } = useApp();
     const { showAlert, showConfirm } = useModal();
+    const [activeTripId, setActiveTripId] = useState<string | null>(null);
 
     useEffect(() => {
+        // Hydrate active trip
+        const stored = localStorage.getItem('activeTrip');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (parsed?.planId) setActiveTripId(parsed.planId);
+            } catch (e) {
+                console.error('Failed to parse active trip', e);
+            }
+        }
+
         fetch('/api/plans')
             .then(r => r.json())
             .then(res => { setPlans(res.data || []); setLoading(false); })
@@ -25,6 +37,20 @@ export default function MyPlansPage() {
         showConfirm(t('modal.deletePlan', locale), async () => {
             await fetch(`/api/plans/${id}`, { method: 'DELETE' });
             setPlans(prev => prev.filter(p => p.id !== id));
+            if (activeTripId === id) {
+                localStorage.removeItem('activeTrip');
+                setActiveTripId(null);
+            }
+        });
+    };
+
+    const handleEndTrip = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        showConfirm(t('plans.confirmEndTrip', locale) || '정말로 투어를 종료하시겠습니까?', () => {
+            localStorage.removeItem('activeTrip');
+            setActiveTripId(null);
+            showAlert(t('plans.tripEnded', locale) || '투어가 종료되었습니다.');
         });
     };
 
@@ -83,6 +109,16 @@ export default function MyPlansPage() {
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                                         </svg>
                                     </div>
+                                    {activeTripId === plan.id && (
+                                        <div className="absolute bottom-4 right-4 sm:bottom-1/2 sm:translate-y-1/2 sm:right-12 z-20">
+                                            <button
+                                                onClick={handleEndTrip}
+                                                className="bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors shadow-sm"
+                                            >
+                                                🛑 {t('plans.endTrip', locale) || '투어 종료'}
+                                            </button>
+                                        </div>
+                                    )}
                                 </GlassPanel>
                             </Link>
                         );

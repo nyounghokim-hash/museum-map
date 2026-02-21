@@ -2,7 +2,10 @@
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GlassPanel } from '@/components/ui/glass';
+import { useApp } from '@/components/AppContext';
+
 function ReviewCreateForm() {
+  const { locale, t } = useApp();
   const router = useRouter();
   const searchParams = useSearchParams();
   const museumId = searchParams.get('museumId');
@@ -24,49 +27,46 @@ function ReviewCreateForm() {
       body: JSON.stringify({ museumId })
     });
     setLoading(false);
-    alert('Review Submitted & Museum marked as Visited!');
+    alert(locale === 'ko' ? '리뷰가 등록되었으며 지도에 방문 표시가 완료되었습니다!' : 'Review Submitted & Museum marked as Visited!');
     router.push(`/museums/${museumId}`);
   };
   const lines = content.split('\n');
   const lineCount = lines.length;
   return (
-    <div className="max-w-2xl mx-auto p-6 mt-10">
-      <GlassPanel className="p-8">
-        <h1 className="text-3xl font-extrabold tracking-tight mb-2">Write a Review</h1>
-        <p className="text-gray-500 mb-8 border-b border-gray-100 pb-4">
-          Share your experience. Keep it concise.
+    <div className="max-w-2xl mx-auto p-4 sm:p-6 mt-6 sm:mt-10">
+      <GlassPanel className="p-6 sm:p-8">
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 text-gray-900 dark:text-white">
+          {t('review.title', locale) || 'Write a Review'}
+        </h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 border-b border-gray-100 dark:border-neutral-800 pb-4">
+          {t('review.subtitle', locale) || 'Share your experience. Keep it concise.'}
         </p>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <div className="flex justify-between items-end mb-2">
-              <label className="block text-sm font-bold text-gray-700">Your 3-Line Review</label>
-              <span className={`text-xs font-semibold ${lineCount > 3 ? 'text-red-500' : 'text-gray-400'}`}>
-                {lineCount} / 3 lines
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300">
+                {t('review.threeLineReview', locale) || 'Your 3-Line Review'}
+              </label>
+              <span className={`text-xs font-semibold ${lineCount > 3 ? 'text-red-500' : 'text-gray-400 dark:text-gray-500'}`}>
+                {lineCount} / 3 {t('review.lines', locale) || 'lines'}
               </span>
             </div>
             <textarea
               required
-              rows={3}
+              rows={4}
               value={content}
               onChange={e => setContent(e.target.value)}
-              placeholder="1st line... 2nd line... 3rd line..."
-              className={`w-full p-4 bg-white/50 backdrop-blur-sm border rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-black transition-all ${lineCount > 3 ? 'border-red-500 focus:ring-red-500' : 'border-gray-200'}`}
+              placeholder={t('review.placeholder', locale) || "1st line... \n2nd line... \n3rd line..."}
+              className={`w-full p-4 bg-white/50 dark:bg-neutral-900/50 backdrop-blur-sm border rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all text-gray-900 dark:text-white resize-none ${lineCount > 3 ? 'border-red-500 focus:ring-red-500 dark:border-red-500 dark:focus:ring-red-500' : 'border-gray-200 dark:border-neutral-700'}`}
             />
-            {lineCount > 3 && <p className="text-xs text-red-500 mt-1">You have exceeded the 3-line limit.</p>}
-          </div>
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">Upload Photos (Max 3)</label>
-            <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center bg-gray-50/50 hover:bg-gray-100 transition-colors cursor-pointer">
-              <p className="text-sm font-semibold text-gray-500">Click to upload or drag and drop</p>
-              <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
-            </div>
+            {lineCount > 3 && <p className="text-xs text-red-500 mt-2">{t('review.exceedLimit', locale) || 'You have exceeded the 3-line limit.'}</p>}
           </div>
           <button
             type="submit"
             disabled={lineCount > 3 || loading}
-            className="w-full bg-black text-white font-bold py-4 rounded-xl shadow-lg hover:bg-neutral-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all active:scale-95"
+            className="w-full bg-black text-white dark:bg-white dark:text-black font-bold py-4 rounded-xl shadow-lg hover:bg-neutral-800 dark:hover:bg-gray-200 disabled:bg-gray-300 dark:disabled:bg-neutral-700 disabled:text-gray-500 dark:disabled:text-neutral-500 disabled:cursor-not-allowed transition-all active:scale-95"
           >
-            {loading ? 'Submitting...' : 'Complete & Submit'}
+            {loading ? (t('review.submitting', locale) || 'Submitting...') : (t('review.submit', locale) || 'Complete & Submit')}
           </button>
         </form>
       </GlassPanel>

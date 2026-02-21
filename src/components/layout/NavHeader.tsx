@@ -18,6 +18,7 @@ export default function NavHeader() {
         { href: '/collections', label: t('nav.myCollections', locale) },
         { href: '/saved', label: t('nav.myPick', locale) },
         { href: '/plans', label: t('nav.myPlans', locale) },
+        { href: '/feedback', label: t('nav.feedback', locale) || 'Feedback' },
     ];
 
     useEffect(() => { setMobileOpen(false); setLangOpen(false); }, [pathname]);
@@ -44,8 +45,9 @@ export default function NavHeader() {
         <>
             <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-md">
                 <div className="container mx-auto flex h-14 items-center gap-4 px-4 sm:px-6 lg:px-8">
-                    <Link href="/" className="font-bold text-lg mr-6 shrink-0 dark:text-white">
-                        Museum Map
+                    <Link href="/" className="font-bold text-lg flex items-center gap-2 mr-6 shrink-0 dark:text-white">
+                        <img src="/logo.svg" alt="Museum Map" className="h-6 w-auto dark:invert" />
+                        <span className="hidden sm:inline">Museum Map</span>
                     </Link>
 
                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium">

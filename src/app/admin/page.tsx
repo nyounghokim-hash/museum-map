@@ -9,6 +9,7 @@ export default function AdminPage() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [reviews, setReviews] = useState<any[]>([]);
+    const [feedbacks, setFeedbacks] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const { locale } = useApp();
     const { showConfirm } = useModal();
@@ -25,9 +26,15 @@ export default function AdminPage() {
     useEffect(() => {
         if (!authenticated) return;
         setLoading(true);
-        fetch('/api/reviews')
-            .then(r => r.json())
-            .then(res => { setReviews(res.data || []); setLoading(false); })
+        Promise.all([
+            fetch('/api/reviews').then(r => r.json()),
+            fetch('/api/feedback?pw=admin0724').then(r => r.json())
+        ])
+            .then(([revRes, feedRes]) => {
+                setReviews(revRes.data || []);
+                setFeedbacks(feedRes || []);
+                setLoading(false);
+            })
             .catch(() => setLoading(false));
     }, [authenticated]);
 
@@ -78,14 +85,17 @@ export default function AdminPage() {
                 <span className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full font-medium">{t('admin.authenticated', locale)}</span>
             </div>
 
-            <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">{reviews.length} {t('admin.totalReviews', locale)}</div>
+            {/* Reviews Section */}
+            <div className="mb-4 text-sm font-bold text-gray-500 dark:text-gray-400">
+                {reviews.length} {t('admin.totalReviews', locale)}
+            </div>
 
             {loading ? (
-                <div className="py-20 text-center text-gray-400 animate-pulse">Loading...</div>
+                <div className="py-20 text-center text-gray-400 animate-pulse">Loading reviews...</div>
             ) : reviews.length === 0 ? (
-                <div className="py-20 text-center text-gray-400 dark:text-gray-500">No reviews yet</div>
+                <div className="py-20 text-center text-gray-400 dark:text-gray-500 mb-8">No reviews yet</div>
             ) : (
-                <div className="space-y-3">
+                <div className="space-y-3 mb-10">
                     {reviews.map((r) => (
                         <div key={r.id} className="border border-gray-200 dark:border-neutral-800 rounded-xl p-4 bg-white dark:bg-neutral-900 flex items-start gap-4 group">
                             <div className="flex-1 min-w-0">
@@ -115,6 +125,43 @@ export default function AdminPage() {
                     ))}
                 </div>
             )}
+
+            <hr className="my-10 border-gray-200 dark:border-neutral-800" />
+
+            {/* Feedback Section */}
+            <div className="mb-4 text-sm font-bold text-gray-500 dark:text-gray-400 flex items-center justify-between">
+                <span>{feedbacks.length} Feedback Submissions</span>
+            </div>
+
+            {loading ? (
+                <div className="py-20 text-center text-gray-400 animate-pulse">Loading feedback...</div>
+            ) : feedbacks.length === 0 ? (
+                <div className="py-20 text-center text-gray-400 dark:text-gray-500">No feedback yet</div>
+            ) : (
+                <div className="space-y-3">
+                    {feedbacks.map((f: any) => (
+                        <div key={f.id} className="border border-indigo-100 dark:border-indigo-900/30 rounded-xl p-4 bg-indigo-50/50 dark:bg-indigo-900/10 flex items-start gap-4">
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 mb-1">
+                                    <span className="text-sm font-bold text-indigo-900 dark:text-indigo-200">
+                                        USER ID: {f.userId ? f.userId.slice(0, 8) + '...' : 'Anonymous'}
+                                    </span>
+                                    {f.user?.email && (
+                                        <span className="text-[10px] bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full">
+                                            {f.user.email}
+                                        </span>
+                                    )}
+                                    <span className="text-[10px] text-gray-400 dark:text-gray-500">
+                                        {new Date(f.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                    </span>
+                                </div>
+                                <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap mt-2 leading-relaxed">{f.content}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+
         </div>
     );
 }

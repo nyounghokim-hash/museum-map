@@ -2,6 +2,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { GlassPanel } from '@/components/ui/glass';
+import { useApp } from '@/components/AppContext';
+import { useModal } from '@/components/ui/Modal';
+import { t } from '@/lib/i18n';
 
 export default function CreateCollectionPage() {
     const router = useRouter();
@@ -10,6 +13,8 @@ export default function CreateCollectionPage() {
     const [isPublic, setIsPublic] = useState(true);
     const [plans, setPlans] = useState<any[]>([]);
     const [selectedPlanId, setSelectedPlanId] = useState<string>('');
+    const { locale } = useApp();
+    const { showAlert } = useModal();
 
     useEffect(() => {
         // Fetch user's plans to select from
@@ -20,7 +25,7 @@ export default function CreateCollectionPage() {
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedPlanId) return alert('Select a plan to turn into a collection');
+        if (!selectedPlanId) return showAlert('Select a plan to turn into a collection');
 
         const plan = plans.find(p => p.id === selectedPlanId);
         if (!plan) return;
@@ -39,7 +44,7 @@ export default function CreateCollectionPage() {
         const data = await res.json();
 
         if (data.data) {
-            alert('Collection Published!');
+            showAlert(t('collections.collectionPublished', locale));
             if (isPublic && data.data.shareSlug) {
                 router.push(`/share/collections/${data.data.shareSlug}`);
             } else {
@@ -51,8 +56,8 @@ export default function CreateCollectionPage() {
     return (
         <div className="max-w-2xl mx-auto p-6 mt-10">
             <GlassPanel className="p-8">
-                <h1 className="text-3xl font-extrabold tracking-tight mb-2">Publish Collection</h1>
-                <p className="text-gray-500 mb-8 border-b border-gray-100 pb-4">
+                <h1 className="text-3xl font-extrabold tracking-tight mb-2 dark:text-white">{t('collections.publishCollection', locale)}</h1>
+                <p className="text-gray-500 dark:text-gray-400 mb-8 border-b border-gray-100 dark:border-neutral-800 pb-4">
                     Turn your completed trips into inspiring collections for others.
                 </p>
 
@@ -96,8 +101,8 @@ export default function CreateCollectionPage() {
                         <label htmlFor="isPublic" className="text-sm font-bold text-gray-800">Make this collection Public (Shareable)</label>
                     </div>
 
-                    <button type="submit" className="w-full bg-black text-white font-bold py-4 rounded-xl shadow-lg hover:bg-neutral-800 transition-all active:scale-95">
-                        Publish Collection
+                    <button type="submit" className="w-full bg-black dark:bg-white text-white dark:text-black font-bold py-4 rounded-xl shadow-lg hover:bg-neutral-800 dark:hover:bg-gray-200 transition-all active:scale-95">
+                        {t('collections.publishCollection', locale)}
                     </button>
                 </form>
             </GlassPanel>

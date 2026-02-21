@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { buildMapLinks, isAppleDevice } from '@/lib/mapLinks';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
-import { t } from '@/lib/i18n';
+import { t, translateCategory, translateDescription } from '@/lib/i18n';
 
 const MapLibreViewer = dynamic(() => import('@/components/map/MapLibreViewer'), { ssr: false });
 
@@ -62,7 +62,7 @@ export default function MainPage() {
           <div className="flex gap-2 pointer-events-auto overflow-x-auto pb-1 scrollbar-hide">
             {['All', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Art Gallery', 'General Museum', 'Cultural Center'].map(f => (
               <FilterChip key={f} active={activeFilter === f} onClick={() => setActiveFilter(f)}>
-                {f}
+                {translateCategory(f, locale)}
               </FilterChip>
             ))}
           </div>
@@ -86,7 +86,7 @@ export default function MainPage() {
                   if (count === 0) return null;
                   return (
                     <div key={cat} className="flex justify-between gap-6 text-xs">
-                      <span className="text-white/60">{cat}</span>
+                      <span className="text-white/60">{translateCategory(cat, locale)}</span>
                       <span className="font-medium">{count.toLocaleString()}</span>
                     </div>
                   );
@@ -128,7 +128,7 @@ export default function MainPage() {
             {/* Name — allow 2 lines */}
             <div>
               <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-1">
-                {selectedMuseum.type} • {selectedMuseum.city}, {selectedMuseum.country}
+                {translateCategory(selectedMuseum.type, locale)} • {selectedMuseum.city}, {selectedMuseum.country}
               </p>
               <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-gray-900 leading-tight line-clamp-2">
                 {selectedMuseum.name}
@@ -137,7 +137,7 @@ export default function MainPage() {
 
             {/* Description */}
             <p className="text-sm text-gray-600 leading-relaxed">
-              {selectedMuseum.description || 'A premier contemporary art institution offering diverse exhibitions and immersive experiences.'}
+              {translateDescription(selectedMuseum.description, locale)}
             </p>
 
             {/* Website */}

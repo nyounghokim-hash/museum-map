@@ -5,7 +5,7 @@ import { GlassPanel } from '@/components/ui/glass';
 import { buildMapLinks, isAppleDevice } from '@/lib/mapLinks';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
-import { t } from '@/lib/i18n';
+import { t, translateCategory, translateDescription } from '@/lib/i18n';
 
 export default function MuseumDetailPage() {
     const { id } = useParams();
@@ -50,14 +50,14 @@ export default function MuseumDetailPage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                         <div className="absolute bottom-4 left-6 right-6">
-                            <p className="text-xs font-bold tracking-widest text-white/80 uppercase mb-1">{data.type} • {data.city}, {data.country}</p>
+                            <p className="text-xs font-bold tracking-widest text-white/80 uppercase mb-1">{translateCategory(data.type, locale)} • {data.city}, {data.country}</p>
                             <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">{data.name}</h1>
                         </div>
                     </div>
                 ) : (
                     <div className="relative h-40 w-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                         <div className="text-center">
-                            <p className="text-xs font-bold tracking-widest text-gray-500 uppercase mb-1">{data.type} • {data.city}, {data.country}</p>
+                            <p className="text-xs font-bold tracking-widest text-gray-500 uppercase mb-1">{translateCategory(data.type, locale)} • {data.city}, {data.country}</p>
                             <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-gray-900">{data.name}</h1>
                         </div>
                     </div>
@@ -65,7 +65,7 @@ export default function MuseumDetailPage() {
 
                 {/* Info & Actions */}
                 <div className="p-6 sm:p-8">
-                    <p className="text-gray-700 leading-relaxed max-w-2xl mb-6">{data.description || 'A premier contemporary art institution.'}</p>
+                    <p className="text-gray-700 leading-relaxed max-w-2xl mb-6">{translateDescription(data.description, locale)}</p>
 
                     {/* Website Link */}
                     {data.website && (
@@ -75,7 +75,7 @@ export default function MuseumDetailPage() {
                             rel="noreferrer"
                             className="inline-flex items-center gap-1.5 text-sm text-blue-600 font-medium hover:underline mb-6"
                         >
-                            🌐 Official Website →
+                            🌐 {t('detail.officialWebsite', locale)} →
                         </a>
                     )}
 

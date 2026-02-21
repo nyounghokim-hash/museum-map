@@ -641,3 +641,117 @@ const translations: Record<Locale, TranslationKeys> = {
 export function t(key: keyof TranslationKeys, locale: Locale): string {
     return translations[locale]?.[key] || translations.en[key] || key;
 }
+
+// ---- Category translations ----
+const categoryTranslations: Record<Locale, Record<string, string>> = {
+    en: {
+        'All': 'All',
+        'Contemporary Art': 'Contemporary Art',
+        'Modern Art': 'Modern Art',
+        'Fine Arts': 'Fine Arts',
+        'Art Gallery': 'Art Gallery',
+        'General Museum': 'General Museum',
+        'Cultural Center': 'Cultural Center',
+    },
+    ko: {
+        'All': '전체',
+        'Contemporary Art': '현대미술',
+        'Modern Art': '근대미술',
+        'Fine Arts': '순수미술',
+        'Art Gallery': '아트갤러리',
+        'General Museum': '종합 박물관',
+        'Cultural Center': '문화센터',
+    },
+    ja: {
+        'All': 'すべて',
+        'Contemporary Art': '現代美術',
+        'Modern Art': '近代美術',
+        'Fine Arts': '美術',
+        'Art Gallery': 'アートギャラリー',
+        'General Museum': '総合博物館',
+        'Cultural Center': '文化センター',
+    },
+    de: {
+        'All': 'Alle',
+        'Contemporary Art': 'Zeitgenössische Kunst',
+        'Modern Art': 'Moderne Kunst',
+        'Fine Arts': 'Bildende Kunst',
+        'Art Gallery': 'Kunstgalerie',
+        'General Museum': 'Allgemeines Museum',
+        'Cultural Center': 'Kulturzentrum',
+    },
+    fr: {
+        'All': 'Tous',
+        'Contemporary Art': 'Art contemporain',
+        'Modern Art': 'Art moderne',
+        'Fine Arts': 'Beaux-arts',
+        'Art Gallery': 'Galerie d\'art',
+        'General Museum': 'Musée général',
+        'Cultural Center': 'Centre culturel',
+    },
+    es: {
+        'All': 'Todos',
+        'Contemporary Art': 'Arte contemporáneo',
+        'Modern Art': 'Arte moderno',
+        'Fine Arts': 'Bellas artes',
+        'Art Gallery': 'Galería de arte',
+        'General Museum': 'Museo general',
+        'Cultural Center': 'Centro cultural',
+    },
+    pt: {
+        'All': 'Todos',
+        'Contemporary Art': 'Arte contemporânea',
+        'Modern Art': 'Arte moderna',
+        'Fine Arts': 'Belas artes',
+        'Art Gallery': 'Galeria de arte',
+        'General Museum': 'Museu geral',
+        'Cultural Center': 'Centro cultural',
+    },
+    'zh-CN': {
+        'All': '全部',
+        'Contemporary Art': '当代艺术',
+        'Modern Art': '现代艺术',
+        'Fine Arts': '美术',
+        'Art Gallery': '艺术画廊',
+        'General Museum': '综合博物馆',
+        'Cultural Center': '文化中心',
+    },
+    'zh-TW': {
+        'All': '全部',
+        'Contemporary Art': '當代藝術',
+        'Modern Art': '現代藝術',
+        'Fine Arts': '美術',
+        'Art Gallery': '藝術畫廊',
+        'General Museum': '綜合博物館',
+        'Cultural Center': '文化中心',
+    },
+};
+
+export function translateCategory(category: string, locale: Locale): string {
+    return categoryTranslations[locale]?.[category] || categoryTranslations.en[category] || category;
+}
+
+// ---- Default description translation (for museums without custom descriptions) ----
+const defaultDescriptions: Record<Locale, string> = {
+    en: 'A premier art institution offering diverse exhibitions and immersive experiences.',
+    ko: '다양한 전시와 몰입형 경험을 제공하는 최고의 예술 기관입니다.',
+    ja: '多彩な展示と没入体験を提供する、一流の美術機関です。',
+    de: 'Eine erstklassige Kunstinstitution mit vielfältigen Ausstellungen und immersiven Erlebnissen.',
+    fr: 'Une institution artistique de premier plan offrant des expositions variées et des expériences immersives.',
+    es: 'Una institución artística de primer nivel que ofrece exposiciones diversas y experiencias inmersivas.',
+    pt: 'Uma instituição artística de excelência que oferece exposições diversas e experiências imersivas.',
+    'zh-CN': '一流的艺术机构，提供多元化的展览和沉浸式体验。',
+    'zh-TW': '一流的藝術機構，提供多元化的展覽和沉浸式體驗。',
+};
+
+export function translateDescription(description: string | null | undefined, locale: Locale): string {
+    if (!description) return defaultDescriptions[locale] || defaultDescriptions.en;
+    // If the description matches the English default, translate it
+    if (description === 'A premier contemporary art institution offering diverse exhibitions and immersive experiences.' ||
+        description === 'A premier art institution offering diverse exhibitions and immersive experiences.') {
+        return defaultDescriptions[locale] || defaultDescriptions.en;
+    }
+    // Otherwise return the original (DB content in original language)
+    return description;
+}
+

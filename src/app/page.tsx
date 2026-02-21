@@ -6,6 +6,7 @@ import { buildMapLinks, isAppleDevice } from '@/lib/mapLinks';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
 import { t, translateCategory, translateDescription } from '@/lib/i18n';
+import { useTranslatedText } from '@/hooks/useTranslation';
 
 const MapLibreViewer = dynamic(() => import('@/components/map/MapLibreViewer'), { ssr: false });
 
@@ -43,6 +44,8 @@ export default function MainPage() {
   const mapLinks = selectedMuseum
     ? buildMapLinks({ name: selectedMuseum.name, lat: selectedMuseum.latitude, lng: selectedMuseum.longitude })
     : null;
+
+  const translatedDesc = useTranslatedText(selectedMuseum?.description, locale);
 
   return (
     <div className="relative w-full h-[calc(100vh-3.5rem)] flex">
@@ -137,7 +140,7 @@ export default function MainPage() {
 
             {/* Description */}
             <p className="text-sm text-gray-600 leading-relaxed">
-              {translateDescription(selectedMuseum.description, locale)}
+              {translatedDesc || translateDescription(selectedMuseum.description, locale)}
             </p>
 
             {/* Website */}

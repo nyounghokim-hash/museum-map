@@ -6,6 +6,7 @@ import { buildMapLinks, isAppleDevice } from '@/lib/mapLinks';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
 import { t, translateCategory, translateDescription } from '@/lib/i18n';
+import { useTranslatedText } from '@/hooks/useTranslation';
 
 export default function MuseumDetailPage() {
     const { id } = useParams();
@@ -14,6 +15,8 @@ export default function MuseumDetailPage() {
     const { locale } = useApp();
     const { showAlert } = useModal();
     const [loading, setLoading] = useState(true);
+
+    const translatedDesc = useTranslatedText(data?.description, locale);
 
     useEffect(() => {
         fetch(`/api/museums/${id}`)
@@ -65,7 +68,7 @@ export default function MuseumDetailPage() {
 
                 {/* Info & Actions */}
                 <div className="p-6 sm:p-8">
-                    <p className="text-gray-700 leading-relaxed max-w-2xl mb-6">{translateDescription(data.description, locale)}</p>
+                    <p className="text-gray-700 leading-relaxed max-w-2xl mb-6">{translatedDesc || translateDescription(data.description, locale)}</p>
 
                     {/* Website Link */}
                     {data.website && (

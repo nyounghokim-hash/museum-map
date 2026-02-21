@@ -85,11 +85,11 @@ export default function MuseumDetailPage() {
                         <button
                             onClick={async () => {
                                 await fetch('/api/saves', { method: 'POST', body: JSON.stringify({ museumId: data.id }) });
-                                alert('Saved!');
+                                alert('Picked!');
                             }}
                             className="bg-white border text-black px-5 py-3 rounded-xl font-bold hover:bg-gray-50 transition shadow-sm active:scale-95 text-sm"
                         >
-                            Save to Folder
+                            Pick
                         </button>
                     </div>
 

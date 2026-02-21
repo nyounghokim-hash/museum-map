@@ -27,7 +27,7 @@ export default function MainPage() {
 
   const handleSave = async (id: string) => {
     await fetch('/api/saves', { method: 'POST', body: JSON.stringify({ museumId: id }) });
-    alert('Saved!');
+    alert('Picked!');
   };
 
   const filteredMuseums = activeFilter === 'All'
@@ -209,7 +209,7 @@ export default function MainPage() {
                 onClick={() => handleSave(selectedMuseum.id)}
                 className="flex-1 bg-black text-white py-3 rounded-xl font-bold shadow-lg shadow-black/20 hover:bg-neutral-800 transition-all active:scale-95 text-sm"
               >
-                Save
+                Pick
               </button>
               <button
                 onClick={() => {

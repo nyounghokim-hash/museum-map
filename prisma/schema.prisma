@@ -160,6 +160,8 @@ model Review {
   museumId  String
   content   String // max 3 lines enforced in UI/API
   photos    String[] // max 3 URLs
+  ipAddress String? // for nickname generation
+  country   String? // ISO country from IP
   visitedAt DateTime @default(now())
 
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)

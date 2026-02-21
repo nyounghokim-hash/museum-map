@@ -157,6 +157,21 @@ export default function MuseumDetailPage() {
                             const rotations = ['-rotate-1', 'rotate-1', '-rotate-2', 'rotate-0', 'rotate-2', '-rotate-1'];
                             const bg = pastels[i % pastels.length];
                             const rot = rotations[i % rotations.length];
+
+                            // Generate nickname from IP
+                            const ip = r.ipAddress || r.id;
+                            let hash = 5381;
+                            for (let j = 0; j < ip.length; j++) hash = ((hash << 5) + hash + ip.charCodeAt(j)) & 0xffffffff;
+                            hash = Math.abs(hash);
+                            const colors = ['Red', 'Blue', 'Green', 'Gold', 'Pink', 'Violet', 'Coral', 'Amber', 'Teal', 'Lime', 'Ivory', 'Azure', 'Jade', 'Ruby', 'Aqua', 'Peach', 'Mint', 'Rose', 'Sky', 'Sunny'];
+                            const animals = ['Fox', 'Owl', 'Bear', 'Wolf', 'Deer', 'Panda', 'Koala', 'Otter', 'Whale', 'Crane', 'Eagle', 'Tiger', 'Bunny', 'Seal', 'Swan', 'Hawk', 'Robin', 'Cat', 'Dog', 'Penguin'];
+                            const nickname = `${colors[hash % 20]}${animals[Math.floor(hash / 20) % 20]}${String(hash % 100).padStart(2, '0')}`;
+
+                            const cc = r.country || 'XX';
+                            const flag = cc.length === 2 && cc !== 'XX'
+                                ? String.fromCodePoint(cc.toUpperCase().charCodeAt(0) - 65 + 0x1f1e6) + String.fromCodePoint(cc.toUpperCase().charCodeAt(1) - 65 + 0x1f1e6)
+                                : '🌍';
+
                             return (
                                 <div
                                     key={r.id}
@@ -168,7 +183,7 @@ export default function MuseumDetailPage() {
                                     </p>
                                     <div className="flex justify-between items-end pt-2 border-t border-gray-200/50">
                                         <span className="text-xs font-semibold text-gray-600">
-                                            — {r.user?.name || 'Anonymous'}
+                                            {flag} {nickname}
                                         </span>
                                         <span className="text-[10px] text-gray-400">
                                             {new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}

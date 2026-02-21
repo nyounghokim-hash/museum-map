@@ -54,8 +54,8 @@ export default function MainPage() {
               className="w-full bg-white/80 backdrop-blur-md border border-white p-3 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-black text-sm"
             />
           </div>
-          <div className="flex gap-2 pointer-events-auto overflow-x-auto pb-2 sm:pb-0">
-            {['All', 'Public', 'Private', 'Foundation'].map(f => (
+          <div className="flex gap-2 pointer-events-auto overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
+            {['All', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Art Gallery', 'General Museum', 'Cultural Center'].map(f => (
               <FilterChip key={f} active={activeFilter === f} onClick={() => setActiveFilter(f)}>
                 {f}
               </FilterChip>
@@ -76,18 +76,16 @@ export default function MainPage() {
             </span>
             {countExpanded && (
               <div className="mt-2 space-y-1 animate-fadeInUp text-left">
-                <div className="flex justify-between gap-6 text-xs">
-                  <span className="text-white/60">Public</span>
-                  <span className="font-medium">{museums.filter(m => m.type === 'Public').length.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between gap-6 text-xs">
-                  <span className="text-white/60">Private</span>
-                  <span className="font-medium">{museums.filter(m => m.type === 'Private').length.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between gap-6 text-xs">
-                  <span className="text-white/60">Foundation</span>
-                  <span className="font-medium">{museums.filter(m => m.type === 'Foundation').length.toLocaleString()}</span>
-                </div>
+                {['Art Gallery', 'General Museum', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Cultural Center'].map(cat => {
+                  const count = museums.filter(m => m.type === cat).length;
+                  if (count === 0) return null;
+                  return (
+                    <div key={cat} className="flex justify-between gap-6 text-xs">
+                      <span className="text-white/60">{cat}</span>
+                      <span className="font-medium">{count.toLocaleString()}</span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </button>

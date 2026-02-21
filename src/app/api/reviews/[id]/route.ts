@@ -8,7 +8,7 @@ function getClientIP(req: NextRequest): string {
         || '0.0.0.0';
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
         const { id } = await params;
         const clientIP = getClientIP(req);

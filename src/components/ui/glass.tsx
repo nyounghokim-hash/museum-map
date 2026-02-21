@@ -24,7 +24,7 @@ export function FilterChip({ active, children, onClick }: { active?: boolean, ch
         <button
             onClick={onClick}
             className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-all shadow-sm",
+                "px-3 py-1.5 rounded-full text-xs font-medium transition-all shadow-sm whitespace-nowrap",
                 active
                     ? "bg-black text-white shadow-md shadow-black/20"
                     : "bg-white/80 backdrop-blur-md border border-gray-200 text-gray-700 hover:bg-white"

@@ -93,6 +93,35 @@ export default function MuseumDetailPage() {
                         </button>
                     </div>
 
+                    {/* Opening Hours — from DB */}
+                    {(() => {
+                        const hours = data.openingHours as Record<string, string> | null;
+                        const dayLabels: Record<string, string> = {
+                            mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday',
+                            thu: 'Thursday', fri: 'Friday', sat: 'Saturday', sun: 'Sunday'
+                        };
+                        const dayOrder = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+                        if (!hours || Object.keys(hours).length === 0) return null;
+                        return (
+                            <div className="mt-6 bg-gray-50 rounded-xl p-4">
+                                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Opening Hours</h3>
+                                <div className="text-sm text-gray-700 space-y-1">
+                                    {hours.info ? (
+                                        <p>{hours.info}</p>
+                                    ) : (
+                                        dayOrder.filter(d => hours[d]).map(d => (
+                                            <div key={d} className="flex justify-between">
+                                                <span>{dayLabels[d]}</span>
+                                                <span className="font-medium">{hours[d]}</span>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                                <p className="text-[10px] text-gray-400 mt-2 italic">Hours may vary — check official website.</p>
+                            </div>
+                        );
+                    })()}
+
                     {/* Map Navigation */}
                     <div className="mt-6 pt-6 border-t border-gray-100">
                         <h3 className="text-sm font-bold text-gray-700 mb-3">Get Directions</h3>

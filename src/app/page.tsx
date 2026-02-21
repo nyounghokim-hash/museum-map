@@ -149,16 +149,36 @@ export default function MainPage() {
               </a>
             )}
 
-            {/* Opening Hours (placeholder — data not in DB yet) */}
-            <div className="bg-gray-50 rounded-xl p-4">
-              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Opening Hours</h3>
-              <div className="text-sm text-gray-700 space-y-1">
-                <div className="flex justify-between"><span>Mon – Fri</span><span className="font-medium">10:00 – 18:00</span></div>
-                <div className="flex justify-between"><span>Saturday</span><span className="font-medium">10:00 – 20:00</span></div>
-                <div className="flex justify-between"><span>Sunday</span><span className="font-medium">10:00 – 18:00</span></div>
-              </div>
-              <p className="text-[10px] text-gray-400 mt-2 italic">Hours may vary — check official website.</p>
-            </div>
+            {/* Opening Hours — from DB */}
+            {(() => {
+              const hours = selectedMuseum.openingHours as Record<string, string> | null;
+              const dayLabels: Record<string, string> = {
+                mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday',
+                thu: 'Thursday', fri: 'Friday', sat: 'Saturday', sun: 'Sunday'
+              };
+              const dayOrder = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+              if (!hours || Object.keys(hours).length === 0) return null;
+
+              return (
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Opening Hours</h3>
+                  <div className="text-sm text-gray-700 space-y-1">
+                    {hours.info ? (
+                      <p className="text-sm">{hours.info}</p>
+                    ) : (
+                      dayOrder.filter(d => hours[d]).map(d => (
+                        <div key={d} className="flex justify-between">
+                          <span>{dayLabels[d]}</span>
+                          <span className="font-medium">{hours[d]}</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                  <p className="text-[10px] text-gray-400 mt-2 italic">Hours may vary — check official website.</p>
+                </div>
+              );
+            })()}
 
             {/* Map Navigation */}
             {mapLinks && (

@@ -55,7 +55,7 @@ export default function MainPage() {
           <div className="pointer-events-auto w-full sm:max-w-sm">
             <input
               type="text"
-              placeholder="Search contemporary museums..."
+              placeholder={t('map.search', locale)}
               className="w-full bg-white/80 backdrop-blur-md border border-white p-3 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-black text-sm"
             />
           </div>
@@ -77,7 +77,7 @@ export default function MainPage() {
             style={{ transition: 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
           >
             <span className="font-bold text-sm">
-              {filteredMuseums.length.toLocaleString()} museums
+              {filteredMuseums.length.toLocaleString()} {t('map.museums', locale)}
             </span>
             {countExpanded && (
               <div className="mt-2 space-y-1 animate-fadeInUp text-left">
@@ -105,7 +105,7 @@ export default function MainPage() {
             onClick={() => setSelectedMuseum(null)}
             className="sticky top-0 z-30 w-full flex items-center gap-2 px-4 py-3 bg-white/90 backdrop-blur-md border-b border-gray-100 text-sm font-medium text-gray-500 hover:text-black transition-colors"
           >
-            ← Back to Map
+            {t('detail.backToMap', locale)}
           </button>
 
           {/* Cover Image */}
@@ -148,7 +148,7 @@ export default function MainPage() {
                 rel="noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm text-blue-600 font-medium hover:underline"
               >
-                🌐 Official Website →
+                🌐 {t('detail.officialWebsite', locale)} →
               </a>
             )}
 
@@ -165,7 +165,7 @@ export default function MainPage() {
 
               return (
                 <div className="bg-gray-50 rounded-xl p-4">
-                  <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Opening Hours</h3>
+                  <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">{t('detail.openingHours', locale)}</h3>
                   <div className="text-sm text-gray-700 space-y-1">
                     {hours.info ? (
                       <p className="text-sm">{hours.info}</p>
@@ -178,7 +178,7 @@ export default function MainPage() {
                       ))
                     )}
                   </div>
-                  <p className="text-[10px] text-gray-400 mt-2 italic">Hours may vary — check official website.</p>
+                  <p className="text-[10px] text-gray-400 mt-2 italic">{t('detail.hoursVary', locale)}</p>
                 </div>
               );
             })()}
@@ -186,7 +186,7 @@ export default function MainPage() {
             {/* Map Navigation */}
             {mapLinks && (
               <div>
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Get Directions</h3>
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">{t('detail.getDirections', locale)}</h3>
                 <div className="flex gap-2">
                   <a
                     href={appleDevice ? mapLinks.appleDirections : mapLinks.googleDirections}
@@ -214,7 +214,7 @@ export default function MainPage() {
                 onClick={() => handleSave(selectedMuseum.id)}
                 className="flex-1 bg-black text-white py-3 rounded-xl font-bold shadow-lg shadow-black/20 hover:bg-neutral-800 transition-all active:scale-95 text-sm"
               >
-                Pick
+                {t('detail.pick', locale)}
               </button>
               <button
                 onClick={() => {
@@ -222,14 +222,14 @@ export default function MainPage() {
                 }}
                 className="flex-1 bg-white text-black border border-gray-200 py-3 rounded-xl font-bold shadow-sm hover:bg-gray-50 transition-all active:scale-95 text-sm"
               >
-                Write Review
+                {t('detail.writeReview', locale)}
               </button>
             </div>
 
             {/* Guest Book Preview */}
             {selectedMuseum.reviews && selectedMuseum.reviews.length > 0 && (
               <div>
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Guest Book</h3>
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">{t('detail.guestbook', locale)}</h3>
                 <div className="space-y-3">
                   {selectedMuseum.reviews.slice(0, 3).map((r: any, i: number) => {
                     const pastels = ['bg-amber-50', 'bg-blue-50', 'bg-pink-50'];

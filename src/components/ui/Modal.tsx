@@ -47,8 +47,8 @@ export function ModalProvider({ children }: { children: ReactNode }) {
                         {/* Header with X */}
                         <div className="flex items-center justify-between px-5 pt-4 pb-0">
                             <h3 className="text-base font-bold text-gray-900 dark:text-white">{modal.title || (modal.type === 'confirm' ? 'Confirm' : 'Notice')}</h3>
-                            <button onClick={close} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors">
-                                <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <button onClick={close} className="p-2 rounded-full bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors">
+                                <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>

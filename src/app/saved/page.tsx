@@ -40,14 +40,9 @@ export default function SavedPage() {
 
     return (
         <div className="max-w-5xl mx-auto p-6 mt-6">
-            <div className="flex justify-between items-end mb-8">
-                <div>
-                    <h1 className="text-3xl font-extrabold tracking-tight">Saved & Folders</h1>
-                    <p className="text-gray-500 mt-2 text-sm">Organize your saved museums and plan your next route.</p>
-                </div>
-                <button className="bg-white border text-sm font-semibold px-4 py-2 rounded-xl hover:bg-gray-50 transition-colors">
-                    + New Folder
-                </button>
+            <div className="mb-8">
+                <h1 className="text-3xl font-extrabold tracking-tight">My Pick</h1>
+                <p className="text-gray-500 mt-2 text-sm">Organize your saved museums and plan your next route.</p>
             </div>
 
             <div className="flex flex-col md:flex-row gap-8">

@@ -45,16 +45,16 @@ export default function MainPage() {
       <div className={`relative flex-1 transition-all duration-300 ${selectedMuseum ? 'hidden sm:block' : ''}`}>
         <MapLibreViewer museums={filteredMuseums} onMuseumClick={handleMuseumClick} />
 
-        {/* Search & Filters overlay */}
-        <div className="absolute top-4 left-4 right-4 z-10 flex flex-col sm:flex-row gap-3 pointer-events-none">
-          <div className="pointer-events-auto max-w-sm w-full">
+        {/* Search & Filters overlay — stacked */}
+        <div className="absolute top-4 left-4 right-4 z-10 flex flex-col gap-2 sm:gap-3 pointer-events-none">
+          <div className="pointer-events-auto w-full sm:max-w-sm">
             <input
               type="text"
               placeholder="Search contemporary museums..."
               className="w-full bg-white/80 backdrop-blur-md border border-white p-3 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-black text-sm"
             />
           </div>
-          <div className="flex gap-2 pointer-events-auto overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
+          <div className="flex gap-2 pointer-events-auto overflow-x-auto pb-1 scrollbar-hide">
             {['All', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Art Gallery', 'General Museum', 'Cultural Center'].map(f => (
               <FilterChip key={f} active={activeFilter === f} onClick={() => setActiveFilter(f)}>
                 {f}

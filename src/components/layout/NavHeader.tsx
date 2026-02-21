@@ -6,9 +6,8 @@ import { usePathname } from 'next/navigation';
 const NAV_LINKS = [
     { href: '/', label: 'Map Explore' },
     { href: '/collections', label: 'My Collections' },
-    { href: '/saved', label: 'Saved & Folders' },
+    { href: '/saved', label: 'My Pick' },
     { href: '/plans', label: 'My Plans' },
-    { href: '/challenges', label: 'Challenges' },
 ];
 
 export default function NavHeader() {

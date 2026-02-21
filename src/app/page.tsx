@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { GlassPanel, FilterChip } from '@/components/ui/glass';
 import dynamic from 'next/dynamic';
 import { buildMapLinks, isAppleDevice } from '@/lib/mapLinks';
+import { useApp } from '@/components/AppContext';
+import { useModal } from '@/components/ui/Modal';
+import { t } from '@/lib/i18n';
 
 const MapLibreViewer = dynamic(() => import('@/components/map/MapLibreViewer'), { ssr: false });
 
@@ -11,6 +14,8 @@ export default function MainPage() {
   const [selectedMuseum, setSelectedMuseum] = useState<any | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [countExpanded, setCountExpanded] = useState(false);
+  const { locale } = useApp();
+  const { showAlert } = useModal();
 
   useEffect(() => {
     fetch('/api/museums?limit=2000')
@@ -27,7 +32,7 @@ export default function MainPage() {
 
   const handleSave = async (id: string) => {
     await fetch('/api/saves', { method: 'POST', body: JSON.stringify({ museumId: id }) });
-    alert('Picked!');
+    showAlert(t('modal.picked', locale));
   };
 
   const filteredMuseums = activeFilter === 'All'

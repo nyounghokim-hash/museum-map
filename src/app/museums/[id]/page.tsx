@@ -3,11 +3,16 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { GlassPanel } from '@/components/ui/glass';
 import { buildMapLinks, isAppleDevice } from '@/lib/mapLinks';
+import { useApp } from '@/components/AppContext';
+import { useModal } from '@/components/ui/Modal';
+import { t } from '@/lib/i18n';
 
 export default function MuseumDetailPage() {
     const { id } = useParams();
     const router = useRouter();
     const [data, setData] = useState<any>(null);
+    const { locale } = useApp();
+    const { showAlert } = useModal();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -85,7 +90,7 @@ export default function MuseumDetailPage() {
                         <button
                             onClick={async () => {
                                 await fetch('/api/saves', { method: 'POST', body: JSON.stringify({ museumId: data.id }) });
-                                alert('Picked!');
+                                showAlert(t('modal.picked', locale));
                             }}
                             className="bg-white border text-black px-5 py-3 rounded-xl font-bold hover:bg-gray-50 transition shadow-sm active:scale-95 text-sm"
                         >

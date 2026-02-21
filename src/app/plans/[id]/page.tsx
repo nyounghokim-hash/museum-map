@@ -3,7 +3,9 @@ import { useParams } from 'next/navigation';
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useApp } from '@/components/AppContext';
+import { useModal } from '@/components/ui/Modal';
 import { t } from '@/lib/i18n';
 
 const RouteMapViewer = dynamic(() => import('@/components/map/RouteMapViewer'), { ssr: false });
@@ -15,6 +17,8 @@ export default function PlanDetailPage() {
     const [error, setError] = useState<string | null>(null);
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const { locale } = useApp();
+    const { showAlert } = useModal();
+    const router = useRouter();
 
     // Drag reorder state
     const [dragIndex, setDragIndex] = useState<number | null>(null);
@@ -46,6 +50,7 @@ export default function PlanDetailPage() {
                 latitude: s.museum.latitude,
                 longitude: s.museum.longitude,
                 order: i,
+                museumId: s.museum.id,
             }));
     }, [stops]);
 
@@ -84,6 +89,39 @@ export default function PlanDetailPage() {
         setOverIndex(null);
         setIsDragging(false);
     }, [isDragging, dragIndex, overIndex, stops, id]);
+
+    const handleSave = useCallback(async () => {
+        if (!plan?.stops) return;
+        const body = { stops: stops.map((s: any, i: number) => ({ id: s.id, order: i })) };
+        try {
+            await fetch(`/api/plans/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+            showAlert(t('plans.saved', locale));
+        } catch {
+            showAlert('Failed to save');
+        }
+    }, [stops, id, showAlert, locale]);
+
+    const handleStartTrip = useCallback(() => {
+        if (!plan) return;
+        const tripData = {
+            planId: id,
+            title: plan.title || 'AutoRoute',
+            stops: routeStops,
+            startedAt: new Date().toISOString(),
+        };
+        localStorage.setItem('activeTrip', JSON.stringify(tripData));
+        showAlert(t('plans.tripStarted', locale));
+    }, [plan, id, routeStops, showAlert, locale]);
+
+    const handleStopClick = useCallback((stop: any) => {
+        if (stop.museumId) {
+            router.push(`/museums/${stop.museumId}`);
+        }
+    }, [router]);
 
     const handlePointerCancel = useCallback(() => {
         if (longPressTimer.current) clearTimeout(longPressTimer.current);
@@ -188,8 +226,17 @@ export default function PlanDetailPage() {
                     )}
 
                     <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-100 dark:border-neutral-800 space-y-3">
-                        <button className="w-full bg-black dark:bg-white text-white dark:text-black py-3 rounded-lg font-bold hover:bg-neutral-800 dark:hover:bg-gray-200 transition-colors active:scale-[0.98]">
-                            Start Trip
+                        <button
+                            onClick={handleSave}
+                            className="w-full bg-gray-100 dark:bg-neutral-800 text-black dark:text-white py-3 rounded-lg font-bold hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors active:scale-[0.98]"
+                        >
+                            💾 Save
+                        </button>
+                        <button
+                            onClick={handleStartTrip}
+                            className="w-full bg-black dark:bg-white text-white dark:text-black py-3 rounded-lg font-bold hover:bg-neutral-800 dark:hover:bg-gray-200 transition-colors active:scale-[0.98]"
+                        >
+                            🚀 Start Trip
                         </button>
                         <Link
                             href="/plans"
@@ -204,7 +251,7 @@ export default function PlanDetailPage() {
             {/* Right Content: Route Map */}
             <div className="flex-1 relative min-h-[300px]">
                 {routeStops.length > 0 ? (
-                    <RouteMapViewer stops={routeStops} />
+                    <RouteMapViewer stops={routeStops} onStopClick={handleStopClick} />
                 ) : (
                     <div className="w-full h-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center">
                         <span className="text-zinc-500 font-medium bg-white/50 dark:bg-black/50 px-4 py-2 rounded-full backdrop-blur-md">

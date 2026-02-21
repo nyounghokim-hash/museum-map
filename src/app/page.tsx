@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { GlassPanel, FilterChip } from '@/components/ui/glass';
 import dynamic from 'next/dynamic';
 import { buildMapLinks, isAppleDevice } from '@/lib/mapLinks';
@@ -17,12 +18,22 @@ export default function MainPage() {
   const [countExpanded, setCountExpanded] = useState(false);
   const { locale } = useApp();
   const { showAlert } = useModal();
+  const router = useRouter();
+  const [activeTrip, setActiveTrip] = useState<any>(null);
 
   useEffect(() => {
     fetch('/api/museums?limit=2000')
       .then(r => r.json())
       .then(res => setMuseums(res.data?.data || res.data || []))
       .catch(console.error);
+  }, []);
+
+  // Check for active trip
+  useEffect(() => {
+    try {
+      const trip = localStorage.getItem('activeTrip');
+      if (trip) setActiveTrip(JSON.parse(trip));
+    } catch { }
   }, []);
 
   const handleMuseumClick = async (id: string) => {
@@ -98,6 +109,20 @@ export default function MainPage() {
             )}
           </button>
         </div>
+
+        {/* Active Route Button */}
+        {activeTrip && !selectedMuseum && (
+          <div className="absolute bottom-4 left-4 z-10">
+            <button
+              onClick={() => router.push(`/plans/${activeTrip.planId}`)}
+              className="bg-blue-600 text-white px-4 py-2.5 rounded-2xl font-bold text-sm shadow-lg shadow-blue-600/30 hover:bg-blue-700 active:scale-95 transition-all flex items-center gap-2 backdrop-blur-md"
+            >
+              <span className="animate-pulse">🚀</span>
+              {t('plans.viewActiveRoute', locale)}
+              <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{activeTrip.title}</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Detail Panel — slides in from the right on desktop, full screen on mobile */}

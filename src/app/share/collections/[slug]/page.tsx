@@ -38,7 +38,7 @@ export default function SharedCollectionPage() {
                     {data.user?.name ? data.user.name[0] : 'U'}
                 </div>
                 <div>
-                    <h1 className="text-3xl font-extrabold tracking-tight">{data.title}</h1>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight dark:text-white">{data.title}</h1>
                     <p className="text-gray-500 font-medium text-sm">{t('collections.curatedBy', locale)} {data.user?.name || t('global.anonymous', locale)}</p>
                 </div>
             </div>

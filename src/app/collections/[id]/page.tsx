@@ -60,11 +60,11 @@ export default function CollectionDetailPage() {
         <div className="w-full max-w-[1080px] mx-auto px-4 py-4 sm:px-6 sm:py-8 md:px-8 mt-4 sm:mt-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-extrabold dark:text-white">{collection.title}</h1>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight dark:text-white">{collection.title}</h1>
                     <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">
                         {authorText}
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 font-medium mt-1">
                         {itemsCount} {t('collections.items', locale)} {collection.isPublic && `• ${t('collections.public', locale)}`}
                     </p>
                 </div>
@@ -89,7 +89,7 @@ export default function CollectionDetailPage() {
                     {collection.items.map((item: any) => (
                         <div key={item.id} onClick={() => router.push(`/museums/${item.museum.id}`)} className="border border-gray-200 dark:border-neutral-800 p-4 rounded-xl bg-white dark:bg-neutral-900 shadow-sm hover:shadow-lg transition-all cursor-pointer group">
                             <div className="h-40 bg-gray-100 dark:bg-neutral-800 rounded-lg mb-4 flex items-center justify-center text-gray-400 overflow-hidden relative">
-                                <Image src={item.museum.imageUrl || '/defaultimg.png'} alt={item.museum.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                                <img src={item.museum.imageUrl || '/defaultimg.png'} alt={item.museum.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { (e.target as HTMLImageElement).src = '/defaultimg.png'; }} />
                             </div>
                             <h3 className="font-bold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.museum.name}</h3>
                             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 truncate">{item.museum.city}, {item.museum.country}</p>

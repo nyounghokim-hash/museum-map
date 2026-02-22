@@ -14,7 +14,7 @@ function AutoRouteContent() {
     const [route, setRoute] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const { locale } = useApp();
+    const { locale, darkMode } = useApp();
 
     // Drag reorder state
     const [dragIndex, setDragIndex] = useState<number | null>(null);
@@ -154,13 +154,13 @@ function AutoRouteContent() {
 
     return (
         <div className="max-w-5xl mx-auto p-6 mt-6">
-            <h1 className="text-3xl font-extrabold tracking-tight mb-2 dark:text-white">{t('plans.reviewAutoRoute', locale)}</h1>
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 dark:text-white">{t('plans.reviewAutoRoute', locale)}</h1>
             <p className="text-gray-500 dark:text-gray-400 mb-8">{t('plans.reviewAutoRouteDesc', locale)}</p>
 
             {/* Mini Route Map Preview */}
             {routeStops.length > 0 && (
                 <div className="w-full h-64 rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-8">
-                    <RouteMapViewer stops={routeStops} />
+                    <RouteMapViewer stops={routeStops} darkMode={darkMode} />
                 </div>
             )}
 
@@ -186,7 +186,7 @@ function AutoRouteContent() {
                 </div>
 
                 <div className="w-full md:w-96">
-                    <GlassPanel className="p-6 relative">
+                    <GlassPanel className="p-6 relative max-h-[calc(100vh-8rem)] overflow-y-auto hide-scrollbar">
                         <h3 className="text-lg font-bold mb-6 dark:text-white">{t('plans.routeItinerary', locale)}</h3>
                         <div className="absolute left-10 top-20 bottom-10 w-0.5 bg-gray-200 dark:bg-neutral-700 z-0"></div>
 

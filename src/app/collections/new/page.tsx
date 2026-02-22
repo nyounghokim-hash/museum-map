@@ -56,7 +56,7 @@ export default function CreateCollectionPage() {
     return (
         <div className="max-w-2xl mx-auto p-6 mt-10">
             <GlassPanel className="p-8">
-                <h1 className="text-3xl font-extrabold tracking-tight mb-2 dark:text-white">{t('collections.publishCollection', locale)}</h1>
+                <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 dark:text-white">{t('collections.publishCollection', locale)}</h1>
                 <p className="text-gray-500 dark:text-gray-400 mb-8 border-b border-gray-100 dark:border-neutral-800 pb-4">
                     Turn your completed trips into inspiring collections for others.
                 </p>

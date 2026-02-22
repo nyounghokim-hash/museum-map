@@ -10,11 +10,10 @@ export default function AdminPage() {
     const [authenticated, setAuthenticated] = useState(false);
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [reviews, setReviews] = useState<any[]>([]);
+    const [users, setUsers] = useState<any[]>([]);
     const [feedbacks, setFeedbacks] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const { locale } = useApp();
-    const { showConfirm } = useModal();
 
     const handleLogin = () => {
         if (password === 'admin0724') {
@@ -29,12 +28,12 @@ export default function AdminPage() {
         if (!authenticated) return;
         setLoading(true);
         Promise.all([
-            fetch('/api/reviews').then(r => r.json()),
+            fetch('/api/users?pw=admin0724').then(r => r.json()),
             fetch('/api/feedback?pw=admin0724').then(r => r.json())
         ])
-            .then(([revRes, feedRes]) => {
-                setReviews(revRes.data || revRes || []);
-                setFeedbacks(feedRes || []);
+            .then(([usersRes, feedRes]) => {
+                setUsers(Array.isArray(usersRes?.data) ? usersRes.data : []);
+                setFeedbacks(Array.isArray(feedRes?.data) ? feedRes.data : Array.isArray(feedRes) ? feedRes : []);
                 setLoading(false);
             })
             .catch((err) => {
@@ -42,16 +41,6 @@ export default function AdminPage() {
                 setLoading(false);
             });
     }, [authenticated]);
-
-    const handleDelete = (id: string) => {
-        showConfirm(t('modal.deleteReview', locale), async () => {
-            await fetch(`/api/reviews/${id}`, {
-                method: 'DELETE',
-                headers: { 'x-admin-password': 'admin0724' },
-            });
-            setReviews(prev => prev.filter(r => r.id !== id));
-        });
-    };
 
     if (!authenticated) {
         return (
@@ -65,8 +54,8 @@ export default function AdminPage() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
-                    <h2 className="text-xl font-bold mb-2 dark:text-white">{t('admin.access', locale)}</h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">{t('admin.accessDesc', locale)}</p>
+                    <h2 className="text-xl font-bold mb-2 dark:text-white">{t('admin.access', locale) || 'Access Required'}</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">{t('admin.accessDesc', locale) || 'Admin dashboard'}</p>
                     <input
                         type="password"
                         value={password}
@@ -93,49 +82,48 @@ export default function AdminPage() {
             <div className="flex justify-between items-center mb-8">
                 <div>
                     <h1 className="text-2xl sm:text-3xl font-extrabold dark:text-white">{t('admin.title', locale)}</h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('admin.reviewManagement', locale)}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Users & Feedback Management</p>
                 </div>
                 <span className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full font-medium">{t('admin.authenticated', locale)}</span>
             </div>
 
-            {/* Reviews Section */}
+            {/* Users Section */}
             <div className="mb-4 text-sm font-bold text-gray-500 dark:text-gray-400">
-                {reviews.length} {t('admin.totalReviews', locale)}
+                {users.length} Total Users Sign-ups
             </div>
 
             {loading ? (
-                <div className="py-20 text-center text-gray-400 animate-pulse">{t('admin.loadingReviews', locale)}</div>
-            ) : reviews.length === 0 ? (
-                <div className="py-20 text-center text-gray-400 dark:text-gray-500 mb-8">{t('admin.noReviews', locale)}</div>
+                <div className="py-20 text-center text-gray-400 animate-pulse">Loading users...</div>
+            ) : users.length === 0 ? (
+                <div className="py-20 text-center text-gray-400 dark:text-gray-500 mb-8">No users found.</div>
             ) : (
-                <div className="space-y-3 mb-10">
-                    {reviews.map((r) => (
-                        <div key={r.id} className="border border-gray-200 dark:border-neutral-800 rounded-xl p-4 bg-white dark:bg-neutral-900 flex items-start gap-4 group">
-                            <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <span className="text-lg">{r.flag}</span>
-                                    <span className="text-sm font-bold text-gray-800 dark:text-gray-200">{r.nickname}</span>
-                                    <span className="text-[10px] text-gray-400 dark:text-gray-500">
-                                        {new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                                    </span>
-                                </div>
-                                <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{r.content}</p>
-                                <div className="flex items-center gap-3 mt-2 text-[10px] text-gray-400 dark:text-gray-500">
-                                    <span>Museum: {r.museum?.name || t('global.unknown', locale)}</span>
-                                    <span>IP: {r.ipAddress || 'N/A'}</span>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => handleDelete(r.id)}
-                                className="shrink-0 p-2 rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all"
-                                title="Delete"
-                            >
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        </div>
-                    ))}
+                <div className="overflow-x-auto mb-10 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900">
+                    <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-neutral-800 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">Anonymous ID</th>
+                                <th scope="col" className="px-6 py-3">Role</th>
+                                <th scope="col" className="px-6 py-3">Registered At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users.map((u) => (
+                                <tr key={u.id} className="bg-white border-b dark:bg-neutral-900 dark:border-neutral-800">
+                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {u.id}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <span className={`px-2 py-1 rounded-full text-xs font-bold ${u.role === 'ADMIN' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'}`}>
+                                            {u.role}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {new Date(u.createdAt).toLocaleString()}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             )}
 

@@ -13,6 +13,7 @@ export default function SavedPage() {
     const [folders, setFolders] = useState<any[]>([]);
     const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
     const [selectedMuseums, setSelectedMuseums] = useState<Set<string>>(new Set());
+    const [isSelectMode, setIsSelectMode] = useState(false);
     const [loading, setLoading] = useState(true);
     const { locale } = useApp();
     const { showAlert, showConfirm } = useModal();
@@ -51,9 +52,22 @@ export default function SavedPage() {
 
     return (
         <div className="w-full max-w-[1080px] mx-auto px-4 py-4 sm:px-6 sm:py-8 md:px-8 mt-4 sm:mt-8">
-            <div className="mb-6 sm:mb-8">
-                <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight dark:text-white">{t('saved.title', locale)}</h1>
-                <p className="text-gray-500 dark:text-gray-400 mt-1 sm:mt-2 text-sm">{t('saved.subtitle', locale)}</p>
+            <div className="mb-6 sm:mb-8 flex justify-between items-end">
+                <div>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight dark:text-white">{t('saved.title', locale)}</h1>
+                    <p className="text-gray-500 dark:text-gray-400 mt-1 sm:mt-2 text-sm">{t('saved.subtitle', locale)}</p>
+                </div>
+                {saves.length > 0 && (
+                    <button
+                        onClick={() => {
+                            setIsSelectMode(!isSelectMode);
+                            if (isSelectMode) setSelectedMuseums(new Set());
+                        }}
+                        className={`px-4 py-2 rounded-xl text-sm font-bold transition-colors border shadow-sm ${isSelectMode ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50 dark:bg-neutral-800 dark:text-neutral-200 dark:border-neutral-700 dark:hover:bg-neutral-700'}`}
+                    >
+                        {isSelectMode ? t('modal.cancel', locale) || 'Cancel' : (locale === 'ko' ? '선택' : 'Select')}
+                    </button>
+                )}
             </div>
 
             <div className="flex flex-col gap-6 sm:gap-8">
@@ -107,12 +121,22 @@ export default function SavedPage() {
                     ) : saves.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full col-span-full">
                             {saves.map(s => (
-                                <GlassPanel key={s.id} className="overflow-hidden group cursor-pointer" onClick={() => toggleSelect(s.museum.id)}>
-                                    <div className="h-40 bg-gray-200 dark:bg-neutral-800 relative">
-                                        <img src={s.museum.imageUrl || '/defaultimg.png'} alt={s.museum.name} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '/defaultimg.png'; }} />
-                                        <div className={`absolute top-3 left-3 w-6 h-6 rounded-full border-2 border-white flex items-center justify-center transition-colors ${selectedMuseums.has(s.museum.id) ? 'bg-purple-500 border-purple-200' : 'bg-black/20 backdrop-blur-md'}`}>
-                                            {selectedMuseums.has(s.museum.id) && <span className="text-white text-xs">✓</span>}
-                                        </div>
+                                <GlassPanel
+                                    key={s.id}
+                                    className="overflow-hidden group cursor-pointer"
+                                    onClick={() => {
+                                        if (isSelectMode) toggleSelect(s.museum.id);
+                                        else router.push(`/museums/${s.museum.id}`);
+                                    }}
+                                >
+                                    <div className="h-40 bg-gray-200 dark:bg-neutral-800 relative overflow-hidden">
+                                        <img src={s.museum.imageUrl || '/defaultimg.png'} alt={s.museum.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { (e.target as HTMLImageElement).src = '/defaultimg.png'; }} />
+
+                                        {isSelectMode && (
+                                            <div className={`absolute top-3 left-3 w-6 h-6 rounded-full border-2 border-white flex items-center justify-center transition-colors ${selectedMuseums.has(s.museum.id) ? 'bg-purple-500 border-purple-200' : 'bg-black/20 backdrop-blur-md'}`}>
+                                                {selectedMuseums.has(s.museum.id) && <span className="text-white text-xs">✓</span>}
+                                            </div>
+                                        )}
                                         {s.museum.type && (
                                             <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md shadow-sm">
                                                 <span className="text-xs font-bold text-gray-800 dark:text-gray-200 capitalize">

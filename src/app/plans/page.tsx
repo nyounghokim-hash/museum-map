@@ -140,16 +140,12 @@ export default function MyPlansPage() {
             )}
 
             {!loading && (
-                <Link href="/plans/new" className="block mt-3 sm:mt-4">
-                    <div className="border-2 border-dashed border-gray-300 dark:border-neutral-700 rounded-2xl p-5 sm:p-6 flex flex-col items-center justify-center hover:border-black dark:hover:border-white hover:bg-gray-50 dark:hover:bg-neutral-800 transition-all cursor-pointer group active:scale-[0.98]">
-                        <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-neutral-800 group-hover:bg-black dark:group-hover:bg-white flex items-center justify-center transition-colors mb-2">
-                            <svg className="w-5 h-5 text-gray-400 group-hover:text-white dark:group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                            </svg>
-                        </div>
-                        <span className="text-sm font-semibold text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t('plans.newPlan', locale)}</span>
-                    </div>
-                </Link>
+                <div className="mt-6 sm:mt-8 p-6 rounded-2xl bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 text-center">
+                    <p className="text-gray-600 dark:text-gray-300 font-medium">{t('plans.createFromMyPick', locale) || '새로운 여행은 "마이 픽" 메뉴에서 생성할 수 있습니다.'}</p>
+                    <Link href="/saved" className="inline-block mt-3 text-sm text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                        {t('plans.goToMyPick', locale) || '마이 픽 가기 →'}
+                    </Link>
+                </div>
             )}
         </div>
     );

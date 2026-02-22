@@ -16,7 +16,7 @@ export default function PlanDetailPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const { locale } = useApp();
+    const { locale, darkMode } = useApp();
     const { showAlert, showConfirm } = useModal();
     const router = useRouter();
 
@@ -119,11 +119,28 @@ export default function PlanDetailPage() {
                 body: JSON.stringify(body),
             });
             setIsDirty(false);
+
+            // Sync with activeTrip if this plan is the active one
+            if (activeTripId === id) {
+                const stored = localStorage.getItem('activeTrip');
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        localStorage.setItem('activeTrip', JSON.stringify({
+                            ...parsed,
+                            stops: routeStops
+                        }));
+                    } catch (e) {
+                        console.error('Failed to sync active trip', e);
+                    }
+                }
+            }
+
             showAlert(t('plans.saved', locale));
         } catch {
             showAlert(t('global.saveError', locale));
         }
-    }, [stops, id, showAlert, locale]);
+    }, [stops, routeStops, activeTripId, id, showAlert, locale, plan]);
 
     const handleStartTrip = useCallback(() => {
         if (!plan) return;
@@ -186,12 +203,14 @@ export default function PlanDetailPage() {
             </button>
 
             {/* Sidebar: Route List */}
-            <div className={`${sidebarOpen ? 'max-h-[50vh] sm:max-h-none' : 'max-h-0'} sm:!max-h-none overflow-hidden sm:overflow-y-auto transition-all duration-300 w-full sm:w-96 bg-white dark:bg-neutral-900 sm:border-r border-gray-200 dark:border-neutral-800 shrink-0`}>
+            <div className={`${sidebarOpen ? 'max-h-[50vh] sm:max-h-none' : 'max-h-0'} sm:!max-h-none overflow-y-auto transition-all duration-300 w-full sm:w-96 bg-white dark:bg-neutral-900 sm:border-r border-gray-200 dark:border-neutral-800 shrink-0`}>
                 <div className="p-4 sm:p-6 flex flex-col">
-                    <Link href="/plans" className="text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white mb-3 inline-flex items-center gap-1 transition-colors">
-                        ← {t('plans.title', locale)}
+                    <Link href="/plans" className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-gray-700 dark:text-gray-300 rounded-full mb-4 transition-colors shadow-sm active:scale-95 shrink-0" title={t('plans.title', locale)}>
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
                     </Link>
-                    <h1 className="text-xl sm:text-2xl font-bold mb-1 dark:text-white">{plan?.title || 'AutoRoute'}</h1>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold mb-1 dark:text-white">{plan?.title || 'AutoRoute'}</h1>
                     {dateStr && <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 sm:mb-6">📅 {dateStr}</p>}
 
                     <div className="space-y-3 relative">
@@ -291,7 +310,7 @@ export default function PlanDetailPage() {
             {/* Right Content: Route Map */}
             <div className="flex-1 relative min-h-[300px]">
                 {routeStops.length > 0 ? (
-                    <RouteMapViewer stops={routeStops} onStopClick={handleStopClick} />
+                    <RouteMapViewer stops={routeStops} onStopClick={handleStopClick} darkMode={darkMode} />
                 ) : (
                     <div className="w-full h-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center">
                         <span className="text-zinc-500 font-medium bg-white/50 dark:bg-black/50 px-4 py-2 rounded-full backdrop-blur-md">

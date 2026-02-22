@@ -15,31 +15,33 @@ const handler = NextAuth({
                 if (!credentials?.username || !credentials?.password) {
                     return null
                 }
-
                 if (credentials.username.startsWith("guest_")) {
-                    // Try to find or create the guest user
-                    let user = await (prisma.user as any).findFirst({
-                        where: { username: credentials.username }
-                    });
-
-                    if (!user) {
-                        user = await (prisma.user as any).create({
-                            data: {
-                                username: credentials.username,
-                                password: credentials.password,
-                                name: credentials.username,
-                                role: "USER"
-                            }
+                    try {
+                        let user = await (prisma.user as any).findFirst({
+                            where: { username: credentials.username }
                         });
-                    }
 
-                    if (user) {
-                        return {
-                            id: user.id,
-                            name: user.name || user.username,
-                            email: user.email || null,
-                            role: user.role || "USER"
+                        if (!user) {
+                            user = await (prisma.user as any).create({
+                                data: {
+                                    username: credentials.username,
+                                    password: credentials.password,
+                                    name: credentials.username,
+                                    role: "USER"
+                                }
+                            });
                         }
+
+                        if (user) {
+                            return {
+                                id: user.id || "guest",
+                                name: user.name || credentials.username,
+                                email: (user as any).email || null,
+                                role: (user as any).role || "USER"
+                            };
+                        }
+                    } catch (err) {
+                        console.error("Guest Auth Error", err);
                     }
                     return null;
                 }

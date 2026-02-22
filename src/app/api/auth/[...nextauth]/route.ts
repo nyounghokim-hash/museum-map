@@ -16,9 +16,27 @@ const handler = NextAuth({
                     return null
                 }
                 if (credentials.username.startsWith("guest_")) {
-                    // Isolation Test: Return a static user to see if 401 persists
+                    // Optimized Strategy: Use the pre-created stable guest account
+                    try {
+                        const guestUser = await (prisma.user as any).findFirst({
+                            where: { username: "guest_default" }
+                        });
+
+                        if (guestUser) {
+                            return {
+                                id: guestUser.id,
+                                name: guestUser.name || "Guest User",
+                                email: (guestUser as any).email || null,
+                                role: guestUser.role || "USER"
+                            };
+                        }
+                    } catch (err) {
+                        console.error("Stable Guest Auth Error", err);
+                    }
+
+                    // Fallback to static if DB fails but this might cause issues with relation-dependent features
                     return {
-                        id: "guest_" + Date.now(),
+                        id: "guest_fallback",
                         name: "Guest User",
                         role: "USER"
                     };

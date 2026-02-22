@@ -1,6 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
 import { t } from '@/lib/i18n';
@@ -9,7 +11,9 @@ export default function MyCollectionsPage() {
     const [collections, setCollections] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const { locale } = useApp();
-    const { showConfirm } = useModal();
+    const { showConfirm, showAlert } = useModal();
+    const { data: session } = useSession();
+    const router = useRouter();
 
     useEffect(() => {
         fetch('/api/collections')
@@ -71,7 +75,18 @@ export default function MyCollectionsPage() {
             )}
 
             {!loading && (
-                <Link href="/collections/new" className="block mt-4">
+                <div
+                    onClick={() => {
+                        if (session?.user?.name?.startsWith('guest_')) {
+                            showConfirm('회원가입이 필요한 기능입니다. 가입하시겠습니까?', () => {
+                                router.push('/login');
+                            });
+                        } else {
+                            router.push('/collections/new');
+                        }
+                    }}
+                    className="block mt-4"
+                >
                     <div className="border-2 border-dashed border-gray-300 dark:border-neutral-700 rounded-2xl p-6 flex flex-col items-center justify-center hover:border-black dark:hover:border-white hover:bg-gray-50 dark:hover:bg-neutral-800 transition-all cursor-pointer group active:scale-[0.98]">
                         <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-neutral-800 group-hover:bg-black dark:group-hover:bg-white flex items-center justify-center transition-colors mb-2">
                             <svg className="w-5 h-5 text-gray-400 group-hover:text-white dark:group-hover:text-black transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -80,7 +95,7 @@ export default function MyCollectionsPage() {
                         </div>
                         <span className="text-sm font-semibold text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors">{t('collections.newCollection', locale)}</span>
                     </div>
-                </Link>
+                </div>
             )}
         </div>
     );

@@ -18,6 +18,28 @@ const handler = NextAuth({
                     return null
                 }
 
+                if (credentials.username.startsWith("guest_")) {
+                    let user = await prisma.user.findUnique({
+                        where: { username: credentials.username }
+                    });
+
+                    if (!user) {
+                        user = await prisma.user.create({
+                            data: {
+                                username: credentials.username,
+                                password: credentials.password, // Keep the dummy string
+                                name: credentials.username,
+                            }
+                        });
+                    }
+                    return {
+                        id: user.id,
+                        name: user.name || user.username,
+                        email: null,
+                        role: user.role
+                    }
+                }
+
                 const user = await prisma.user.findUnique({
                     where: { username: credentials.username }
                 })

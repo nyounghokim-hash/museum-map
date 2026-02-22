@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { GlassPanel } from '@/components/ui/glass';
@@ -14,8 +14,46 @@ export default function LoginPage() {
     const [agreePrivacy, setAgreePrivacy] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-    const { showAlert } = useModal();
+    const { showAlert, showConfirm } = useModal();
     const { darkMode } = useApp();
+    const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null);
+
+    const handlePressStart = () => {
+        const timer = setTimeout(() => {
+            router.push('/admin');
+        }, 5000);
+        setPressTimer(timer);
+    };
+
+    const handlePressEnd = () => {
+        if (pressTimer) clearTimeout(pressTimer);
+        setPressTimer(null);
+    };
+
+    const handleGuestLogin = async () => {
+        setLoading(true);
+        const guestId = `guest_${Date.now()}`;
+        sessionStorage.setItem('isGuest', 'true');
+
+        try {
+            const res = await signIn('credentials', {
+                redirect: false,
+                username: guestId,
+                password: guestId
+            });
+
+            if (res?.ok) {
+                router.push('/');
+                router.refresh();
+            } else {
+                showAlert('게스트 접속 중 오류가 발생했습니다.');
+            }
+        } catch (e) {
+            showAlert('서버와의 통신 오류가 발생했습니다.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -85,9 +123,16 @@ export default function LoginPage() {
 
             {/* Logo & Title */}
             <div className="flex flex-col items-center mb-8">
-                <svg className="w-16 h-16 text-purple-600 dark:text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <img
+                    src="/custom-logo.jpg"
+                    alt="Museum Map Custom Logo"
+                    className="w-24 h-24 rounded-2xl object-cover shadow-sm dark:invert cursor-pointer select-none"
+                    onMouseDown={handlePressStart}
+                    onMouseUp={handlePressEnd}
+                    onMouseLeave={handlePressEnd}
+                    onTouchStart={handlePressStart}
+                    onTouchEnd={handlePressEnd}
+                />
                 <div className="h-4"></div> {/* One line gap */}
                 <h1 className="text-3xl font-extrabold tracking-tight dark:text-white">Museum Map</h1>
             </div>
@@ -187,7 +232,16 @@ export default function LoginPage() {
                         </button>
                     </form>
 
-                    <div className="mt-6 pt-6 border-t border-gray-100 dark:border-neutral-800 text-center">
+                    <div className="mt-6 pt-6 border-t border-gray-100 dark:border-neutral-800 text-center flex flex-col gap-3">
+                        <button
+                            type="button"
+                            disabled={loading}
+                            onClick={handleGuestLogin}
+                            className={`w-full py-3.5 rounded-xl font-bold transition-all border-2 
+                                ${loading ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' : 'bg-transparent text-gray-700 dark:text-gray-300 border-gray-200 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 active:scale-[0.98]'}`}
+                        >
+                            비회원으로 이용할래요
+                        </button>
                         <button
                             type="button"
                             onClick={() => {

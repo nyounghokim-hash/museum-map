@@ -1,5 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { GlassPanel } from '@/components/ui/glass';
 import { buildMapLinks, isAppleDevice } from '@/lib/mapLinks';
 import { useApp } from '@/components/AppContext';
@@ -14,6 +16,8 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
     const [loading, setLoading] = useState(true);
     const [isPicked, setIsPicked] = useState(false);
     const [saveId, setSaveId] = useState<string | null>(null);
+    const { data: session, status } = useSession();
+    const router = useRouter();
 
     // Live data states
     const [googleReviews, setGoogleReviews] = useState<any>(null);
@@ -102,6 +106,11 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                     <button
                         onClick={async (e) => {
                             e.preventDefault();
+                            if (status === 'unauthenticated') {
+                                router.push('/login');
+                                return;
+                            }
+
                             if (isPicked && saveId) {
                                 await fetch(`/api/me/saves/${saveId}`, { method: 'DELETE' });
                                 setIsPicked(false);

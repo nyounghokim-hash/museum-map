@@ -16,34 +16,12 @@ const handler = NextAuth({
                     return null
                 }
                 if (credentials.username.startsWith("guest_")) {
-                    try {
-                        let user = await (prisma.user as any).findFirst({
-                            where: { username: credentials.username }
-                        });
-
-                        if (!user) {
-                            user = await (prisma.user as any).create({
-                                data: {
-                                    username: credentials.username,
-                                    password: credentials.password,
-                                    name: credentials.username,
-                                    role: "USER"
-                                }
-                            });
-                        }
-
-                        if (user) {
-                            return {
-                                id: user.id || "guest",
-                                name: user.name || credentials.username,
-                                email: (user as any).email || null,
-                                role: (user as any).role || "USER"
-                            };
-                        }
-                    } catch (err) {
-                        console.error("Guest Auth Error", err);
-                    }
-                    return null;
+                    // Isolation Test: Return a static user to see if 401 persists
+                    return {
+                        id: "guest_" + Date.now(),
+                        name: "Guest User",
+                        role: "USER"
+                    };
                 }
 
                 const user = await (prisma.user as any).findFirst({

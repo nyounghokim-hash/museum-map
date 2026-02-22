@@ -1,9 +1,7 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { PrismaClient } from "@prisma/client"
+import { prisma } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
-
-const prisma = new PrismaClient()
 
 const handler = NextAuth({
     providers: [
@@ -46,26 +44,24 @@ const handler = NextAuth({
                     return null;
                 }
 
-                const user = await prisma.user.findUnique({
+                const user = await (prisma.user as any).findFirst({
                     where: { username: credentials.username }
                 })
 
-                if (!user || (!user.password && !user.name)) {
+                if (!user || (!(user as any).password && !user.name)) {
                     return null
                 }
 
-                if (user.password) {
-                    const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
+                if ((user as any).password) {
+                    const isPasswordValid = await bcrypt.compare(credentials.password, (user as any).password)
                     if (!isPasswordValid) return null
                 } else if (credentials.password !== process.env.ADMIN_PASSWORD) {
-                    // Fallback legacy admin login check?
-                    // We will stick to bcrypt comparison of standard users
                     return null
                 }
 
                 return {
                     id: user.id,
-                    name: user.name || user.username,
+                    name: user.name || (user as any).username,
                     email: user.email,
                     role: user.role
                 }

@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { GlassPanel, FilterChip } from '@/components/ui/glass';
 import dynamic from 'next/dynamic';
 import { buildMapLinks, isAppleDevice } from '@/lib/mapLinks';
@@ -23,6 +24,7 @@ export default function MainPage() {
   const router = useRouter();
   const [activeTrip, setActiveTrip] = useState<any>(null);
   const [isViewingActiveRoute, setIsViewingActiveRoute] = useState(false);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     fetch('/api/museums?limit=2000')
@@ -33,11 +35,18 @@ export default function MainPage() {
 
   // Check for active trip
   useEffect(() => {
+    if (status === 'loading') return;
+    if (status === 'unauthenticated') {
+      setActiveTrip(null);
+      setIsViewingActiveRoute(false);
+      return;
+    }
+
     try {
       const trip = localStorage.getItem('activeTrip');
       if (trip) setActiveTrip(JSON.parse(trip));
     } catch { }
-  }, []);
+  }, [status]);
 
   const handleMuseumClick = async (id: string) => {
     const museum = museums.find(m => m.id === id);

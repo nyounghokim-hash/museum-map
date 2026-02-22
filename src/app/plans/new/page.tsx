@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useMemo, Suspense } from 'react';
+import { useState, useEffect, useMemo, Suspense, useRef, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GlassPanel } from '@/components/ui/glass';
 import { useApp } from '@/components/AppContext';
@@ -15,6 +15,12 @@ function AutoRouteContent() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const { locale } = useApp();
+
+    // Drag reorder state
+    const [dragIndex, setDragIndex] = useState<number | null>(null);
+    const [overIndex, setOverIndex] = useState<number | null>(null);
+    const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [isDragging, setIsDragging] = useState(false);
 
     useEffect(() => {
         const ids = searchParams.get('museums');
@@ -105,6 +111,45 @@ function AutoRouteContent() {
         }
     };
 
+    // --- Long press + drag handlers ---
+    const handlePointerDown = useCallback((index: number) => {
+        longPressTimer.current = setTimeout(() => {
+            setDragIndex(index);
+            setIsDragging(true);
+            if (navigator.vibrate) navigator.vibrate(50);
+        }, 500); // 500ms long press to start dragging
+    }, []);
+
+    const handlePointerUp = useCallback(() => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current);
+            longPressTimer.current = null;
+        }
+        if (isDragging && dragIndex !== null && overIndex !== null && dragIndex !== overIndex) {
+            setRoute(prevRoute => {
+                const newRoute = [...prevRoute];
+                const [moved] = newRoute.splice(dragIndex, 1);
+                newRoute.splice(overIndex, 0, moved);
+                // Re-assign expectedArrival and order based on new index positions
+                return newRoute.map((s, i) => ({
+                    ...s,
+                    order: i,
+                    expectedArrival: new Date(Date.now() + i * 2 * 60 * 60 * 1000)
+                }));
+            });
+        }
+        setDragIndex(null);
+        setOverIndex(null);
+        setIsDragging(false);
+    }, [isDragging, dragIndex, overIndex]);
+
+    const handlePointerCancel = useCallback(() => {
+        if (longPressTimer.current) clearTimeout(longPressTimer.current);
+        setDragIndex(null);
+        setOverIndex(null);
+        setIsDragging(false);
+    }, []);
+
     if (loading) return <div className="p-20 text-center text-lg font-semibold animate-pulse dark:text-gray-300">{t('plans.generating', locale)}</div>;
 
     return (
@@ -146,20 +191,51 @@ function AutoRouteContent() {
                         <div className="absolute left-10 top-20 bottom-10 w-0.5 bg-gray-200 dark:bg-neutral-700 z-0"></div>
 
                         <div className="space-y-6 relative z-10">
-                            {route.map((stop, i) => (
-                                <div key={stop.museumId || i} className="flex gap-4 items-start">
-                                    <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-md">
-                                        {i + 1}
+                            {route.map((stop, i) => {
+                                const isBeingDragged = dragIndex === i;
+                                const isDropTarget = overIndex === i && dragIndex !== i;
+
+                                return (
+                                    <div
+                                        key={stop.museumId || i}
+                                        className={`flex gap-4 items-start transition-all cursor-grab active:cursor-grabbing select-none touch-none
+                                            ${isBeingDragged ? 'opacity-50 scale-105 rounded-xl bg-gray-100 p-2 -m-2 z-20' : ''}
+                                            ${isDropTarget ? 'border-t-2 border-primary pt-2 mt-2 -t-2' : ''}
+                                        `}
+                                        onPointerDown={() => handlePointerDown(i)}
+                                        onPointerUp={handlePointerUp}
+                                        onPointerCancel={handlePointerCancel}
+                                        onPointerLeave={() => { if (longPressTimer.current) clearTimeout(longPressTimer.current); }}
+                                        onPointerEnter={() => { if (isDragging) setOverIndex(i); }}
+                                    >
+                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 shadow-md ${isBeingDragged ? 'bg-blue-600 text-white' : 'bg-black text-white'}`}>
+                                            {i + 1}
+                                        </div>
+                                        <div className={`flex-1 p-3 rounded-lg border flex justify-between items-center shadow-sm backdrop-blur-sm
+                                            ${isBeingDragged ? 'border-blue-400 bg-blue-50/50 dark:bg-blue-900/30 dark:border-blue-700' : 'bg-white/80 dark:bg-neutral-900/80 border-gray-100 dark:border-neutral-800'}`}>
+                                            <div>
+                                                <h4 className="font-bold text-sm dark:text-white">{stop.name}</h4>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                    {t('plans.est', locale)} {new Date(stop.expectedArrival).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </p>
+                                            </div>
+                                            {isDragging && (
+                                                <div className="text-gray-400 dark:text-gray-500">
+                                                    <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 8h16M4 16h16" />
+                                                    </svg>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                    <div className="bg-white/80 dark:bg-neutral-900/80 p-3 rounded-lg border border-gray-100 dark:border-neutral-800 flex-1 backdrop-blur-sm shadow-sm">
-                                        <h4 className="font-bold text-sm dark:text-white">{stop.name}</h4>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                            {t('plans.est', locale)} {new Date(stop.expectedArrival).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
+                        {isDragging && (
+                            <p className="text-xs text-blue-500 dark:text-blue-400 text-center mt-6 animate-pulse">
+                                {t('plans.dragReorder', locale)}
+                            </p>
+                        )}
                     </GlassPanel>
                 </div>
             </div>

@@ -84,14 +84,14 @@ export default function RouteMapViewer({ stops = [], onStopClick, darkMode = fal
                 type: 'line',
                 source: 'route-line',
                 layout: { 'line-join': 'round', 'line-cap': 'round' },
-                paint: { 'line-color': '#000000', 'line-width': 3, 'line-dasharray': [2, 2], 'line-opacity': 0.6 },
+                paint: { 'line-color': '#a855f7', 'line-width': 3, 'line-dasharray': [2, 2], 'line-opacity': 0.8 },
             });
             map.addLayer({
                 id: 'route-line-bg',
                 type: 'line',
                 source: 'route-line',
                 layout: { 'line-join': 'round', 'line-cap': 'round' },
-                paint: { 'line-color': '#000000', 'line-width': 5, 'line-opacity': 0.08 },
+                paint: { 'line-color': '#a855f7', 'line-width': 5, 'line-opacity': 0.15 },
             }, 'route-line-layer');
 
             // Stops source + layers
@@ -171,14 +171,14 @@ export default function RouteMapViewer({ stops = [], onStopClick, darkMode = fal
                 type: 'line',
                 source: 'route-line',
                 layout: { 'line-join': 'round', 'line-cap': 'round' },
-                paint: { 'line-color': '#000000', 'line-width': 3, 'line-dasharray': [2, 2], 'line-opacity': 0.6 },
+                paint: { 'line-color': '#a855f7', 'line-width': 3, 'line-dasharray': [2, 2], 'line-opacity': 0.8 },
             });
             map.addLayer({
                 id: 'route-line-bg',
                 type: 'line',
                 source: 'route-line',
                 layout: { 'line-join': 'round', 'line-cap': 'round' },
-                paint: { 'line-color': '#000000', 'line-width': 5, 'line-opacity': 0.08 },
+                paint: { 'line-color': '#a855f7', 'line-width': 5, 'line-opacity': 0.15 },
             }, 'route-line-layer');
 
             // Stops source + layers

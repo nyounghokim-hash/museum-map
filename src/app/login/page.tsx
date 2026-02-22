@@ -119,14 +119,14 @@ export default function LoginPage() {
     };
 
     return (
-        <div className={`min-h-[calc(100vh-56px)] ${darkMode ? 'bg-black' : 'bg-neutral-50'} flex flex-col items-center justify-center p-4 selection:bg-purple-300 selection:text-black transition-colors duration-300 overflow-y-auto`}>
+        <div className={`min-h-[calc(100vh-56px)] ${darkMode ? 'bg-black' : 'bg-white'} flex flex-col items-center justify-center p-4 selection:bg-purple-300 selection:text-black transition-colors duration-300 overflow-y-auto`}>
 
             {/* Logo & Title */}
             <div className="flex flex-col items-center mb-8">
                 <img
-                    src="/custom-logo.jpg"
+                    src="/custom-logo-2.jpg"
                     alt="Museum Map Custom Logo"
-                    className="w-24 h-24 rounded-2xl object-cover shadow-sm dark:invert cursor-pointer select-none"
+                    className="w-24 h-24 rounded-2xl object-cover shadow-sm cursor-pointer select-none"
                     onMouseDown={handlePressStart}
                     onMouseUp={handlePressEnd}
                     onMouseLeave={handlePressEnd}
@@ -140,14 +140,14 @@ export default function LoginPage() {
             <div className="w-full max-w-md w-full relative z-10">
                 {/* Intro Card */}
                 {isLogin && (
-                    <GlassPanel className="p-5 mb-6 bg-gradient-to-br from-purple-500/10 to-blue-500/10 border-purple-500/20 shadow-lg text-center backdrop-blur-xl">
-                        <h2 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 mb-2">
+                    <div className="p-5 mb-6 bg-purple-50 dark:bg-purple-900/10 border border-purple-100 dark:border-purple-900/30 rounded-2xl text-center shadow-sm">
+                        <h2 className="text-lg font-bold text-purple-700 dark:text-purple-400 mb-2">
                             전 세계 미술관을 당신의 손안에
                         </h2>
                         <p className="text-sm text-gray-600 dark:text-gray-300">
                             나만의 전시 컬렉션을 수집하고, 여행 동선을 최적화하는 스마트 아트 트립 플래너.
                         </p>
-                    </GlassPanel>
+                    </div>
                 )}
 
                 <div className="bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl border border-gray-200 dark:border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-xl">
@@ -226,7 +226,7 @@ export default function LoginPage() {
                             type="submit"
                             disabled={loading}
                             className={`w-full py-3.5 rounded-xl font-bold text-white shadow-lg transition-all mt-2 
-                                ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 active:scale-[0.98]'}`}
+                                ${loading ? 'bg-purple-400 cursor-not-allowed' : 'bg-purple-600 hover:bg-purple-700 active:scale-[0.98]'}`}
                         >
                             {loading ? '처리중...' : (isLogin ? '로그인' : '가입하기')}
                         </button>
@@ -238,7 +238,7 @@ export default function LoginPage() {
                             disabled={loading}
                             onClick={handleGuestLogin}
                             className={`w-full py-3.5 rounded-xl font-bold transition-all border-2 
-                                ${loading ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' : 'bg-transparent text-gray-700 dark:text-gray-300 border-gray-200 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 active:scale-[0.98]'}`}
+                                ${loading ? 'bg-purple-50 text-purple-300 border-purple-100 dark:bg-purple-900/10 dark:text-purple-700 dark:border-purple-900/30 cursor-not-allowed' : 'bg-transparent text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-900/20 active:scale-[0.98]'}`}
                         >
                             비회원으로 이용할래요
                         </button>

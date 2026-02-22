@@ -9,6 +9,8 @@ import { useModal } from '@/components/ui/Modal';
 import { t, translateCategory, translateDescription } from '@/lib/i18n';
 import { useTranslatedText } from '@/hooks/useTranslation';
 
+import LoadingAnimation from '@/components/ui/LoadingAnimation';
+
 export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { museumId: string; onClose?: () => void; isMapContext?: boolean }) {
     const [data, setData] = useState<any>(null);
     const { locale } = useApp();
@@ -70,7 +72,14 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
         }
     };
 
-    if (loading) return <div className="p-20 text-center animate-pulse dark:text-gray-300">Loading Museum Details...</div>;
+    if (loading) return (
+        <div className="flex flex-col items-center justify-center p-20 min-h-[400px]">
+            <LoadingAnimation size={120} />
+            <p className="mt-4 text-sm font-medium text-gray-500 dark:text-neutral-400 animate-pulse">
+                {t('global.loading', locale)}
+            </p>
+        </div>
+    );
     if (!data) return <div className="p-20 text-center dark:text-gray-300">Museum Not Found</div>;
 
     const mapLinks = buildMapLinks({ name: data.name, lat: data.latitude, lng: data.longitude });
@@ -93,8 +102,13 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                     <img
                         src={data.imageUrl || '/defaultimg.png'}
                         alt={data.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
-                        onError={(e) => { (e.target as HTMLImageElement).src = '/defaultimg.png'; }}
+                        className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90
+                            ${(!data.imageUrl || data.imageUrl === '/defaultimg.png') ? 'dark:invert dark:sepia dark:hue-rotate-[260deg] dark:brightness-[0.7] dark:contrast-[1.2]' : ''}`}
+                        onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = '/defaultimg.png';
+                            target.classList.add('dark:invert', 'dark:sepia', 'dark:hue-rotate-[260deg]', 'dark:brightness-[0.7]', 'dark:contrast-[1.2]');
+                        }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                     <div className="absolute bottom-4 left-4 right-4 sm:left-6 sm:right-6">

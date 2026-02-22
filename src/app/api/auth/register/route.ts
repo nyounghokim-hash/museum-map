@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         }
 
         // Check if user already exists
-        const existingUser = await prisma.user.findUnique({
+        const existingUser = await (prisma.user as any).findFirst({
             where: { username },
         });
 
@@ -31,11 +31,12 @@ export async function POST(req: Request) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create user
-        const newUser = await prisma.user.create({
+        const newUser = await (prisma.user as any).create({
             data: {
                 username,
                 password: hashedPassword,
-                name: username, // Default name to username
+                name: username,
+                email: `${username}@user.local`, // Fix: Add dummy email to bypass DB constraint
             },
         });
 

@@ -1,6 +1,7 @@
 'use client';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Locale, getLocaleFromCountry, t } from '@/lib/i18n';
+import { useSession, signOut } from 'next-auth/react';
 
 interface AppContextType {
     locale: Locale;
@@ -23,9 +24,20 @@ export function useApp() {
 }
 
 export function AppProvider({ children }: { children: ReactNode }) {
+    const { data: session } = useSession();
     const [locale, setLocaleState] = useState<Locale>('en');
     const [darkMode, setDarkModeState] = useState(false);
     const [initialized, setInitialized] = useState(false);
+
+    // Guest Session Guard: Log out if isGuest but sessionStorage is empty (new tab/restart)
+    useEffect(() => {
+        if (session?.user?.name?.startsWith('guest_')) {
+            const isGuestFlag = sessionStorage.getItem('isGuest');
+            if (!isGuestFlag) {
+                signOut({ redirect: false });
+            }
+        }
+    }, [session]);
 
     // Load from localStorage
     useEffect(() => {

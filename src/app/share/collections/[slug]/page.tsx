@@ -27,7 +27,16 @@ export default function SharedCollectionPage() {
         router.push('/map'); // redirect to map so loop restarts
     };
 
-    if (loading) return <div className="p-20 text-center animate-pulse">{t('share.loading', locale)}</div>;
+    if (loading) return (
+        <div className="flex flex-col gap-6 p-4 sm:p-8 animate-pulse">
+            <div className="h-8 bg-gray-200 dark:bg-neutral-800 rounded w-1/2 mb-4"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 3 }).map((_, i) => (
+                    <div key={i} className="h-48 bg-gray-200 dark:bg-neutral-800 rounded-2xl"></div>
+                ))}
+            </div>
+        </div>
+    );
     if (!data) return <div className="p-20 text-center text-red-500 font-bold">{t('share.notFound', locale)}</div>;
 
     return (

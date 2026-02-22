@@ -2,10 +2,14 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useApp } from '@/components/AppContext';
 import { t, LOCALE_NAMES, Locale } from '@/lib/i18n';
+import { useModal } from '@/components/ui/Modal';
 
 export default function NavHeader() {
+    const { data: session } = useSession();
+    const { showAlert } = useModal();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [langOpen, setLangOpen] = useState(false);
     const pathname = usePathname();
@@ -109,9 +113,25 @@ export default function NavHeader() {
                             )}
                         </div>
 
-                        <Link href="/admin" className="hidden md:inline text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-                            {t('nav.admin', locale)}
-                        </Link>
+                        {/* Auth UI */}
+                        {session ? (
+                            <Link href="/saved" className="flex items-center">
+                                <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 flex items-center justify-center text-purple-700 dark:text-purple-400 font-bold text-xs ring-2 ring-transparent hover:ring-purple-500 transition-all overflow-hidden">
+                                    {session.user?.image ? (
+                                        <img src={session.user.image} alt={session.user.name || 'User'} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <span>{session.user?.name ? session.user.name.charAt(0).toUpperCase() : 'U'}</span>
+                                    )}
+                                </div>
+                            </Link>
+                        ) : (
+                            <Link
+                                href="/login"
+                                className="px-4 py-1.5 rounded-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm active:scale-95 transition-all"
+                            >
+                                {t('login.title', locale) || 'Login'}
+                            </Link>
+                        )}
 
                         <button
                             className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"

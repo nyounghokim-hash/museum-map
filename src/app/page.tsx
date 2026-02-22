@@ -13,6 +13,7 @@ import MuseumDetailCard from '@/components/museum/MuseumDetailCard';
 
 const MapLibreViewer = dynamic(() => import('@/components/map/MapLibreViewer'), { ssr: false });
 const RouteMapViewer = dynamic(() => import('@/components/map/RouteMapViewer'), { ssr: false });
+const TripDetailPanel = dynamic(() => import('@/components/map/TripDetailPanel'), { ssr: false });
 
 export default function MainPage() {
   const [museums, setMuseums] = useState<any[]>([]);
@@ -25,6 +26,9 @@ export default function MainPage() {
   const [activeTrip, setActiveTrip] = useState<any>(null);
   const [isViewingActiveRoute, setIsViewingActiveRoute] = useState(false);
   const { data: session, status } = useSession();
+
+  // Show detailed panel if museum selected OR if viewing active route (and not seeing a specific museum)
+  const isPanelOpen = !!selectedMuseum || (isViewingActiveRoute && !!activeTrip);
 
   useEffect(() => {
     fetch('/api/museums?limit=2000')
@@ -181,21 +185,30 @@ export default function MainPage() {
         )}
       </div>
 
-      {/* Detail Panel */}
       <div
         className={`absolute top-0 right-0 h-full w-full md:w-[600px] lg:w-[700px] max-w-full 
           bg-neutral-50 dark:bg-neutral-950 md:bg-transparent md:dark:bg-transparent 
           shadow-2xl md:shadow-none transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] z-40 
-          overflow-y-auto hide-scrollbar pointer-events-none md:p-6 lg:p-8
+          overflow-y-auto hide-scrollbar md:p-6 lg:p-8
           border-l border-gray-200 dark:border-neutral-800 md:border-none
-          ${selectedMuseum ? 'translate-x-0' : 'translate-x-full'}`}
+          ${isPanelOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'}`}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="w-full flex flex-col pointer-events-auto pb-12 md:pb-6">
-          {selectedMuseum && (
-            <MuseumDetailCard museumId={selectedMuseum.id} onClose={() => setSelectedMuseum(null)} isMapContext={true} />
-          )}
+        <div className="w-full flex flex-col pb-12 md:pb-6">
+          {selectedMuseum ? (
+            <MuseumDetailCard
+              museumId={selectedMuseum.id}
+              onClose={() => setSelectedMuseum(null)}
+              isMapContext={true}
+            />
+          ) : (activeTrip && isViewingActiveRoute) ? (
+            <TripDetailPanel
+              trip={activeTrip}
+              onClose={() => setIsViewingActiveRoute(false)}
+              onMuseumClick={handleMuseumClick}
+            />
+          ) : null}
         </div>
       </div>
     </div>

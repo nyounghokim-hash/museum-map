@@ -2,9 +2,11 @@
 import { useState, useRef } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { GlassPanel } from '@/components/ui/glass';
 import { useModal } from '@/components/ui/Modal';
 import { useApp } from '@/components/AppContext';
+import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
 export default function LoginPage() {
     const [isLogin, setIsLogin] = useState(true);
@@ -21,14 +23,14 @@ export default function LoginPage() {
 
     const handleLogoClick = () => {
         const now = Date.now();
-        if (now - lastClickTime.current < 500) {
+        if (now - lastClickTime.current < 1000) {
             clickCount.current += 1;
         } else {
             clickCount.current = 1;
         }
         lastClickTime.current = now;
 
-        if (clickCount.current >= 8) {
+        if (clickCount.current >= 5) {
             router.push('/admin');
             clickCount.current = 0;
         }
@@ -123,17 +125,17 @@ export default function LoginPage() {
     };
 
     return (
-        <div className={`min-h-[calc(100vh-56px)] ${darkMode ? 'bg-black' : 'bg-white'} flex flex-col items-center justify-center p-4 selection:bg-purple-300 selection:text-black transition-colors duration-300 overflow-y-auto`}>
+        <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-white'} flex flex-col items-center pt-32 sm:pt-48 p-4 selection:bg-purple-300 selection:text-black transition-colors duration-300 overflow-y-auto relative`}>
 
             {/* Logo & Title */}
-            <div className="flex flex-col items-center mb-12 text-center max-w-2xl mx-auto">
+            <div className="flex flex-col items-center mb-20 text-center max-w-2xl mx-auto z-10">
                 <h1
                     onClick={handleLogoClick}
-                    className="text-6xl sm:text-8xl font-black tracking-tighter dark:text-white mb-6 cursor-pointer select-none hover:scale-[1.02] transition-transform active:scale-95"
+                    className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white mb-8 cursor-pointer select-none hover:scale-[1.01] transition-transform active:scale-95 leading-none"
                 >
                     Museum Map
                 </h1>
-                <p className="text-lg sm:text-xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed break-keep px-4">
+                <p className="text-xl sm:text-2xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep px-4 tracking-tight">
                     전 세계 미술관을 당신의 손안에! <br className="hidden sm:block" />
                     나만의 전시 컬렉션을 수집하고, 여행 동선을 최적화하는 <br className="hidden sm:block" />
                     스마트 아트 트립 플래너.
@@ -141,22 +143,7 @@ export default function LoginPage() {
             </div>
 
             <div className="w-full max-w-md w-full relative z-10">
-                {/* Intro Card */}
-                {isLogin && (
-                    <div className="p-5 mb-6 bg-purple-50 dark:bg-purple-900/10 border border-purple-100 dark:border-purple-900/30 rounded-2xl text-center shadow-sm">
-                        <h2 className="text-lg font-bold text-purple-700 dark:text-purple-400 mb-2">
-                            전 세계 미술관을 당신의 손안에
-                        </h2>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">
-                            나만의 전시 컬렉션을 수집하고, 여행 동선을 최적화하는 스마트 아트 트립 플래너.
-                        </p>
-                    </div>
-                )}
-
-                <div className="bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xl border border-gray-200 dark:border-neutral-800 rounded-3xl p-6 sm:p-8 shadow-xl">
-                    <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-                        {isLogin ? '로그인' : '회원가입'}
-                    </h2>
+                <div className="bg-white/70 dark:bg-neutral-900/70 backdrop-blur-3xl border border-gray-100 dark:border-neutral-800 rounded-[2.5rem] p-8 sm:p-10 shadow-2xl shadow-purple-500/5">
 
                     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                         <div className="flex flex-col gap-1">
@@ -196,8 +183,7 @@ export default function LoginPage() {
                                         </svg>
                                     </div>
                                     <div className="flex-1">
-                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">[필수] 서비스 이용약관 동의</span>
-                                        <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed bg-gray-50 dark:bg-black p-2 rounded-lg border border-gray-100 dark:border-neutral-800">
+                                        ,ReplacementContent:                                        <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed bg-gray-50 dark:bg-black p-2 rounded-lg border border-gray-100 dark:border-neutral-800">
                                             제 1조 (목적) 본 약관은 Museum Map에서 제공하는 아트 트립 및 컬렉션 저장 서비스의 이용 조건 및 관리 절차를 규정합니다. 회원은 본 문서의 조항에 따라 적법하게 서비스를 이용합니다.
                                         </p>
                                     </div>
@@ -216,8 +202,7 @@ export default function LoginPage() {
                                         </svg>
                                     </div>
                                     <div className="flex-1">
-                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">[필수] 개인정보 처리방침 동의</span>
-                                        <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed bg-gray-50 dark:bg-black p-2 rounded-lg border border-gray-100 dark:border-neutral-800">
+                                        ,ReplacementContent:                                        <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed bg-gray-50 dark:bg-black p-2 rounded-lg border border-gray-100 dark:border-neutral-800">
                                             Museum Map은 서비스 운영을 위해 수집된 아이디(username)와 암호화된 비밀번호 등 최소한의 개인정보를 수집하며, 회원의 승인 없이 외부에 제 3자 제공하지 않습니다.
                                         </p>
                                     </div>
@@ -229,8 +214,9 @@ export default function LoginPage() {
                             type="submit"
                             disabled={loading}
                             className={`w-full py-3.5 rounded-xl font-bold text-white shadow-lg transition-all mt-2 
-                                ${loading ? 'bg-purple-400 cursor-not-allowed' : 'bg-purple-600 hover:bg-purple-700 active:scale-[0.98]'}`}
+                                ${loading ? 'bg-purple-400 cursor-not-allowed' : 'bg-purple-600 hover:bg-purple-700 active:scale-[0.98]'} flex items-center justify-center gap-2`}
                         >
+                            {loading && <LoadingAnimation size={24} className="brightness-150" />}
                             {loading ? '처리중...' : (isLogin ? '로그인' : '가입하기')}
                         </button>
                     </form>
@@ -241,8 +227,9 @@ export default function LoginPage() {
                             disabled={loading}
                             onClick={handleGuestLogin}
                             className={`w-full py-3.5 rounded-xl font-bold transition-all border-2 
-                                ${loading ? 'bg-purple-50 text-purple-300 border-purple-100 dark:bg-purple-900/10 dark:text-purple-700 dark:border-purple-900/30 cursor-not-allowed' : 'bg-transparent text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-900/20 active:scale-[0.98]'}`}
+                                ${loading ? 'bg-purple-50 text-purple-300 border-purple-100 dark:bg-purple-900/10 dark:text-purple-700 dark:border-purple-900/30 cursor-not-allowed' : 'bg-transparent text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-900/20 active:scale-[0.98]'} flex items-center justify-center gap-2`}
                         >
+                            {loading && <LoadingAnimation size={24} />}
                             비회원으로 이용할래요
                         </button>
                         <button

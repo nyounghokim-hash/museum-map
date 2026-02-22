@@ -4,6 +4,7 @@ import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
 import { t } from '@/lib/i18n';
 import { useRouter } from 'next/navigation';
+import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
 export default function AdminPage() {
     const router = useRouter();
@@ -93,7 +94,12 @@ export default function AdminPage() {
             </div>
 
             {loading ? (
-                <div className="py-20 text-center text-gray-400 animate-pulse">Loading users...</div>
+                <div className="flex flex-col items-center justify-center py-20 min-h-[400px]">
+                    <LoadingAnimation size={120} />
+                    <p className="mt-4 text-sm font-medium text-gray-500 dark:text-neutral-400 animate-pulse">
+                        {t('global.loading', locale)}
+                    </p>
+                </div>
             ) : users.length === 0 ? (
                 <div className="py-20 text-center text-gray-400 dark:text-gray-500 mb-8">No users found.</div>
             ) : (

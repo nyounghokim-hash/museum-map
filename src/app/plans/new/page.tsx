@@ -167,13 +167,15 @@ function AutoRouteContent() {
             <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex-1 space-y-4">
                     <form onSubmit={handleSavePlan} className="bg-white dark:bg-neutral-900 p-6 rounded-2xl border border-gray-100 dark:border-neutral-800 shadow-sm mb-6">
-                        <div className="mb-4">
-                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('plans.tripTitle', locale)}</label>
-                            <input name="title" required type="text" placeholder={t('plans.tripTitlePlaceholder', locale)} className="w-full border-gray-300 dark:border-neutral-700 rounded-lg p-3 bg-gray-50 dark:bg-neutral-800 border focus:bg-white dark:focus:bg-neutral-900 focus:ring-black dark:focus:ring-white focus:border-black dark:focus:border-white transition dark:text-white" />
-                        </div>
-                        <div className="mb-6">
-                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('plans.startingDate', locale)}</label>
-                            <input name="date" required type="date" className="w-full border-gray-300 dark:border-neutral-700 rounded-lg p-3 bg-gray-50 dark:bg-neutral-800 border focus:bg-white dark:focus:bg-neutral-900 focus:ring-black dark:focus:ring-white focus:border-black dark:focus:border-white transition dark:text-white" />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('plans.tripTitle', locale)}</label>
+                                <input name="title" required type="text" placeholder={t('plans.tripTitlePlaceholder', locale)} className="w-full border-gray-300 dark:border-neutral-700 rounded-lg p-3 bg-gray-50 dark:bg-neutral-800 border focus:bg-white dark:focus:bg-neutral-900 focus:ring-black dark:focus:ring-white focus:border-black dark:focus:border-white transition dark:text-white" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('plans.startingDate', locale)}</label>
+                                <input name="date" required type="date" className="w-full border-gray-300 dark:border-neutral-700 rounded-lg p-3 bg-gray-50 dark:bg-neutral-800 border focus:bg-white dark:focus:bg-neutral-900 focus:ring-black dark:focus:ring-white focus:border-black dark:focus:border-white transition dark:text-white" />
+                            </div>
                         </div>
                         <button
                             type="submit"

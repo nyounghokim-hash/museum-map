@@ -49,9 +49,17 @@ export default function CollectionDetailPage() {
         navigator.clipboard.writeText(window.location.href);
         showAlert(t('collections.shareSuccess', locale));
     };
-
-    if (loading) return <div className="p-20 text-center animate-pulse dark:text-gray-300">{t('collections.loadingDetail', locale)}</div>;
-    if (!collection) return <div className="p-20 text-center dark:text-gray-300">{t('collections.notFound', locale)}</div>;
+    if (loading) return (
+        <div className="flex flex-col gap-6 p-4 sm:p-8 animate-pulse">
+            <div className="h-8 bg-gray-200 dark:bg-neutral-800 rounded w-1/2 mb-2"></div>
+            <div className="h-4 bg-gray-200 dark:bg-neutral-800 rounded w-1/4 mb-10"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="h-32 bg-gray-200 dark:bg-neutral-800 rounded-xl"></div>
+                ))}
+            </div>
+        </div>
+    );
 
     const itemsCount = collection.items?.length || 0;
     const authorText = formatAnonymousUser(collection.user?.ipAddress, locale);

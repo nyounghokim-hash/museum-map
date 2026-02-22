@@ -32,12 +32,33 @@ export default function PlanDetailPage() {
 
     // Initial fetch
     useEffect(() => {
+        if (typeof id === 'string' && id.startsWith('guest-plan-')) {
+            const storedPlans = localStorage.getItem('guest-plans');
+            if (storedPlans) {
+                try {
+                    const parsed = JSON.parse(storedPlans);
+                    const found = parsed.find((p: any) => p.id === id);
+                    if (found) {
+                        setPlan(found);
+                        setStops(found.stops || []);
+                    } else {
+                        setError('Plan not found in local storage');
+                    }
+                } catch (e) {
+                    setError('Failed to parse local plans');
+                }
+            } else {
+                setError('No local plans found');
+            }
+            setLoading(false);
+            return;
+        }
+
         fetch(`/api/plans/${id}`)
             .then(res => res.json())
             .then(data => {
                 if (data.data) {
                     setPlan(data.data);
-                    // Initialize stops array respecting db order or array index
                     const dbStops = data.data.stops?.sort((a: any, b: any) => a.order - b.order) || [];
                     setStops(dbStops);
                 } else {
@@ -176,9 +197,16 @@ export default function PlanDetailPage() {
         setOverIndex(null);
         setIsDragging(false);
     }, []);
-
-    if (loading) return <div className="p-20 text-center text-lg font-semibold animate-pulse dark:text-gray-300">{t('plans.loading', locale)}</div>;
-
+    if (loading) return (
+        <div className="flex flex-col gap-4 p-4 sm:p-8 animate-pulse w-full h-full">
+            <div className="h-48 sm:h-64 bg-gray-200 dark:bg-neutral-800 rounded-2xl w-full mb-6"></div>
+            <div className="space-y-3">
+                <div className="h-6 bg-gray-200 dark:bg-neutral-800 rounded w-1/3"></div>
+                <div className="h-4 bg-gray-200 dark:bg-neutral-800 rounded w-full"></div>
+                <div className="h-4 bg-gray-200 dark:bg-neutral-800 rounded w-2/3"></div>
+            </div>
+        </div>
+    );
     if (error) return (
         <div className="p-20 text-center">
             <p className="text-gray-500 dark:text-gray-400 mb-4">{error}</p>

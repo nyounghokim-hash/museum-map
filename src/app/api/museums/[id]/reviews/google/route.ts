@@ -1,12 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
 // Get Reviews from Google Places API
-export async function GET(
-    request: Request,
-    { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
-        const { searchParams } = new URL(request.url);
+        const { id } = await params;
+        const { searchParams } = new URL(req.url);
         const name = searchParams.get('name');
         const city = searchParams.get('city');
 

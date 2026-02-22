@@ -1,11 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
-export async function GET(
-    request: Request,
-    { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
-        const { searchParams } = new URL(request.url);
+        const { id } = await params;
+        const { searchParams } = new URL(req.url);
         const name = searchParams.get('name');
 
         if (!name) {
@@ -40,7 +38,7 @@ export async function GET(
 
         // Extract organic results that look like exhibition pages
         const exhibitions = result.organic?.map((item: any) => ({
-            title: item.title.replace(`- ${name}`, '').replace(`| ${name}`, '').trim(),
+            title: item.title.replace(`- ${name} `, '').replace(` | ${name} `, '').trim(),
             link: item.link,
             snippet: item.snippet
         })) || [];

@@ -126,15 +126,18 @@ export default function LoginPage() {
         <div className={`min-h-[calc(100vh-56px)] ${darkMode ? 'bg-black' : 'bg-white'} flex flex-col items-center justify-center p-4 selection:bg-purple-300 selection:text-black transition-colors duration-300 overflow-y-auto`}>
 
             {/* Logo & Title */}
-            <div className="flex flex-col items-center mb-8">
-                <img
-                    src="/custom-logo-2.jpg"
-                    alt="Museum Map Custom Logo"
-                    className="w-24 h-24 rounded-2xl object-cover shadow-sm cursor-pointer select-none"
+            <div className="flex flex-col items-center mb-12 text-center max-w-2xl mx-auto">
+                <h1
                     onClick={handleLogoClick}
-                />
-                <div className="h-4"></div> {/* One line gap */}
-                <h1 className="text-3xl font-extrabold tracking-tight dark:text-white">Museum Map</h1>
+                    className="text-6xl sm:text-8xl font-black tracking-tighter dark:text-white mb-6 cursor-pointer select-none hover:scale-[1.02] transition-transform active:scale-95"
+                >
+                    Museum Map
+                </h1>
+                <p className="text-lg sm:text-xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed break-keep px-4">
+                    전 세계 미술관을 당신의 손안에! <br className="hidden sm:block" />
+                    나만의 전시 컬렉션을 수집하고, 여행 동선을 최적화하는 <br className="hidden sm:block" />
+                    스마트 아트 트립 플래너.
+                </p>
             </div>
 
             <div className="w-full max-w-md w-full relative z-10">

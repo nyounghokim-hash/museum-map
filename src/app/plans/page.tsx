@@ -139,14 +139,7 @@ export default function MyPlansPage() {
                 </div>
             )}
 
-            {!loading && (
-                <div className="mt-6 sm:mt-8 p-6 rounded-2xl bg-gray-50 dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 text-center">
-                    <p className="text-gray-600 dark:text-gray-300 font-medium">{t('plans.createFromMyPick', locale) || '새로운 여행은 "마이 픽" 메뉴에서 생성할 수 있습니다.'}</p>
-                    <Link href="/saved" className="inline-block mt-3 text-sm text-blue-600 dark:text-blue-400 font-bold hover:underline">
-                        {t('plans.goToMyPick', locale) || '마이 픽 가기 →'}
-                    </Link>
-                </div>
-            )}
+
         </div>
     );
 }

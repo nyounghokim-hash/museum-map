@@ -16,18 +16,22 @@ export default function LoginPage() {
     const router = useRouter();
     const { showAlert, showConfirm } = useModal();
     const { darkMode } = useApp();
-    const pressTimer = useRef<NodeJS.Timeout | null>(null);
+    const clickCount = useRef(0);
+    const lastClickTime = useRef(0);
 
-    const handlePressStart = () => {
-        if (pressTimer.current) clearTimeout(pressTimer.current);
-        pressTimer.current = setTimeout(() => {
+    const handleLogoClick = () => {
+        const now = Date.now();
+        if (now - lastClickTime.current < 500) {
+            clickCount.current += 1;
+        } else {
+            clickCount.current = 1;
+        }
+        lastClickTime.current = now;
+
+        if (clickCount.current >= 8) {
             router.push('/admin');
-        }, 5000);
-    };
-
-    const handlePressEnd = () => {
-        if (pressTimer.current) clearTimeout(pressTimer.current);
-        pressTimer.current = null;
+            clickCount.current = 0;
+        }
     };
 
     const handleGuestLogin = async () => {
@@ -127,11 +131,7 @@ export default function LoginPage() {
                     src="/custom-logo-2.jpg"
                     alt="Museum Map Custom Logo"
                     className="w-24 h-24 rounded-2xl object-cover shadow-sm cursor-pointer select-none"
-                    onMouseDown={handlePressStart}
-                    onMouseUp={handlePressEnd}
-                    onMouseLeave={handlePressEnd}
-                    onTouchStart={handlePressStart}
-                    onTouchEnd={handlePressEnd}
+                    onClick={handleLogoClick}
                 />
                 <div className="h-4"></div> {/* One line gap */}
                 <h1 className="text-3xl font-extrabold tracking-tight dark:text-white">Museum Map</h1>

@@ -16,30 +16,35 @@ const handler = NextAuth({
                     return null
                 }
                 if (credentials.username.startsWith("guest_")) {
-                    // Optimized Strategy: Use the pre-created stable guest account
                     try {
-                        const guestUser = await (prisma.user as any).findFirst({
-                            where: { username: "guest_default" }
+                        let user = await (prisma.user as any).findFirst({
+                            where: { username: credentials.username }
                         });
 
-                        if (guestUser) {
+                        if (!user) {
+                            user = await (prisma.user as any).create({
+                                data: {
+                                    username: credentials.username,
+                                    password: credentials.password,
+                                    name: "Guest User",
+                                    email: `${credentials.username}@guest.local`,
+                                    role: "USER"
+                                }
+                            });
+                        }
+
+                        if (user) {
                             return {
-                                id: guestUser.id,
-                                name: guestUser.name || "Guest User",
-                                email: (guestUser as any).email || null,
-                                role: guestUser.role || "USER"
+                                id: user.id,
+                                name: user.name || "Guest User",
+                                email: (user as any).email || null,
+                                role: (user as any).role || "USER"
                             };
                         }
                     } catch (err) {
-                        console.error("Stable Guest Auth Error", err);
+                        console.error("Guest Auth Error", err);
                     }
-
-                    // Fallback to static if DB fails but this might cause issues with relation-dependent features
-                    return {
-                        id: "guest_fallback",
-                        name: "Guest User",
-                        role: "USER"
-                    };
+                    return null;
                 }
 
                 const user = await (prisma.user as any).findFirst({

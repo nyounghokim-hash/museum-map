@@ -112,12 +112,7 @@ export default function MuseumDetailPage() {
 
                     {/* Action Buttons */}
                     <div className="flex flex-wrap gap-3">
-                        <button
-                            onClick={() => router.push(`/review/new?museumId=${data.id}`)}
-                            className="bg-black text-white px-5 py-3 rounded-xl font-bold hover:bg-neutral-800 transition shadow-lg active:scale-95 text-sm"
-                        >
-                            {t('detail.review', locale)}
-                        </button>
+
                         <button
                             onClick={async () => {
                                 await fetch('/api/saves', { method: 'POST', body: JSON.stringify({ museumId: data.id }) });
@@ -220,61 +215,7 @@ export default function MuseumDetailPage() {
                 </div>
             )}
 
-            {/* Guest Book Reviews */}
-            <div>
-                <h2 className="text-2xl font-bold mb-6">{t('detail.guestbook', locale)}</h2>
-                {data.reviews && data.reviews.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                        {data.reviews.map((r: any, i: number) => {
-                            const pastels = ['bg-amber-50', 'bg-blue-50', 'bg-pink-50', 'bg-green-50', 'bg-purple-50', 'bg-yellow-50'];
-                            const rotations = ['-rotate-1', 'rotate-1', '-rotate-2', 'rotate-0', 'rotate-2', '-rotate-1'];
-                            const bg = pastels[i % pastels.length];
-                            const rot = rotations[i % rotations.length];
 
-                            // Generate nickname from IP
-                            const ip = r.ipAddress || r.id;
-                            let hash = 5381;
-                            for (let j = 0; j < ip.length; j++) hash = ((hash << 5) + hash + ip.charCodeAt(j)) & 0xffffffff;
-                            hash = Math.abs(hash);
-                            const colors = ['Red', 'Blue', 'Green', 'Gold', 'Pink', 'Violet', 'Coral', 'Amber', 'Teal', 'Lime', 'Ivory', 'Azure', 'Jade', 'Ruby', 'Aqua', 'Peach', 'Mint', 'Rose', 'Sky', 'Sunny'];
-                            const animals = ['Fox', 'Owl', 'Bear', 'Wolf', 'Deer', 'Panda', 'Koala', 'Otter', 'Whale', 'Crane', 'Eagle', 'Tiger', 'Bunny', 'Seal', 'Swan', 'Hawk', 'Robin', 'Cat', 'Dog', 'Penguin'];
-                            const nickname = `${colors[hash % 20]}${animals[Math.floor(hash / 20) % 20]}${String(hash % 100).padStart(2, '0')}`;
-
-                            const cc = r.country || 'XX';
-                            const flag = cc.length === 2 && cc !== 'XX'
-                                ? String.fromCodePoint(cc.toUpperCase().charCodeAt(0) - 65 + 0x1f1e6) + String.fromCodePoint(cc.toUpperCase().charCodeAt(1) - 65 + 0x1f1e6)
-                                : '🌍';
-
-                            return (
-                                <div
-                                    key={r.id}
-                                    className={`${bg} ${rot} rounded-lg p-5 shadow-md hover:shadow-xl hover:rotate-0 transition-all duration-300 relative border border-gray-100/50`}
-                                >
-                                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-10 h-4 bg-yellow-200/80 rounded-sm shadow-sm" />
-                                    <p className="text-sm leading-relaxed whitespace-pre-wrap mt-2 mb-4" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
-                                        &ldquo;{r.content}&rdquo;
-                                    </p>
-                                    <div className="flex justify-between items-end pt-2 border-t border-gray-200/50">
-                                        <span className="text-xs font-semibold text-gray-600">
-                                            {flag} {nickname}
-                                        </span>
-                                        <span className="text-[10px] text-gray-400">
-                                            {new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                                        </span>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-                ) : (
-                    <div className="bg-amber-50 rounded-lg p-8 text-center shadow-sm border border-amber-100/50 -rotate-1">
-                        <p className="text-lg mb-1" style={{ fontFamily: "'Georgia', serif" }}>📝</p>
-                        <p className="text-gray-600 italic text-sm" style={{ fontFamily: "'Georgia', serif" }}>
-                            {t('detail.noNotes', locale)}
-                        </p>
-                    </div>
-                )}
-            </div>
         </div>
     );
 }

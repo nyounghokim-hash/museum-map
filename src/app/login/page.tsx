@@ -16,18 +16,18 @@ export default function LoginPage() {
     const router = useRouter();
     const { showAlert, showConfirm } = useModal();
     const { darkMode } = useApp();
-    const [pressTimer, setPressTimer] = useState<NodeJS.Timeout | null>(null);
+    const pressTimer = useRef<NodeJS.Timeout | null>(null);
 
     const handlePressStart = () => {
-        const timer = setTimeout(() => {
+        if (pressTimer.current) clearTimeout(pressTimer.current);
+        pressTimer.current = setTimeout(() => {
             router.push('/admin');
         }, 5000);
-        setPressTimer(timer);
     };
 
     const handlePressEnd = () => {
-        if (pressTimer) clearTimeout(pressTimer);
-        setPressTimer(null);
+        if (pressTimer.current) clearTimeout(pressTimer.current);
+        pressTimer.current = null;
     };
 
     const handleGuestLogin = async () => {
@@ -257,16 +257,6 @@ export default function LoginPage() {
                         </button>
                     </div>
                 </div>
-
-                <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-8">
-                    © 2026 Museum Map. All rights reserved.
-                </p>
-            </div>
-
-            {/* Background elements */}
-            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-500/10 blur-[100px] dark:bg-purple-900/20" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-500/10 blur-[100px] dark:bg-blue-900/20" />
             </div>
         </div>
     );

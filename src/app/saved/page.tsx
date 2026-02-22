@@ -13,6 +13,7 @@ export default function SavedPage() {
     const [folders, setFolders] = useState<any[]>([]);
     const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
     const [selectedMuseums, setSelectedMuseums] = useState<Set<string>>(new Set());
+    const [loading, setLoading] = useState(true);
     const { locale } = useApp();
     const { showAlert, showConfirm } = useModal();
 
@@ -21,10 +22,15 @@ export default function SavedPage() {
     }, [selectedFolder]);
 
     const fetchSaves = async (folderId: string | null) => {
+        setLoading(true);
         let url = '/api/me/saves';
         if (folderId) url += `?folderId=${folderId}`;
-        const res = await fetch(url).then(r => r.json());
-        if (res.data) setSaves(res.data);
+        try {
+            const res = await fetch(url).then(r => r.json());
+            if (res.data) setSaves(res.data);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const toggleSelect = (museumId: string) => {
@@ -54,12 +60,12 @@ export default function SavedPage() {
                 {/* Saves grid */}
                 <div className="flex-1">
                     {selectedMuseums.size > 0 && (
-                        <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 rounded-xl p-4 mb-6 flex justify-between items-center">
-                            <span className="text-blue-800 dark:text-blue-300 font-semibold text-sm">{selectedMuseums.size} {t('saved.selected', locale)}</span>
+                        <div className="bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800 rounded-xl p-4 mb-6 flex justify-between items-center">
+                            <span className="text-purple-800 dark:text-purple-300 font-semibold text-sm">{selectedMuseums.size} {t('saved.selected', locale)}</span>
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={handleCreateAutoRoute}
-                                    className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-blue-700 transition"
+                                    className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-purple-700 transition"
                                 >
                                     {t('saved.createAutoRoute', locale)}
                                 </button>
@@ -83,34 +89,50 @@ export default function SavedPage() {
                         </div>
                     )}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                        {saves.map(s => (
-                            <GlassPanel key={s.id} className="overflow-hidden group cursor-pointer" onClick={() => toggleSelect(s.museum.id)}>
-                                <div className="h-40 bg-gray-200 dark:bg-neutral-800 relative">
-                                    <img src={s.museum.imageUrl || '/defaultimg.png'} alt={s.museum.name} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '/defaultimg.png'; }} />
-                                    <div className={`absolute top-3 left-3 w-6 h-6 rounded-full border-2 border-white flex items-center justify-center transition-colors ${selectedMuseums.has(s.museum.id) ? 'bg-blue-600' : 'bg-black/20 backdrop-blur-md'}`}>
-                                        {selectedMuseums.has(s.museum.id) && <span className="text-white text-xs">✓</span>}
+                    {loading ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full col-span-full">
+                            {Array.from({ length: 6 }).map((_, i) => (
+                                <GlassPanel key={i} className="overflow-hidden">
+                                    <div className="h-40 bg-gray-200 dark:bg-neutral-800 animate-pulse relative">
+                                        <div className="absolute top-3 left-3 w-6 h-6 rounded-full bg-black/10 dark:bg-white/10" />
+                                        <div className="absolute top-3 right-3 w-16 h-6 rounded-full bg-white/50 dark:bg-black/50" />
                                     </div>
-                                    {s.museum.type && (
-                                        <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md shadow-sm">
-                                            <span className="text-xs font-bold text-gray-800 dark:text-gray-200 capitalize">
-                                                {s.museum.type}
-                                            </span>
+                                    <div className="p-4 bg-white/50 dark:bg-neutral-900/50">
+                                        <div className="h-5 bg-gray-200 dark:bg-neutral-800 rounded w-3/4 mb-2 animate-pulse" />
+                                        <div className="h-3 bg-gray-200 dark:bg-neutral-800 rounded w-1/2 animate-pulse" />
+                                    </div>
+                                </GlassPanel>
+                            ))}
+                        </div>
+                    ) : saves.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full col-span-full">
+                            {saves.map(s => (
+                                <GlassPanel key={s.id} className="overflow-hidden group cursor-pointer" onClick={() => toggleSelect(s.museum.id)}>
+                                    <div className="h-40 bg-gray-200 dark:bg-neutral-800 relative">
+                                        <img src={s.museum.imageUrl || '/defaultimg.png'} alt={s.museum.name} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '/defaultimg.png'; }} />
+                                        <div className={`absolute top-3 left-3 w-6 h-6 rounded-full border-2 border-white flex items-center justify-center transition-colors ${selectedMuseums.has(s.museum.id) ? 'bg-purple-500 border-purple-200' : 'bg-black/20 backdrop-blur-md'}`}>
+                                            {selectedMuseums.has(s.museum.id) && <span className="text-white text-xs">✓</span>}
                                         </div>
-                                    )}
-                                </div>
-                                <div className="p-4 bg-white/50 dark:bg-neutral-900/50 backdrop-blur-md">
-                                    <h3 className="font-bold text-lg mb-1 dark:text-white capitalize">{s.museum.name}</h3>
-                                    <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">{s.museum.city}, {s.museum.country}</p>
-                                </div>
-                            </GlassPanel>
-                        ))}
-                        {saves.length === 0 && (
-                            <div className="col-span-full py-16 sm:py-20 text-center text-gray-400 dark:text-gray-500">
-                                {t('saved.noSaves', locale)}
-                            </div>
-                        )}
-                    </div>
+                                        {s.museum.type && (
+                                            <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-md shadow-sm">
+                                                <span className="text-xs font-bold text-gray-800 dark:text-gray-200 capitalize">
+                                                    {s.museum.type}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="p-4 bg-white/50 dark:bg-neutral-900/50 backdrop-blur-md">
+                                        <h3 className="font-bold text-lg mb-1 dark:text-white capitalize truncate">{s.museum.name}</h3>
+                                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase truncate">{s.museum.city}, {s.museum.country}</p>
+                                    </div>
+                                </GlassPanel>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="col-span-full py-16 sm:py-20 text-center text-gray-400 dark:text-gray-500 w-full">
+                            {t('saved.noSaves', locale)}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

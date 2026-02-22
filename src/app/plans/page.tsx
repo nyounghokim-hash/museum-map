@@ -62,7 +62,20 @@ export default function MyPlansPage() {
             </div>
 
             {loading ? (
-                <div className="py-20 text-center text-gray-400 animate-pulse">{t('plans.loading', locale)}</div>
+                <div className="flex flex-col gap-3 sm:gap-4 animate-pulse">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <GlassPanel key={i} className="p-4 sm:p-5 relative overflow-hidden">
+                            <div className="min-w-0 pr-8 sm:pr-10">
+                                <div className="h-6 bg-gray-200 dark:bg-neutral-800 rounded w-1/3 mb-3"></div>
+                                <div className="flex items-center gap-2 mt-1.5">
+                                    <div className="h-5 bg-gray-200 dark:bg-neutral-800 rounded w-20"></div>
+                                    <div className="h-5 bg-gray-200 dark:bg-neutral-800 rounded w-20"></div>
+                                </div>
+                                <div className="h-4 bg-gray-200 dark:bg-neutral-800 rounded w-3/4 mt-3"></div>
+                            </div>
+                        </GlassPanel>
+                    ))}
+                </div>
             ) : plans.length === 0 ? (
                 <div className="py-16 sm:py-20 text-center">
                     <div className="text-5xl sm:text-6xl mb-4">🗺️</div>

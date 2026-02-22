@@ -208,11 +208,11 @@ function AutoRouteContent() {
                                         onPointerLeave={() => { if (longPressTimer.current) clearTimeout(longPressTimer.current); }}
                                         onPointerEnter={() => { if (isDragging) setOverIndex(i); }}
                                     >
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 shadow-md ${isBeingDragged ? 'bg-blue-600 text-white' : 'bg-black text-white'}`}>
+                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 shadow-md ${isBeingDragged ? 'bg-purple-600 text-white' : 'bg-purple-500 text-white'}`}>
                                             {i + 1}
                                         </div>
                                         <div className={`flex-1 p-3 rounded-lg border flex justify-between items-center shadow-sm backdrop-blur-sm
-                                            ${isBeingDragged ? 'border-blue-400 bg-blue-50/50 dark:bg-blue-900/30 dark:border-blue-700' : 'bg-white/80 dark:bg-neutral-900/80 border-gray-100 dark:border-neutral-800'}`}>
+                                            ${isBeingDragged ? 'border-purple-400 bg-purple-50/50 dark:bg-purple-900/30 dark:border-purple-700' : 'bg-white/80 dark:bg-neutral-900/80 border-gray-100 dark:border-neutral-800'}`}>
                                             <div>
                                                 <h4 className="font-bold text-sm dark:text-white">{stop.name}</h4>
                                                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -232,7 +232,7 @@ function AutoRouteContent() {
                             })}
                         </div>
                         {isDragging && (
-                            <p className="text-xs text-blue-500 dark:text-blue-400 text-center mt-6 animate-pulse">
+                            <p className="text-xs text-purple-500 dark:text-purple-400 text-center mt-6 animate-pulse">
                                 {t('plans.dragReorder', locale)}
                             </p>
                         )}

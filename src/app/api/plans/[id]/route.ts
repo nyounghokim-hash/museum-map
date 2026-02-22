@@ -31,6 +31,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         const body = await req.json();
         const plan = await prisma.plan.findUnique({ where: { id } });
         if (!plan || plan.userId !== user.id) return errorResponse('NOT_FOUND', 'Plan not found', 404);
+
         const updated = await prisma.plan.update({
             where: { id },
             data: {
@@ -38,6 +39,19 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
                 date: body.date !== undefined ? new Date(body.date) : plan.date,
             }
         });
+
+        // Handle re-ordering of stops
+        if (body.stops && Array.isArray(body.stops)) {
+            for (const stop of body.stops) {
+                if (stop.id && stop.order !== undefined) {
+                    await prisma.planStop.update({
+                        where: { id: stop.id },
+                        data: { order: stop.order }
+                    });
+                }
+            }
+        }
+
         return successResponse(updated);
     } catch (err: any) {
         if (err.message === 'UNAUTHORIZED') return errorResponse('UNAUTHORIZED', 'Auth required', 401);

@@ -33,7 +33,14 @@ export default function MyCollectionsPage() {
             </div>
 
             {loading ? (
-                <div className="py-20 text-center text-gray-400 animate-pulse">{t('collections.loading', locale)}</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                        <div key={i} className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-5 animate-pulse">
+                            <div className="h-6 bg-gray-200 dark:bg-neutral-800 rounded w-1/2 mb-2"></div>
+                            <div className="h-4 bg-gray-200 dark:bg-neutral-800 rounded w-1/4"></div>
+                        </div>
+                    ))}
+                </div>
             ) : collections.length === 0 ? (
                 <div className="py-20 text-center">
                     <div className="text-6xl mb-4">📁</div>

@@ -104,7 +104,7 @@ export default function RouteMapViewer({ stops = [], onStopClick, darkMode = fal
                 id: 'route-stop-circles',
                 type: 'circle',
                 source: 'route-stops',
-                paint: { 'circle-color': '#000000', 'circle-radius': 16, 'circle-stroke-width': 3, 'circle-stroke-color': '#ffffff' },
+                paint: { 'circle-color': '#a855f7', 'circle-radius': 16, 'circle-stroke-width': 3, 'circle-stroke-color': '#ffffff' },
             });
             map.addLayer({
                 id: 'route-stop-labels',
@@ -191,7 +191,7 @@ export default function RouteMapViewer({ stops = [], onStopClick, darkMode = fal
                 id: 'route-stop-circles',
                 type: 'circle',
                 source: 'route-stops',
-                paint: { 'circle-color': '#000000', 'circle-radius': 16, 'circle-stroke-width': 3, 'circle-stroke-color': '#ffffff' },
+                paint: { 'circle-color': '#a855f7', 'circle-radius': 16, 'circle-stroke-width': 3, 'circle-stroke-color': '#ffffff' },
             });
             map.addLayer({
                 id: 'route-stop-labels',

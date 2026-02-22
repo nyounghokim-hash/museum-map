@@ -16,6 +16,11 @@ export default function MuseumDetailPage() {
     const { showAlert } = useModal();
     const [loading, setLoading] = useState(true);
 
+    // New live data states
+    const [googleReviews, setGoogleReviews] = useState<any>(null);
+    const [exhibitions, setExhibitions] = useState<any[]>([]);
+    const [loadingLive, setLoadingLive] = useState(false);
+
     const translatedDesc = useTranslatedText(data?.description, locale);
 
     useEffect(() => {
@@ -24,9 +29,26 @@ export default function MuseumDetailPage() {
             .then(res => {
                 setData(res.data);
                 setLoading(false);
+                if (res.data) fetchLiveData(res.data.name, res.data.city);
             })
             .catch(console.error);
     }, [id]);
+
+    const fetchLiveData = async (name: string, city: string) => {
+        setLoadingLive(true);
+        try {
+            const [revRes, exhRes] = await Promise.all([
+                fetch(`/api/museums/${id}/reviews/google?name=${encodeURIComponent(name)}&city=${encodeURIComponent(city)}`).then(r => r.json()),
+                fetch(`/api/museums/${id}/exhibitions?name=${encodeURIComponent(name)}`).then(r => r.json())
+            ]);
+            if (revRes.data) setGoogleReviews(revRes.data);
+            if (exhRes.data) setExhibitions(exhRes.data);
+        } catch (e) {
+            console.error("Failed to fetch live extended data", e);
+        } finally {
+            setLoadingLive(false);
+        }
+    };
 
     if (loading) return <div className="p-20 text-center animate-pulse">Loading Museum Details...</div>;
     if (!data) return <div className="p-20 text-center">Museum Not Found</div>;
@@ -70,6 +92,23 @@ export default function MuseumDetailPage() {
                             🌐 {t('detail.officialWebsite', locale)} →
                         </a>
                     )}
+
+                    {/* Live Exhibitions (Crawler) */}
+                    {loadingLive ? (
+                        <div className="mb-6 animate-pulse bg-gray-100 rounded-xl h-24"></div>
+                    ) : (exhibitions && exhibitions.length > 0) ? (
+                        <div className="mb-8">
+                            <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wider mb-3 break-keep">🎨 Current Exhibitions (Live)</h3>
+                            <div className="space-y-3">
+                                {exhibitions.map((exh, i) => (
+                                    <a key={i} href={exh.link} target="_blank" rel="noreferrer" className="block group bg-gray-50 hover:bg-gray-100 rounded-xl p-4 transition border border-transparent hover:border-gray-200">
+                                        <h4 className="font-bold text-gray-900 group-hover:text-blue-600 transition text-sm mb-1">{exh.title}</h4>
+                                        <p className="text-xs text-gray-500 line-clamp-2">{exh.snippet}</p>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    ) : null}
 
                     {/* Action Buttons */}
                     <div className="flex flex-wrap gap-3">
@@ -143,6 +182,43 @@ export default function MuseumDetailPage() {
                     </div>
                 </div>
             </GlassPanel>
+
+            {/* Google Places Reviews */}
+            {googleReviews && (
+                <div className="mb-12">
+                    <div className="flex items-center gap-3 mb-6">
+                        <h2 className="text-2xl font-bold dark:text-white">Google Reviews</h2>
+                        <div className="flex items-center gap-1 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-bold">
+                            ⭐ {googleReviews.rating || 'N/A'} <span className="text-yellow-600 font-normal text-xs ml-1">({googleReviews.totalRatings?.toLocaleString() || 0} reviews)</span>
+                        </div>
+                    </div>
+                    {googleReviews.reviews && googleReviews.reviews.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                            {googleReviews.reviews.map((r: any, i: number) => (
+                                <div key={i} className="bg-white dark:bg-neutral-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-neutral-800">
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center font-bold text-blue-600 dark:text-blue-400">
+                                            {r.author_name.charAt(0)}
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-sm dark:text-white truncate max-w-[120px]">{r.author_name}</p>
+                                            <p className="text-[10px] text-gray-400">{r.relative_time_description}</p>
+                                        </div>
+                                        <div className="ml-auto text-yellow-400 text-sm">
+                                            {'★'.repeat(Math.round(r.rating))}
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
+                                        {r.text || "No text provided."}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-sm text-gray-500">No descriptive Google Reviews available at the moment.</p>
+                    )}
+                </div>
+            )}
 
             {/* Guest Book Reviews */}
             <div>

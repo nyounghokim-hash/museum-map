@@ -28,6 +28,7 @@ export default function PlanDetailPage() {
     const [activeTripId, setActiveTripId] = useState<string | null>(null);
     const [stops, setStops] = useState<any[]>([]);
     const [isDragging, setIsDragging] = useState(false);
+    const [isDirty, setIsDirty] = useState(false);
 
     // Initial fetch
     useEffect(() => {
@@ -101,12 +102,7 @@ export default function PlanDetailPage() {
             setStops(updated); // Update the state variable
             setPlan((prev: any) => ({ ...prev, stops: updated })); // Also update plan for consistency
 
-            // Persist to API (fire and forget)
-            fetch(`/api/plans/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ stops: updated.map((s, i) => ({ id: s.id, order: i })) }),
-            }).catch(() => { });
+            setIsDirty(true);
         }
         setDragIndex(null);
         setOverIndex(null);
@@ -122,6 +118,7 @@ export default function PlanDetailPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
             });
+            setIsDirty(false);
             showAlert(t('plans.saved', locale));
         } catch {
             showAlert(t('global.saveError', locale));
@@ -225,7 +222,7 @@ export default function PlanDetailPage() {
                                     onPointerLeave={() => { if (longPressTimer.current) clearTimeout(longPressTimer.current); }}
                                     onPointerEnter={() => { if (isDragging) setOverIndex(i); }}
                                 >
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 transition-colors ${isBeingDragged ? 'bg-blue-600 text-white' : 'bg-black dark:bg-white text-white dark:text-black'
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 transition-colors ${isBeingDragged ? 'bg-purple-600 text-white shadow-md' : 'bg-purple-500 text-white shadow-sm'
                                         }`}>
                                         {i + 1}
                                     </div>
@@ -261,7 +258,8 @@ export default function PlanDetailPage() {
                     <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-100 dark:border-neutral-800 space-y-3">
                         <button
                             onClick={handleSave}
-                            className="w-full bg-gray-100 dark:bg-neutral-800 text-black dark:text-white py-3 rounded-lg font-bold hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors active:scale-[0.98]"
+                            className={`w-full py-3 rounded-lg font-bold transition-colors active:scale-[0.98] ${isDirty ? 'bg-purple-600 text-white hover:bg-purple-700 shadow-md' : 'bg-gray-100 dark:bg-neutral-800 text-black dark:text-white hover:bg-gray-200 dark:hover:bg-neutral-700'
+                                }`}
                         >
                             {t('plans.saveButton', locale)}
                         </button>

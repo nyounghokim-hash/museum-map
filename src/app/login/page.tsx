@@ -183,7 +183,11 @@ export default function LoginPage() {
                                         </svg>
                                     </div>
                                     <div className="flex-1">
-                                        ,ReplacementContent:                                        <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed bg-gray-50 dark:bg-black p-2 rounded-lg border border-gray-100 dark:border-neutral-800">
+                                        <div className="flex items-center gap-1">
+                                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">[필수] 서비스 이용약관 동의</span>
+                                            <Link href="/terms" target="_blank" className="text-[10px] text-purple-500 hover:underline ml-1">상세보기</Link>
+                                        </div>
+                                        <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed bg-gray-50 dark:bg-black p-2 rounded-lg border border-gray-100 dark:border-neutral-800">
                                             제 1조 (목적) 본 약관은 Museum Map에서 제공하는 아트 트립 및 컬렉션 저장 서비스의 이용 조건 및 관리 절차를 규정합니다. 회원은 본 문서의 조항에 따라 적법하게 서비스를 이용합니다.
                                         </p>
                                     </div>
@@ -202,7 +206,11 @@ export default function LoginPage() {
                                         </svg>
                                     </div>
                                     <div className="flex-1">
-                                        ,ReplacementContent:                                        <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed bg-gray-50 dark:bg-black p-2 rounded-lg border border-gray-100 dark:border-neutral-800">
+                                        <div className="flex items-center gap-1">
+                                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">[필수] 개인정보 처리방침 동의</span>
+                                            <Link href="/privacy" target="_blank" className="text-[10px] text-purple-500 hover:underline ml-1">상세보기</Link>
+                                        </div>
+                                        <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed bg-gray-50 dark:bg-black p-2 rounded-lg border border-gray-100 dark:border-neutral-800">
                                             Museum Map은 서비스 운영을 위해 수집된 아이디(username)와 암호화된 비밀번호 등 최소한의 개인정보를 수집하며, 회원의 승인 없이 외부에 제 3자 제공하지 않습니다.
                                         </p>
                                     </div>

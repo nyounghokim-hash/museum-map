@@ -19,25 +19,31 @@ const handler = NextAuth({
                 }
 
                 if (credentials.username.startsWith("guest_")) {
-                    let user = await prisma.user.findUnique({
+                    // Try to find or create the guest user
+                    let user = await (prisma.user as any).findFirst({
                         where: { username: credentials.username }
                     });
 
                     if (!user) {
-                        user = await prisma.user.create({
+                        user = await (prisma.user as any).create({
                             data: {
                                 username: credentials.username,
-                                password: credentials.password, // Keep the dummy string
+                                password: credentials.password,
                                 name: credentials.username,
+                                role: "USER"
                             }
                         });
                     }
-                    return {
-                        id: user.id,
-                        name: user.name || user.username,
-                        email: null,
-                        role: user.role
+
+                    if (user) {
+                        return {
+                            id: user.id,
+                            name: user.name || user.username,
+                            email: user.email || null,
+                            role: user.role || "USER"
+                        }
                     }
+                    return null;
                 }
 
                 const user = await prisma.user.findUnique({

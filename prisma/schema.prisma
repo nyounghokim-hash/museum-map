@@ -73,6 +73,8 @@ model Museum {
 
   popularityScore Float @default(0.0)
 
+  lastExhibitionSync DateTime?
+
   exhibitions     Exhibition[]
   saves           Save[]
   reviews         Review[]
@@ -93,6 +95,9 @@ model Exhibition {
   museumId    String
   title       String
   description String?
+  imageUrl    String?
+  link        String?
+  source      String?   // "SERPER", "MANUAL", "WIKIPEDIA"
   startDate   DateTime?
   endDate     DateTime?
 

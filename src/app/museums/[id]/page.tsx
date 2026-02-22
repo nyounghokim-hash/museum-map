@@ -93,17 +93,30 @@ export default function MuseumDetailPage() {
                         </a>
                     )}
 
-                    {/* Live Exhibitions (Crawler) */}
+                    {/* Live Exhibitions & News */}
                     {loadingLive ? (
-                        <div className="mb-6 animate-pulse bg-gray-100 rounded-xl h-24"></div>
+                        <div className="mb-6 animate-pulse flex gap-4 overflow-x-auto pb-4">
+                            <div className="bg-gray-100 rounded-xl relative h-40 w-64 min-w-[16rem]"></div>
+                            <div className="bg-gray-100 rounded-xl relative h-40 w-64 min-w-[16rem]"></div>
+                        </div>
                     ) : (exhibitions && exhibitions.length > 0) ? (
                         <div className="mb-8">
-                            <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wider mb-3 break-keep">🎨 Current Exhibitions (Live)</h3>
-                            <div className="space-y-3">
+                            <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wider mb-3 break-keep">📰 {t('detail.exhibitions', locale)} & News</h3>
+                            <div className="flex gap-4 overflow-x-auto pb-4 snap-x hide-scrollbar">
                                 {exhibitions.map((exh, i) => (
-                                    <a key={i} href={exh.link} target="_blank" rel="noreferrer" className="block group bg-gray-50 hover:bg-gray-100 rounded-xl p-4 transition border border-transparent hover:border-gray-200">
-                                        <h4 className="font-bold text-gray-900 group-hover:text-blue-600 transition text-sm mb-1">{exh.title}</h4>
-                                        <p className="text-xs text-gray-500 line-clamp-2">{exh.snippet}</p>
+                                    <a key={i} href={exh.link || '#'} target="_blank" rel="noreferrer" className="block group relative bg-gray-900 rounded-xl overflow-hidden h-44 w-72 min-w-[18rem] snap-center shadow-md transform transition hover:-translate-y-1 hover:shadow-xl">
+                                        <div className="absolute inset-0">
+                                            <img
+                                                src={exh.imageUrl || data.imageUrl || '/defaultimg.png'}
+                                                alt={exh.title}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                                        </div>
+                                        <div className="absolute inset-0 flex flex-col justify-end p-4">
+                                            <h4 className="font-bold text-white leading-snug line-clamp-2 mb-1 group-hover:text-purple-300 transition-colors">{exh.title}</h4>
+                                            {exh.description && <p className="text-xs text-gray-300 line-clamp-2">{exh.description}</p>}
+                                        </div>
                                     </a>
                                 ))}
                             </div>
@@ -132,23 +145,31 @@ export default function MuseumDetailPage() {
                             thu: 'Thursday', fri: 'Friday', sat: 'Saturday', sun: 'Sunday'
                         };
                         const dayOrder = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-                        if (!hours || Object.keys(hours).length === 0) return null;
+
                         return (
-                            <div className="mt-6 bg-gray-50 rounded-xl p-4">
-                                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">{t('detail.openingHours', locale)}</h3>
-                                <div className="text-sm text-gray-700 space-y-1">
-                                    {hours.info ? (
-                                        <p>{hours.info}</p>
-                                    ) : (
-                                        dayOrder.filter(d => hours[d]).map(d => (
-                                            <div key={d} className="flex justify-between">
-                                                <span>{dayLabels[d]}</span>
-                                                <span className="font-medium">{hours[d]}</span>
-                                            </div>
-                                        ))
-                                    )}
+                            <div className="mt-6 bg-gradient-to-br from-purple-50 to-white border border-purple-100/50 rounded-2xl p-5 shadow-sm">
+                                <div className="flex items-center gap-2 mb-3">
+                                    <span className="text-purple-600 text-lg">🕒</span>
+                                    <h3 className="text-sm font-extrabold text-purple-900 uppercase tracking-widest">{t('detail.openingHours', locale)}</h3>
                                 </div>
-                                <p className="text-[10px] text-gray-400 mt-2 italic">{t('detail.hoursVary', locale)}</p>
+
+                                {(!hours || Object.keys(hours).length === 0) ? (
+                                    <p className="text-sm text-gray-500 italic mb-1">{t('detail.hoursVary', locale)}</p>
+                                ) : (
+                                    <div className="text-sm text-gray-800 space-y-1.5 bg-white/50 rounded-xl p-3">
+                                        {hours.info ? (
+                                            <p className="font-medium text-gray-700 leading-relaxed">{hours.info}</p>
+                                        ) : (
+                                            dayOrder.filter(d => hours[d]).map(d => (
+                                                <div key={d} className="flex justify-between items-center py-0.5 border-b border-gray-100 last:border-0 border-dashed">
+                                                    <span className="text-gray-500 font-medium w-24">{dayLabels[d]}</span>
+                                                    <span className="font-bold text-gray-900 text-right">{hours[d]}</span>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                )}
+                                <p className="text-[10px] text-purple-400 mt-3 flex items-center gap-1"><span className="w-1 h-1 rounded-full bg-purple-400 inline-block"></span> Hours may vary on public holidays.</p>
                             </div>
                         );
                     })()}

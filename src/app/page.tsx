@@ -132,7 +132,7 @@ export default function MainPage() {
                 onClick={() => setIsViewingActiveRoute(false)}
                 className="bg-white/90 dark:bg-neutral-900/90 text-black dark:text-white px-4 py-2.5 rounded-2xl font-bold text-sm shadow-lg shadow-black/10 hover:bg-gray-50 dark:hover:bg-neutral-800 active:scale-95 transition-all flex items-center gap-2 backdrop-blur-md border border-gray-200 dark:border-neutral-800"
               >
-                ✕ 닫기
+                ✕ {t('modal.cancel', locale) || 'Cancel'}
               </button>
             ) : (
               <button
@@ -285,7 +285,7 @@ export default function MainPage() {
                         <p className="italic leading-relaxed" style={{ fontFamily: "'Georgia', serif" }}>
                           &ldquo;{r.content}&rdquo;
                         </p>
-                        <p className="text-[10px] text-gray-500 dark:text-neutral-400 opacity-80 mt-1.5 font-medium">— {r.user?.name || 'Anonymous'}</p>
+                        <p className="text-[10px] text-gray-500 dark:text-neutral-400 opacity-80 mt-1.5 font-medium">— {r.user?.name || t('global.anonymous', locale)}</p>
                       </div>
                     );
                   })}

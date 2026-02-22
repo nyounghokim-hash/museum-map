@@ -8,14 +8,14 @@ import Image from 'next/image';
 
 // Format IP address helper
 function formatAnonymousUser(ip: string | null | undefined, locale: Locale) {
-    if (!ip) return `${t('collections.curatedBy', locale)} Anonymous Visitor`;
+    if (!ip) return `${t('collections.curatedBy', locale)} ${t('global.anonymous', locale)} ${t('collections.anonymousVisitor', locale)}`;
     // Optionally mask IP if privacy requires, e.g., 192.168.1.***
     const parts = ip.split('.');
     let displayIp = ip;
     if (parts.length === 4) {
         displayIp = `${parts[0]}.${parts[1]}.${parts[2]}.***`;
     }
-    return `${t('collections.curatedBy', locale)} Anonymous Visitor (${displayIp})`;
+    return `${t('collections.curatedBy', locale)} ${t('global.anonymous', locale)} ${t('collections.anonymousVisitor', locale)} (${displayIp})`;
 }
 
 export default function CollectionDetailPage() {
@@ -38,7 +38,7 @@ export default function CollectionDetailPage() {
 
     const handleCreateAutoRoute = () => {
         if (!collection?.items || collection.items.length === 0) {
-            showAlert('Folder is empty. Add museums first.');
+            showAlert(t('collections.emptyFolder', locale));
             return;
         }
         const museumIds = collection.items.map((i: any) => i.museumId).join(',');
@@ -50,8 +50,8 @@ export default function CollectionDetailPage() {
         showAlert(t('collections.shareSuccess', locale));
     };
 
-    if (loading) return <div className="p-20 text-center animate-pulse dark:text-gray-300">Loading collection...</div>;
-    if (!collection) return <div className="p-20 text-center dark:text-gray-300">Collection not found</div>;
+    if (loading) return <div className="p-20 text-center animate-pulse dark:text-gray-300">{t('collections.loadingDetail', locale)}</div>;
+    if (!collection) return <div className="p-20 text-center dark:text-gray-300">{t('collections.notFound', locale)}</div>;
 
     const itemsCount = collection.items?.length || 0;
     const authorText = formatAnonymousUser(collection.user?.ipAddress, locale);
@@ -65,7 +65,7 @@ export default function CollectionDetailPage() {
                         {authorText}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        {itemsCount} {t('collections.items', locale)} {collection.isPublic && '• Public'}
+                        {itemsCount} {t('collections.items', locale)} {collection.isPublic && `• ${t('collections.public', locale)}`}
                     </p>
                 </div>
                 <button
@@ -82,7 +82,7 @@ export default function CollectionDetailPage() {
             {itemsCount === 0 ? (
                 <div className="py-20 text-center border-2 border-dashed border-gray-200 dark:border-neutral-800 rounded-2xl mb-10">
                     <div className="text-4xl mb-4">🖼️</div>
-                    <p className="text-gray-500 dark:text-gray-400 font-medium">This collection is empty.</p>
+                    <p className="text-gray-500 dark:text-gray-400 font-medium">{t('collections.thisEmpty', locale)}</p>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">

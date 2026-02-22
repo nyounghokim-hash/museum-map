@@ -20,7 +20,8 @@ interface Props {
 const LIGHT_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 const DARK_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
-export default function RouteMapViewer({ stops, onStopClick, darkMode = false }: Props) {
+export default function RouteMapViewer({ stops = [], onStopClick, darkMode = false }: Props) {
+    const validStops = Array.isArray(stops) ? stops : [];
     const mapContainer = useRef<HTMLDivElement>(null);
     const mapRef = useRef<maplibregl.Map | null>(null);
     const initializedRef = useRef(false);
@@ -31,9 +32,9 @@ export default function RouteMapViewer({ stops, onStopClick, darkMode = false }:
         properties: {},
         geometry: {
             type: 'LineString' as const,
-            coordinates: s
+            coordinates: [...s]
                 .sort((a, b) => a.order - b.order)
-                .map(st => [st.longitude, st.latitude] as [number, number]),
+                .map(st => [Number(st.longitude) || 0, Number(st.latitude) || 0] as [number, number]),
         },
     }), []);
 
@@ -41,7 +42,7 @@ export default function RouteMapViewer({ stops, onStopClick, darkMode = false }:
         type: 'FeatureCollection' as const,
         features: s.map(st => ({
             type: 'Feature' as const,
-            geometry: { type: 'Point' as const, coordinates: [st.longitude, st.latitude] },
+            geometry: { type: 'Point' as const, coordinates: [Number(st.longitude) || 0, Number(st.latitude) || 0] },
             properties: { order: st.order + 1, name: st.name, museumId: st.museumId || '' },
         })),
     }), []);
@@ -49,13 +50,13 @@ export default function RouteMapViewer({ stops, onStopClick, darkMode = false }:
     // Initialize map once
     useEffect(() => {
         if (!mapContainer.current || mapRef.current) return;
-        if (stops.length === 0) return;
+        if (!validStops || validStops.length === 0) return;
 
-        const lngs = stops.map(s => s.longitude);
-        const lats = stops.map(s => s.latitude);
+        const lngs = validStops.map(s => Number(s.longitude) || 0);
+        const lats = validStops.map(s => Number(s.latitude) || 0);
         const bounds = new maplibregl.LngLatBounds(
-            [Math.min(...lngs) - 1, Math.min(...lats) - 1],
-            [Math.max(...lngs) + 1, Math.max(...lats) + 1]
+            [Math.min(...lngs) - 0.1, Math.min(...lats) - 0.1],
+            [Math.max(...lngs) + 0.1, Math.max(...lats) + 0.1]
         );
 
         const map = new maplibregl.Map({
@@ -75,7 +76,7 @@ export default function RouteMapViewer({ stops, onStopClick, darkMode = false }:
             // Route line source + layers
             map.addSource('route-line', {
                 type: 'geojson',
-                data: buildLineGeoJSON(stops),
+                data: buildLineGeoJSON(validStops),
             });
 
             map.addLayer({
@@ -96,7 +97,7 @@ export default function RouteMapViewer({ stops, onStopClick, darkMode = false }:
             // Stops source + layers
             map.addSource('route-stops', {
                 type: 'geojson',
-                data: buildStopsGeoJSON(stops),
+                data: buildStopsGeoJSON(validStops),
             });
 
             map.addLayer({
@@ -162,7 +163,7 @@ export default function RouteMapViewer({ stops, onStopClick, darkMode = false }:
             // Route line source + layers
             map.addSource('route-line', {
                 type: 'geojson',
-                data: buildLineGeoJSON(stops) as any,
+                data: buildLineGeoJSON(validStops) as any,
             });
 
             map.addLayer({
@@ -183,7 +184,7 @@ export default function RouteMapViewer({ stops, onStopClick, darkMode = false }:
             // Stops source + layers
             map.addSource('route-stops', {
                 type: 'geojson',
-                data: buildStopsGeoJSON(stops) as any,
+                data: buildStopsGeoJSON(validStops) as any,
             });
 
             map.addLayer({
@@ -207,21 +208,21 @@ export default function RouteMapViewer({ stops, onStopClick, darkMode = false }:
                 paint: { 'text-color': '#333333', 'text-halo-color': '#ffffff', 'text-halo-width': 1.5 },
             });
         });
-    }, [darkMode, buildLineGeoJSON, buildStopsGeoJSON, stops]);
+    }, [darkMode, buildLineGeoJSON, buildStopsGeoJSON, validStops]);
 
     // Update sources when stops change (smooth, no map recreation)
     useEffect(() => {
         const map = mapRef.current;
-        if (!map || !initializedRef.current || stops.length === 0) return;
+        if (!map || !initializedRef.current || validStops.length === 0) return;
 
         const lineSource = map.getSource('route-line') as maplibregl.GeoJSONSource | undefined;
         const stopsSource = map.getSource('route-stops') as maplibregl.GeoJSONSource | undefined;
 
         if (lineSource) {
-            lineSource.setData(buildLineGeoJSON(stops) as any);
+            lineSource.setData(buildLineGeoJSON(validStops) as any);
         }
         if (stopsSource) {
-            stopsSource.setData(buildStopsGeoJSON(stops) as any);
+            stopsSource.setData(buildStopsGeoJSON(validStops) as any);
         }
     }, [stops, buildLineGeoJSON, buildStopsGeoJSON]);
 

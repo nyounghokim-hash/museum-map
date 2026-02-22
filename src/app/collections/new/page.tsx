@@ -25,7 +25,7 @@ export default function CreateCollectionPage() {
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedPlanId) return showAlert('Select a plan to turn into a collection');
+        if (!selectedPlanId) return showAlert(t('collections.selectPlan', locale));
 
         const plan = plans.find(p => p.id === selectedPlanId);
         if (!plan) return;

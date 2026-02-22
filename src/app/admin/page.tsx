@@ -33,11 +33,14 @@ export default function AdminPage() {
             fetch('/api/feedback?pw=admin0724').then(r => r.json())
         ])
             .then(([revRes, feedRes]) => {
-                setReviews(revRes.data || []);
+                setReviews(revRes.data || revRes || []);
                 setFeedbacks(feedRes || []);
                 setLoading(false);
             })
-            .catch(() => setLoading(false));
+            .catch((err) => {
+                console.error('Admin fetch error:', err);
+                setLoading(false);
+            });
     }, [authenticated]);
 
     const handleDelete = (id: string) => {
@@ -62,8 +65,8 @@ export default function AdminPage() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
-                    <h2 className="text-xl font-bold mb-2 dark:text-white">Admin Access</h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Enter the admin password to continue.</p>
+                    <h2 className="text-xl font-bold mb-2 dark:text-white">{t('admin.access', locale)}</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">{t('admin.accessDesc', locale)}</p>
                     <input
                         type="password"
                         value={password}
@@ -101,9 +104,9 @@ export default function AdminPage() {
             </div>
 
             {loading ? (
-                <div className="py-20 text-center text-gray-400 animate-pulse">Loading reviews...</div>
+                <div className="py-20 text-center text-gray-400 animate-pulse">{t('admin.loadingReviews', locale)}</div>
             ) : reviews.length === 0 ? (
-                <div className="py-20 text-center text-gray-400 dark:text-gray-500 mb-8">No reviews yet</div>
+                <div className="py-20 text-center text-gray-400 dark:text-gray-500 mb-8">{t('admin.noReviews', locale)}</div>
             ) : (
                 <div className="space-y-3 mb-10">
                     {reviews.map((r) => (
@@ -118,7 +121,7 @@ export default function AdminPage() {
                                 </div>
                                 <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{r.content}</p>
                                 <div className="flex items-center gap-3 mt-2 text-[10px] text-gray-400 dark:text-gray-500">
-                                    <span>Museum: {r.museum?.name || 'Unknown'}</span>
+                                    <span>Museum: {r.museum?.name || t('global.unknown', locale)}</span>
                                     <span>IP: {r.ipAddress || 'N/A'}</span>
                                 </div>
                             </div>
@@ -140,13 +143,13 @@ export default function AdminPage() {
 
             {/* Feedback Section */}
             <div className="mb-4 text-sm font-bold text-gray-500 dark:text-gray-400 flex items-center justify-between">
-                <span>{feedbacks.length} Feedback Submissions</span>
+                <span>{feedbacks.length} {t('admin.feedbackSubmissions', locale)}</span>
             </div>
 
             {loading ? (
-                <div className="py-20 text-center text-gray-400 animate-pulse">Loading feedback...</div>
+                <div className="py-20 text-center text-gray-400 animate-pulse">{t('admin.loadingFeedback', locale)}</div>
             ) : feedbacks.length === 0 ? (
-                <div className="py-20 text-center text-gray-400 dark:text-gray-500">No feedback yet</div>
+                <div className="py-20 text-center text-gray-400 dark:text-gray-500">{t('admin.noFeedback', locale)}</div>
             ) : (
                 <div className="space-y-3">
                     {feedbacks.map((f: any) => (
@@ -154,7 +157,7 @@ export default function AdminPage() {
                             <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-1">
                                     <span className="text-sm font-bold text-indigo-900 dark:text-indigo-200">
-                                        USER ID: {f.userId ? f.userId.slice(0, 8) + '...' : 'Anonymous'}
+                                        USER ID: {f.userId ? f.userId.slice(0, 8) + '...' : t('global.anonymous', locale)}
                                     </span>
                                     {f.user?.email && (
                                         <span className="text-[10px] bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full">

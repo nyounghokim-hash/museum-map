@@ -37,7 +37,7 @@ export default function MuseumDetailPage() {
     return (
         <div className="max-w-4xl mx-auto p-4 sm:p-6 mt-4 sm:mt-6">
             <button onClick={() => router.back()} className="text-gray-500 text-sm mb-6 inline-block hover:text-black font-medium transition-colors">
-                ← Back
+                {t('detail.backToMap', locale)}
             </button>
 
             {/* Hero Card with Cover Image */}
@@ -77,7 +77,7 @@ export default function MuseumDetailPage() {
                             onClick={() => router.push(`/review/new?museumId=${data.id}`)}
                             className="bg-black text-white px-5 py-3 rounded-xl font-bold hover:bg-neutral-800 transition shadow-lg active:scale-95 text-sm"
                         >
-                            Mark as Visited & Review
+                            {t('detail.review', locale)}
                         </button>
                         <button
                             onClick={async () => {
@@ -86,7 +86,7 @@ export default function MuseumDetailPage() {
                             }}
                             className="bg-white border text-black px-5 py-3 rounded-xl font-bold hover:bg-gray-50 transition shadow-sm active:scale-95 text-sm"
                         >
-                            Pick
+                            {t('detail.pick', locale)}
                         </button>
                     </div>
 
@@ -101,7 +101,7 @@ export default function MuseumDetailPage() {
                         if (!hours || Object.keys(hours).length === 0) return null;
                         return (
                             <div className="mt-6 bg-gray-50 rounded-xl p-4">
-                                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Opening Hours</h3>
+                                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">{t('detail.openingHours', locale)}</h3>
                                 <div className="text-sm text-gray-700 space-y-1">
                                     {hours.info ? (
                                         <p>{hours.info}</p>
@@ -114,14 +114,14 @@ export default function MuseumDetailPage() {
                                         ))
                                     )}
                                 </div>
-                                <p className="text-[10px] text-gray-400 mt-2 italic">Hours may vary — check official website.</p>
+                                <p className="text-[10px] text-gray-400 mt-2 italic">{t('detail.hoursVary', locale)}</p>
                             </div>
                         );
                     })()}
 
                     {/* Map Navigation */}
                     <div className="mt-6 pt-6 border-t border-gray-100">
-                        <h3 className="text-sm font-bold text-gray-700 mb-3">Get Directions</h3>
+                        <h3 className="text-sm font-bold text-gray-700 mb-3">{t('detail.getDirections', locale)}</h3>
                         <div className="flex flex-wrap gap-2">
                             <a
                                 href={appleFirst ? mapLinks.appleDirections : mapLinks.googleDirections}
@@ -146,7 +146,7 @@ export default function MuseumDetailPage() {
 
             {/* Guest Book Reviews */}
             <div>
-                <h2 className="text-2xl font-bold mb-6">Guest Book</h2>
+                <h2 className="text-2xl font-bold mb-6">{t('detail.guestbook', locale)}</h2>
                 {data.reviews && data.reviews.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         {data.reviews.map((r: any, i: number) => {
@@ -194,7 +194,7 @@ export default function MuseumDetailPage() {
                     <div className="bg-amber-50 rounded-lg p-8 text-center shadow-sm border border-amber-100/50 -rotate-1">
                         <p className="text-lg mb-1" style={{ fontFamily: "'Georgia', serif" }}>📝</p>
                         <p className="text-gray-600 italic text-sm" style={{ fontFamily: "'Georgia', serif" }}>
-                            No notes yet. Be the first to leave a note!
+                            {t('detail.noNotes', locale)}
                         </p>
                     </div>
                 )}

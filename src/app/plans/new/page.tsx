@@ -96,11 +96,11 @@ function AutoRouteContent() {
             if (data.data) {
                 router.push('/plans');
             } else {
-                alert('Failed to save plan. ' + (data.error?.message || ''));
+                alert(`${t('plans.saveError', locale)} ` + (data.error?.message || ''));
                 setSaving(false);
             }
         } catch {
-            alert('Network error');
+            alert(t('global.networkError', locale));
             setSaving(false);
         }
     };

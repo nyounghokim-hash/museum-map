@@ -124,7 +124,7 @@ export default function PlanDetailPage() {
             });
             showAlert(t('plans.saved', locale));
         } catch {
-            showAlert('Failed to save');
+            showAlert(t('global.saveError', locale));
         }
     }, [stops, id, showAlert, locale]);
 
@@ -133,14 +133,14 @@ export default function PlanDetailPage() {
         const tripData = {
             planId: id,
             title: plan.title || 'AutoRoute',
-            stops: stops, // Changed from routeStops to stops
-            startTime: new Date().toISOString() // Changed from startedAt to startTime
+            stops: routeStops, // Use routeStops which are already flattened with latitude/longitude
+            startTime: new Date().toISOString()
         };
         localStorage.setItem('activeTrip', JSON.stringify(tripData));
-        setActiveTripId(id as string); // Set activeTripId
+        setActiveTripId(id as string);
         showAlert(t('plans.tripStarted', locale));
-        router.push('/'); // Redirect to home
-    }, [plan, stops, id, router, showAlert, locale]);
+        router.push('/');
+    }, [plan, routeStops, id, router, showAlert, locale]);
 
     const handleEndTrip = useCallback(() => {
         showConfirm(t('plans.confirmEndTrip', locale) || '정말로 투어를 종료하시겠습니까?', () => {

@@ -5,6 +5,7 @@ import './globals.css'
 import NavHeader from '@/components/layout/NavHeader'
 import { AppProvider } from '@/components/AppContext'
 import { ModalProvider } from '@/components/ui/Modal'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -67,6 +68,9 @@ export default function RootLayout({
             </ModalProvider>
           </AppProvider>
         </AuthProvider>
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
       </body>
     </html>
   )

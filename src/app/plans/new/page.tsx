@@ -5,6 +5,7 @@ import { GlassPanel } from '@/components/ui/glass';
 import { useApp } from '@/components/AppContext';
 import { t } from '@/lib/i18n';
 import dynamic from 'next/dynamic';
+import * as gtag from '@/lib/gtag';
 
 const RouteMapViewer = dynamic(() => import('@/components/map/RouteMapViewer'), { ssr: false });
 
@@ -100,6 +101,11 @@ function AutoRouteContent() {
             });
             const data = await res.json();
             if (data.data) {
+                gtag.event('save_plan', {
+                    category: 'plan',
+                    label: title,
+                    value: route.length
+                });
                 router.push('/plans');
             } else {
                 alert(`${t('plans.saveError', locale)} ` + (data.error?.message || ''));

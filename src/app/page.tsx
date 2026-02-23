@@ -10,6 +10,7 @@ import { useModal } from '@/components/ui/Modal';
 import { t, translateCategory, translateDescription } from '@/lib/i18n';
 import { useTranslatedText } from '@/hooks/useTranslation';
 import MuseumDetailCard from '@/components/museum/MuseumDetailCard';
+import * as gtag from '@/lib/gtag';
 
 const MapLibreViewer = dynamic(() => import('@/components/map/MapLibreViewer'), { ssr: false });
 const RouteMapViewer = dynamic(() => import('@/components/map/RouteMapViewer'), { ssr: false });
@@ -123,7 +124,14 @@ export default function MainPage() {
           <div className="absolute top-4 left-4 right-4 z-10 flex flex-col gap-2 sm:gap-3 pointer-events-none">
             <div className="flex gap-2 pointer-events-auto overflow-x-auto pb-1 scrollbar-hide">
               {['All', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Art Gallery', 'General Museum', 'Cultural Center'].map(f => (
-                <FilterChip key={f} active={activeFilter === f} onClick={() => setActiveFilter(f)}>
+                <FilterChip key={f} active={activeFilter === f} onClick={() => {
+                  setActiveFilter(f);
+                  gtag.event('filter_museums', {
+                    category: 'filter',
+                    label: f,
+                    value: 1
+                  });
+                }}>
                   {translateCategory(f, locale)}
                 </FilterChip>
               ))}

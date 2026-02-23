@@ -8,6 +8,7 @@ import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
 import { t, translateCategory, translateDescription } from '@/lib/i18n';
 import { useTranslatedText } from '@/hooks/useTranslation';
+import * as gtag from '@/lib/gtag';
 
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
@@ -35,7 +36,14 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
             .then(res => {
                 setData(res.data);
                 setLoading(false);
-                if (res.data) fetchLiveData(res.data.name, res.data.city);
+                if (res.data) {
+                    fetchLiveData(res.data.name, res.data.city);
+                    gtag.event('view_museum_detail', {
+                        category: 'museum',
+                        label: res.data.name,
+                        value: 1
+                    });
+                }
             })
             .catch(console.error);
 
@@ -135,6 +143,11 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                     setIsPicked(true);
                                     setSaveId(res.data.id || res.data._id);
                                     showAlert(t('modal.picked', locale));
+                                    gtag.event('save_museum', {
+                                        category: 'museum',
+                                        label: data.name,
+                                        value: 1
+                                    });
                                 }
                             }
                         }}
@@ -259,6 +272,13 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                 href={appleFirst ? mapLinks.appleDirections : mapLinks.googleDirections}
                                 target="_blank"
                                 rel="noreferrer"
+                                onClick={() => {
+                                    gtag.event('get_directions', {
+                                        category: 'navigation',
+                                        label: appleFirst ? 'Apple Maps' : 'Google Maps',
+                                        value: 1
+                                    });
+                                }}
                                 className="inline-flex flex-1 sm:flex-none justify-center items-center gap-2 bg-blue-600 text-white px-4 py-3 sm:py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition active:scale-95 shadow-md"
                             >
                                 🗺️ {appleFirst ? 'Apple Maps' : 'Google Maps'}
@@ -267,6 +287,13 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                 href={appleFirst ? mapLinks.googleDirections : mapLinks.appleDirections}
                                 target="_blank"
                                 rel="noreferrer"
+                                onClick={() => {
+                                    gtag.event('get_directions', {
+                                        category: 'navigation',
+                                        label: appleFirst ? 'Google Maps' : 'Apple Maps',
+                                        value: 1
+                                    });
+                                }}
                                 className="inline-flex flex-1 sm:flex-none justify-center items-center gap-2 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-gray-700 dark:text-gray-300 px-4 py-3 sm:py-2.5 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-neutral-700 transition active:scale-95"
                             >
                                 📍 {appleFirst ? 'Google Maps' : 'Apple Maps'}

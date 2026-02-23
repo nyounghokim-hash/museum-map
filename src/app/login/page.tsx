@@ -8,6 +8,7 @@ import { useModal } from '@/components/ui/Modal';
 import { useApp } from '@/components/AppContext';
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 import { t } from '@/lib/i18n';
+import * as gtag from '@/lib/gtag';
 
 export default function LoginPage() {
     const [isLogin, setIsLogin] = useState(true);
@@ -50,6 +51,11 @@ export default function LoginPage() {
             });
 
             if (res?.ok) {
+                gtag.event('login', {
+                    category: 'auth',
+                    label: 'guest',
+                    value: 1
+                });
                 router.push('/');
                 router.refresh();
             } else {
@@ -88,6 +94,11 @@ export default function LoginPage() {
                 if (res?.error) {
                     showAlert(t('auth.error.invalid', locale));
                 } else {
+                    gtag.event('login', {
+                        category: 'auth',
+                        label: 'credentials',
+                        value: 1
+                    });
                     router.push('/');
                     router.refresh();
                 }
@@ -112,6 +123,11 @@ export default function LoginPage() {
                     });
 
                     if (signInRes?.ok) {
+                        gtag.event('sign_up', {
+                            category: 'auth',
+                            label: 'credentials',
+                            value: 1
+                        });
                         router.push('/');
                         router.refresh();
                     }

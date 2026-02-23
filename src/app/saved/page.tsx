@@ -6,6 +6,7 @@ import { GlassPanel } from '@/components/ui/glass';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
 import { t } from '@/lib/i18n';
+import * as gtag from '@/lib/gtag';
 
 export default function SavedPage() {
     const router = useRouter();
@@ -47,6 +48,11 @@ export default function SavedPage() {
             return;
         }
         const ids = Array.from(selectedMuseums).join(',');
+        gtag.event('generate_autoroute', {
+            category: 'autoroute',
+            label: ids,
+            value: selectedMuseums.size
+        });
         router.push(`/plans/new?museums=${ids}`);
     };
 

@@ -7,6 +7,7 @@ import { GlassPanel } from '@/components/ui/glass';
 import { useModal } from '@/components/ui/Modal';
 import { useApp } from '@/components/AppContext';
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
+import { t } from '@/lib/i18n';
 
 export default function LoginPage() {
     const [isLogin, setIsLogin] = useState(true);
@@ -17,7 +18,7 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const { showAlert, showConfirm } = useModal();
-    const { darkMode } = useApp();
+    const { darkMode, locale } = useApp();
     const clickCount = useRef(0);
     const lastClickTime = useRef(0);
 
@@ -52,10 +53,10 @@ export default function LoginPage() {
                 router.push('/');
                 router.refresh();
             } else {
-                showAlert('게스트 접속 중 오류가 발생했습니다.');
+                showAlert(t('auth.error.guest', locale));
             }
         } catch (e) {
-            showAlert('서버와의 통신 오류가 발생했습니다.');
+            showAlert(t('auth.error.server', locale));
         } finally {
             setLoading(false);
         }
@@ -65,12 +66,12 @@ export default function LoginPage() {
         e.preventDefault();
 
         if (!username || !password) {
-            showAlert('아이디와 비밀번호를 모두 입력해주세요.');
+            showAlert(t('auth.error.input', locale));
             return;
         }
 
         if (!isLogin && (!agreeTerms || !agreePrivacy)) {
-            showAlert('모든 약관에 동의해주셔야 회원가입이 가능합니다.');
+            showAlert(t('auth.error.agreement', locale));
             return;
         }
 
@@ -85,7 +86,7 @@ export default function LoginPage() {
                 });
 
                 if (res?.error) {
-                    showAlert('아이디 또는 비밀번호가 올바르지 않습니다.');
+                    showAlert(t('auth.error.invalid', locale));
                 } else {
                     router.push('/');
                     router.refresh();
@@ -101,7 +102,7 @@ export default function LoginPage() {
                 const data = await res.json();
 
                 if (!res.ok) {
-                    showAlert(data.message || '회원가입 중 오류가 발생했습니다.');
+                    showAlert(data.message || t('auth.error.register', locale));
                 } else {
                     // Auto login after register
                     const signInRes = await signIn('credentials', {
@@ -118,7 +119,7 @@ export default function LoginPage() {
             }
         } catch (error) {
             console.error('Auth error', error);
-            showAlert('서버와의 통신 중 에러가 발생했습니다.');
+            showAlert(t('auth.error.server', locale));
         } finally {
             setLoading(false);
         }
@@ -135,10 +136,8 @@ export default function LoginPage() {
                 >
                     Museum Map
                 </h1>
-                <p className="text-xl sm:text-2xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep px-4 tracking-tight">
-                    전 세계 미술관을 당신의 손안에! <br className="hidden sm:block" />
-                    나만의 전시 컬렉션을 수집하고, 여행 동선을 최적화하는 <br className="hidden sm:block" />
-                    스마트 아트 트립 플래너.
+                <p className="text-xl sm:text-2xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep px-4 tracking-tight whitespace-pre-line">
+                    {t('login.description', locale)}
                 </p>
             </div>
 
@@ -147,24 +146,24 @@ export default function LoginPage() {
 
                     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                         <div className="flex flex-col gap-1">
-                            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">아이디</label>
+                            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">{t('login.idLabel', locale)}</label>
                             <input
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-black border border-gray-200 dark:border-neutral-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all font-medium"
-                                placeholder="아이디를 입력하세요"
+                                placeholder={t('login.idPlaceholder', locale)}
                             />
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">비밀번호</label>
+                            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1">{t('login.pwLabel', locale)}</label>
                             <input
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-black border border-gray-200 dark:border-neutral-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all font-medium"
-                                placeholder="비밀번호를 입력하세요"
+                                placeholder={t('login.pwPlaceholder', locale)}
                             />
                         </div>
 
@@ -184,11 +183,11 @@ export default function LoginPage() {
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex items-center gap-1">
-                                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">[필수] 서비스 이용약관 동의</span>
-                                            <Link href="/terms" target="_blank" className="text-[10px] text-purple-500 hover:underline ml-1">상세보기</Link>
+                                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">{t('login.agreeTerms', locale)}</span>
+                                            <Link href="/terms" target="_blank" className="text-[10px] text-purple-500 hover:underline ml-1">{t('login.viewDetail', locale)}</Link>
                                         </div>
                                         <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed bg-gray-50 dark:bg-black p-2 rounded-lg border border-gray-100 dark:border-neutral-800">
-                                            제 1조 (목적) 본 약관은 Museum Map에서 제공하는 아트 트립 및 컬렉션 저장 서비스의 이용 조건 및 관리 절차를 규정합니다. 회원은 본 문서의 조항에 따라 적법하게 서비스를 이용합니다.
+                                            {t('login.termsSummary', locale)}
                                         </p>
                                     </div>
                                 </label>
@@ -207,11 +206,11 @@ export default function LoginPage() {
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex items-center gap-1">
-                                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">[필수] 개인정보 처리방침 동의</span>
-                                            <Link href="/privacy" target="_blank" className="text-[10px] text-purple-500 hover:underline ml-1">상세보기</Link>
+                                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-black dark:group-hover:text-white transition-colors">{t('login.agreePrivacy', locale)}</span>
+                                            <Link href="/privacy" target="_blank" className="text-[10px] text-purple-500 hover:underline ml-1">{t('login.viewDetail', locale)}</Link>
                                         </div>
                                         <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed bg-gray-50 dark:bg-black p-2 rounded-lg border border-gray-100 dark:border-neutral-800">
-                                            Museum Map은 서비스 운영을 위해 수집된 아이디(username)와 암호화된 비밀번호 등 최소한의 개인정보를 수집하며, 회원의 승인 없이 외부에 제 3자 제공하지 않습니다.
+                                            {t('login.privacySummary', locale)}
                                         </p>
                                     </div>
                                 </label>
@@ -225,7 +224,7 @@ export default function LoginPage() {
                                 ${loading ? 'bg-purple-400 cursor-not-allowed' : 'bg-purple-600 hover:bg-purple-700 active:scale-[0.98]'} flex items-center justify-center gap-2`}
                         >
                             {loading && <LoadingAnimation size={24} className="brightness-150" />}
-                            {loading ? '처리중...' : (isLogin ? '로그인' : '가입하기')}
+                            {loading ? t('login.processing', locale) : (isLogin ? t('login.title', locale) : t('login.registerButton', locale))}
                         </button>
                     </form>
 
@@ -238,7 +237,7 @@ export default function LoginPage() {
                                 ${loading ? 'bg-purple-50 text-purple-300 border-purple-100 dark:bg-purple-900/10 dark:text-purple-700 dark:border-purple-900/30 cursor-not-allowed' : 'bg-transparent text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-900/20 active:scale-[0.98]'} flex items-center justify-center gap-2`}
                         >
                             {loading && <LoadingAnimation size={24} />}
-                            비회원으로 이용할래요
+                            {t('login.guestButton', locale)}
                         </button>
                         <button
                             type="button"
@@ -251,7 +250,7 @@ export default function LoginPage() {
                             }}
                             className="text-sm text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 font-medium transition-colors"
                         >
-                            {isLogin ? '아직 계정이 없으신가요? 회원가입 하기' : '이미 계정이 있으신가요? 로그인 하기'}
+                            {isLogin ? t('login.noAccount', locale) : t('login.hasAccount', locale)}
                         </button>
                     </div>
                 </div>

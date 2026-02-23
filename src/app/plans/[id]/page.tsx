@@ -178,10 +178,10 @@ export default function PlanDetailPage() {
     }, [plan, routeStops, id, router, showAlert, locale]);
 
     const handleEndTrip = useCallback(() => {
-        showConfirm(t('plans.confirmEndTrip', locale) || '정말로 투어를 종료하시겠습니까?', () => {
+        showConfirm(t('plans.confirmEndTrip', locale), () => {
             localStorage.removeItem('activeTrip');
             setActiveTripId(null);
-            showAlert(t('plans.tripEnded', locale) || '투어가 종료되었습니다.');
+            showAlert(t('plans.tripEnded', locale));
         });
     }, [locale, showAlert, showConfirm]);
 

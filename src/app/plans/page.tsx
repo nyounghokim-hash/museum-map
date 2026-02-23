@@ -47,10 +47,10 @@ export default function MyPlansPage() {
     const handleEndTrip = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        showConfirm(t('plans.confirmEndTrip', locale) || '정말로 투어를 종료하시겠습니까?', () => {
+        showConfirm(t('plans.confirmEndTrip', locale), () => {
             localStorage.removeItem('activeTrip');
             setActiveTripId(null);
-            showAlert(t('plans.tripEnded', locale) || '투어가 종료되었습니다.');
+            showAlert(t('plans.tripEnded', locale));
         });
     };
 
@@ -128,7 +128,7 @@ export default function MyPlansPage() {
                                                 onClick={handleEndTrip}
                                                 className="bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors shadow-sm"
                                             >
-                                                🛑 {t('plans.endTrip', locale) || '투어 종료'}
+                                                🛑 {t('plans.endTrip', locale)}
                                             </button>
                                         </div>
                                     )}

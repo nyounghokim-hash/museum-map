@@ -62,10 +62,10 @@ export default function FeedbackPage() {
                     )}
                     <div className="mt-8 pt-6 border-t border-gray-100 dark:border-neutral-800 flex flex-wrap gap-4 text-xs text-gray-400 dark:text-neutral-500 font-medium">
                         <a href="/terms" className="hover:text-black dark:hover:text-white transition-colors underline decoration-gray-200 dark:decoration-neutral-800 underline-offset-4">
-                            서비스 이용약관
+                            {t('legal.termsTitle', locale)}
                         </a>
                         <a href="/privacy" className="hover:text-black dark:hover:text-white transition-colors underline decoration-gray-200 dark:decoration-neutral-800 underline-offset-4">
-                            개인정보 처리방침
+                            {t('legal.privacyTitle', locale)}
                         </a>
                     </div>
                 </GlassPanel>

@@ -78,7 +78,7 @@ export default function MyCollectionsPage() {
                 <div
                     onClick={() => {
                         if (session?.user?.name?.startsWith('guest_')) {
-                            showConfirm('회원가입이 필요한 기능입니다. 가입하시겠습니까?', () => {
+                            showConfirm(t('auth.loginRequired', locale), () => {
                                 router.push('/login');
                             });
                         } else {

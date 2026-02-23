@@ -65,7 +65,7 @@ export default function SavedPage() {
                         }}
                         className={`px-4 py-2 rounded-xl text-sm font-bold transition-colors border shadow-sm ${isSelectMode ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50 dark:bg-neutral-800 dark:text-neutral-200 dark:border-neutral-700 dark:hover:bg-neutral-700'}`}
                     >
-                        {isSelectMode ? t('modal.cancel', locale) || 'Cancel' : (locale === 'ko' ? '선택' : 'Select')}
+                        {isSelectMode ? t('modal.cancel', locale) || 'Cancel' : t('global.select', locale)}
                     </button>
                 )}
             </div>

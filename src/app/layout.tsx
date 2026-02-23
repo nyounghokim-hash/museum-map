@@ -68,9 +68,7 @@ export default function RootLayout({
             </ModalProvider>
           </AppProvider>
         </AuthProvider>
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-        )}
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || 'G-8XMCJMKLSF'} />
       </body>
     </html>
   )

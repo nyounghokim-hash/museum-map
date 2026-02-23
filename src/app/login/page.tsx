@@ -125,7 +125,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-white'} flex flex-col items-center pt-32 sm:pt-48 p-4 selection:bg-purple-300 selection:text-black transition-colors duration-300 overflow-y-auto relative`}>
+        <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-white'} flex flex-col items-center pt-32 sm:pt-48 px-4 pb-24 selection:bg-purple-300 selection:text-black transition-colors duration-300 overflow-y-auto relative`}>
 
             {/* Logo & Title */}
             <div className="flex flex-col items-center mb-20 text-center max-w-2xl mx-auto z-10">

@@ -213,7 +213,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                             const dayOrder = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
                             return (
-                                <div className="bg-gradient-to-br from-purple-50/50 to-white dark:from-purple-900/10 dark:to-neutral-900 border border-purple-100/50 dark:border-purple-900/30 rounded-2xl p-5 shadow-sm">
+                                <div className="bg-gradient-to-br from-purple-50/50 to-white dark:from-purple-900/10 dark:to-neutral-900 lg:border border-purple-100/50 dark:border-purple-900/30 rounded-2xl p-5 lg:shadow-sm">
                                     <div className="flex items-center gap-2 mb-4">
                                         <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-400 text-sm">🕒</div>
                                         <h3 className="text-xs font-extrabold text-purple-900 dark:text-purple-300 uppercase tracking-widest">{t('detail.openingHours', locale)}</h3>
@@ -282,7 +282,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                     </div>
 
                     {/* Map Navigation */}
-                    <div className="mt-4 pt-2 lg:mt-8 lg:pt-6 lg:border-t border-gray-100 dark:border-neutral-800">
+                    <div className="mt-2 lg:mt-8 lg:pt-6 lg:border-t border-gray-100 dark:border-neutral-800">
                         <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">{t('detail.getDirections', locale)}</h3>
                         <div className="flex flex-wrap gap-2">
                             <a
@@ -316,6 +316,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                 📍 {appleFirst ? t('map.googleMaps', locale) : t('map.appleMaps', locale)}
                             </a>
                         </div>
+                        <div className="pb-14 lg:pb-0"></div>
                     </div>
                 </div>
             </GlassPanel >

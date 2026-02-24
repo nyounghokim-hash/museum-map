@@ -290,7 +290,7 @@ export default function LoginPage() {
                         </button>
                     </form>
 
-                    <div className="mt-6 pt-6 border-t border-gray-100 dark:border-neutral-800 text-center flex flex-col gap-3">
+                    <div className="mt-4 text-center flex flex-col gap-3">
                         <button
                             type="button"
                             disabled={loading}

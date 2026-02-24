@@ -76,13 +76,22 @@ export async function PUT(req: NextRequest) {
     try {
         await requireAuth();
         const body = await req.json();
-        const { id, ...data } = body;
+        const { id } = body;
 
         if (!id) return errorResponse('BAD_REQUEST', 'Museum ID is required', 400);
 
+        // Explicitly pick only allowed Museum fields to avoid Prisma errors
+        const updateData: any = {};
+        const allowedFields = ['name', 'description', 'country', 'city', 'type', 'latitude', 'longitude', 'imageUrl', 'website', 'popularityScore'];
+        for (const field of allowedFields) {
+            if (body[field] !== undefined) {
+                updateData[field] = body[field];
+            }
+        }
+
         const updated = await prisma.museum.update({
             where: { id },
-            data,
+            data: updateData,
         });
 
         return successResponse(updated);

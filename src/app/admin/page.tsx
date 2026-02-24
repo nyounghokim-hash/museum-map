@@ -745,8 +745,8 @@ function MuseumEditModal({ museum, onClose, onSave }: { museum: any, onClose: ()
         website: museum?.website || ''
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = (e?: any) => {
+        if (e?.preventDefault) e.preventDefault();
         onSave(formData);
     };
 
@@ -840,22 +840,25 @@ function MuseumEditModal({ museum, onClose, onSave }: { museum: any, onClose: ()
                             />
                         </div>
                     </div>
+
+                    <div className="p-8 border-t dark:border-neutral-800 bg-gray-50/50 dark:bg-neutral-800/50 flex gap-3">
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="flex-1 py-4 px-6 rounded-2xl font-bold text-gray-500 bg-white dark:bg-neutral-900 dark:text-gray-400 border border-gray-200 dark:border-neutral-700 hover:bg-gray-100 transition-all active:scale-95 shadow-sm"
+                        >
+                            취소
+                        </button>
+                        <button
+                            type="submit"
+                            className="flex-1 py-4 px-6 rounded-2xl font-black bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-gray-200 transition-all active:scale-95 shadow-xl"
+                        >
+                            저장하기
+                        </button>
+                    </div>
                 </form>
 
-                <div className="p-8 border-t dark:border-neutral-800 bg-gray-50/50 dark:bg-neutral-800/50 flex gap-3">
-                    <button
-                        onClick={onClose}
-                        className="flex-1 py-4 px-6 rounded-2xl font-bold text-gray-500 bg-white dark:bg-neutral-900 dark:text-gray-400 border border-gray-200 dark:border-neutral-700 hover:bg-gray-100 transition-all active:scale-95 shadow-sm"
-                    >
-                        취소
-                    </button>
-                    <button
-                        onClick={handleSubmit}
-                        className="flex-1 py-4 px-6 rounded-2xl font-black bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-gray-200 transition-all active:scale-95 shadow-xl"
-                    >
-                        저장하기
-                    </button>
-                </div>
+
             </div>
             <style jsx>{`
                 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

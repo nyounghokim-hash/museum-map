@@ -28,6 +28,26 @@ export default function AdminPage() {
     const [exhibitionStats, setExhibitionStats] = useState<any[]>([]);
     const [tab, setTab] = useState<'dashboard' | 'users' | 'blog' | 'museums' | 'exhibitions' | 'notifications'>('dashboard');
     const [notifForm, setNotifForm] = useState({ title: '', message: '', link: '', targetUserId: '' });
+    const [sortCol, setSortCol] = useState<string>('name');
+    const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
+
+    const toggleSort = (col: string) => {
+        if (sortCol === col) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+        else { setSortCol(col); setSortDir('asc'); }
+    };
+    const sortArrow = (col: string) => sortCol === col ? (sortDir === 'asc' ? ' ▲' : ' ▼') : '';
+
+    const sortedMuseums = [...museums].sort((a, b) => {
+        let va: any, vb: any;
+        if (sortCol === 'name') { va = a.name?.toLowerCase(); vb = b.name?.toLowerCase(); }
+        else if (sortCol === 'city') { va = a.city?.toLowerCase(); vb = b.city?.toLowerCase(); }
+        else if (sortCol === 'type') { va = a.type?.toLowerCase(); vb = b.type?.toLowerCase(); }
+        else if (sortCol === 'popularity') { va = a.popularityScore || 0; vb = b.popularityScore || 0; }
+        else { va = a.name?.toLowerCase(); vb = b.name?.toLowerCase(); }
+        if (va < vb) return sortDir === 'asc' ? -1 : 1;
+        if (va > vb) return sortDir === 'asc' ? 1 : -1;
+        return 0;
+    });
     const [sortBy, setSortBy] = useState<'views' | 'date'>('views');
     const { locale } = useApp();
 
@@ -523,15 +543,15 @@ export default function AdminPage() {
                         <table className="w-full min-w-[800px] text-left text-sm text-gray-500 dark:text-gray-400">
                             <thead className="text-[10px] text-gray-400 uppercase bg-gray-50 dark:bg-neutral-800/50 dark:text-neutral-500 font-black tracking-widest">
                                 <tr>
-                                    <th className="px-8 py-5">미술관/박물관명</th>
-                                    <th className="px-8 py-5">위치</th>
-                                    <th className="px-8 py-5">유형</th>
-                                    <th className="px-8 py-5">인기상태</th>
+                                    <th className="px-8 py-5 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 transition-colors select-none" onClick={() => toggleSort('name')}>미술관/박물관명{sortArrow('name')}</th>
+                                    <th className="px-8 py-5 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 transition-colors select-none" onClick={() => toggleSort('city')}>위치{sortArrow('city')}</th>
+                                    <th className="px-8 py-5 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 transition-colors select-none" onClick={() => toggleSort('type')}>유형{sortArrow('type')}</th>
+                                    <th className="px-8 py-5 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 transition-colors select-none" onClick={() => toggleSort('popularity')}>인기상태{sortArrow('popularity')}</th>
                                     <th className="px-8 py-5">관리</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50 dark:divide-neutral-800">
-                                {museums.map((m) => (
+                                {sortedMuseums.map((m) => (
                                     <tr key={m.id} className="hover:bg-gray-50/50 dark:hover:bg-neutral-800/50 transition-colors">
                                         <td className="px-8 py-5 font-black text-gray-900 dark:text-white">{m.name}</td>
                                         <td className="px-8 py-5 text-[11px] font-bold text-gray-400">{m.city}, {m.country}</td>

@@ -86,7 +86,7 @@ export default function NavHeader() {
                         <span className="hidden sm:inline">Museum Map</span>
                     </Link>
 
-                    <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+                    <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
                         {NAV_LINKS.map(link => {
                             const isGuest = !session || session?.user?.name?.startsWith('guest_');
                             const isProtectedRoute = ['/saved', '/plans', '/collections'].includes(link.href);
@@ -291,7 +291,7 @@ export default function NavHeader() {
                         )}
 
                         <button
-                            className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
+                            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors"
                             onClick={() => setMobileOpen(prev => !prev)}
                             aria-label="Toggle menu"
                         >
@@ -309,7 +309,7 @@ export default function NavHeader() {
 
             {/* Mobile drawer */}
             {mobileOpen && (
-                <div className="fixed inset-0 z-[9999] md:hidden">
+                <div className="fixed inset-0 z-[9999] lg:hidden">
                     <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" style={{ animation: 'fadeIn 200ms ease-out' }} />
                     <div
                         ref={drawerRef}

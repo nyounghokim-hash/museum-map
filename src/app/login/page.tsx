@@ -180,28 +180,30 @@ export default function LoginPage() {
 
             {/* Logo & Title */}
             <div className="flex flex-col items-center mb-20 text-center max-w-2xl mx-auto z-10">
-                <h1
-                    className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white mb-8 select-none leading-none whitespace-pre-line h-[8.5rem] sm:h-[13rem]"
-                >
-                    {titleText.split('\n').map((line, i, arr) => (
-                        <span key={i}>
-                            {line}
-                            {i === arr.length - 1 && (
-                                <span className="inline-block w-[4px] h-[0.85em] bg-current opacity-80 ml-1 align-middle" style={{ animation: 'blink 600ms ease-in-out infinite' }} />
-                            )}
-                            {i < arr.length - 1 && <br />}
-                        </span>
-                    ))}
-                </h1>
+                <div className="relative w-full h-[12rem] sm:h-[18rem]">
+                    <h1
+                        className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white select-none leading-[0.95] whitespace-pre-line text-center"
+                    >
+                        {titleText.split('\n').map((line, i, arr) => (
+                            <span key={i}>
+                                {line}
+                                {i === arr.length - 1 && (
+                                    <span className="inline-block w-[4px] h-[0.85em] bg-current opacity-80 ml-1 align-middle" style={{ animation: 'blink 600ms ease-in-out infinite' }} />
+                                )}
+                                {i < arr.length - 1 && <br />}
+                            </span>
+                        ))}
+                    </h1>
+                    <p className="text-xl sm:text-2xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep px-4 tracking-tight whitespace-pre-line absolute bottom-0 left-0 right-0">
+                        {t('login.description', locale)}
+                    </p>
+                </div>
                 <style jsx>{`
                     @keyframes blink {
                         0%, 100% { opacity: 1; }
                         50% { opacity: 0; }
                     }
                 `}</style>
-                <p className="text-xl sm:text-2xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep px-4 tracking-tight whitespace-pre-line">
-                    {t('login.description', locale)}
-                </p>
             </div>
 
             <div className="w-full max-w-md w-full relative z-10">

@@ -94,8 +94,9 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
 
     return (
         <div className="w-full flex flex-col pt-2 sm:pt-4">
+            {/* Back button: inline on desktop, floating inside image on mobile */}
             {onClose && (
-                <button onClick={onClose} className={`w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-gray-700 dark:text-gray-300 rounded-full mb-4 transition-colors shadow-sm active:scale-95 ml-4 sm:ml-0 z-10 shrink-0 ${isMapContext ? 'md:hidden' : ''}`}>
+                <button onClick={onClose} className={`hidden lg:flex w-10 h-10 items-center justify-center bg-gray-100 hover:bg-gray-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-gray-700 dark:text-gray-300 rounded-full mb-4 transition-colors shadow-sm active:scale-95 ml-4 sm:ml-0 z-10 shrink-0 ${isMapContext ? 'md:hidden' : ''}`}>
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
@@ -106,6 +107,14 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
             <GlassPanel intensity="heavy" className="mb-8 relative overflow-hidden group border-0 sm:border !rounded-none sm:!rounded-3xl">
                 {/* Cover Image */}
                 <div className="relative h-56 sm:h-72 w-full overflow-hidden bg-gray-900">
+                    {/* Mobile floating back button over image */}
+                    {onClose && (
+                        <button onClick={onClose} className="lg:hidden absolute top-4 left-4 z-20 w-10 h-10 flex items-center justify-center bg-black/40 backdrop-blur-md text-white rounded-full shadow-lg active:scale-95 transition-all hover:bg-black/60">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                    )}
                     <img
                         src={data.imageUrl || '/defaultimg.png'}
                         alt={data.name}

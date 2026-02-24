@@ -95,22 +95,23 @@ export default async function BlogPostDetail({ params }: { params: Promise<{ id:
     };
 
     return (
-        <article className="w-full max-w-[1080px] mx-auto px-4 py-4 sm:px-6 sm:py-8 md:px-8 mt-4 sm:mt-8">
+        <article className="w-full max-w-[1080px] mx-auto px-4 py-4 sm:px-6 sm:py-8 md:px-8 mt-4 sm:mt-8 relative">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            {/* Floating back button on mobile, inline on desktop */}
             <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors mb-6 sm:mb-8 group"
+                className="lg:inline-flex lg:items-center lg:gap-2 lg:text-sm lg:font-medium lg:text-gray-500 lg:dark:text-gray-400 lg:hover:text-purple-600 lg:dark:hover:text-purple-400 lg:transition-colors lg:mb-8 lg:static lg:bg-transparent lg:shadow-none lg:backdrop-blur-none lg:rounded-none lg:w-auto lg:h-auto lg:p-0 fixed top-20 left-4 z-50 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md shadow-lg flex items-center justify-center text-white hover:bg-black/60 transition-all active:scale-95 group"
             >
-                <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-5 h-5 lg:w-4 lg:h-4 lg:group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>
-                {t('blog.backToList', locale)}
+                <span className="hidden lg:inline">{t('blog.backToList', locale)}</span>
             </Link>
 
-            <div className="bg-white dark:bg-neutral-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-neutral-800 shadow-xl sm:shadow-2xl">
+            <div className="bg-white dark:bg-neutral-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-neutral-800 shadow-xl sm:shadow-2xl lg:mt-0 mt-8">
                 {post.previewImage && (
                     <div className="rounded-t-3xl overflow-hidden border-b border-gray-200 dark:border-neutral-800">
                         <img

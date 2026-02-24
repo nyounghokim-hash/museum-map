@@ -6,6 +6,29 @@ import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
 import { t } from '@/lib/i18n';
 
+const tx: Record<string, Record<string, string>> = {
+    subtitle: {
+        ko: '완료된 여행을 다른 사람들에게 영감을 주는 컬렉션으로 만들어보세요.',
+        en: 'Turn your completed trips into inspiring collections for others.',
+        ja: '完了した旅行を他の人のためのインスピレーションあふれるコレクションにしましょう。',
+        de: 'Verwandeln Sie Ihre abgeschlossenen Reisen in inspirierende Sammlungen für andere.',
+        fr: 'Transformez vos voyages terminés en collections inspirantes pour les autres.',
+        es: 'Convierte tus viajes completados en colecciones inspiradoras para otros.',
+        pt: 'Transforme suas viagens concluídas em coleções inspiradoras para outros.',
+    },
+    titleLabel: { ko: '컬렉션 제목', en: 'Collection Title', ja: 'コレクションタイトル', de: 'Sammlungstitel', fr: 'Titre de la collection', es: 'Título de la colección', pt: 'Título da coleção' },
+    titlePlaceholder: { ko: '예: 파리 현대미술 3일 여행', en: 'e.g. 3 Days of Contemporary Art in Paris', ja: '例: パリの現代アート3日間', de: 'z.B. 3 Tage zeitgenössische Kunst in Paris', fr: 'ex. 3 jours d\'art contemporain à Paris', es: 'ej. 3 Días de Arte Contemporáneo en París', pt: 'ex. 3 Dias de Arte Contemporânea em Paris' },
+    descLabel: { ko: '설명', en: 'Description', ja: '説明', de: 'Beschreibung', fr: 'Description', es: 'Descripción', pt: 'Descrição' },
+    descPlaceholder: { ko: '이 경로가 특별한 이유를 알려주세요...', en: 'Tell others what makes this route special...', ja: 'このルートの特別なところを教えてください...', de: 'Erzählen Sie anderen, was diese Route besonders macht...', fr: 'Dites aux autres ce qui rend cet itinéraire spécial...', es: 'Cuéntales a los demás qué hace especial esta ruta...', pt: 'Conte aos outros o que torna esta rota especial...' },
+    selectPlan: { ko: '경로 / 플랜 선택', en: 'Select a Route / Plan', ja: 'ルート/プランを選択', de: 'Route / Plan auswählen', fr: 'Sélectionner un itinéraire / plan', es: 'Seleccionar una Ruta / Plan', pt: 'Selecionar uma Rota / Plano' },
+    choosePlan: { ko: '-- 플랜을 선택하세요 --', en: '-- Choose a Plan --', ja: '-- プランを選択 --', de: '-- Plan auswählen --', fr: '-- Choisir un plan --', es: '-- Elegir un Plan --', pt: '-- Escolher um Plano --' },
+    makePublic: { ko: '이 컬렉션을 공개 (공유 가능)', en: 'Make this collection Public (Shareable)', ja: 'このコレクションを公開（共有可能）にする', de: 'Diese Sammlung öffentlich machen (teilbar)', fr: 'Rendre cette collection publique (partageable)', es: 'Hacer esta colección pública (compartible)', pt: 'Tornar esta coleção pública (compartilhável)' },
+};
+
+function lx(key: string, locale: string): string {
+    return tx[key]?.[locale] || tx[key]?.['en'] || key;
+}
+
 export default function CreateCollectionPage() {
     const router = useRouter();
     const [title, setTitle] = useState('');
@@ -58,47 +81,47 @@ export default function CreateCollectionPage() {
             <GlassPanel className="p-8">
                 <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 dark:text-white">{t('collections.publishCollection', locale)}</h1>
                 <p className="text-gray-500 dark:text-gray-400 mb-8 border-b border-gray-100 dark:border-neutral-800 pb-4">
-                    Turn your completed trips into inspiring collections for others.
+                    {lx('subtitle', locale)}
                 </p>
 
                 <form onSubmit={handleCreate} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-bold text-gray-700 mb-2">Collection Title</label>
+                        <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{lx('titleLabel', locale)}</label>
                         <input
                             required type="text" value={title} onChange={e => setTitle(e.target.value)}
-                            placeholder="e.g. 3 Days of Contemporary Art in Paris"
-                            className="w-full bg-white border border-gray-200 rounded-xl p-3 focus:ring-black focus:border-black"
+                            placeholder={lx('titlePlaceholder', locale)}
+                            className="w-full bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl p-3 focus:ring-black focus:border-black dark:text-white"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-bold text-gray-700 mb-2">Description</label>
+                        <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{lx('descLabel', locale)}</label>
                         <textarea
                             rows={3} value={desc} onChange={e => setDesc(e.target.value)}
-                            placeholder="Tell others what makes this route special..."
-                            className="w-full bg-white border border-gray-200 rounded-xl p-3 focus:ring-black focus:border-black"
+                            placeholder={lx('descPlaceholder', locale)}
+                            className="w-full bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl p-3 focus:ring-black focus:border-black dark:text-white"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-bold text-gray-700 mb-2">Select a Route / Plan</label>
+                        <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{lx('selectPlan', locale)}</label>
                         <select
                             required value={selectedPlanId} onChange={e => setSelectedPlanId(e.target.value)}
-                            className="w-full bg-white border border-gray-200 rounded-xl p-3 focus:ring-black focus:border-black"
+                            className="w-full bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl p-3 focus:ring-black focus:border-black dark:text-white"
                         >
-                            <option value="">-- Choose a Plan --</option>
+                            <option value="">{lx('choosePlan', locale)}</option>
                             {plans.map(p => (
                                 <option key={p.id} value={p.id}>{p.title || `Plan ${p.id}`}</option>
                             ))}
                         </select>
                     </div>
 
-                    <div className="flex items-center gap-3 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <div className="flex items-center gap-3 bg-gray-50 dark:bg-neutral-800 p-4 rounded-xl border border-gray-200 dark:border-neutral-700">
                         <input
                             type="checkbox" id="isPublic" checked={isPublic} onChange={e => setIsPublic(e.target.checked)}
                             className="w-5 h-5 accent-black"
                         />
-                        <label htmlFor="isPublic" className="text-sm font-bold text-gray-800">Make this collection Public (Shareable)</label>
+                        <label htmlFor="isPublic" className="text-sm font-bold text-gray-800 dark:text-gray-200">{lx('makePublic', locale)}</label>
                     </div>
 
                     <button type="submit" className="w-full bg-black dark:bg-white text-white dark:text-black font-bold py-4 rounded-xl shadow-lg hover:bg-neutral-800 dark:hover:bg-gray-200 transition-all active:scale-95">

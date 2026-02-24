@@ -100,7 +100,8 @@ export default function TripDetailPanel({
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: {
-                distance: 8,
+                delay: 1000,
+                tolerance: 5,
             },
         }),
         useSensor(KeyboardSensor, {

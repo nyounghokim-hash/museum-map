@@ -181,7 +181,7 @@ export default function LoginPage() {
             {/* Logo & Title */}
             <div className="flex flex-col items-center mb-20 text-center max-w-2xl mx-auto z-10">
                 <h1
-                    className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white mb-8 select-none leading-none whitespace-pre-line min-h-[1.8em]"
+                    className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white mb-8 select-none leading-none whitespace-pre-line h-[8.5rem] sm:h-[13rem]"
                 >
                     {titleText.split('\n').map((line, i, arr) => (
                         <span key={i}>

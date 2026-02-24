@@ -108,10 +108,10 @@ export default function NavHeader() {
                     </nav>
 
                     <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
-                        {/* Dark mode toggle */}
+                        {/* Dark mode toggle - desktop only */}
                         <button
                             onClick={() => setDarkMode(!darkMode)}
-                            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400"
+                            className="hidden lg:flex p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400"
                             title={darkMode ? t('theme.light', locale) : t('theme.dark', locale)}
                         >
                             {darkMode ? (
@@ -126,8 +126,9 @@ export default function NavHeader() {
                         </button>
 
                         {/* Notification Dropdown */}
+                        {/* Notification - desktop only */}
                         {(
-                            <div className="relative" ref={notifRef}>
+                            <div className="relative hidden lg:block" ref={notifRef}>
                                 <button
                                     onClick={() => setNotifOpen(!notifOpen)}
                                     className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400 relative"
@@ -344,6 +345,22 @@ export default function NavHeader() {
                                 );
                             })}
                         </nav>
+
+                        {/* Mobile notification */}
+                        <div className="px-4 py-2">
+                            <button
+                                onClick={() => { setMobileOpen(false); setNotifOpen(!notifOpen); }}
+                                className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-all relative"
+                            >
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                </svg>
+                                {locale === 'ko' ? '알림' : 'Notifications'}
+                                {Array.isArray(notifications) && notifications.some(n => !n.isRead) && (
+                                    <span className="w-2 h-2 bg-red-500 rounded-full" />
+                                )}
+                            </button>
+                        </div>
 
                         {/* Mobile language selector */}
                         <div className="px-4 pb-2">

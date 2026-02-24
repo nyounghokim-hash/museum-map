@@ -29,6 +29,11 @@ export default function SplashScreen() {
     const [lang, setLang] = useState('en');
 
     useEffect(() => {
+        // Only show on mobile/tablet (width <= 1024px)
+        if (typeof window !== 'undefined' && window.innerWidth > 1024) {
+            setVisible(false);
+            return;
+        }
         setLang(getDeviceLang());
         const timer = setTimeout(() => setFadeOut(true), 1800);
         const hide = setTimeout(() => setVisible(false), 2400);

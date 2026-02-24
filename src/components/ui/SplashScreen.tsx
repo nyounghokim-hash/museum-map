@@ -29,14 +29,13 @@ export default function SplashScreen() {
     const [lang, setLang] = useState('en');
 
     useEffect(() => {
-        // Only show on mobile/tablet (width <= 1024px)
         if (typeof window !== 'undefined' && window.innerWidth > 1024) {
             setVisible(false);
             return;
         }
         setLang(getDeviceLang());
-        const timer = setTimeout(() => setFadeOut(true), 1800);
-        const hide = setTimeout(() => setVisible(false), 2400);
+        const timer = setTimeout(() => setFadeOut(true), 2200);
+        const hide = setTimeout(() => setVisible(false), 2800);
         return () => { clearTimeout(timer); clearTimeout(hide); };
     }, []);
 
@@ -57,10 +56,17 @@ export default function SplashScreen() {
                     </svg>
                 </div>
 
-                {/* Title */}
-                <div className="text-center">
-                    <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                {/* Title with magnifying glass scanning */}
+                <div className="text-center relative">
+                    <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight relative inline-block">
                         Museum Map
+                        {/* Magnifying glass that sweeps across */}
+                        <span className="absolute top-1/2 -translate-y-1/2 animate-scanText pointer-events-none">
+                            <svg className="w-8 h-8 sm:w-10 sm:h-10 drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="10" cy="10" r="6" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.7)" />
+                                <line x1="14.5" y1="14.5" x2="20" y2="20" stroke="rgba(255,255,255,0.7)" strokeWidth={2} />
+                            </svg>
+                        </span>
                     </h1>
                     <p className="text-sm sm:text-base text-white/60 mt-2 font-medium tracking-wide">
                         {SUBTITLES[lang]}
@@ -82,6 +88,17 @@ export default function SplashScreen() {
                 }
                 .animate-fadeInUp {
                     animation: fadeInUp 800ms ease-out forwards;
+                }
+                @keyframes scanText {
+                    0% { left: -10%; opacity: 0; }
+                    10% { opacity: 1; }
+                    80% { opacity: 1; }
+                    100% { left: 100%; opacity: 0; }
+                }
+                .animate-scanText {
+                    animation: scanText 1.6s ease-in-out 0.5s forwards;
+                    left: -10%;
+                    opacity: 0;
                 }
             `}</style>
         </div>

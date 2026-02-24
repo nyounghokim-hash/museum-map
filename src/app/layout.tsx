@@ -99,6 +99,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+          (function(){
+            var d=document,l=d.getElementById('dynamic-favicon');
+            function u(){var m=window.matchMedia('(prefers-color-scheme:dark)').matches;
+              if(!l){l=d.createElement('link');l.id='dynamic-favicon';l.rel='icon';l.type='image/svg+xml';d.head.appendChild(l);}
+              l.href=m?'/icon-dark.svg':'/icon-light.svg';
+            }
+            u();window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',u);
+          })();
+        `}} />
+      </head>
       <body className={`${inter.className} min-h-screen bg-neutral-50 dark:bg-neutral-950 flex flex-col transition-colors`}>
         <SplashScreen />
         <AuthProvider>

@@ -43,7 +43,7 @@ export default function SplashScreen() {
             style={{ background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)' }}
         >
             {/* Center: Logo + Title */}
-            <div className="flex flex-col items-center gap-6 animate-fadeInUp">
+            <div className="flex flex-col items-center gap-3 animate-fadeInUp -mt-16">
                 {/* SVG Logo */}
                 <div className="w-20 h-20 sm:w-24 sm:h-24">
                     <svg viewBox="0 0 512 512" className="w-full h-full drop-shadow-2xl">

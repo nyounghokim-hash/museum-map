@@ -83,9 +83,6 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
     if (loading) return (
         <div className="flex flex-col items-center justify-center p-20 min-h-[400px]">
             <LoadingAnimation size={120} />
-            <p className="mt-4 text-sm font-medium text-gray-500 dark:text-neutral-400 animate-pulse">
-                {t('global.loading', locale)}
-            </p>
         </div>
     );
     if (!data) return <div className="p-20 text-center dark:text-gray-300">Museum Not Found</div>;

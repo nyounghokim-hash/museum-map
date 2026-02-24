@@ -8,7 +8,7 @@ interface LoadingAnimationProps {
     className?: string;
 }
 
-const LoadingAnimation = ({ size = 200, className = "" }: LoadingAnimationProps) => {
+const LoadingAnimation = ({ size = 160, className = "" }: LoadingAnimationProps) => {
     return (
         <div className={`flex flex-col items-center justify-center ${className}`}>
             <div style={{ width: size, height: size }}>

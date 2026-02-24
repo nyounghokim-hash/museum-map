@@ -29,13 +29,32 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const [darkMode, setDarkModeState] = useState(false);
     const [initialized, setInitialized] = useState(false);
 
-    // Guest Session Guard: Log out if isGuest but sessionStorage is empty (new tab/restart)
+    // Guest Session Guard: Log out if isGuest but sessionStorage is empty (new tab/restart) or IP changed
     useEffect(() => {
         if (session?.user?.name?.startsWith('guest_')) {
             const isGuestFlag = sessionStorage.getItem('isGuest');
             if (!isGuestFlag) {
                 signOut({ redirect: false });
+                return;
             }
+
+            // IP Change Check
+            fetch('/api/auth/guest-check')
+                .then(r => r.json())
+                .then(data => {
+                    const savedIp = localStorage.getItem('guestIpHash');
+                    if (data.ipHash) {
+                        if (savedIp && savedIp !== data.ipHash) {
+                            console.log('IP changed, signing out guest');
+                            localStorage.removeItem('guestIpHash');
+                            sessionStorage.removeItem('isGuest');
+                            signOut({ redirect: false });
+                        } else {
+                            localStorage.setItem('guestIpHash', data.ipHash);
+                        }
+                    }
+                })
+                .catch(err => console.error('Guest IP check failed', err));
         }
     }, [session]);
 

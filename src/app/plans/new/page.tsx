@@ -1,17 +1,19 @@
 'use client';
 import { useState, useEffect, useMemo, Suspense, useRef, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { GlassPanel } from '@/components/ui/glass';
 import { useApp } from '@/components/AppContext';
+import { useModal } from '@/components/ui/Modal';
 import { t } from '@/lib/i18n';
 import dynamic from 'next/dynamic';
 import * as gtag from '@/lib/gtag';
+import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
 const RouteMapViewer = dynamic(() => import('@/components/map/RouteMapViewer'), { ssr: false });
 
 function AutoRouteContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
+    const { showAlert } = useModal();
     const [route, setRoute] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -108,11 +110,11 @@ function AutoRouteContent() {
                 });
                 router.push('/plans');
             } else {
-                alert(`${t('plans.saveError', locale)} ` + (data.error?.message || ''));
+                showAlert(`${t('plans.saveError', locale)} ` + (data.error?.message || ''));
                 setSaving(false);
             }
         } catch {
-            alert(t('global.networkError', locale));
+            showAlert(t('global.networkError', locale));
             setSaving(false);
         }
     };
@@ -253,7 +255,7 @@ function AutoRouteContent() {
 
 export default function AutoRoutePlanPage() {
     return (
-        <Suspense fallback={<div className="p-20 text-center text-lg font-semibold animate-pulse">Loading...</div>}>
+        <Suspense fallback={<div className="flex items-center justify-center min-h-[400px]"><LoadingAnimation size={120} /></div>}>
             <AutoRouteContent />
         </Suspense>
     );

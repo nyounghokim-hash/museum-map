@@ -43,3 +43,6 @@ next-env.d.ts
 /src/generated/prisma
 
 .env*.local
+blog_error.log
+fix_i18n.py
+favicon.ico/

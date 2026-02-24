@@ -41,6 +41,13 @@ export default function LoginPage() {
     const handleGuestLogin = async () => {
         setLoading(true);
         const guestId = `guest_${Date.now()}`;
+
+        // Clear all cached data from previous sessions
+        sessionStorage.clear();
+        localStorage.removeItem('savedMuseums');
+        localStorage.removeItem('travelPlans');
+        localStorage.removeItem('recentSearches');
+
         sessionStorage.setItem('isGuest', 'true');
 
         try {
@@ -239,7 +246,6 @@ export default function LoginPage() {
                             className={`w-full py-3.5 rounded-xl font-bold text-white shadow-lg transition-all mt-2 
                                 ${loading ? 'bg-purple-400 cursor-not-allowed' : 'bg-purple-600 hover:bg-purple-700 active:scale-[0.98]'} flex items-center justify-center gap-2`}
                         >
-                            {loading && <LoadingAnimation size={24} className="brightness-150" />}
                             {loading ? t('login.processing', locale) : (isLogin ? t('login.title', locale) : t('login.registerButton', locale))}
                         </button>
                     </form>
@@ -252,7 +258,6 @@ export default function LoginPage() {
                             className={`w-full py-3.5 rounded-xl font-bold transition-all border-2 
                                 ${loading ? 'bg-purple-50 text-purple-300 border-purple-100 dark:bg-purple-900/10 dark:text-purple-700 dark:border-purple-900/30 cursor-not-allowed' : 'bg-transparent text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-900/20 active:scale-[0.98]'} flex items-center justify-center gap-2`}
                         >
-                            {loading && <LoadingAnimation size={24} />}
                             {t('login.guestButton', locale)}
                         </button>
                         <button

@@ -2,10 +2,15 @@
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GlassPanel } from '@/components/ui/glass';
+import { useModal } from '@/components/ui/Modal';
+import { useApp } from '@/components/AppContext';
+import LoadingAnimation from '@/components/ui/LoadingAnimation';
 function ReviewCreateForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const museumId = searchParams.get('museumId');
+  const { showAlert } = useModal();
+  const { locale } = useApp();
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (e: React.FormEvent) => {
@@ -24,7 +29,7 @@ function ReviewCreateForm() {
       body: JSON.stringify({ museumId })
     });
     setLoading(false);
-    alert('Review Submitted & Museum marked as Visited!');
+    showAlert(locale === 'ko' ? '리뷰가 제출되었으며 박물관이 방문한 곳으로 등록되었습니다!' : 'Review Submitted & Museum marked as Visited!');
     router.push(`/museums/${museumId}`);
   };
   const lines = content.split('\n');
@@ -75,7 +80,7 @@ function ReviewCreateForm() {
 }
 export default function ReviewCreatePage() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><LoadingAnimation size={120} /></div>}>
       <ReviewCreateForm />
     </Suspense>
   );

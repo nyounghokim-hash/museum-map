@@ -2,11 +2,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { GlassPanel } from '@/components/ui/glass';
+import { useModal } from '@/components/ui/Modal';
 import { useApp } from '@/components/AppContext';
 import { t } from '@/lib/i18n';
 
 export default function SharedCollectionPage() {
     const { locale } = useApp();
+    const { showAlert } = useModal();
     const { slug } = useParams();
     const router = useRouter();
     const [data, setData] = useState<any>(null);
@@ -23,8 +25,8 @@ export default function SharedCollectionPage() {
 
     const handleCloneToMap = () => {
         // In real app: save all museums in this collection to a user's local folder
-        alert(t('share.cloned', locale));
-        router.push('/map'); // redirect to map so loop restarts
+        showAlert(t('share.cloned', locale));
+        router.push('/saved'); // redirect to saved/collections
     };
 
     if (loading) return (
@@ -43,7 +45,7 @@ export default function SharedCollectionPage() {
         <div className="max-w-4xl mx-auto p-6 mt-10">
             {/* Header Profile & Title */}
             <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 bg-black text-white rounded-full flex justify-center items-center font-bold text-xl uppercase">
+                <div className="w-12 h-12 bg-purple-600 text-white rounded-full flex justify-center items-center font-bold text-xl uppercase shadow-md">
                     {data.user?.name ? data.user.name[0] : 'U'}
                 </div>
                 <div>
@@ -55,12 +57,12 @@ export default function SharedCollectionPage() {
             <p className="text-gray-700 text-lg mb-8 leading-relaxed max-w-2xl">{data.description}</p>
 
             {/* Action CTA for New Users entering loop */}
-            <div className="bg-blue-600 text-white rounded-2xl p-8 flex flex-col items-center text-center shadow-xl shadow-blue-600/20 mb-12">
+            <div className="bg-purple-600 text-white rounded-2xl p-8 flex flex-col items-center text-center shadow-xl shadow-purple-600/20 mb-12">
                 <h2 className="text-2xl font-bold mb-2">{t('share.inspired', locale)}</h2>
                 <p className="text-blue-100 mb-6 font-medium">{t('share.inspiredDesc', locale)}</p>
                 <button
                     onClick={handleCloneToMap}
-                    className="bg-white text-blue-700 px-8 py-3 rounded-xl font-bold hover:bg-gray-100 transition shadow-md active:scale-95"
+                    className="bg-white text-purple-700 px-8 py-3 rounded-xl font-bold hover:bg-gray-100 transition shadow-md active:scale-95"
                 >
                     {t('share.saveAndOpen', locale)}
                 </button>
@@ -80,7 +82,7 @@ export default function SharedCollectionPage() {
                         </div>
                         <button
                             onClick={() => router.push(`/museums/${item.museumId}`)}
-                            className="text-sm font-bold text-blue-600 hover:underline px-4"
+                            className="text-sm font-bold text-purple-600 hover:text-purple-700 hover:underline px-4 transition-colors"
                         >
                             {t('share.viewDetail', locale)}
                         </button>

@@ -1,6 +1,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["postgresqlExtensions"]
+  output          = "../src/generated_v2/client"
 }
 
 datasource db {
@@ -27,6 +28,12 @@ enum ReportStatus {
   RESOLVED
 }
 
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  DELETED
+}
+
 enum TargetType {
   MUSEUM
   REVIEW
@@ -43,6 +50,7 @@ model User {
   image         String?
   role          Role      @default(USER)
   preferences   Json? // e.g. { optInMatch: false }
+  lastIp        String?
 
   collections Collection[]
   folders     Folder[]
@@ -53,9 +61,57 @@ model User {
   feedbacks   Feedback[]
   suggestions Suggestion[]
   reports     Report[]            @relation("ReportedBy")
+  notifications Notification[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Story {
+  id           String        @id @default(cuid())
+  title        String
+  titleEn      String?
+  content      String        @db.Text
+  contentEn    String?       @db.Text
+  description  String?       @db.Text
+  author       String?
+  previewImage String?
+  status       ContentStatus @default(DRAFT)
+  views        Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  museums StoryMuseum[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("Blog")
+}
+
+model StoryMuseum {
+  storyId  String
+  museumId String
+
+  story  Story  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  museum Museum @relation(fields: [museumId], references: [id], onDelete: Cascade)
+
+  @@id([storyId, museumId])
+}
+
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // e.g. "SYSTEM", "EXHIBITION_ALERT", "ADMIN_PUSH"
+  title     String
+  message   String
+  link      String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }
 
 model Museum {
@@ -83,6 +139,7 @@ model Museum {
   suggestions     Suggestion[]
   planStops       PlanStop[]
   collectionItems CollectionItem[]
+  stories         StoryMuseum[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -242,7 +299,9 @@ model Feedback {
   id        String   @id @default(cuid())
   userId    String?
   content   String
+  reply     String?  @db.Text
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
   
   user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
@@ -287,3 +346,4 @@ model AuditLog {
   target    String
   timestamp DateTime @default(now())
 }
+

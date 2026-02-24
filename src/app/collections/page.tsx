@@ -55,7 +55,7 @@ export default function MyCollectionsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {collections.map((col: any) => (
                         <Link key={col.id} href={`/collections/${col.id}`}>
-                            <div className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-5 hover:shadow-lg transition-all cursor-pointer group relative">
+                            <div className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-5 shadow-md hover:shadow-xl transition-all cursor-pointer group relative">
                                 <button
                                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(col.id); }}
                                     className="absolute top-3 right-3 p-1.5 rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 sm:opacity-0 sm:group-hover:opacity-100 transition-all"

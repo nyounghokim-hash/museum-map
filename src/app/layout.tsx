@@ -22,12 +22,44 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description,
+    keywords: isKorean
+      ? ['미술관', '박물관', '여행', '현대미술', '전시회', '뮤지엄맵', '아트투어', '미술관 지도']
+      : ['museum', 'art gallery', 'travel', 'contemporary art', 'exhibitions', 'museum map', 'art tour', 'itinerary'],
     icons: {
-      icon: '/defaultimg.png',
+      icon: [
+        { url: '/favicon.ico', sizes: 'any' },
+        { url: '/icon.svg', type: 'image/svg+xml' },
+      ],
+      apple: '/favicon.ico',
+    },
+    metadataBase: new URL('https://global-museums.vercel.app'),
+    alternates: {
+      canonical: '/',
+      languages: {
+        'ko-KR': '/',
+        'en-US': '/',
+        'ja-JP': '/',
+        'zh-CN': '/',
+        'de-DE': '/',
+        'fr-FR': '/',
+        'es-ES': '/',
+      },
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large' as const,
+        'max-snippet': -1,
+      },
     },
     openGraph: {
       title,
       description,
+      siteName: 'Museum Map',
       images: [
         {
           url: '/og-image.png',

@@ -11,7 +11,6 @@ export const config = {
         "/collections/new",
         "/collections/edit/:path*",
         "/saved/:path*",
-        "/plans/:path*",
-        "/admin/:path*"
+        "/plans/:path*"
     ],
 }

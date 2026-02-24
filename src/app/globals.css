@@ -120,6 +120,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -128,15 +129,25 @@
 /* ── Global Animation System ── */
 
 /* Smooth transitions for all interactive elements */
-a, button, [role="button"] {
+a,
+button,
+[role="button"] {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Slide-in from right */
 @keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
+
 .animate-slideIn {
   animation: slideInRight 300ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
@@ -144,56 +155,214 @@ a, button, [role="button"] {
 
 /* Fade-in up (for content appearing) */
 @keyframes fadeInUp {
-  from { transform: translateY(12px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
+
 .animate-fadeInUp {
   animation: fadeInUp 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* Scale spring (for expandable badges) */
 @keyframes scaleSpring {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.12); }
-  60% { transform: scale(0.97); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(1.12);
+  }
+
+  60% {
+    transform: scale(0.97);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
+
 .animate-scaleSpring {
   animation: scaleSpring 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Staggered children animation */
-.stagger-children > * {
+.stagger-children>* {
   animation: fadeInUp 350ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
-.stagger-children > *:nth-child(2) { animation-delay: 50ms; }
-.stagger-children > *:nth-child(3) { animation-delay: 100ms; }
-.stagger-children > *:nth-child(4) { animation-delay: 150ms; }
-.stagger-children > *:nth-child(5) { animation-delay: 200ms; }
-.stagger-children > *:nth-child(6) { animation-delay: 250ms; }
+
+.stagger-children>*:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.stagger-children>*:nth-child(2) {
+  animation-delay: 50ms;
+}
+
+.stagger-children>*:nth-child(3) {
+  animation-delay: 100ms;
+}
+
+.stagger-children>*:nth-child(4) {
+  animation-delay: 150ms;
+}
+
+.stagger-children>*:nth-child(5) {
+  animation-delay: 200ms;
+}
+
+.stagger-children>*:nth-child(6) {
+  animation-delay: 250ms;
+}
 
 /* Smooth expand/collapse */
 @keyframes expandBadge {
-  from { max-width: 140px; padding: 6px 12px; }
-  to { max-width: 400px; padding: 12px 20px; }
+  from {
+    max-width: 140px;
+    padding: 6px 12px;
+  }
+
+  to {
+    max-width: 400px;
+    padding: 12px 20px;
+  }
 }
+
 @keyframes collapseBadge {
-  from { max-width: 400px; padding: 12px 20px; }
-  to { max-width: 140px; padding: 6px 12px; }
+  from {
+    max-width: 400px;
+    padding: 12px 20px;
+  }
+
+  to {
+    max-width: 140px;
+    padding: 6px 12px;
+  }
 }
 
 /* Fade-in overlay */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 .animate-fadeIn {
   animation: fadeIn 200ms ease-out;
 }
 
 /* Slide-in from right (for mobile drawer) */
 @keyframes slideFromRight {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Admin Section Styling */
+.admin-table-container {
+  @apply shadow-sm rounded-2xl overflow-hidden border border-gray-200 dark:border-neutral-800;
+}
+
+.admin-card {
+  @apply bg-white dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all;
+}
+
+/* Prose for Blog Posts */
+.prose {
+  --tw-prose-body: #374151;
+  --tw-prose-headings: #111827;
+  --tw-prose-links: #7c3aed;
+}
+
+.dark .prose {
+  --tw-prose-body: #d1d5db;
+  --tw-prose-headings: #f3f4f6;
+  --tw-prose-links: #a78bfa;
+}
+
+/* MapLibre Popup — remove default frame, keep arrow only */
+.maplibregl-popup-content {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: white !important;
+}
+
+.dark .maplibregl-popup-tip {
+  border-top-color: #171717 !important;
+}
+
+.maplibregl-popup-close-button {
+  display: none !important;
+}
+
+/* Quill Snow CSS for blog detail page */
+@import 'react-quill/dist/quill.snow.css';
+
+/* Ensure Quill content styles on detail page */
+.ql-snow .ql-editor h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.67em 0;
+}
+
+.ql-snow .ql-editor h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.83em 0;
+}
+
+.ql-snow .ql-editor h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+  margin: 1em 0;
+}
+
+.ql-snow .ql-editor p {
+  margin: 0 0 1em 0;
+}
+
+.ql-snow .ql-editor ul,
+.ql-snow .ql-editor ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.ql-snow .ql-editor a {
+  color: #9333ea;
+  text-decoration: underline;
+}
+
+.ql-snow .ql-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  margin: 1em 0;
+}
+
+.ql-snow .ql-editor blockquote {
+  border-left: 4px solid #9333ea;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #6b7280;
 }

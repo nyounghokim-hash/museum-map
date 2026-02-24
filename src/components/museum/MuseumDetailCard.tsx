@@ -111,7 +111,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                         src={data.imageUrl || '/defaultimg.png'}
                         alt={data.name}
                         className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90
-                            ${(!data.imageUrl || data.imageUrl === '/defaultimg.png') ? 'dark:invert dark:sepia dark:hue-rotate-[260deg] dark:brightness-[0.7] dark:contrast-[1.2]' : ''}`}
+                            ${''}`}
                         onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.src = '/defaultimg.png';
@@ -281,7 +281,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                 }}
                                 className="inline-flex flex-1 sm:flex-none justify-center items-center gap-2 bg-blue-600 text-white px-4 py-3 sm:py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition active:scale-95 shadow-md"
                             >
-                                🗺️ {appleFirst ? 'Apple Maps' : 'Google Maps'}
+                                🗺️ {appleFirst ? t('map.appleMaps', locale) : t('map.googleMaps', locale)}
                             </a>
                             <a
                                 href={appleFirst ? mapLinks.googleDirections : mapLinks.appleDirections}
@@ -296,7 +296,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                 }}
                                 className="inline-flex flex-1 sm:flex-none justify-center items-center gap-2 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-gray-700 dark:text-gray-300 px-4 py-3 sm:py-2.5 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-neutral-700 transition active:scale-95"
                             >
-                                📍 {appleFirst ? 'Google Maps' : 'Apple Maps'}
+                                📍 {appleFirst ? t('map.googleMaps', locale) : t('map.appleMaps', locale)}
                             </a>
                         </div>
                     </div>
@@ -304,41 +304,43 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
             </GlassPanel>
 
             {/* Google Places Reviews */}
-            {googleReviews && (
-                <div className="mb-12 mt-8 px-4 sm:px-0">
-                    <div className="flex items-center gap-3 mb-6">
-                        <h2 className="text-xl sm:text-2xl font-bold dark:text-white">Google Reviews</h2>
-                        <div className="flex items-center gap-1 bg-yellow-100 text-yellow-800 px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold">
-                            ⭐ {googleReviews.rating || 'N/A'} <span className="text-yellow-600 font-normal ml-1">({googleReviews.totalRatings?.toLocaleString() || 0} reviews)</span>
+            {
+                googleReviews && (
+                    <div className="mb-12 mt-8 px-4 sm:px-0">
+                        <div className="flex items-center gap-3 mb-6">
+                            <h2 className="text-xl sm:text-2xl font-bold dark:text-white">Google Reviews</h2>
+                            <div className="flex items-center gap-1 bg-yellow-100 text-yellow-800 px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold">
+                                ⭐ {googleReviews.rating || 'N/A'} <span className="text-yellow-600 font-normal ml-1">({googleReviews.totalRatings?.toLocaleString() || 0} reviews)</span>
+                            </div>
                         </div>
-                    </div>
-                    {googleReviews.reviews && googleReviews.reviews.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                            {googleReviews.reviews.map((r: any, i: number) => (
-                                <div key={i} className="bg-white dark:bg-neutral-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-neutral-800">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center font-bold text-blue-600 dark:text-blue-400 shrink-0">
-                                            {r.author_name.charAt(0)}
+                        {googleReviews.reviews && googleReviews.reviews.length > 0 ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                                {googleReviews.reviews.map((r: any, i: number) => (
+                                    <div key={i} className="bg-white dark:bg-neutral-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-neutral-800">
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center font-bold text-blue-600 dark:text-blue-400 shrink-0">
+                                                {r.author_name.charAt(0)}
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="font-bold text-sm dark:text-white truncate">{r.author_name}</p>
+                                                <p className="text-[10px] text-gray-400 truncate">{r.relative_time_description}</p>
+                                            </div>
+                                            <div className="ml-auto text-yellow-400 text-xs sm:text-sm shrink-0">
+                                                {'★'.repeat(Math.round(r.rating))}
+                                            </div>
                                         </div>
-                                        <div className="min-w-0">
-                                            <p className="font-bold text-sm dark:text-white truncate">{r.author_name}</p>
-                                            <p className="text-[10px] text-gray-400 truncate">{r.relative_time_description}</p>
-                                        </div>
-                                        <div className="ml-auto text-yellow-400 text-xs sm:text-sm shrink-0">
-                                            {'★'.repeat(Math.round(r.rating))}
-                                        </div>
+                                        <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
+                                            {r.text || "No text provided."}
+                                        </p>
                                     </div>
-                                    <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
-                                        {r.text || "No text provided."}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="text-sm text-gray-500 dark:text-gray-400">No descriptive Google Reviews available at the moment.</p>
-                    )}
-                </div>
-            )}
-        </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-sm text-gray-500 dark:text-gray-400">No descriptive Google Reviews available at the moment.</p>
+                        )}
+                    </div>
+                )
+            }
+        </div >
     );
 }

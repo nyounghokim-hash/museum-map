@@ -12,20 +12,26 @@ export default function NavHeader() {
     const { showAlert } = useModal();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [langOpen, setLangOpen] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const [notifOpen, setNotifOpen] = useState(false);
+    const [notifications, setNotifications] = useState<any[]>([]);
     const pathname = usePathname();
     const drawerRef = useRef<HTMLDivElement>(null);
     const langRef = useRef<HTMLDivElement>(null);
+    const userMenuRef = useRef<HTMLDivElement>(null);
+    const notifRef = useRef<HTMLDivElement>(null);
     const { locale, setLocale, darkMode, setDarkMode } = useApp();
 
     const NAV_LINKS = [
         { href: '/', label: t('nav.mapExplore', locale) },
-        { href: '/collections', label: t('nav.myCollections', locale) },
-        { href: '/saved', label: t('nav.myPick', locale) },
+        { href: '/saved', label: t('nav.favorites', locale) },
         { href: '/plans', label: t('nav.myPlans', locale) },
+        { href: '/collections', label: t('nav.myCollections', locale) },
+        { href: '/blog', label: t('nav.mmStory', locale) },
         { href: '/feedback', label: t('nav.feedback', locale) || 'Feedback' },
     ];
 
-    useEffect(() => { setMobileOpen(false); setLangOpen(false); }, [pathname]);
+    useEffect(() => { setMobileOpen(false); setLangOpen(false); setUserMenuOpen(false); setNotifOpen(false); }, [pathname]);
 
     useEffect(() => {
         if (!mobileOpen) return;
@@ -45,6 +51,34 @@ export default function NavHeader() {
         return () => document.removeEventListener('mousedown', handler);
     }, [langOpen]);
 
+    useEffect(() => {
+        if (!notifOpen) return;
+        const handler = (e: MouseEvent) => {
+            if (notifRef.current && !notifRef.current.contains(e.target as Node)) setNotifOpen(false);
+        };
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+    }, [notifOpen]);
+
+    // Fetch notifications
+    useEffect(() => {
+        if (session?.user) {
+            fetch('/api/notifications')
+                .then(res => res.json())
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        setNotifications(data);
+                    } else {
+                        setNotifications([]);
+                    }
+                })
+                .catch(err => {
+                    console.error('Failed to fetch notifications:', err);
+                    setNotifications([]);
+                });
+        }
+    }, [session]);
+
     return (
         <>
             <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-md">
@@ -55,18 +89,24 @@ export default function NavHeader() {
                     </Link>
 
                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-                        {NAV_LINKS.map(link => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className={`transition-colors hover:text-black dark:hover:text-white ${pathname === link.href
-                                    ? 'text-black dark:text-white'
-                                    : 'text-gray-500 dark:text-gray-400'
-                                    }`}
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
+                        {NAV_LINKS.map(link => {
+                            const isGuest = !session || session?.user?.name?.startsWith('guest_');
+                            const isProtectedRoute = ['/saved', '/plans', '/collections'].includes(link.href);
+                            const guardedHref = (isGuest && isProtectedRoute) ? `/login?callbackUrl=${encodeURIComponent(link.href)}` : link.href;
+
+                            return (
+                                <Link
+                                    key={link.href}
+                                    href={guardedHref}
+                                    className={`transition-colors hover:text-black dark:hover:text-white ${pathname === link.href
+                                        ? 'text-black dark:text-white'
+                                        : 'text-gray-500 dark:text-gray-400'
+                                        }`}
+                                >
+                                    {link.label}
+                                </Link>
+                            );
+                        })}
                     </nav>
 
                     <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
@@ -86,6 +126,74 @@ export default function NavHeader() {
                                 </svg>
                             )}
                         </button>
+
+                        {/* Notification Dropdown */}
+                        {session && !session.user?.name?.startsWith('guest_') && (
+                            <div className="relative" ref={notifRef}>
+                                <button
+                                    onClick={() => setNotifOpen(!notifOpen)}
+                                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400 relative"
+                                    title={locale === 'ko' ? '알림' : 'Notifications'}
+                                >
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                    </svg>
+                                    {Array.isArray(notifications) && notifications.some(n => !n.isRead) && (
+                                        <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-neutral-900" />
+                                    )}
+                                </button>
+                                {notifOpen && (
+                                    <div className="absolute right-0 top-full mt-1 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-2xl shadow-2xl py-0 min-w-[300px] max-w-[350px] z-50 overflow-hidden">
+                                        <div className="px-4 py-3 border-b dark:border-neutral-800 flex items-center justify-between">
+                                            <span className="text-sm font-bold dark:text-white">{locale === 'ko' ? '알림' : 'Notifications'}</span>
+                                            {notifications.length > 0 && (
+                                                <button
+                                                    onClick={() => {
+                                                        fetch('/api/notifications/read-all', { method: 'POST' })
+                                                            .then(() => setNotifications(prev => prev.map(n => ({ ...n, isRead: true }))));
+                                                    }}
+                                                    className="text-[10px] text-blue-600 dark:text-blue-400 font-bold hover:underline"
+                                                >
+                                                    {locale === 'ko' ? '모두 읽음' : 'Mark all as read'}
+                                                </button>
+                                            )}
+                                        </div>
+                                        <div className="max-h-[400px] overflow-y-auto">
+                                            {notifications.length === 0 ? (
+                                                <div className="px-4 py-10 text-center">
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400">{locale === 'ko' ? '새로운 알림이 없습니다.' : 'No new notifications.'}</p>
+                                                </div>
+                                            ) : (
+                                                notifications.map(n => (
+                                                    <div
+                                                        key={n.id}
+                                                        className={`px-4 py-3 border-b last:border-0 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors cursor-pointer ${!n.isRead ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`}
+                                                        onClick={() => {
+                                                            if (!n.isRead) {
+                                                                fetch(`/api/notifications/${n.id}/read`, { method: 'POST' });
+                                                                setNotifications(prev => prev.map(notif => notif.id === n.id ? { ...notif, isRead: true } : notif));
+                                                            }
+                                                            if (n.link) window.location.href = n.link;
+                                                        }}
+                                                    >
+                                                        <div className="flex items-start gap-3">
+                                                            <div className={`w-2 h-2 shrink-0 rounded-full mt-1.5 ${!n.isRead ? 'bg-blue-500' : 'bg-transparent'}`} />
+                                                            <div className="min-w-0">
+                                                                <p className="text-xs font-bold text-gray-900 dark:text-white mb-0.5">{n.title}</p>
+                                                                <p className="text-[11px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{n.message}</p>
+                                                                <p className="text-[9px] text-gray-400 dark:text-neutral-600 mt-1">{new Date(n.createdAt).toLocaleString()}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+
 
                         {/* Language dropdown */}
                         <div className="relative" ref={langRef}>
@@ -115,15 +223,66 @@ export default function NavHeader() {
 
                         {/* Auth UI */}
                         {session ? (
-                            <Link href="/saved" className="flex items-center">
-                                <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 flex items-center justify-center text-purple-700 dark:text-purple-400 font-bold text-xs ring-2 ring-transparent hover:ring-purple-500 transition-all overflow-hidden">
-                                    {session.user?.image ? (
-                                        <img src={session.user.image} alt={session.user.name || 'User'} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <span>{session.user?.name ? session.user.name.charAt(0).toUpperCase() : 'U'}</span>
+                            <div className="flex items-center gap-2">
+                                {/* Guest/User Icon with Menu */}
+                                <div className="relative" ref={userMenuRef}>
+                                    <button
+                                        onClick={() => setUserMenuOpen(!userMenuOpen)}
+                                        className="flex items-center ring-2 ring-transparent hover:ring-purple-500 rounded-full transition-all"
+                                    >
+                                        <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 flex items-center justify-center text-purple-700 dark:text-purple-400 font-bold text-xs overflow-hidden">
+                                            {session.user?.image ? (
+                                                <img src={session.user.image} alt={session.user.name || 'User'} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <span>{session.user?.name?.startsWith('guest_') ? '비' : (session.user?.name ? session.user.name.charAt(0).toUpperCase() : 'U')}</span>
+                                            )}
+                                        </div>
+                                    </button>
+
+                                    {userMenuOpen && (
+                                        <div className="absolute right-0 top-full mt-2 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-xl shadow-xl py-2 min-w-[160px] z-50">
+                                            <div className="px-4 py-2 border-b dark:border-neutral-800 mb-1">
+                                                <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{session.user?.name?.startsWith('guest_') ? (locale === 'ko' ? '비회원' : 'Guest') : session.user?.name}</p>
+                                                <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">{session.user?.name?.startsWith('guest_') ? (locale === 'ko' ? '비회원 모드' : 'Guest Mode') : session.user?.email}</p>
+                                            </div>
+                                            {session.user?.name?.startsWith('guest_') ? (
+                                                <Link
+                                                    href="/login"
+                                                    className="block px-4 py-2 text-sm text-purple-600 dark:text-purple-400 font-bold hover:bg-purple-50 dark:hover:bg-purple-900/10 transition-colors border-b dark:border-neutral-800"
+                                                >
+                                                    {t('login.title', locale) || 'Login'}
+                                                </Link>
+                                            ) : (
+                                                <Link href="/saved" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
+                                                    {t('nav.favorites', locale)}
+                                                </Link>
+                                            )}
+
+                                            <button
+                                                onClick={() => {
+                                                    const { signOut } = require('next-auth/react');
+                                                    signOut({ callbackUrl: '/' });
+                                                }}
+                                                className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                                            >
+                                                {session.user?.name?.startsWith('guest_')
+                                                    ? (locale === 'ko' ? '게스트 종료' : 'End Guest Session')
+                                                    : (locale === 'ko' ? '로그아웃' : 'Logout')}
+                                            </button>
+                                        </div>
                                     )}
                                 </div>
-                            </Link>
+
+                                {/* Login Button for Guests beside the profile icon */}
+                                {session.user?.name?.startsWith('guest_') && (
+                                    <Link
+                                        href="/login"
+                                        className="ml-2 px-4 py-1.5 rounded-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm active:scale-95 transition-all"
+                                    >
+                                        {t('login.title', locale) || 'Login'}
+                                    </Link>
+                                )}
+                            </div>
                         ) : (
                             <Link
                                 href="/login"
@@ -169,18 +328,23 @@ export default function NavHeader() {
                         </div>
 
                         <nav className="flex-1 p-4 space-y-1">
-                            {NAV_LINKS.map(link => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all ${pathname === link.href
-                                        ? 'bg-black dark:bg-white text-white dark:text-black'
-                                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800'
-                                        }`}
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
+                            {NAV_LINKS.map(link => {
+                                const isGuest = session?.user?.name?.startsWith('guest_');
+                                const isProtectedRoute = ['/saved', '/plans', '/collections'].includes(link.href);
+
+                                return (
+                                    <Link
+                                        key={link.href}
+                                        href={(isGuest && isProtectedRoute) ? '/login' : link.href}
+                                        className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all ${pathname === link.href
+                                            ? 'bg-black dark:bg-white text-white dark:text-black'
+                                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800'
+                                            }`}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                );
+                            })}
                         </nav>
 
                         {/* Mobile language selector */}
@@ -203,21 +367,15 @@ export default function NavHeader() {
                             >
                                 {darkMode ? '☀️ ' + t('theme.light', locale) : '🌙 ' + t('theme.dark', locale)}
                             </button>
-                            <Link
-                                href="/admin"
-                                className="block px-4 py-3 rounded-xl text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-all"
-                            >
-                                {t('nav.admin', locale)}
-                            </Link>
                         </div>
+
+                        <style jsx global>{`
+                            @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+                            @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+                        `}</style>
                     </div>
                 </div>
             )}
-
-            <style jsx global>{`
-                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-                @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
-            `}</style>
         </>
     );
 }

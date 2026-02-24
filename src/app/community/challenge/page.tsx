@@ -2,9 +2,13 @@
 import { useState } from 'react';
 import { GlassPanel } from '@/components/ui/glass';
 import { useRouter } from 'next/navigation';
+import { useModal } from '@/components/ui/Modal';
+import { useApp } from '@/components/AppContext';
 
 export default function ChallengePage() {
     const router = useRouter();
+    const { showAlert } = useModal();
+    const { locale } = useApp();
     const [joined, setJoined] = useState(false);
     const [progress, setProgress] = useState(0); // mock progress
 
@@ -12,17 +16,19 @@ export default function ChallengePage() {
         // mock challenge ID call
         await fetch('/api/challenges/cm0abc123/join', { method: 'POST' });
         setJoined(true);
-        alert('You have joined the challenge!');
+        showAlert(locale === 'ko' ? '챌린지에 참여하셨습니다!' : 'You have joined the challenge!');
     };
 
     const handleCheckProgress = async () => {
         // Instead of completing it instantly, pretend they visited 2 museums
-        if (progress < 3) {
+        if (progress < 2) {
             setProgress(p => p + 1);
-            alert('Progress Validated! You unlocked a step.');
+            showAlert(locale === 'ko' ? '진행 상황이 확인되었습니다! 다음 단계를 향해 나아가세요.' : 'Progress Validated! Keep going.');
         } else {
+            const nextProgress = progress + 1;
+            setProgress(nextProgress);
             await fetch('/api/challenges/cm0abc123/complete', { method: 'POST' });
-            alert('Challenge Completed! Badge Awarded.');
+            showAlert(locale === 'ko' ? '챌린지 완료! 뱃지가 수여되었습니다.' : 'Challenge Completed! Badge Awarded.');
             router.push('/collections');
         }
     };
@@ -45,7 +51,7 @@ export default function ChallengePage() {
                 {!joined ? (
                     <button
                         onClick={handleJoin}
-                        className="bg-black text-white px-8 py-4 rounded-xl font-bold shadow-xl hover:bg-neutral-800 transition-all active:scale-95 w-full sm:w-auto"
+                        className="bg-purple-600 text-white px-8 py-4 rounded-xl font-bold shadow-xl hover:bg-purple-700 transition-all active:scale-95 w-full sm:w-auto"
                     >
                         Accept Challenge & Opt-in Match
                     </button>

@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
     try {
-        const { username, password } = await req.json();
+        const { username, password, guestId } = await req.json();
 
         if (!username || !password) {
             return NextResponse.json(
@@ -39,6 +39,40 @@ export async function POST(req: Request) {
                 email: `${username}@user.local`, // Fix: Add dummy email to bypass DB constraint
             },
         });
+
+        // GUEST DATA MIGRATION
+        if (guestId && guestId.startsWith('guest_')) {
+            console.log(`Migrating data from ${guestId} to ${newUser.id}`);
+            try {
+                // Migrate Saves
+                await prisma.save.updateMany({
+                    where: { userId: guestId },
+                    data: { userId: newUser.id }
+                });
+
+                // Migrate Plans
+                await prisma.plan.updateMany({
+                    where: { userId: guestId },
+                    data: { userId: newUser.id }
+                });
+
+                // Migrate Collections
+                await prisma.collection.updateMany({
+                    where: { userId: guestId },
+                    data: { userId: newUser.id }
+                });
+
+                // Delete the guest user record if it exists
+                await prisma.user.delete({
+                    where: { id: guestId }
+                }).catch(() => { /* Guest user might not have a DB record if only in localStorage, but usually it does */ });
+
+                console.log('Migration successful');
+            } catch (migrationError) {
+                console.error('Migration failed:', migrationError);
+                // We don't fail the whole registration if migration fails, but log it
+            }
+        }
 
         return NextResponse.json(
             { message: 'User registered successfully', userId: newUser.id },

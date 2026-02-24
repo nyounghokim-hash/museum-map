@@ -320,7 +320,7 @@ export default function PlanDetailPage() {
                         ) : (
                             <button
                                 onClick={handleStartTrip}
-                                className="w-full bg-black dark:bg-white text-white dark:text-black py-3 rounded-lg font-bold hover:bg-neutral-800 dark:hover:bg-gray-200 transition-colors active:scale-[0.98]"
+                                className="w-full bg-purple-600 text-white py-3 rounded-lg font-bold hover:bg-purple-700 transition-colors active:scale-[0.98]"
                             >
                                 {t('plans.startTripButton', locale)}
                             </button>

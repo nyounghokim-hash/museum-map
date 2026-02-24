@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { useApp } from '@/components/AppContext';
+import { useModal } from '@/components/ui/Modal';
 import { GlassPanel } from '@/components/ui/glass';
 import { t } from '@/lib/i18n';
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
 export default function FeedbackPage() {
     const { locale } = useApp();
+    const { showAlert } = useModal();
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -24,7 +26,7 @@ export default function FeedbackPage() {
             });
             setSuccess(true);
         } catch (err) {
-            alert(t('feedback.error', locale) || 'Error');
+            showAlert(t('feedback.error', locale) || 'Error');
         } finally {
             setLoading(false);
         }
@@ -53,7 +55,7 @@ export default function FeedbackPage() {
                             <button
                                 type="submit"
                                 disabled={loading || !message}
-                                className="w-full py-3 bg-black dark:bg-white text-white dark:text-black font-medium rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                                className="w-full py-3 bg-purple-600 text-white font-medium rounded-xl hover:bg-purple-700 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
                             >
                                 {loading && <LoadingAnimation size={24} className="brightness-150 dark:brightness-0" />}
                                 {loading ? t('feedback.sending', locale) : t('feedback.send', locale)}
@@ -86,6 +88,6 @@ export default function FeedbackPage() {
                     </a>
                 </div>
             </div>
-        </main>
+        </main >
     );
 }

@@ -348,8 +348,8 @@ export default function NavHeader() {
 
                         {/* Mobile notification */}
                         <div className="px-4 py-2">
-                            <button
-                                onClick={() => { setMobileOpen(false); setNotifOpen(!notifOpen); }}
+                            <Link
+                                href="/notifications"
                                 className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-all relative"
                             >
                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -359,7 +359,7 @@ export default function NavHeader() {
                                 {Array.isArray(notifications) && notifications.some(n => !n.isRead) && (
                                     <span className="w-2 h-2 bg-red-500 rounded-full" />
                                 )}
-                            </button>
+                            </Link>
                         </div>
 
                         {/* Mobile language selector */}

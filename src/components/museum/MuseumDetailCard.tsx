@@ -132,20 +132,30 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                             }
 
                             if (isPicked && saveId) {
-                                await fetch(`/api/me/saves/${saveId}`, { method: 'DELETE' });
+                                // Optimistic unsave
+                                const prevSaveId = saveId;
                                 setIsPicked(false);
                                 setSaveId(null);
+                                fetch(`/api/me/saves/${prevSaveId}`, { method: 'DELETE' })
+                                    .catch(() => { setIsPicked(true); setSaveId(prevSaveId); });
                             } else {
-                                const res = await fetch('/api/saves', { method: 'POST', body: JSON.stringify({ museumId: data.id }) }).then(r => r.json());
-                                if (res.data) {
-                                    setIsPicked(true);
-                                    setSaveId(res.data.id || res.data._id);
-                                    gtag.event('save_museum', {
-                                        category: 'museum',
-                                        label: data.name,
-                                        value: 1
-                                    });
-                                }
+                                // Optimistic save
+                                setIsPicked(true);
+                                fetch('/api/saves', { method: 'POST', body: JSON.stringify({ museumId: data.id }) })
+                                    .then(r => r.json())
+                                    .then(res => {
+                                        if (res.data) {
+                                            setSaveId(res.data.id || res.data._id);
+                                            gtag.event('save_museum', {
+                                                category: 'museum',
+                                                label: data.name,
+                                                value: 1
+                                            });
+                                        } else {
+                                            setIsPicked(false);
+                                        }
+                                    })
+                                    .catch(() => { setIsPicked(false); });
                             }
                         }}
                         className={`absolute top-4 right-4 w-11 h-11 rounded-full flex items-center justify-center shadow-lg backdrop-blur-md transition-all active:scale-95 cursor-pointer z-10 ${isPicked ? 'bg-yellow-400 border border-yellow-300 text-white' : 'bg-black/40 border border-white/30 text-white hover:bg-black/60 hover:border-white/60'}`}

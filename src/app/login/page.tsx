@@ -36,7 +36,7 @@ export default function LoginPage() {
                 if (idx <= TITLE.length) {
                     setTitleText(TITLE.slice(0, idx));
                     typoIdx.current = idx + 1;
-                    typoTimer.current = setTimeout(tick, 80);
+                    typoTimer.current = setTimeout(tick, 160);
                 } else {
                     typoPhase.current = 'waiting';
                     typoTimer.current = setTimeout(tick, 3000);
@@ -49,7 +49,7 @@ export default function LoginPage() {
                 if (idx > 0) {
                     typoIdx.current = idx - 1;
                     setTitleText(TITLE.slice(0, idx - 1));
-                    typoTimer.current = setTimeout(tick, 50);
+                    typoTimer.current = setTimeout(tick, 100);
                 } else {
                     typoPhase.current = 'pause';
                     typoTimer.current = setTimeout(tick, 1000);

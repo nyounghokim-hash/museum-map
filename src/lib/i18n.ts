@@ -1540,7 +1540,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'detail.visitWebsite': '공식 웹사이트',
         'login.title': '로그인',
         'login.welcome': '글로벌 뮤지엄 맵에 오신 것을 환영합니다',
-        'login.description': '전 세계 미술관을 손안에\n스마트 아트 트립 플래너',
+        'login.description': '전 세계 미술관/박물관을 당신의 손 안에!',
         'login.idLabel': '아이디',
         'login.pwLabel': '비밀번호',
         'login.idPlaceholder': '아이디를 입력하세요',

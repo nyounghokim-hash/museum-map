@@ -99,7 +99,7 @@ export default function CollectionDetailPage() {
                             <div className="h-40 bg-gray-100 dark:bg-neutral-800 rounded-lg mb-4 flex items-center justify-center text-gray-400 overflow-hidden relative">
                                 <img src={item.museum.imageUrl || '/defaultimg.png'} alt={item.museum.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { (e.target as HTMLImageElement).src = '/defaultimg.png'; }} />
                             </div>
-                            <h3 className="font-bold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.museum.name}</h3>
+                            <h3 className="font-bold text-gray-900 dark:text-white truncate group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">{item.museum.name}</h3>
                             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 truncate">{item.museum.city}, {item.museum.country}</p>
                         </div>
                     ))}
@@ -108,12 +108,12 @@ export default function CollectionDetailPage() {
 
             {/* AutoRoute Action Trigger */}
             {itemsCount > 0 && (
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/50 rounded-2xl p-8 sm:p-10 text-center flex flex-col items-center shadow-inner">
-                    <h2 className="text-2xl font-extrabold text-blue-900 dark:text-blue-300 mb-2">{t('collections.planTrip', locale)}</h2>
-                    <p className="text-blue-700 dark:text-blue-400 mb-8 max-w-lg mx-auto leading-relaxed">{t('collections.autoRouteDesc', locale)}</p>
+                <div className="bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 border border-purple-100 dark:border-purple-800/50 rounded-2xl p-8 sm:p-10 text-center flex flex-col items-center shadow-inner">
+                    <h2 className="text-2xl font-extrabold text-purple-900 dark:text-purple-300 mb-2">{t('collections.planTrip', locale)}</h2>
+                    <p className="text-purple-700 dark:text-purple-400 mb-8 max-w-lg mx-auto leading-relaxed">{t('collections.autoRouteDesc', locale)}</p>
                     <button
                         onClick={handleCreateAutoRoute}
-                        className="bg-blue-600 dark:bg-blue-500 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-blue-600/30 dark:shadow-blue-500/20 hover:bg-blue-700 dark:hover:bg-blue-600 active:scale-95 transition-all text-sm sm:text-base flex items-center gap-2"
+                        className="bg-purple-600 dark:bg-purple-500 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-purple-600/30 dark:shadow-purple-500/20 hover:bg-purple-700 dark:hover:bg-purple-600 active:scale-95 transition-all text-sm sm:text-base flex items-center gap-2"
                     >
                         <span className="animate-pulse">🗺️</span>
                         {t('collections.generateAutoRoute', locale)}

@@ -7,11 +7,6 @@ export async function POST(
     req: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
-        return NextResponse.json({ error: 'Auth required' }, { status: 401 });
-    }
-
     const resolvedParams = await params;
     const notification = await prisma.notification.findUnique({
         where: { id: resolvedParams.id },
@@ -22,8 +17,15 @@ export async function POST(
         return NextResponse.json({ error: 'Notification not found' }, { status: 404 });
     }
 
-    if (notification.user.email !== session.user.email) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+    // Broadcast notifications (userId=null) can be marked as read by anyone
+    if (notification.userId !== null) {
+        const session = await getServerSession(authOptions);
+        if (!session?.user?.email) {
+            return NextResponse.json({ error: 'Auth required' }, { status: 401 });
+        }
+        if (notification.user && notification.user.email !== session.user.email) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+        }
     }
 
     await prisma.notification.update({

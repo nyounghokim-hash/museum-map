@@ -4,10 +4,11 @@ import { requireAuth } from '@/lib/auth';
 import { successResponse, errorResponse } from '@/lib/api-utils';
 import { translateText } from '@/lib/translate';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
+        const { id } = await params;
         const post = await (prisma as any).story.findUnique({
-            where: { id: params.id },
+            where: { id },
             include: {
                 museums: {
                     include: {
@@ -23,7 +24,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
         // Increment views
         await (prisma as any).story.update({
-            where: { id: params.id },
+            where: { id },
             data: { views: { increment: 1 } }
         });
 
@@ -34,8 +35,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
+        const { id } = await params;
         await requireAuth();
         const body = await req.json();
         const { museumIds, ...updateData } = body;
@@ -50,16 +52,16 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         // Update museum connections if provided
         if (museumIds !== undefined) {
             // Delete existing connections and recreate
-            await (prisma as any).storyMuseum.deleteMany({ where: { storyId: params.id } });
+            await (prisma as any).storyMuseum.deleteMany({ where: { storyId: id } });
             if (museumIds.length > 0) {
                 await (prisma as any).storyMuseum.createMany({
-                    data: museumIds.map((mid: string) => ({ storyId: params.id, museumId: mid }))
+                    data: museumIds.map((mid: string) => ({ storyId: id, museumId: mid }))
                 });
             }
         }
 
         const post = await (prisma as any).story.update({
-            where: { id: params.id },
+            where: { id },
             data: updateData,
             include: {
                 museums: {
@@ -76,13 +78,14 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     try {
+        const { id } = await params;
         await requireAuth();
 
         // Soft delete by setting status to DELETED
         const post = await (prisma as any).story.update({
-            where: { id: params.id },
+            where: { id },
             data: { status: 'DELETED' }
         });
 

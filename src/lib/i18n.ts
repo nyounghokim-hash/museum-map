@@ -30,6 +30,7 @@ export function getLocaleFromCountry(countryCode: string): Locale {
 }
 
 type TranslationKeys = {
+    [key: string]: string;
     'nav.mapExplore': string;
     'nav.myCollections': string;
     'nav.favorites': string;
@@ -136,9 +137,6 @@ type TranslationKeys = {
     'nav.feedback': string;
     'plans.confirmEndTrip': string;
     'plans.confirmSave': string;
-    'plans.dragReorder': string;
-    'plans.activeRoute': string;
-    'global.viewDetails': string;
     'plans.endTrip': string;
     'plans.est': string;
     'plans.generating': string;
@@ -267,7 +265,7 @@ type TranslationKeys = {
     'legal.privacy.s9.content': string;
 };
 
-const translations: Record<Locale, TranslationKeys> = {
+const translations: Record<Locale, Record<string, string>> = {
     et: {
         'nav.mapExplore': 'Kaart',
         'nav.myCollections': 'Minu Kogud',
@@ -280,6 +278,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'blog.empty': 'Lood pole veel avaldatud.',
         'blog.emptyDesc': 'Püsige kuuldel!',
         'blog.readMore': 'Loe edasi',
+        'blog.backToList': 'Tagasi MM Story juurde',
         'nav.admin': 'Admin',
         'nav.menu': 'Menüü',
         'map.search': 'Otsi kaasaegse kunsti muuseume...',
@@ -317,6 +316,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': 'Sinu salvestatud muuseumikaustad.',
         'collections.loading': 'Kogude laadimine...',
         'collections.empty': 'Kogusid veel pole',
+        'collections.emptyTitle': 'Kogud on tühjad',
         'collections.emptyDesc': 'Salvesta muuseume ja organiseeri need kogudesse!',
         'collections.newCollection': 'Uus Kogu',
         'collections.items': 'objekti',
@@ -363,7 +363,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'nav.feedback': 'Tagasiside',
         'plans.confirmEndTrip': 'Kas oled kindel, et soovid selle reisi lõpetada?',
         'plans.confirmSave': 'Kinnita ja Salvesta Plaan',
-        'plans.dragReorder': 'Lohista ümberjärjestamiseks → puuduta asetamiseks',
         'plans.endTrip': 'Lõpeta Reis',
         'plans.est': 'Eeldatav',
         'plans.generating': 'Marsruudi loomine...',
@@ -489,8 +488,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'legal.privacy.s9.title': '9. Privaatsuspoliitika muudatused',
         'legal.privacy.s9.content': 'Kõigist muudatustest teavitatakse mõistliku aja jooksul enne nende jõustumist.',
         'saved.planRoute': 'Plan Route',
-        'map.googleMaps': 'Google Maps',
-        'plans.activeRoute': 'Aktiivne marsruut',
     },
     sv: {
         'nav.mapExplore': 'Karta',
@@ -536,6 +533,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': 'Dina sparade museummappar.',
         'collections.loading': 'Laddar samlingar...',
         'collections.empty': 'Inga samlingar ännu',
+        'collections.emptyTitle': 'Kollektioner är tomma',
         'collections.emptyDesc': 'Spara museer och organisera dem i samlingar!',
         'collections.newCollection': 'Ny Samling',
         'collections.items': 'objekt',
@@ -582,7 +580,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'nav.feedback': 'Feedback',
         'plans.confirmEndTrip': 'Är du säker på att du vill avsluta den här resan?',
         'plans.confirmSave': 'Bekräfta & Spara Plan',
-        'plans.dragReorder': 'Dra för att ändra ordning → tryck för att placera',
         'plans.endTrip': 'Avsluta Resa',
         'plans.est': 'Ber.',
         'plans.generating': 'Genererar rutt...',
@@ -714,8 +711,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'legal.privacy.s9.title': '9. Ändringar i integritetspolicyn',
         'legal.privacy.s9.content': 'Eventuella ändringar i denna policy kommer att publiceras i rimlig tid innan de träder i kraft.',
         'saved.planRoute': 'Plan Route',
-        'map.googleMaps': 'Google Maps',
-        'plans.activeRoute': 'Aktiv rutt',
     },
     fi: {
         'nav.mapExplore': 'Kartta',
@@ -761,6 +756,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': 'Tallennetut museokansiosi.',
         'collections.loading': 'Ladataan kokoelmia...',
         'collections.empty': 'Ei vielä kokoelmia',
+        'collections.emptyTitle': 'Kokoelmat ovat tyhjiä',
         'collections.emptyDesc': 'Tallenna museoita ja järjestä ne kokoelmiksi!',
         'collections.newCollection': 'Uusi Kokoelma',
         'collections.items': 'kohdetta',
@@ -807,7 +803,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'nav.feedback': 'Palaute',
         'plans.confirmEndTrip': 'Haluatko varmasti päättää tämän matkan?',
         'plans.confirmSave': 'Vahvista & Tallenna Suunnitelma',
-        'plans.dragReorder': 'Vedä järjestääksesi uudelleen → napauta asettaaksesi',
         'plans.endTrip': 'Lopeta Matka',
         'plans.est': 'Arvio',
         'plans.generating': 'Luodaan reittiä...',
@@ -939,8 +934,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'legal.privacy.s9.title': '9. Muutokset tietosuojaselosteeseen',
         'legal.privacy.s9.content': 'Kaikista muutoksista tähän selosteeseen ilmoitetaan kohtuullisessa ajassa ennen niiden voimaantuloa.',
         'saved.planRoute': 'Plan Route',
-        'map.googleMaps': 'Google Maps',
-        'plans.activeRoute': 'Aktiivinen reitti',
     },
     da: {
         'nav.mapExplore': 'Kort',
@@ -986,6 +979,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': 'Dine gemte museummapper.',
         'collections.loading': 'Indlæser samlinger...',
         'collections.empty': 'Ingen samlinger endnu',
+        'collections.emptyTitle': 'Kollektioner er tomme',
         'collections.emptyDesc': 'Tallenna museoita ja järjestä ne kokoelmiksi!',
         'collections.newCollection': 'Ny Samling',
         'collections.items': 'genstande',
@@ -1032,7 +1026,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'nav.feedback': 'Palaute',
         'plans.confirmEndTrip': 'Er du sikker på, at du vil afslutte den her tur?',
         'plans.confirmSave': 'Bekræft & Gem Plan',
-        'plans.dragReorder': 'Træk for at omarrangere → tryk for at placere',
         'plans.endTrip': 'Afslut tur',
         'plans.est': 'Est.',
         'plans.generating': 'Genererer rute...',
@@ -1164,8 +1157,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'legal.privacy.s9.title': '9. Kontakt',
         'legal.privacy.s9.content': 'E-mail: [Admin Email]',
         'saved.planRoute': 'Plan Route',
-        'map.googleMaps': 'Google Maps',
-        'plans.activeRoute': 'Aktiv rute',
     },
     en: {
         'nav.mapExplore': 'Map',
@@ -1211,6 +1202,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': 'Your saved museum folders.',
         'collections.loading': 'Loading collections...',
         'collections.empty': 'No collections yet',
+        'collections.emptyTitle': 'No collections',
         'collections.emptyDesc': 'Save museums and organize them into collections!',
         'collections.newCollection': 'New Collection',
         'collections.items': 'items',
@@ -1257,7 +1249,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'nav.feedback': 'Feedback',
         'plans.confirmEndTrip': 'Are you sure you want to end this trip?',
         'plans.confirmSave': 'Confirm & Save Plan',
-        'plans.dragReorder': 'Drag to reorder → tap to place',
         'plans.endTrip': 'End Trip',
         'plans.est': 'Est.',
         'plans.generating': 'Generating route...',
@@ -1390,8 +1381,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'legal.privacy.s9.title': '9. Contact',
         'legal.privacy.s9.content': 'Email: [Admin Email]',
         'saved.planRoute': 'Plan Route',
-        'map.googleMaps': 'Google Maps',
-        'plans.activeRoute': 'Active Route',
     },
     ko: {
         'nav.mapExplore': '지도',
@@ -1438,8 +1427,8 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': '저장된 미술관/박물관 폴더입니다.',
         'collections.loading': '컬렉션 불러오는 중...',
         'collections.empty': '컬렉션 없음',
+        'collections.emptyTitle': '컬렉션 없음',
         'collections.emptyDesc': '미술관/박물관을 저장하고 컬렉션으로 정리하세요!',
-        'collections.emptyTitle': '담은 항목 없음',
         'collections.newCollection': '새 컬렉션',
         'collections.items': '개 항목',
         'saved.title': '즐겨찾기',
@@ -1487,7 +1476,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'feedback.title': '의견 보내기',
         'plans.confirmEndTrip': '이 여행을 종료하시겠습니까?',
         'plans.confirmSave': '저장 및 설정 완료',
-        'plans.dragReorder': '드래그하여 순서 변경',
         'plans.endTrip': '여행 종료',
         'plans.est': '예상 소요 시간',
         'plans.generating': '경로 생성 중...',
@@ -1618,8 +1606,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'legal.privacy.s8.content': '개인화된 서비스를 위해 쿠키를 사용하며, 브라우저 설정을 통해 거부할 수 있습니다.',
         'legal.privacy.s9.title': '9. 문의',
         'legal.privacy.s9.content': '이메일: [Admin Email]',
-        'map.googleMaps': 'Google 지도',
-        'plans.activeRoute': '현재 경로',
     },
     ja: {
         'nav.mapExplore': 'マップ',
@@ -1665,6 +1651,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': '保存された美術館フォルダー。',
         'collections.loading': 'コレクション読み込み中...',
         'collections.empty': 'コレクションなし',
+        'collections.emptyTitle': 'コレクションなし',
         'collections.emptyDesc': '美術館を保存してコレクションに整理しましょう！',
         'collections.newCollection': '新しいコレクション',
         'collections.items': '件',
@@ -1711,7 +1698,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'nav.feedback': 'フィードバック',
         'plans.confirmEndTrip': '旅行を終了しますか？',
         'plans.confirmSave': '保存',
-        'plans.dragReorder': 'ドラッグして並べ替え',
         'plans.endTrip': '旅行を終了',
         'plans.est': '予想',
         'plans.generating': 'ルートを作成中...',
@@ -1728,6 +1714,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'global.goHome': 'ホームに戻る',
         'blog.title': 'MM ストーリー',
         'blog.readMore': 'もっと見る',
+        'blog.backToList': 'Back to MM Story',
         'blog.subtitle': '芸術と美術館の愛好家のために厳選されたストーリー。',
         'blog.empty': 'まだ公開されたストーリーはありません。',
         'blog.emptyDesc': '世界中の博物館の隠れた物語やアート旅行ガイドがまもなく登場します。お楽しみに！',
@@ -1842,8 +1829,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'legal.privacy.s9.title': '9. お問い合わせ',
         'legal.privacy.s9.content': 'メール：[Admin Email]',
         'saved.planRoute': 'Plan Route',
-        'map.googleMaps': 'Google マップ',
-        'plans.activeRoute': '現在ルート',
     },
     de: {
         'nav.mapExplore': 'Karte',
@@ -1889,6 +1874,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': 'Ihre gespeicherten Museumsordner.',
         'collections.loading': 'Sammlungen werden geladen...',
         'collections.empty': 'Keine Sammlungen',
+        'collections.emptyTitle': 'Keine Sammlungen',
         'collections.emptyDesc': 'Speichern und organisieren Sie Ihre Museen!',
         'collections.newCollection': 'Neue Sammlung',
         'collections.items': 'Einträge',
@@ -1935,7 +1921,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'nav.feedback': 'Feedback',
         'plans.confirmEndTrip': 'Möchten Sie diese Reise beenden?',
         'plans.confirmSave': 'Speichern',
-        'plans.dragReorder': 'Ziehen zum Neuordnen',
         'plans.endTrip': 'Reise beenden',
         'plans.est': 'Vorauss.',
         'plans.generating': 'Generiere...',
@@ -1952,6 +1937,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'global.goHome': 'Zurück zur Startseite',
         'blog.title': 'MM Story',
         'blog.readMore': 'Mehr lesen',
+        'blog.backToList': 'Back to MM Story',
         'blog.subtitle': 'Kuratierte Geschichten für Kunst- und Museumsliebhaber.',
         'blog.empty': 'Noch keine Geschichten veröffentlicht.',
         'blog.emptyDesc': 'Faszinierende Museumsgeschichten und künstlerische Reiseführer sind unterwegs. Bleiben Sie dran!',
@@ -2066,8 +2052,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'legal.privacy.s9.title': '9. Kontakt',
         'legal.privacy.s9.content': 'E-Mail: [Admin Email]',
         'saved.planRoute': 'Plan Route',
-        'map.googleMaps': 'Google Maps',
-        'plans.activeRoute': 'Aktive Route',
     },
     fr: {
         'nav.mapExplore': 'Carte',
@@ -2113,6 +2097,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': 'Vos dossiers de musées sauvegardés.',
         'collections.loading': 'Chargement des collections...',
         'collections.empty': 'Aucune collection',
+        'collections.emptyTitle': 'Aucune collection',
         'collections.emptyDesc': 'Sauvegardez et organisez vos musées !',
         'collections.newCollection': 'Nouvelle Collection',
         'collections.items': 'éléments',
@@ -2159,7 +2144,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'nav.feedback': 'Commentaires',
         'plans.confirmEndTrip': 'Voulez-vous vraiment terminer ce voyage ?',
         'plans.confirmSave': 'Confirmer & Sauvegarder',
-        'plans.dragReorder': 'Glissez pour réorganiser',
         'plans.endTrip': 'Terminer le voyage',
         'plans.est': 'Est.',
         'plans.generating': 'Génération...',
@@ -2291,8 +2275,6 @@ const translations: Record<Locale, TranslationKeys> = {
         'legal.privacy.s9.title': '9. Contact',
         'legal.privacy.s9.content': 'Email : [Admin Email]',
         'saved.planRoute': 'Plan Route',
-        'map.googleMaps': 'Google Maps',
-        'plans.activeRoute': 'Itinéraire actif',
     },
     es: {
         'nav.mapExplore': 'Mapa',
@@ -2333,6 +2315,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': 'Tus carpetas de museos guardadas.',
         'collections.loading': 'Cargando colecciones...',
         'collections.empty': 'Sin colecciones',
+        'collections.emptyTitle': 'Sin colecciones',
         'collections.emptyDesc': '¡Guarda y organiza tus museos!',
         'collections.newCollection': 'Nueva Colección',
         'collections.items': 'elementos',
@@ -2553,6 +2536,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': 'Suas pastas de museus salvas.',
         'collections.loading': 'Carregando coleções...',
         'collections.empty': 'Sem coleções',
+        'collections.emptyTitle': 'Sem coleções',
         'collections.emptyDesc': 'Salve e organize seus museus!',
         'collections.newCollection': 'Nova Coleção',
         'collections.items': 'itens',
@@ -2773,6 +2757,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': '已儲存的博物館資料夾。',
         'collections.loading': '載入收藏中...',
         'collections.empty': '暫無收藏',
+        'collections.emptyTitle': 'No collections',
         'collections.emptyDesc': '儲存並整理你的博物館！',
         'collections.newCollection': '新收藏',
         'collections.items': '項',
@@ -2990,6 +2975,7 @@ const translations: Record<Locale, TranslationKeys> = {
         'collections.subtitle': '已保存的博物馆文件夹。',
         'collections.loading': '载入收藏中...',
         'collections.empty': '暂无收藏',
+        'collections.emptyTitle': 'No collections',
         'collections.emptyDesc': '保存并整理你的博物馆！',
         'collections.newCollection': '新收藏',
         'collections.items': '项',
@@ -3170,7 +3156,7 @@ const translations: Record<Locale, TranslationKeys> = {
     },
 };
 
-export function t(key: keyof TranslationKeys, locale: Locale): string {
+export function t(key: string, locale: Locale): string {
     return translations[locale]?.[key] || translations.en[key] || key;
 }
 

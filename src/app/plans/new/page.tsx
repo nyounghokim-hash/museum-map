@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo, Suspense, useRef, useCallback } from 'rea
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
+import { GlassPanel } from '@/components/ui/glass';
 import { t } from '@/lib/i18n';
 import dynamic from 'next/dynamic';
 import * as gtag from '@/lib/gtag';

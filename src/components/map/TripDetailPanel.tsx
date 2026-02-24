@@ -73,7 +73,7 @@ function SortableItem({ stop, index, onMuseumClick, locale }: { stop: TripStop, 
                     {stop.name}
                 </h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {t('global.viewDetails', locale) || 'Click to view details'} →
+                    {t('global.viewDetails', locale as any) || 'Click to view details'} →
                 </p>
             </div>
         </div>

@@ -1,12 +1,10 @@
 import { NextRequest } from 'next/server';
-import { PrismaClient } from '../../../generated_v2/client';
+import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
 import { successResponse, errorResponse } from '@/lib/api-utils';
 import fs from 'fs';
 import path from 'path';
 import { translateText } from '@/lib/translate';
-
-const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
     try {

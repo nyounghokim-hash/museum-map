@@ -366,6 +366,29 @@ export default function AdminPage() {
                                 ))}
                             </div>
                         </div>
+
+                        {/* System Tools */}
+                        <div className="mt-10">
+                            <h2 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 bg-red-500 rounded-full" />
+                                시스템 관리 도구
+                            </h2>
+                            <div className="space-y-3">
+                                <button
+                                    onClick={() => {
+                                        localStorage.removeItem('activeTrip');
+                                        alert('진행중 경로 캐시가 삭제되었습니다.');
+                                    }}
+                                    className="w-full flex items-center gap-3 bg-red-50 dark:bg-red-900/10 hover:bg-red-100 dark:hover:bg-red-900/20 p-4 rounded-2xl border border-red-100 dark:border-red-900/20 transition-colors group"
+                                >
+                                    <span className="text-lg">🗑️</span>
+                                    <div className="text-left">
+                                        <p className="text-sm font-black text-red-700 dark:text-red-400">진행중 경로 캐시 삭제</p>
+                                        <p className="text-[10px] text-red-500/70 dark:text-red-400/50 font-medium">localStorage의 activeTrip 데이터를 완전히 삭제합니다</p>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             ) : tab === 'users' ? (

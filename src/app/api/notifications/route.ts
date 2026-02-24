@@ -5,21 +5,22 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET() {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
-        return NextResponse.json({ error: 'Auth required' }, { status: 401 });
-    }
 
-    const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-        select: { id: true }
-    });
+    // Build query: get broadcast notifications (userId=null) + user-specific if logged in
+    const conditions: any[] = [{ userId: null }]; // Broadcast notifications
 
-    if (!user) {
-        return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    if (session?.user?.email) {
+        const user = await prisma.user.findUnique({
+            where: { email: session.user.email },
+            select: { id: true }
+        });
+        if (user) {
+            conditions.push({ userId: user.id });
+        }
     }
 
     const notifications = await prisma.notification.findMany({
-        where: { userId: user.id },
+        where: { OR: conditions },
         orderBy: { createdAt: 'desc' },
         take: 20
     });

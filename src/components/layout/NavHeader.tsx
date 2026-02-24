@@ -60,23 +60,21 @@ export default function NavHeader() {
         return () => document.removeEventListener('mousedown', handler);
     }, [notifOpen]);
 
-    // Fetch notifications
+    // Fetch notifications (broadcast + user-specific, works for guests too)
     useEffect(() => {
-        if (session?.user) {
-            fetch('/api/notifications')
-                .then(res => res.json())
-                .then(data => {
-                    if (Array.isArray(data)) {
-                        setNotifications(data);
-                    } else {
-                        setNotifications([]);
-                    }
-                })
-                .catch(err => {
-                    console.error('Failed to fetch notifications:', err);
+        fetch('/api/notifications')
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setNotifications(data);
+                } else {
                     setNotifications([]);
-                });
-        }
+                }
+            })
+            .catch(err => {
+                console.error('Failed to fetch notifications:', err);
+                setNotifications([]);
+            });
     }, [session]);
 
     return (
@@ -179,8 +177,8 @@ export default function NavHeader() {
                                                         <div className="flex items-start gap-3">
                                                             <div className={`w-2 h-2 shrink-0 rounded-full mt-1.5 ${!n.isRead ? 'bg-blue-500' : 'bg-transparent'}`} />
                                                             <div className="min-w-0">
-                                                                <p className="text-xs font-bold text-gray-900 dark:text-white mb-0.5">{n.title}</p>
-                                                                <p className="text-[11px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{n.message}</p>
+                                                                <p className="text-xs font-bold text-gray-900 dark:text-white mb-0.5">{locale !== 'ko' && n.titleEn ? n.titleEn : n.title}</p>
+                                                                <p className="text-[11px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{locale !== 'ko' && n.messageEn ? n.messageEn : n.message}</p>
                                                                 <p className="text-[9px] text-gray-400 dark:text-neutral-600 mt-1">{new Date(n.createdAt).toLocaleString()}</p>
                                                             </div>
                                                         </div>

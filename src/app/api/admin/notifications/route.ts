@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     }
 
     // Check if admin (virtual admin from env)
-    const isAdmin = session.user.email === 'admin' || session.user.role === 'ADMIN';
+    const isAdmin = session.user.email === 'admin' || (session.user as any).role === 'ADMIN';
     if (!isAdmin) {
         return NextResponse.json({ error: 'Permission denied' }, { status: 403 });
     }
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
         if (targetUserId) {
             // Send to specific user
-            await prisma.notification.create({
+            await (prisma.notification as any).create({
                 data: {
                     userId: targetUserId,
                     type: 'ADMIN_PUSH',
@@ -30,16 +30,14 @@ export async function POST(req: Request) {
                 }
             });
         } else {
-            // Send to all users
-            const users = await prisma.user.findMany({ select: { id: true } });
-            await prisma.notification.createMany({
-                data: users.map(u => ({
-                    userId: u.id,
+            // Broadcast to all (including guests) — single row with userId=null
+            await (prisma.notification as any).create({
+                data: {
                     type: 'ADMIN_PUSH',
                     title,
                     message,
                     link
-                }))
+                }
             });
         }
 

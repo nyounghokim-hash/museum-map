@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { GlassPanel } from '@/components/ui/glass';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
-import { t } from '@/lib/i18n';
+import { t, formatDate } from '@/lib/i18n';
 
 export default function MyPlansPage() {
     const [plans, setPlans] = useState<any[]>([]);
@@ -87,7 +87,7 @@ export default function MyPlansPage() {
                     {plans.map((plan) => {
                         const stopCount = plan.stops?.length || 0;
                         const museumNames = plan.stops?.map((s: any) => s.museum?.name).filter(Boolean).slice(0, 3) || [];
-                        const dateStr = plan.date ? new Date(plan.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'No date set';
+                        const dateStr = plan.date ? formatDate(plan.date, locale) : (locale === 'ko' ? '날짜 미설정' : 'No date set');
 
                         return (
                             <Link key={plan.id} href={`/plans/${plan.id}`}>

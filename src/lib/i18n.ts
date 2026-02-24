@@ -3345,3 +3345,42 @@ export function translateDescription(description: string | null | undefined, loc
     return description;
 }
 
+// Locale to Intl locale mapping
+const INTL_LOCALES: Record<string, string> = {
+    'en': 'en-US', 'ko': 'ko-KR', 'ja': 'ja-JP', 'de': 'de-DE',
+    'fr': 'fr-FR', 'es': 'es-ES', 'pt': 'pt-BR', 'zh-CN': 'zh-CN',
+    'zh-TW': 'zh-TW', 'da': 'da-DK', 'fi': 'fi-FI', 'sv': 'sv-SE', 'et': 'et-EE',
+};
+
+/**
+ * Format a date string in the user's locale.
+ * e.g. ko: 2026년 2월 25일, en: Feb 25, 2026, ja: 2026年2月25日
+ */
+export function formatDate(dateInput: string | Date, locale: string): string {
+    try {
+        const d = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+        const intlLocale = INTL_LOCALES[locale] || 'en-US';
+        return new Intl.DateTimeFormat(intlLocale, {
+            year: 'numeric', month: 'short', day: 'numeric'
+        }).format(d);
+    } catch {
+        return String(dateInput);
+    }
+}
+
+/**
+ * Format a date+time string in the user's locale.
+ * e.g. ko: 2026. 2. 25. 오후 3:30, en: Feb 25, 2026, 3:30 PM
+ */
+export function formatDateTime(dateInput: string | Date, locale: string): string {
+    try {
+        const d = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
+        const intlLocale = INTL_LOCALES[locale] || 'en-US';
+        return new Intl.DateTimeFormat(intlLocale, {
+            year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        }).format(d);
+    } catch {
+        return String(dateInput);
+    }
+}

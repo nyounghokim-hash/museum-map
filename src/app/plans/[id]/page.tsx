@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
-import { t } from '@/lib/i18n';
+import { t, formatDate } from '@/lib/i18n';
 
 const RouteMapViewer = dynamic(() => import('@/components/map/RouteMapViewer'), { ssr: false });
 
@@ -214,7 +214,7 @@ export default function PlanDetailPage() {
         </div>
     );
 
-    const dateStr = plan?.date ? new Date(plan.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) : '';
+    const dateStr = plan?.date ? formatDate(plan.date, locale) : '';
     const now = new Date();
 
     return (

@@ -90,6 +90,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 import AuthProvider from '@/components/AuthProvider'
+import SplashScreen from '@/components/ui/SplashScreen'
 
 export default function RootLayout({
   children,
@@ -99,6 +100,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} min-h-screen bg-neutral-50 dark:bg-neutral-950 flex flex-col transition-colors`}>
+        <SplashScreen />
         <AuthProvider>
           <AppProvider>
             <ModalProvider>

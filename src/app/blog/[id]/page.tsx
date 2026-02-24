@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
-import { t } from '@/lib/i18n';
+import { t, formatDate } from '@/lib/i18n';
 import Link from 'next/link';
 import { headers } from 'next/headers';
 
@@ -120,7 +120,7 @@ export default async function BlogPostDetail({ params }: { params: Promise<{ id:
                     <div className="flex items-center gap-2 mb-4 text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">
                         <span>{post.author || 'Editorial'}</span>
                         <span className="text-gray-300 dark:text-neutral-700">•</span>
-                        <span className="text-gray-400 font-medium">{new Date(post.createdAt).toLocaleDateString()}</span>
+                        <span className="text-gray-400 font-medium">{formatDate(post.createdAt, locale)}</span>
                     </div>
 
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-8 leading-tight">

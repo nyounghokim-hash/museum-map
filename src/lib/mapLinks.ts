@@ -14,7 +14,7 @@ export function buildMapLinks(museum: MapTarget, mode: TravelMode = "walking") {
 
     return {
         applePlace: `https://maps.apple.com/?q=${q}&ll=${ll}`,
-        appleDirections: `https://maps.apple.com/?daddr=${ll}&dirflg=${dirFlag}`,
+        appleDirections: `https://maps.apple.com/?q=${q}&ll=${ll}&z=16`,
         googlePlace: `https://www.google.com/maps/search/?api=1&query=${ll}`,
         googleDirections: `https://www.google.com/maps/dir/?api=1&destination=${ll}&travelmode=${mode}`,
     };

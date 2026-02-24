@@ -9,6 +9,7 @@ import { useModal } from '@/components/ui/Modal';
 import { t, translateCategory, translateDescription } from '@/lib/i18n';
 import { useTranslatedText } from '@/hooks/useTranslation';
 import * as gtag from '@/lib/gtag';
+import { getCountryName, getCityName } from '@/lib/countries';
 
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
@@ -117,7 +118,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                     <div className="absolute bottom-4 left-4 right-4 sm:left-6 sm:right-6">
-                        <p className="text-xs font-bold tracking-widest text-white/80 uppercase mb-1">{translateCategory(data.type, locale)} • {data.city}, {data.country}</p>
+                        <p className="text-xs font-bold tracking-widest text-white/80 uppercase mb-1">{translateCategory(data.type, locale)} • {getCityName(data.city, locale)}, {getCountryName(data.country, locale)}</p>
                         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">{data.name}</h1>
                     </div>
 

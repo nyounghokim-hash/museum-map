@@ -189,4 +189,87 @@ export function getAmbiguousCodes(): string[] {
     return Array.from(US_STATE_CODES).filter(code => !!COUNTRY_NAMES[code]);
 }
 
+const CITY_NAMES: Record<string, Record<string, string>> = {
+    'Berlin': { ko: '베를린', ja: 'ベルリン', zh: '柏林' },
+    'Buenos Aires': { ko: '부에노스아이레스', ja: 'ブエノスアイレス', zh: '布宜诺斯艾利斯' },
+    'Tel Aviv': { ko: '텔아비브', ja: 'テルアビブ', zh: '特拉维夫' },
+    'Prague': { ko: '프라하', ja: 'プラハ', zh: '布拉格', de: 'Prag' },
+    'Paris': { ko: '파리', ja: 'パリ', zh: '巴黎' },
+    'Vienna': { ko: '비엔나', ja: 'ウィーン', zh: '维也纳', de: 'Wien' },
+    'Antwerp': { ko: '앤트워프', ja: 'アントワープ', zh: '安特卫普', de: 'Antwerpen', fr: 'Anvers' },
+    'Montreal': { ko: '몬트리올', ja: 'モントリオール', zh: '蒙特利尔' },
+    'Calgary': { ko: '캘거리', ja: 'カルガリー', zh: '卡尔加里' },
+    'São Paulo': { ko: '상파울루', ja: 'サンパウロ', zh: '圣保罗' },
+    'Copenhagen Municipality': { ko: '코펜하겐', ja: 'コペンハーゲン', zh: '哥本哈根', en: 'Copenhagen', de: 'Kopenhagen' },
+    'Vancouver': { ko: '밴쿠버', ja: 'バンクーバー', zh: '温哥华' },
+    'City of Brussels': { ko: '브뤼셀', ja: 'ブリュッセル', zh: '布鲁塞尔', en: 'Brussels', de: 'Brüssel' },
+    'Dublin': { ko: '더블린', ja: 'ダブリン', zh: '都柏林' },
+    'Helsinki': { ko: '헬싱키', ja: 'ヘルシンキ', zh: '赫尔辛基' },
+    'London': { ko: '런던', ja: 'ロンドン', zh: '伦敦' },
+    'Frankfurt': { ko: '프랑크푸르트', ja: 'フランクフルト', zh: '法兰克福' },
+    'New York': { ko: '뉴욕', ja: 'ニューヨーク', zh: '纽约' },
+    'Dresden': { ko: '드레스덴', ja: 'ドレスデン', zh: '德累斯顿' },
+    'Jerusalem': { ko: '예루살렘', ja: 'エルサレム', zh: '耶路撒冷' },
+    'Rome': { ko: '로마', ja: 'ローマ', zh: '罗马', de: 'Rom' },
+    'Milan': { ko: '밀라노', ja: 'ミラノ', zh: '米兰', de: 'Mailand', es: 'Milán' },
+    'Florence': { ko: '피렌체', ja: 'フィレンツェ', zh: '佛罗伦萨', de: 'Florenz', it: 'Firenze' },
+    'Venice': { ko: '베네치아', ja: 'ヴェネツィア', zh: '威尼斯', de: 'Venedig' },
+    'Madrid': { ko: '마드리드', ja: 'マドリード', zh: '马德里' },
+    'Barcelona': { ko: '바르셀로나', ja: 'バルセロナ', zh: '巴塞罗那' },
+    'Amsterdam': { ko: '암스테르담', ja: 'アムステルダム', zh: '阿姆斯特丹' },
+    'Munich': { ko: '뮌헨', ja: 'ミュンヘン', zh: '慕尼黑', de: 'München' },
+    'Tokyo': { ko: '도쿄', ja: '東京', zh: '东京' },
+    'Kyoto': { ko: '교토', ja: '京都', zh: '京都' },
+    'Osaka': { ko: '오사카', ja: '大阪', zh: '大阪' },
+    'Seoul': { ko: '서울', ja: 'ソウル', zh: '首尔' },
+    'Beijing': { ko: '베이징', ja: '北京', zh: '北京' },
+    'Shanghai': { ko: '상하이', ja: '上海', zh: '上海' },
+    'Moscow': { ko: '모스크바', ja: 'モスクワ', zh: '莫斯科', de: 'Moskau' },
+    'Istanbul': { ko: '이스탄불', ja: 'イスタンブール', zh: '伊斯坦布尔' },
+    'Athens': { ko: '아테네', ja: 'アテネ', zh: '雅典', de: 'Athen' },
+    'Warsaw': { ko: '바르샤바', ja: 'ワルシャワ', zh: '华沙', de: 'Warschau' },
+    'Budapest': { ko: '부다페스트', ja: 'ブダペスト', zh: '布达佩斯' },
+    'Lisbon': { ko: '리스본', ja: 'リスボン', zh: '里斯本', de: 'Lissabon', pt: 'Lisboa' },
+    'Stockholm': { ko: '스톡홀름', ja: 'ストックホルム', zh: '斯德哥尔摩' },
+    'Oslo': { ko: '오슬로', ja: 'オスロ', zh: '奥斯陆' },
+    'Tallinn': { ko: '탈린', ja: 'タリン', zh: '塔林' },
+    'Riga': { ko: '리가', ja: 'リガ', zh: '里加' },
+    'Zurich': { ko: '취리히', ja: 'チューリッヒ', zh: '苏黎世', de: 'Zürich' },
+    'Geneva': { ko: '제네바', ja: 'ジュネーブ', zh: '日内瓦', de: 'Genf', fr: 'Genève' },
+    'Sydney': { ko: '시드니', ja: 'シドニー', zh: '悉尼' },
+    'Melbourne': { ko: '멜버른', ja: 'メルボルン', zh: '墨尔本' },
+    'Singapore': { ko: '싱가포르', ja: 'シンガポール', zh: '新加坡' },
+    'Bangkok': { ko: '방콕', ja: 'バンコク', zh: '曼谷' },
+    'Cairo': { ko: '카이로', ja: 'カイロ', zh: '开罗' },
+    'Mexico City': { ko: '멕시코시티', ja: 'メキシコシティ', zh: '墨西哥城', de: 'Mexiko-Stadt', es: 'Ciudad de México' },
+    'Santiago commune': { ko: '산티아고', ja: 'サンティアゴ', zh: '圣地亚哥', en: 'Santiago' },
+    '7th arrondissement of Paris': { ko: '파리 7구', ja: 'パリ7区', zh: '巴黎第七区', en: 'Paris 7th', de: 'Paris 7. Arrondissement' },
+    'Bezirk Mitte': { ko: '베를린 미테', ja: 'ベルリン・ミッテ', zh: '柏林米特', en: 'Berlin Mitte' },
+    'Charlottenburg-Wilmersdorf': { ko: '샤를로텐부르크', ja: 'シャルロッテンブルク', zh: '夏洛滕堡' },
+    'Buenos Aires Province': { ko: '부에노스아이레스 주', ja: 'ブエノスアイレス州', zh: '布宜诺斯艾利斯省', en: 'Buenos Aires Province' },
+};
+
+/**
+ * Get localized city name.
+ * @param city Original city name from DB
+ * @param locale Target locale
+ * @returns Localized city name or original if no translation exists
+ */
+export function getCityName(city: string, locale: string = 'en'): string {
+    if (!city) return '';
+    const names = CITY_NAMES[city];
+    if (!names) return city;
+
+    const langKey = locale.startsWith('ko') ? 'ko'
+        : locale.startsWith('ja') ? 'ja'
+            : locale.startsWith('zh') ? 'zh'
+                : locale.startsWith('de') ? 'de'
+                    : locale.startsWith('fr') ? 'fr'
+                        : locale.startsWith('es') ? 'es'
+                            : locale.startsWith('pt') ? 'pt'
+                                : 'en';
+
+    return names[langKey] || names['en'] || city;
+}
+
 export { COUNTRY_NAMES, US_STATE_CODES };

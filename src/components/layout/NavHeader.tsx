@@ -236,63 +236,50 @@ export default function NavHeader() {
                                         </svg>
                                     </Link>
                                 )}
-                                {/* Guest/User Icon with Menu */}
-                                <div className="relative" ref={userMenuRef}>
-                                    <button
-                                        onClick={() => setUserMenuOpen(!userMenuOpen)}
-                                        className="flex items-center ring-2 ring-transparent hover:ring-purple-500 rounded-full transition-all"
-                                    >
-                                        <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 flex items-center justify-center text-purple-700 dark:text-purple-400 font-bold text-xs overflow-hidden">
-                                            {session.user?.image ? (
-                                                <img src={session.user.image} alt={session.user.name || 'User'} className="w-full h-full object-cover" />
-                                            ) : (
-                                                <span>{session.user?.name?.startsWith('guest_') ? '비' : (session.user?.name ? session.user.name.charAt(0).toUpperCase() : 'U')}</span>
-                                            )}
-                                        </div>
-                                    </button>
-
-                                    {userMenuOpen && (
-                                        <div className="absolute right-0 top-full mt-2 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-xl shadow-xl py-2 min-w-[160px] z-50">
-                                            <div className="px-4 py-2 border-b dark:border-neutral-800 mb-1">
-                                                <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{session.user?.name?.startsWith('guest_') ? (locale === 'ko' ? '비회원' : 'Guest') : session.user?.name}</p>
-                                                <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">{session.user?.name?.startsWith('guest_') ? (locale === 'ko' ? '비회원 모드' : 'Guest Mode') : session.user?.email}</p>
-                                            </div>
-                                            {session.user?.name?.startsWith('guest_') ? (
-                                                <Link
-                                                    href="/login"
-                                                    className="block px-4 py-2 text-sm text-purple-600 dark:text-purple-400 font-bold hover:bg-purple-50 dark:hover:bg-purple-900/10 transition-colors border-b dark:border-neutral-800"
-                                                >
-                                                    {t('login.title', locale) || 'Login'}
-                                                </Link>
-                                            ) : (
-                                                <Link href="/saved" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
-                                                    {t('nav.favorites', locale)}
-                                                </Link>
-                                            )}
-
-                                            <button
-                                                onClick={() => {
-                                                    const { signOut } = require('next-auth/react');
-                                                    signOut({ callbackUrl: '/' });
-                                                }}
-                                                className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                                            >
-                                                {session.user?.name?.startsWith('guest_')
-                                                    ? (locale === 'ko' ? '게스트 종료' : 'End Guest Session')
-                                                    : (locale === 'ko' ? '로그아웃' : 'Logout')}
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Login Button for Guests beside the profile icon */}
-                                {session.user?.name?.startsWith('guest_') && (
+                                {/* Guest: just Login button / User: profile icon with menu */}
+                                {session.user?.name?.startsWith('guest_') ? (
                                     <Link
                                         href="/login"
-                                        className="ml-2 px-4 py-1.5 rounded-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm active:scale-95 transition-all"
+                                        className="px-4 py-1.5 rounded-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm active:scale-95 transition-all"
                                     >
                                         {t('login.title', locale) || 'Login'}
                                     </Link>
+                                ) : (
+                                    <div className="relative" ref={userMenuRef}>
+                                        <button
+                                            onClick={() => setUserMenuOpen(!userMenuOpen)}
+                                            className="flex items-center ring-2 ring-transparent hover:ring-purple-500 rounded-full transition-all"
+                                        >
+                                            <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 flex items-center justify-center text-purple-700 dark:text-purple-400 font-bold text-xs overflow-hidden">
+                                                {session.user?.image ? (
+                                                    <img src={session.user.image} alt={session.user.name || 'User'} className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <span>{session.user?.name ? session.user.name.charAt(0).toUpperCase() : 'U'}</span>
+                                                )}
+                                            </div>
+                                        </button>
+
+                                        {userMenuOpen && (
+                                            <div className="absolute right-0 top-full mt-2 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-xl shadow-xl py-2 min-w-[160px] z-50">
+                                                <div className="px-4 py-2 border-b dark:border-neutral-800 mb-1">
+                                                    <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{session.user?.name}</p>
+                                                    <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">{session.user?.email}</p>
+                                                </div>
+                                                <Link href="/saved" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
+                                                    {t('nav.favorites', locale)}
+                                                </Link>
+                                                <button
+                                                    onClick={() => {
+                                                        const { signOut } = require('next-auth/react');
+                                                        signOut({ callbackUrl: '/' });
+                                                    }}
+                                                    className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                                                >
+                                                    {locale === 'ko' ? '로그아웃' : 'Logout'}
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
                                 )}
                             </div>
                         ) : (

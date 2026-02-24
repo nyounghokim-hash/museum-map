@@ -141,7 +141,7 @@ export default function NavHeader() {
                                     )}
                                 </button>
                                 {notifOpen && (
-                                    <div className="absolute right-0 top-full mt-1 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-2xl shadow-2xl py-0 min-w-[300px] max-w-[350px] z-50 overflow-hidden">
+                                    <div className="absolute right-[-8px] top-full mt-1 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-2xl shadow-2xl py-0 min-w-[300px] max-w-[350px] z-50 overflow-hidden mx-4">
                                         <div className="px-4 py-3 border-b dark:border-neutral-800 flex items-center justify-between">
                                             <span className="text-sm font-bold dark:text-white">{locale === 'ko' ? '알림' : 'Notifications'}</span>
                                             {notifications.length > 0 && (

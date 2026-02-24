@@ -180,7 +180,8 @@ export default function LoginPage() {
 
             {/* Logo & Title */}
             <div className="flex flex-col items-center mb-20 text-center max-w-2xl mx-auto z-10">
-                <div className="relative w-full h-[12rem] sm:h-[18rem]">
+                {/* Typewriter title - fixed height */}
+                <div className="w-full h-[9rem] sm:h-[14rem]">
                     <h1
                         className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white select-none leading-[0.95] whitespace-pre-line text-center"
                     >
@@ -194,10 +195,11 @@ export default function LoginPage() {
                             </span>
                         ))}
                     </h1>
-                    <p className="text-lg sm:text-xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep px-4 tracking-tight whitespace-nowrap absolute bottom-0 left-0 right-0">
-                        {t('login.description', locale)}
-                    </p>
                 </div>
+                {/* Static description - never moves */}
+                <p className="text-lg sm:text-xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep px-4 tracking-tight whitespace-nowrap mt-4">
+                    {t('login.description', locale)}
+                </p>
                 <style jsx>{`
                     @keyframes blink {
                         0%, 100% { opacity: 1; }

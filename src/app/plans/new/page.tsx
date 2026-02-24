@@ -159,7 +159,7 @@ function AutoRouteContent() {
         setIsDragging(false);
     }, []);
 
-    if (loading) return <div className="p-20 text-center text-lg font-semibold animate-pulse dark:text-gray-300">{t('plans.generating', locale)}</div>;
+    if (loading) return <div className="flex flex-col items-center justify-center p-20 min-h-[400px]"><LoadingAnimation size={120} /></div>;
 
     return (
         <div className="max-w-5xl mx-auto p-6 mt-6">

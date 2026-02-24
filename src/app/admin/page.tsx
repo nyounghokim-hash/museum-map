@@ -304,7 +304,7 @@ export default function AdminPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
                         <div className="bg-white dark:bg-neutral-900 p-6 rounded-3xl border border-gray-100 dark:border-neutral-800 shadow-sm">
                             <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">가입 사용자</h3>
-                            <div className="text-3xl font-black dark:text-white">{dashboardData?.stats?.users || 0}</div>
+                            <div className="text-3xl font-black dark:text-white">{Math.max((dashboardData?.stats?.users || 0) - 1, 0)}</div>
                         </div>
                         <div className="bg-white dark:bg-neutral-900 p-6 rounded-3xl border border-gray-100 dark:border-neutral-800 shadow-sm">
                             <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">작성된 스토리</h3>
@@ -415,7 +415,7 @@ export default function AdminPage() {
                 <div className="animate-fadeIn">
                     <div className="mb-6 text-sm font-black text-gray-400 dark:text-neutral-500 uppercase tracking-widest flex items-center gap-2">
                         <div className="w-1.5 h-1.5 bg-purple-500 rounded-full" />
-                        총 {users.length}명의 사용자 가입
+                        총 {users.filter(u => u.username !== 'admin').length}명의 사용자 가입
                     </div>
 
                     <div className="overflow-x-auto mb-16 border border-gray-100 dark:border-neutral-800 rounded-3xl bg-white dark:bg-neutral-900 shadow-sm">

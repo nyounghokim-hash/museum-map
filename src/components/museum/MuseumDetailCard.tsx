@@ -282,7 +282,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                     </div>
 
                     {/* Map Navigation */}
-                    <div className="mt-8 pt-6 border-t border-gray-100 dark:border-neutral-800">
+                    <div className="mt-4 pt-2 lg:mt-8 lg:pt-6 lg:border-t border-gray-100 dark:border-neutral-800">
                         <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">{t('detail.getDirections', locale)}</h3>
                         <div className="flex flex-wrap gap-2">
                             <a

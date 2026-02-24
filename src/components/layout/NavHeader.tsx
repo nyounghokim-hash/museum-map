@@ -126,7 +126,7 @@ export default function NavHeader() {
                         </button>
 
                         {/* Notification Dropdown */}
-                        {session && !session.user?.name?.startsWith('guest_') && (
+                        {(
                             <div className="relative" ref={notifRef}>
                                 <button
                                     onClick={() => setNotifOpen(!notifOpen)}

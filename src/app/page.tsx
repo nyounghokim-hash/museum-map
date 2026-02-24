@@ -182,7 +182,7 @@ export default function MainPage() {
             ) : (
               <button
                 onClick={() => setIsViewingActiveRoute(true)}
-                className="bg-blue-600 text-white px-4 py-2.5 rounded-2xl font-bold text-sm shadow-lg shadow-blue-600/30 hover:bg-blue-700 active:scale-95 transition-all flex items-center gap-2 backdrop-blur-md"
+                className="bg-purple-600 text-white px-4 py-2.5 rounded-2xl font-bold text-sm shadow-lg shadow-purple-600/30 hover:bg-purple-700 active:scale-95 transition-all flex items-center gap-2 backdrop-blur-md"
               >
                 <span className="animate-pulse">🚀</span>
                 {t('plans.viewActiveRoute', locale)}

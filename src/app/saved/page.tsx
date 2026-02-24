@@ -23,6 +23,13 @@ export default function SavedPage() {
         fetchSaves(selectedFolder);
     }, [selectedFolder]);
 
+    // Re-fetch when coming back from detail page (unsave reflected)
+    useEffect(() => {
+        const onFocus = () => fetchSaves(selectedFolder);
+        window.addEventListener('focus', onFocus);
+        return () => window.removeEventListener('focus', onFocus);
+    }, [selectedFolder]);
+
     const fetchSaves = async (folderId: string | null) => {
         setLoading(true);
         let url = '/api/me/saves';

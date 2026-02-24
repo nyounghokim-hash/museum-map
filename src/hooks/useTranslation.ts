@@ -13,7 +13,7 @@ export function useTranslatedText(text: string | null | undefined, locale: Local
     const [translated, setTranslated] = useState(text || '');
 
     useEffect(() => {
-        if (!text || locale === 'en') {
+        if (!text || locale === 'ko') {
             setTranslated(text || '');
             return;
         }

@@ -1,8 +1,9 @@
 import { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
-import { t, formatDate } from '@/lib/i18n';
+import { t } from '@/lib/i18n';
 import Link from 'next/link';
 import { headers } from 'next/headers';
+import BlogContentClient from './BlogContentClient';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
     const resolvedParams = await params;
@@ -52,9 +53,6 @@ export default async function BlogPostDetail({ params }: { params: Promise<{ id:
     const isKo = acceptLanguage.includes('ko');
     const locale = isKo ? 'ko' : 'en';
 
-    const displayTitle = isKo ? post?.title : (post?.titleEn || post?.title);
-    const displayContent = isKo ? post?.content : (post?.contentEn || post?.content);
-
     if (!post) {
         return (
             <div className="w-full max-w-[1080px] mx-auto px-4 py-20 text-center">
@@ -65,6 +63,8 @@ export default async function BlogPostDetail({ params }: { params: Promise<{ id:
             </div>
         );
     }
+
+    const displayTitle = isKo ? post.title : (post.titleEn || post.title);
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -86,6 +86,12 @@ export default async function BlogPostDetail({ params }: { params: Promise<{ id:
             }
         },
         "description": post.description || post.content.replace(/<[^>]*>/g, '').substring(0, 160)
+    };
+
+    const serializedPost = {
+        ...post,
+        createdAt: post.createdAt.toISOString(),
+        updatedAt: post.updatedAt?.toISOString() || null,
     };
 
     return (
@@ -115,28 +121,7 @@ export default async function BlogPostDetail({ params }: { params: Promise<{ id:
                     </div>
                 )}
 
-                <div className="p-6 sm:p-10 md:p-12">
-                    {/* Author & Date — matching blog list style */}
-                    <div className="flex items-center gap-2 mb-4 text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">
-                        <span>{post.author || 'Editorial'}</span>
-                        <span className="text-gray-300 dark:text-neutral-700">•</span>
-                        <span className="text-gray-400 font-medium">{formatDate(post.createdAt, locale)}</span>
-                    </div>
-
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-8 leading-tight">
-                        {displayTitle}
-                    </h1>
-
-                    <div
-                        className="ql-snow"
-                    >
-                        <div
-                            className="ql-editor prose prose-lg dark:prose-invert max-w-none prose-purple prose-headings:font-bold prose-a:text-purple-600"
-                            dangerouslySetInnerHTML={{ __html: displayContent }}
-                            style={{ padding: 0 }}
-                        />
-                    </div>
-                </div>
+                <BlogContentClient post={serializedPost} serverLocale={locale} />
             </div>
         </article>
     );

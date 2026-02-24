@@ -2,8 +2,67 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useApp } from '@/components/AppContext';
-import { t, formatDate } from '@/lib/i18n';
+import { t, formatDate, type Locale } from '@/lib/i18n';
+import { useTranslatedText } from '@/hooks/useTranslation';
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
+
+function BlogCard({ post, locale }: { post: any; locale: Locale }) {
+    const rawTitle = locale !== 'ko' && post.titleEn ? post.titleEn : post.title;
+    const rawContent = ((locale !== 'ko' && post.contentEn ? post.contentEn : post.content) || '').replace(/<[^>]*>/g, '').substring(0, 200);
+
+    // Translate if not Korean and no English version available
+    const needsTranslation = locale !== 'ko' && !post.titleEn;
+    const translatedTitle = useTranslatedText(needsTranslation ? post.title : null, locale as any);
+    const translatedContent = useTranslatedText(needsTranslation ? post.content?.replace(/<[^>]*>/g, '').substring(0, 200) : null, locale as any);
+
+    const displayTitle = needsTranslation && translatedTitle ? translatedTitle : rawTitle;
+    const displayContent = needsTranslation && translatedContent ? translatedContent : rawContent;
+
+    return (
+        <Link
+            href={`/blog/${post.id}`}
+            className="group flex flex-col sm:flex-row bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-neutral-800 hover:shadow-xl transition-all duration-300 shadow-sm active:scale-[0.99] min-h-auto sm:min-h-[180px]"
+        >
+            {/* Horizontal Thumbnail */}
+            <div className="w-full sm:w-[280px] h-[180px] sm:h-auto shrink-0 overflow-hidden bg-gray-50 dark:bg-neutral-800 relative">
+                {post.previewImage ? (
+                    <img
+                        src={post.previewImage}
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-200 dark:text-neutral-700">
+                        <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                )}
+            </div>
+
+            {/* Content Side */}
+            <div className="p-5 sm:p-6 flex-1 flex flex-col justify-center min-w-0">
+                <div className="flex items-center gap-2 mb-2 text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">
+                    <span>{post.author || 'Editorial'}</span>
+                    <span className="text-gray-300 dark:text-neutral-700">•</span>
+                    <span className="text-gray-400 font-medium">{formatDate(post.createdAt, locale)}</span>
+                </div>
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2" style={{ wordBreak: 'break-word' }}>
+                    {displayTitle}
+                </h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed" style={{ wordBreak: 'break-word' }}>
+                    {displayContent}
+                </p>
+                <div className="mt-3 flex items-center gap-1 text-[11px] font-bold text-gray-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                    {t('blog.readMore', locale)}
+                    <svg className="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+            </div>
+        </Link>
+    );
+}
 
 export default function BlogListPage() {
     const { locale } = useApp();
@@ -60,49 +119,7 @@ export default function BlogListPage() {
             ) : (
                 <div className="flex flex-col gap-6 sm:gap-8">
                     {posts.map((post: any) => (
-                        <Link
-                            key={post.id}
-                            href={`/blog/${post.id}`}
-                            className="group flex flex-col sm:flex-row bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-neutral-800 hover:shadow-xl transition-all duration-300 shadow-sm active:scale-[0.99] min-h-auto sm:min-h-[180px]"
-                        >
-                            {/* Horizontal Thumbnail */}
-                            <div className="w-full sm:w-[280px] h-[180px] sm:h-auto shrink-0 overflow-hidden bg-gray-50 dark:bg-neutral-800 relative">
-                                {post.previewImage ? (
-                                    <img
-                                        src={post.previewImage}
-                                        alt={post.title}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-gray-200 dark:text-neutral-700">
-                                        <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Content Side */}
-                            <div className="p-5 sm:p-6 flex-1 flex flex-col justify-center min-w-0">
-                                <div className="flex items-center gap-2 mb-2 text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">
-                                    <span>{post.author || 'Editorial'}</span>
-                                    <span className="text-gray-300 dark:text-neutral-700">•</span>
-                                    <span className="text-gray-400 font-medium">{formatDate(post.createdAt, locale)}</span>
-                                </div>
-                                <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-1">
-                                    {locale !== 'ko' && post.titleEn ? post.titleEn : post.title}
-                                </h2>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">
-                                    {((locale !== 'ko' && post.contentEn ? post.contentEn : post.content) || '').replace(/<[^>]*>/g, '').substring(0, 200)}
-                                </p>
-                                <div className="mt-3 flex items-center gap-1 text-[11px] font-bold text-gray-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                                    {locale === 'ko' ? '더 보기' : 'Read More'}
-                                    <svg className="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </Link>
+                        <BlogCard key={post.id} post={post} locale={locale} />
                     ))}
                 </div>
             )}

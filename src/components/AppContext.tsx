@@ -66,17 +66,32 @@ export function AppProvider({ children }: { children: ReactNode }) {
         if (savedLocale) {
             setLocaleState(savedLocale);
         } else {
-            // Auto-detect from IP
-            fetch('http://ip-api.com/json/?fields=countryCode', { signal: AbortSignal.timeout(3000) })
-                .then(r => r.json())
-                .then(data => {
-                    if (data.countryCode) {
-                        const detected = getLocaleFromCountry(data.countryCode);
-                        setLocaleState(detected);
-                        localStorage.setItem('locale', detected);
-                    }
-                })
-                .catch(() => { });
+            // Auto-detect from browser/device language (iPhone 한국어 → 'ko-KR')
+            const browserLang = typeof navigator !== 'undefined' ? (navigator.language || '').toLowerCase() : '';
+            const langMap: Record<string, Locale> = {
+                'ko': 'ko', 'ja': 'ja', 'de': 'de', 'fr': 'fr', 'es': 'es',
+                'pt': 'pt', 'zh-cn': 'zh-CN', 'zh-tw': 'zh-TW', 'zh-hans': 'zh-CN',
+                'zh-hant': 'zh-TW', 'zh': 'zh-CN', 'da': 'da', 'fi': 'fi', 'sv': 'sv', 'et': 'et'
+            };
+            const shortLang = browserLang.split('-')[0];
+            const detected = langMap[browserLang] || langMap[shortLang] || null;
+
+            if (detected) {
+                setLocaleState(detected);
+                localStorage.setItem('locale', detected);
+            } else {
+                // Fallback: auto-detect from IP
+                fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.country_code) {
+                            const ipDetected = getLocaleFromCountry(data.country_code);
+                            setLocaleState(ipDetected);
+                            localStorage.setItem('locale', ipDetected);
+                        }
+                    })
+                    .catch(() => { });
+            }
         }
 
         if (savedDark === 'true') {

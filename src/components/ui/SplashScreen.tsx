@@ -47,7 +47,7 @@ export default function SplashScreen() {
             style={{ background: 'linear-gradient(135deg, #1e1033 0%, #2d1b69 40%, #7c3aed 100%)' }}
         >
             {/* Center: Logo + Title */}
-            <div className="flex flex-col items-center gap-3 animate-fadeInUp -mt-16">
+            <div className="flex flex-col items-center gap-3 animate-fadeInUp -mt-28">
                 {/* SVG Logo */}
                 <div className="w-20 h-20 sm:w-24 sm:h-24">
                     <svg viewBox="0 0 512 512" className="w-full h-full drop-shadow-2xl">
@@ -62,7 +62,7 @@ export default function SplashScreen() {
                         Museum Map
                         {/* Magnifying glass that sweeps across */}
                         <span className="absolute top-1/2 -translate-y-1/2 animate-scanText pointer-events-none">
-                            <svg className="w-8 h-8 sm:w-10 sm:h-10 drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                            <svg className="w-24 h-24 sm:w-28 sm:h-28 drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
                                 <circle cx="10" cy="10" r="6" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.7)" />
                                 <line x1="14.5" y1="14.5" x2="20" y2="20" stroke="rgba(255,255,255,0.7)" strokeWidth={2} />
                             </svg>

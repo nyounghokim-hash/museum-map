@@ -45,7 +45,7 @@ export default function SplashScreen() {
     return (
         <div
             className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center transition-opacity duration-500 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}
-            style={{ background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #1e1033 0%, #2d1b69 40%, #7c3aed 100%)' }}
         >
             {/* Center: Logo + Title */}
             <div className="flex flex-col items-center gap-3 animate-fadeInUp -mt-16">

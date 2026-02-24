@@ -348,6 +348,8 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                     </div>
                 )
             }
+            {/* Mobile bottom spacer */}
+            <div className="h-32 lg:h-8" />
         </div >
     );
 }

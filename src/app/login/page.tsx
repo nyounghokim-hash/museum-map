@@ -203,12 +203,11 @@ export default function LoginPage() {
                     }
                 `}</style>
             </div>
-            {/* Description - completely outside typewriter, fixed 24px gap */}
-            <p className="text-sm sm:text-base lg:text-xl text-gray-400 dark:text-neutral-500 font-bold leading-snug break-keep text-center tracking-tight px-2 z-10" style={{ marginTop: '-56px', marginBottom: '56px' }}>
-                {t('login.description', locale)}
-            </p>
 
             <div className="w-full max-w-md w-full relative z-10">
+                <p className="text-sm sm:text-base lg:text-lg text-gray-400 dark:text-neutral-500 font-bold text-center tracking-tight mb-6">
+                    {t('login.description', locale)}
+                </p>
                 <div className="bg-white/70 dark:bg-neutral-900/70 backdrop-blur-3xl border border-gray-100 dark:border-neutral-800 rounded-[2.5rem] p-8 sm:p-10 shadow-2xl shadow-purple-500/5">
 
                     <form onSubmit={handleSubmit} className="flex flex-col gap-5">

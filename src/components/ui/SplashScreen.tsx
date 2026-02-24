@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 const SUBTITLES: Record<string, string> = {
     ko: '세계의 미술관을 탐험하세요',
@@ -23,18 +23,13 @@ function getDeviceLang(): string {
     return SUBTITLES[short] ? short : 'en';
 }
 
-const FULL_TEXT = 'Museum\nMap';
-
 export default function SplashScreen() {
     const [visible, setVisible] = useState(true);
     const [fadeOut, setFadeOut] = useState(false);
     const [lang, setLang] = useState('en');
-    const [displayText, setDisplayText] = useState('');
-    const phaseRef = useRef<'typing' | 'waiting' | 'erasing' | 'pause'>('typing');
-    const indexRef = useRef(0);
-    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
+        // Only show on mobile/tablet (width <= 1024px)
         if (typeof window !== 'undefined' && window.innerWidth > 1024) {
             setVisible(false);
             return;
@@ -45,49 +40,7 @@ export default function SplashScreen() {
         return () => { clearTimeout(timer); clearTimeout(hide); };
     }, []);
 
-    useEffect(() => {
-        if (!visible) return;
-
-        function tick() {
-            const phase = phaseRef.current;
-            const idx = indexRef.current;
-
-            if (phase === 'typing') {
-                if (idx <= FULL_TEXT.length) {
-                    setDisplayText(FULL_TEXT.slice(0, idx));
-                    indexRef.current = idx + 1;
-                    timerRef.current = setTimeout(tick, 80);
-                } else {
-                    phaseRef.current = 'waiting';
-                    timerRef.current = setTimeout(tick, 3000);
-                }
-            } else if (phase === 'waiting') {
-                phaseRef.current = 'erasing';
-                indexRef.current = FULL_TEXT.length;
-                tick();
-            } else if (phase === 'erasing') {
-                if (idx > 0) {
-                    indexRef.current = idx - 1;
-                    setDisplayText(FULL_TEXT.slice(0, idx - 1));
-                    timerRef.current = setTimeout(tick, 50);
-                } else {
-                    phaseRef.current = 'pause';
-                    timerRef.current = setTimeout(tick, 1000);
-                }
-            } else if (phase === 'pause') {
-                phaseRef.current = 'typing';
-                indexRef.current = 0;
-                tick();
-            }
-        }
-
-        tick();
-        return () => { if (timerRef.current) clearTimeout(timerRef.current); };
-    }, [visible]);
-
     if (!visible) return null;
-
-    const lines = displayText.split('\n');
 
     return (
         <div
@@ -104,18 +57,10 @@ export default function SplashScreen() {
                     </svg>
                 </div>
 
-                {/* Typewriter Title - 2 lines */}
-                <div className="text-center min-h-[5rem]">
-                    <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
-                        {lines.map((line, i) => (
-                            <span key={i}>
-                                {line}
-                                {i === lines.length - 1 && (
-                                    <span className="inline-block w-[3px] h-[1.1em] bg-white/80 ml-0.5 align-middle animate-blink" />
-                                )}
-                                {i < lines.length - 1 && <br />}
-                            </span>
-                        ))}
+                {/* Title */}
+                <div className="text-center">
+                    <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        Museum Map
                     </h1>
                     <p className="text-sm sm:text-base text-white/60 mt-2 font-medium tracking-wide">
                         {SUBTITLES[lang]}
@@ -137,13 +82,6 @@ export default function SplashScreen() {
                 }
                 .animate-fadeInUp {
                     animation: fadeInUp 800ms ease-out forwards;
-                }
-                @keyframes blink {
-                    0%, 100% { opacity: 1; }
-                    50% { opacity: 0; }
-                }
-                .animate-blink {
-                    animation: blink 600ms ease-in-out infinite;
                 }
             `}</style>
         </div>

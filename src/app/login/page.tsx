@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -20,6 +20,49 @@ export default function LoginPage() {
     const router = useRouter();
     const { showAlert, showConfirm } = useModal();
     const { darkMode, locale } = useApp();
+
+    // Typewriter effect
+    const TITLE = 'Museum\nMap';
+    const [titleText, setTitleText] = useState('');
+    const typoPhase = useRef<'typing' | 'waiting' | 'erasing' | 'pause'>('typing');
+    const typoIdx = useRef(0);
+    const typoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    useEffect(() => {
+        function tick() {
+            const phase = typoPhase.current;
+            const idx = typoIdx.current;
+            if (phase === 'typing') {
+                if (idx <= TITLE.length) {
+                    setTitleText(TITLE.slice(0, idx));
+                    typoIdx.current = idx + 1;
+                    typoTimer.current = setTimeout(tick, 80);
+                } else {
+                    typoPhase.current = 'waiting';
+                    typoTimer.current = setTimeout(tick, 3000);
+                }
+            } else if (phase === 'waiting') {
+                typoPhase.current = 'erasing';
+                typoIdx.current = TITLE.length;
+                tick();
+            } else if (phase === 'erasing') {
+                if (idx > 0) {
+                    typoIdx.current = idx - 1;
+                    setTitleText(TITLE.slice(0, idx - 1));
+                    typoTimer.current = setTimeout(tick, 50);
+                } else {
+                    typoPhase.current = 'pause';
+                    typoTimer.current = setTimeout(tick, 1000);
+                }
+            } else if (phase === 'pause') {
+                typoPhase.current = 'typing';
+                typoIdx.current = 0;
+                tick();
+            }
+        }
+        tick();
+        return () => { if (typoTimer.current) clearTimeout(typoTimer.current); };
+    }, []);
 
 
     const handleGuestLogin = async () => {
@@ -138,10 +181,24 @@ export default function LoginPage() {
             {/* Logo & Title */}
             <div className="flex flex-col items-center mb-20 text-center max-w-2xl mx-auto z-10">
                 <h1
-                    className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white mb-8 select-none leading-none"
+                    className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white mb-8 select-none leading-none whitespace-pre-line min-h-[1.8em]"
                 >
-                    Museum Map
+                    {titleText.split('\n').map((line, i, arr) => (
+                        <span key={i}>
+                            {line}
+                            {i === arr.length - 1 && (
+                                <span className="inline-block w-[4px] h-[0.85em] bg-current opacity-80 ml-1 align-middle" style={{ animation: 'blink 600ms ease-in-out infinite' }} />
+                            )}
+                            {i < arr.length - 1 && <br />}
+                        </span>
+                    ))}
                 </h1>
+                <style jsx>{`
+                    @keyframes blink {
+                        0%, 100% { opacity: 1; }
+                        50% { opacity: 0; }
+                    }
+                `}</style>
                 <p className="text-xl sm:text-2xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep px-4 tracking-tight whitespace-pre-line">
                     {t('login.description', locale)}
                 </p>

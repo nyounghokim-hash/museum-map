@@ -1493,7 +1493,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'blog.title': 'MM 스토리',
         'blog.readMore': '더 보기',
         'blog.backToList': '뒤로',
-        'blog.subtitle': '예술과 박물관 애호가를 위해 큐레이팅된 이야기.',
+        'blog.subtitle': '예술과 미술관 및 박물관 애호가를 위해 큐레이팅된 이야기.',
         'blog.empty': '아직 게시된 스토리가 없습니다.',
         'blog.emptyDesc': '전 세계 박물관의 숨겨진 이야기와 예술 여행 가이드가 곧 찾아옵니다. 조금만 기다려주세요!',
         'plans.tripTitle': '여행 이름',

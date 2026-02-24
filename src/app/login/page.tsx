@@ -197,7 +197,7 @@ export default function LoginPage() {
                     </h1>
                 </div>
                 {/* Static description - never moves */}
-                <p className="text-lg sm:text-xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep px-4 tracking-tight whitespace-nowrap mt-4">
+                <p className="text-sm sm:text-lg lg:text-xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep tracking-tight whitespace-nowrap overflow-hidden mt-4">
                     {t('login.description', locale)}
                 </p>
                 <style jsx>{`

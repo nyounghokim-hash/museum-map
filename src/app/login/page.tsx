@@ -194,7 +194,7 @@ export default function LoginPage() {
                             </span>
                         ))}
                     </h1>
-                    <p className="text-2xl sm:text-3xl text-gray-500 dark:text-neutral-400 font-extrabold leading-tight break-keep px-4 tracking-tight whitespace-pre-line absolute bottom-0 left-0 right-0 mb-1">
+                    <p className="text-lg sm:text-xl text-gray-400 dark:text-neutral-500 font-bold leading-tight break-keep px-4 tracking-tight whitespace-nowrap absolute bottom-0 left-0 right-0">
                         {t('login.description', locale)}
                     </p>
                 </div>

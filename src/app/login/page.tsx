@@ -20,23 +20,7 @@ export default function LoginPage() {
     const router = useRouter();
     const { showAlert, showConfirm } = useModal();
     const { darkMode, locale } = useApp();
-    const clickCount = useRef(0);
-    const lastClickTime = useRef(0);
 
-    const handleLogoClick = () => {
-        const now = Date.now();
-        if (now - lastClickTime.current < 1000) {
-            clickCount.current += 1;
-        } else {
-            clickCount.current = 1;
-        }
-        lastClickTime.current = now;
-
-        if (clickCount.current >= 5) {
-            router.push('/admin');
-            clickCount.current = 0;
-        }
-    };
 
     const handleGuestLogin = async () => {
         setLoading(true);
@@ -154,8 +138,7 @@ export default function LoginPage() {
             {/* Logo & Title */}
             <div className="flex flex-col items-center mb-20 text-center max-w-2xl mx-auto z-10">
                 <h1
-                    onClick={handleLogoClick}
-                    className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white mb-8 cursor-pointer select-none hover:scale-[1.01] transition-transform active:scale-95 leading-none"
+                    className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white mb-8 select-none leading-none"
                 >
                     Museum Map
                 </h1>

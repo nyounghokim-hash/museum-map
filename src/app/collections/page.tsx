@@ -5,11 +5,14 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
-import { t } from '@/lib/i18n';
+import { t, formatDate } from '@/lib/i18n';
 
-export default function MyCollectionsPage() {
-    const [collections, setCollections] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
+export default function CollectionsPage() {
+    const [tab, setTab] = useState<'my' | 'public'>('public');
+    const [myCollections, setMyCollections] = useState<any[]>([]);
+    const [publicCollections, setPublicCollections] = useState<any[]>([]);
+    const [loadingMy, setLoadingMy] = useState(true);
+    const [loadingPublic, setLoadingPublic] = useState(true);
     const { locale } = useApp();
     const { showConfirm, showAlert } = useModal();
     const { data: session } = useSession();
@@ -18,15 +21,32 @@ export default function MyCollectionsPage() {
     useEffect(() => {
         fetch('/api/collections')
             .then(r => r.json())
-            .then(res => { setCollections(res.data || []); setLoading(false); })
-            .catch(() => setLoading(false));
+            .then(res => { setMyCollections(res.data || []); setLoadingMy(false); })
+            .catch(() => setLoadingMy(false));
+
+        fetch('/api/collections?public=true')
+            .then(r => r.json())
+            .then(res => { setPublicCollections(res.data || []); setLoadingPublic(false); })
+            .catch(() => setLoadingPublic(false));
     }, []);
 
     const handleDelete = (id: string) => {
         showConfirm(t('modal.deleteCollection', locale), async () => {
             await fetch(`/api/collections/${id}`, { method: 'DELETE' });
-            setCollections(prev => prev.filter(c => c.id !== id));
+            setMyCollections(prev => prev.filter(c => c.id !== id));
         });
+    };
+
+    const collections = tab === 'my' ? myCollections : publicCollections;
+    const loading = tab === 'my' ? loadingMy : loadingPublic;
+
+    const tabLabel = (key: string) => {
+        const labels: Record<string, Record<string, string>> = {
+            my: { ko: '내 컬렉션', en: 'My Collections', ja: '私のコレクション', de: 'Meine Sammlungen', fr: 'Mes collections', es: 'Mis colecciones', pt: 'Minhas coleções' },
+            public: { ko: '공용 컬렉션', en: 'Public Collections', ja: '公開コレクション', de: 'Öffentliche Sammlungen', fr: 'Collections publiques', es: 'Colecciones públicas', pt: 'Coleções públicas' },
+        };
+        const lang = locale.startsWith('ko') ? 'ko' : locale.startsWith('ja') ? 'ja' : locale.startsWith('de') ? 'de' : locale.startsWith('fr') ? 'fr' : locale.startsWith('es') ? 'es' : locale.startsWith('pt') ? 'pt' : 'en';
+        return labels[key]?.[lang] || labels[key]?.['en'] || key;
     };
 
     return (
@@ -34,6 +54,22 @@ export default function MyCollectionsPage() {
             <div className="mb-6 sm:mb-8">
                 <h1 className="text-2xl sm:text-3xl font-extrabold dark:text-white">{t('collections.title', locale)}</h1>
                 <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">{t('collections.subtitle', locale)}</p>
+            </div>
+
+            {/* Tabs */}
+            <div className="flex gap-1 bg-gray-100 dark:bg-neutral-800 rounded-2xl p-1 mb-8">
+                {(['public', 'my'] as const).map((key) => (
+                    <button
+                        key={key}
+                        onClick={() => setTab(key)}
+                        className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-bold transition-all ${tab === key
+                            ? 'bg-white dark:bg-neutral-900 text-black dark:text-white shadow-sm'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                            }`}
+                    >
+                        {tabLabel(key)}
+                    </button>
+                ))}
             </div>
 
             {loading ? (
@@ -47,34 +83,50 @@ export default function MyCollectionsPage() {
                 </div>
             ) : collections.length === 0 ? (
                 <div className="py-20 text-center">
-                    <div className="text-6xl mb-4">📁</div>
-                    <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">{t('collections.empty', locale)}</h2>
-                    <p className="text-gray-500 dark:text-gray-400 mb-6">{t('collections.emptyDesc', locale)}</p>
+                    <div className="text-6xl mb-4">{tab === 'my' ? '📁' : '🌍'}</div>
+                    <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+                        {tab === 'my' ? t('collections.empty', locale) : (locale === 'ko' ? '아직 공개된 컬렉션이 없습니다' : 'No public collections yet')}
+                    </h2>
+                    <p className="text-gray-500 dark:text-gray-400 mb-6">
+                        {tab === 'my' ? t('collections.emptyDesc', locale) : (locale === 'ko' ? '컬렉션을 만들고 공개해보세요!' : 'Create and publish your collection!')}
+                    </p>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {collections.map((col: any) => (
                         <Link key={col.id} href={`/collections/${col.id}`}>
                             <div className="bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-xl p-5 shadow-md hover:shadow-xl transition-all cursor-pointer group relative">
-                                <button
-                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(col.id); }}
-                                    className="absolute top-3 right-3 p-1.5 rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 sm:opacity-0 sm:group-hover:opacity-100 transition-all"
-                                >
-                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
-                                <h3 className="text-lg font-bold group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400 transition-colors">{col.title}</h3>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                    {col._count?.items || 0} {t('collections.items', locale)}
-                                </p>
+                                {tab === 'my' && (
+                                    <button
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(col.id); }}
+                                        className="absolute top-3 right-3 p-1.5 rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 sm:opacity-0 sm:group-hover:opacity-100 transition-all"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                )}
+                                <h3 className="text-lg font-bold group-hover:text-purple-600 dark:text-white dark:group-hover:text-purple-400 transition-colors">{col.title}</h3>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                                        {col._count?.items || 0} {t('collections.items', locale)}
+                                    </span>
+                                    {tab === 'public' && col.user?.name && (
+                                        <>
+                                            <span className="text-gray-300 dark:text-neutral-600">•</span>
+                                            <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">
+                                                {col.user.name.startsWith('guest_') ? (locale === 'ko' ? '익명' : 'Anonymous') : col.user.name}
+                                            </span>
+                                        </>
+                                    )}
+                                </div>
                             </div>
                         </Link>
                     ))}
                 </div>
             )}
 
-            {!loading && (
+            {tab === 'my' && !loadingMy && (
                 <div
                     onClick={() => {
                         if (session?.user?.name?.startsWith('guest_')) {

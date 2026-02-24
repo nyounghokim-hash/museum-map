@@ -7,8 +7,24 @@ function generateSlug(title: string) {
     return title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Math.random().toString(36).substring(2, 6);
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     try {
+        const { searchParams } = new URL(req.url);
+        const isPublicQuery = searchParams.get('public') === 'true';
+
+        if (isPublicQuery) {
+            // Public collections - no auth required
+            const collections = await prisma.collection.findMany({
+                where: { isPublic: true },
+                include: {
+                    _count: { select: { items: true } },
+                    user: { select: { name: true } },
+                },
+                orderBy: { createdAt: 'desc' },
+            });
+            return successResponse(collections);
+        }
+
         const user = await requireAuth();
         const collections = await prisma.collection.findMany({
             where: { userId: user.id },

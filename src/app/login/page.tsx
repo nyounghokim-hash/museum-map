@@ -180,7 +180,7 @@ export default function LoginPage() {
 
             {/* Logo & Title */}
             <div className="flex flex-col items-center mb-20 text-center max-w-2xl mx-auto z-10">
-                {/* Typewriter title - fixed height */}
+                {/* Typewriter title - fixed height, self-contained */}
                 <div className="w-full h-[9rem] sm:h-[14rem]">
                     <h1
                         className="text-7xl sm:text-9xl font-black tracking-tighter dark:text-white select-none leading-[0.95] whitespace-pre-line text-center"
@@ -196,10 +196,6 @@ export default function LoginPage() {
                         ))}
                     </h1>
                 </div>
-                {/* Static description - never moves */}
-                <p className="text-sm sm:text-base lg:text-xl text-gray-400 dark:text-neutral-500 font-bold leading-snug break-keep text-center tracking-tight sm:whitespace-nowrap mt-4 px-2">
-                    {t('login.description', locale)}
-                </p>
                 <style jsx>{`
                     @keyframes blink {
                         0%, 100% { opacity: 1; }
@@ -207,6 +203,10 @@ export default function LoginPage() {
                     }
                 `}</style>
             </div>
+            {/* Description - completely outside typewriter, fixed 24px gap */}
+            <p className="text-sm sm:text-base lg:text-xl text-gray-400 dark:text-neutral-500 font-bold leading-snug break-keep text-center tracking-tight px-2 z-10" style={{ marginTop: '-56px', marginBottom: '56px' }}>
+                {t('login.description', locale)}
+            </p>
 
             <div className="w-full max-w-md w-full relative z-10">
                 <div className="bg-white/70 dark:bg-neutral-900/70 backdrop-blur-3xl border border-gray-100 dark:border-neutral-800 rounded-[2.5rem] p-8 sm:p-10 shadow-2xl shadow-purple-500/5">

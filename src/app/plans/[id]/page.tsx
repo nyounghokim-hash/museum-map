@@ -120,15 +120,42 @@ export default function PlanDetailPage() {
             newStops.splice(overIndex, 0, moved);
             // Update order field
             const updated = newStops.map((s, i) => ({ ...s, order: i }));
-            setStops(updated); // Update the state variable
-            setPlan((prev: any) => ({ ...prev, stops: updated })); // Also update plan for consistency
+            setStops(updated);
+            setPlan((prev: any) => ({ ...prev, stops: updated }));
 
-            setIsDirty(true);
+            // Auto-save immediately
+            const body = { stops: updated.map((s: any, i: number) => ({ id: s.id, order: i })) };
+            fetch(`/api/plans/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            }).then(() => {
+                // Sync with activeTrip if this plan is active
+                if (activeTripId === id) {
+                    const newRouteStops = updated
+                        .filter((s: any) => s.museum?.latitude && s.museum?.longitude)
+                        .map((s: any, i: number) => ({
+                            name: s.museum.name,
+                            latitude: s.museum.latitude,
+                            longitude: s.museum.longitude,
+                            order: i,
+                            museumId: s.museum.id,
+                        }));
+                    const stored = localStorage.getItem('activeTrip');
+                    if (stored) {
+                        try {
+                            const parsed = JSON.parse(stored);
+                            localStorage.setItem('activeTrip', JSON.stringify({ ...parsed, stops: newRouteStops }));
+                        } catch (e) { }
+                    }
+                }
+            }).catch(() => { });
+            setIsDirty(false);
         }
         setDragIndex(null);
         setOverIndex(null);
         setIsDragging(false);
-    }, [isDragging, dragIndex, overIndex, stops, id]);
+    }, [isDragging, dragIndex, overIndex, stops, id, activeTripId]);
 
     const handleSave = useCallback(async () => {
         if (!plan?.stops) return;

@@ -28,7 +28,7 @@ export const authOptions: NextAuthOptions = {
                                 data: {
                                     username: credentials.username,
                                     password: credentials.password,
-                                    name: "Guest User",
+                                    name: credentials.username,
                                     email: `${credentials.username}@guest.local`,
                                     role: "USER"
                                 }
@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
                         if (user) {
                             return {
                                 id: user.id,
-                                name: user.name || "Guest User",
+                                name: (user as any).username || credentials.username,
                                 email: (user as any).email || null,
                                 role: (user as any).role || "USER"
                             };

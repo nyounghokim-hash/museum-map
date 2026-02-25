@@ -376,6 +376,15 @@ export default function NavHeader() {
                         </div>
 
                         <div className="p-4 border-t dark:border-neutral-800 space-y-1">
+                            {session?.user?.name?.startsWith('guest_') && (
+                                <Link
+                                    href="/login"
+                                    onClick={() => setMobileOpen(false)}
+                                    className="block w-full px-4 py-3 rounded-xl text-sm font-bold text-center text-white bg-purple-600 hover:bg-purple-700 active:scale-95 transition-all mb-2"
+                                >
+                                    🔑 {t('login.title', locale) || 'Login'}
+                                </Link>
+                            )}
                             <button
                                 onClick={() => setDarkMode(!darkMode)}
                                 className="block w-full px-4 py-3 rounded-xl text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-all text-left"

@@ -6,6 +6,7 @@ const cache = new Map<string, string>();
 const LANG_MAP: Record<string, string> = {
     ko: 'ko', ja: 'ja', de: 'de', fr: 'fr', es: 'es', pt: 'pt',
     'zh-CN': 'zh-CN', 'zh-TW': 'zh-TW',
+    sv: 'sv', fi: 'fi', da: 'da', et: 'et',
 };
 
 export async function POST(req: NextRequest) {

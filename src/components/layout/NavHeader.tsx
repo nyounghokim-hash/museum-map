@@ -268,6 +268,9 @@ export default function NavHeader() {
                                                 <Link href="/saved" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
                                                     {t('nav.favorites', locale)}
                                                 </Link>
+                                                <Link href="/notifications" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
+                                                    {locale === 'ko' ? '알림' : 'Notifications'}
+                                                </Link>
                                                 <button
                                                     onClick={() => {
                                                         const { signOut } = require('next-auth/react');

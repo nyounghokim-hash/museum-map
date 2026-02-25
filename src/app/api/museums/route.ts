@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
         const country = searchParams.get('country');
         const bbox = searchParams.get('bbox'); // format: minLng,minLat,maxLng,maxLat
         const page = parseInt(searchParams.get('page') || '1', 10);
-        const limit = Math.min(parseInt(searchParams.get('limit') || '50', 10), 2000);
+        const limit = Math.min(parseInt(searchParams.get('limit') || '50', 10), 5000);
         const offset = (page - 1) * limit;
 
         const where: any = {};

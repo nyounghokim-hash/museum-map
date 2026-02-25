@@ -32,7 +32,7 @@ export default function MainPage() {
   const isPanelOpen = !!selectedMuseum || (isViewingActiveRoute && !!activeTrip);
 
   useEffect(() => {
-    fetch('/api/museums?limit=2000')
+    fetch('/api/museums?limit=5000')
       .then(r => r.json())
       .then(res => setMuseums(res.data?.data || res.data || []))
       .catch(console.error);

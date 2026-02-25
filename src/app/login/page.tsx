@@ -74,6 +74,8 @@ export default function LoginPage() {
         localStorage.removeItem('savedMuseums');
         localStorage.removeItem('travelPlans');
         localStorage.removeItem('recentSearches');
+        localStorage.removeItem('activeTrip');
+        localStorage.removeItem('guest-plans');
 
         sessionStorage.setItem('isGuest', 'true');
 

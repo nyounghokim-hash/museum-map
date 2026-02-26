@@ -58,10 +58,10 @@ export default function MainPage() {
       if (data.data?.length > 0) {
         setAiResults(data.data);
       } else {
-        showAlert(locale === 'ko' ? '검색 결과가 없습니다. 다른 키워드로 시도해보세요.' : 'No results found. Try different keywords.');
+        showAlert(translateCategory('ai.noResults', locale));
       }
     } catch {
-      showAlert(locale === 'ko' ? '추천 서비스 오류' : 'Recommendation service error');
+      showAlert(translateCategory('ai.error', locale));
     } finally {
       setAiLoading(false);
     }
@@ -177,7 +177,7 @@ export default function MainPage() {
                 >
                   <span className="text-lg">✨</span>
                   <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                    {locale === 'ko' ? 'AI 추천 검색' : 'AI Recommend'}
+                    {translateCategory('ai.recommend', locale)}
                   </span>
                 </button>
               ) : (
@@ -187,7 +187,7 @@ export default function MainPage() {
                       type="text"
                       value={aiQuery}
                       onChange={(e) => setAiQuery(e.target.value)}
-                      placeholder={locale === 'ko' ? '예: 아이와 갈 유럽 과학 박물관' : 'e.g. family-friendly science museums in Europe'}
+                      placeholder={translateCategory('ai.placeholder', locale)}
                       className="flex-1 px-4 py-2.5 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-full shadow-lg border border-purple-200 dark:border-purple-800 text-sm text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-purple-500"
                       autoFocus
                     />
@@ -228,12 +228,12 @@ export default function MainPage() {
                   {aiLoading && (
                     <div className="flex items-center gap-2 px-4 py-3 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md rounded-xl shadow-lg">
                       <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
-                      <span className="text-xs text-gray-500 dark:text-gray-400">{locale === 'ko' ? 'AI가 추천 중...' : 'AI recommending...'}</span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{translateCategory('ai.loading', locale)}</span>
                     </div>
                   )}
                   {!aiLoading && aiResults.length === 0 && aiQuery && (
                     <div className="px-4 py-2 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md rounded-xl shadow-lg">
-                      <span className="text-xs text-gray-400">{locale === 'ko' ? '✨ 위에 입력하고 추천 받으세요' : '✨ Type above to get recommendations'}</span>
+                      <span className="text-xs text-gray-400">{translateCategory('ai.hint', locale)}</span>
                     </div>
                   )}
                 </div>

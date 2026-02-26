@@ -26,7 +26,8 @@ export default function AdminPage() {
     const [loading, setLoading] = useState(false);
     const [dashboardData, setDashboardData] = useState<any>(null);
     const [exhibitionStats, setExhibitionStats] = useState<any[]>([]);
-    const [tab, setTab] = useState<'dashboard' | 'users' | 'blog' | 'museums' | 'exhibitions' | 'notifications'>('dashboard');
+    const [aiUsage, setAiUsage] = useState<any>(null);
+    const [tab, setTab] = useState<'dashboard' | 'users' | 'blog' | 'museums' | 'exhibitions' | 'notifications' | 'ai'>('dashboard');
     const [notifForm, setNotifForm] = useState({ title: '', message: '', link: '', targetUserId: '' });
     const [sortCol, setSortCol] = useState<string>('name');
     const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
@@ -82,6 +83,8 @@ export default function AdminPage() {
             endpoints = [`/api/admin/museums?query=${museumQuery}&page=${museumPage}`];
         } else if (tab === 'exhibitions') {
             endpoints = ['/api/admin/exhibitions'];
+        } else if (tab === 'ai') {
+            endpoints = ['/api/admin/ai-usage'];
         }
 
         Promise.all(endpoints.map(e => fetch(e).then(r => r.json())))
@@ -98,6 +101,8 @@ export default function AdminPage() {
                     setMuseumTotal(results[0]?.data?.total || 0);
                 } else if (tab === 'exhibitions') {
                     setExhibitionStats(results[0]?.data || []);
+                } else if (tab === 'ai') {
+                    setAiUsage(results[0]?.data || null);
                 }
                 setLoading(false);
             })
@@ -280,6 +285,12 @@ export default function AdminPage() {
                             className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'notifications' ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
                         >
                             알림 전송
+                        </button>
+                        <button
+                            onClick={() => setTab('ai')}
+                            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'ai' ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
+                        >
+                            AI 사용량
                         </button>
                     </div>
                 </div>
@@ -653,6 +664,61 @@ export default function AdminPage() {
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            ) : tab === 'ai' ? (
+                <div className="animate-fadeIn">
+                    <div className="mb-8">
+                        <h2 className="text-xl font-black dark:text-white uppercase tracking-tight">AI 토큰 사용 현황</h2>
+                        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Gemini API 호출 및 토큰 소모량을 실시간으로 모니터링합니다.</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                        {[{ label: '오늘', d: aiUsage?.today }, { label: '이번 주', d: aiUsage?.week }, { label: '이번 달', d: aiUsage?.month }, { label: '전체', d: aiUsage?.total }].map(({ label, d }) => (
+                            <div key={label} className="bg-white dark:bg-neutral-900 p-5 rounded-3xl border border-gray-100 dark:border-neutral-800 shadow-sm">
+                                <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{label}</h3>
+                                <div className="text-2xl font-black dark:text-white">{d?.requests || 0}</div>
+                                <p className="text-[10px] text-purple-500 font-bold mt-1">~{((d?.tokens || 0) / 1000).toFixed(1)}K tokens</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="bg-white dark:bg-neutral-900 p-6 rounded-3xl border border-gray-100 dark:border-neutral-800 shadow-sm mb-8">
+                        <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4">최근 7일 사용량</h3>
+                        <div className="flex items-end gap-2 h-32">
+                            {aiUsage?.dailyBreakdown?.map((d: any) => {
+                                const maxReq = Math.max(...(aiUsage?.dailyBreakdown?.map((x: any) => x.requests) || [1]), 1);
+                                const h = Math.max((d.requests / maxReq) * 100, 4);
+                                return (
+                                    <div key={d.date} className="flex-1 flex flex-col items-center gap-1">
+                                        <span className="text-[9px] font-black text-purple-600 dark:text-purple-400">{d.requests}</span>
+                                        <div className="w-full bg-purple-100 dark:bg-purple-900/30 rounded-t-lg relative" style={{ height: `${h}%` }}>
+                                            <div className="absolute inset-0 bg-gradient-to-t from-purple-500 to-purple-400 rounded-t-lg opacity-80" />
+                                        </div>
+                                        <span className="text-[8px] font-bold text-gray-300 dark:text-neutral-600">{d.date.slice(5)}</span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-gray-100 dark:border-neutral-800 shadow-sm overflow-hidden">
+                        <div className="px-6 py-4 border-b dark:border-neutral-800">
+                            <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest">최근 AI 요청 로그</h3>
+                        </div>
+                        <div className="max-h-[400px] overflow-y-auto">
+                            {aiUsage?.recentLogs?.length ? aiUsage.recentLogs.map((l: any) => (
+                                <div key={l.id} className="px-6 py-3 border-b dark:border-neutral-800 last:border-0 hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-xs font-black text-gray-700 dark:text-neutral-300">{l.action}</span>
+                                        <span className="text-[9px] font-bold text-gray-300 dark:text-neutral-600">{new Date(l.createdAt).toLocaleString('ko-KR')}</span>
+                                    </div>
+                                    {l.detail && <p className="text-[10px] text-gray-400 mt-0.5 truncate">{l.detail}</p>}
+                                </div>
+                            )) : (
+                                <div className="px-6 py-10 text-center text-sm text-gray-400">AI 사용 로그가 없습니다</div>
+                            )}
+                        </div>
                     </div>
                 </div>
             ) : (

@@ -216,7 +216,7 @@ export default function MainPage() {
                         >
                           <h4 className="text-xs font-bold text-gray-900 dark:text-white truncate">{m.name}</h4>
                           <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5 truncate">
-                            {m.city && `${m.city}, `}{m.country}
+                            {m.city && `${m.city}, `}{(() => { try { return new Intl.DisplayNames([locale], { type: 'region' }).of(m.country) || m.country; } catch { return m.country; } })()}
                           </p>
                           <span className="inline-block mt-1 px-2 py-0.5 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-[10px] font-medium truncate max-w-full">
                             {translateCategory(m.type || '', locale)}

@@ -152,7 +152,7 @@ export default function MainPage() {
         {!isViewingActiveRoute && (
           <div className="absolute top-4 left-4 right-4 z-10 flex flex-col gap-2 sm:gap-3 pointer-events-none">
             <div className="flex gap-2 pointer-events-auto overflow-x-auto pb-1 scrollbar-hide">
-              {['All', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Art Gallery', 'General Museum', 'Cultural Center'].map(f => (
+              {['All', 'Art Gallery', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'General Museum', 'History Museum', 'Natural History', 'Science Museum', 'Maritime Museum', 'Archaeological Museum', 'Photography Museum', 'Design Museum', 'Cultural Center'].map(f => (
                 <FilterChip key={f} active={activeFilter === f} onClick={() => {
                   setActiveFilter(f);
                   setAiOpen(false);
@@ -256,7 +256,7 @@ export default function MainPage() {
               </span>
               {countExpanded && (
                 <div className="mt-2 space-y-1 animate-fadeInUp text-left">
-                  {['Art Gallery', 'General Museum', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Cultural Center'].map(cat => {
+                  {['Art Gallery', 'Contemporary Art', 'History Museum', 'General Museum', 'Natural History', 'Maritime Museum', 'Science Museum', 'Fine Arts', 'Modern Art', 'Archaeological Museum', 'Cultural Center', 'Photography Museum', 'Design Museum'].map(cat => {
                     const count = museums.filter(m => m.type === cat).length;
                     if (count === 0) return null;
                     return (

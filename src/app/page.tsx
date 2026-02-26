@@ -54,12 +54,12 @@ export default function MainPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: aiQuery, locale })
       });
-      if (res.status === 429) {
-        showAlert(locale === 'ko' ? '추천 요청이 너무 많습니다. 잠시 후 다시 시도해주세요.' : 'Too many requests. Please try again later.');
-        return;
-      }
       const data = await res.json();
-      setAiResults(data.data || []);
+      if (data.data?.length > 0) {
+        setAiResults(data.data);
+      } else {
+        showAlert(locale === 'ko' ? '검색 결과가 없습니다. 다른 키워드로 시도해보세요.' : 'No results found. Try different keywords.');
+      }
     } catch {
       showAlert(locale === 'ko' ? '추천 서비스 오류' : 'Recommendation service error');
     } finally {

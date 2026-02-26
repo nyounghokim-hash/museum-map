@@ -28,6 +28,12 @@ export default function MainPage() {
   const [isViewingActiveRoute, setIsViewingActiveRoute] = useState(false);
   const { data: session, status } = useSession();
 
+  // AI Recommend
+  const [aiQuery, setAiQuery] = useState('');
+  const [aiResults, setAiResults] = useState<any[]>([]);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiOpen, setAiOpen] = useState(false);
+
   // Show detailed panel if museum selected OR if viewing active route (and not seeing a specific museum)
   const isPanelOpen = !!selectedMuseum || (isViewingActiveRoute && !!activeTrip);
 
@@ -37,6 +43,29 @@ export default function MainPage() {
       .then(res => setMuseums(res.data?.data || res.data || []))
       .catch(console.error);
   }, []);
+
+  const handleAiRecommend = async () => {
+    if (!aiQuery.trim() || aiLoading) return;
+    setAiLoading(true);
+    setAiResults([]);
+    try {
+      const res = await fetch('/api/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: aiQuery, locale })
+      });
+      if (res.status === 429) {
+        showAlert(locale === 'ko' ? '추천 요청이 너무 많습니다. 잠시 후 다시 시도해주세요.' : 'Too many requests. Please try again later.');
+        return;
+      }
+      const data = await res.json();
+      setAiResults(data.data || []);
+    } catch {
+      showAlert(locale === 'ko' ? '추천 서비스 오류' : 'Recommendation service error');
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   // Check for active trip
   useEffect(() => {
@@ -126,6 +155,8 @@ export default function MainPage() {
               {['All', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'Art Gallery', 'General Museum', 'Cultural Center'].map(f => (
                 <FilterChip key={f} active={activeFilter === f} onClick={() => {
                   setActiveFilter(f);
+                  setAiOpen(false);
+                  setAiResults([]);
                   gtag.event('filter_museums', {
                     category: 'filter',
                     label: f,
@@ -135,6 +166,78 @@ export default function MainPage() {
                   {translateCategory(f, locale)}
                 </FilterChip>
               ))}
+            </div>
+
+            {/* AI Search Bar */}
+            <div className="pointer-events-auto">
+              {!aiOpen ? (
+                <button
+                  onClick={() => setAiOpen(true)}
+                  className="flex items-center gap-2 px-4 py-2.5 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md rounded-full shadow-lg border border-purple-200 dark:border-purple-800 hover:shadow-xl transition-all active:scale-95"
+                >
+                  <span className="text-lg">✨</span>
+                  <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                    {locale === 'ko' ? 'AI 추천 검색' : 'AI Recommend'}
+                  </span>
+                </button>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <form onSubmit={(e) => { e.preventDefault(); handleAiRecommend(); }} className="flex gap-2">
+                    <input
+                      type="text"
+                      value={aiQuery}
+                      onChange={(e) => setAiQuery(e.target.value)}
+                      placeholder={locale === 'ko' ? '예: 아이와 갈 유럽 과학 박물관' : 'e.g. family-friendly science museums in Europe'}
+                      className="flex-1 px-4 py-2.5 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-full shadow-lg border border-purple-200 dark:border-purple-800 text-sm text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-purple-500"
+                      autoFocus
+                    />
+                    <button
+                      type="submit"
+                      disabled={aiLoading}
+                      className="px-4 py-2.5 bg-purple-600 text-white rounded-full text-sm font-bold shadow-lg hover:bg-purple-700 active:scale-95 transition-all disabled:opacity-50 shrink-0"
+                    >
+                      {aiLoading ? '...' : '✨'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setAiOpen(false); setAiResults([]); setAiQuery(''); }}
+                      className="px-3 py-2.5 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-md rounded-full shadow-lg text-gray-500 hover:text-gray-800 dark:hover:text-white text-sm active:scale-95 transition-all shrink-0"
+                    >✕</button>
+                  </form>
+
+                  {/* AI Results */}
+                  {aiResults.length > 0 && (
+                    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                      {aiResults.map((m: any) => (
+                        <button
+                          key={m.id}
+                          onClick={() => { handleMuseumClick(m.id); setAiOpen(false); }}
+                          className="flex-shrink-0 w-48 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-xl shadow-lg border border-gray-100 dark:border-neutral-800 p-3 text-left hover:shadow-xl active:scale-[0.98] transition-all"
+                        >
+                          <h4 className="text-xs font-bold text-gray-900 dark:text-white truncate">{m.name}</h4>
+                          <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5 truncate">
+                            {m.city && `${m.city}, `}{m.country}
+                          </p>
+                          <span className="inline-block mt-1 px-2 py-0.5 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-[10px] font-medium truncate max-w-full">
+                            {translateCategory(m.type || '', locale)}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {aiLoading && (
+                    <div className="flex items-center gap-2 px-4 py-3 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md rounded-xl shadow-lg">
+                      <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{locale === 'ko' ? 'AI가 추천 중...' : 'AI recommending...'}</span>
+                    </div>
+                  )}
+                  {!aiLoading && aiResults.length === 0 && aiQuery && (
+                    <div className="px-4 py-2 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md rounded-xl shadow-lg">
+                      <span className="text-xs text-gray-400">{locale === 'ko' ? '✨ 위에 입력하고 추천 받으세요' : '✨ Type above to get recommendations'}</span>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}

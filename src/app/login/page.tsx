@@ -179,6 +179,17 @@ export default function LoginPage() {
 
     return (
         <div className={`min-h-screen ${darkMode ? 'bg-black' : 'bg-white'} flex flex-col items-center pt-32 sm:pt-48 px-4 pb-24 selection:bg-purple-300 selection:text-black transition-colors duration-300 overflow-y-auto relative`}>
+            {/* Background illustration */}
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                <img
+                    src="/login-bg.png"
+                    alt=""
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] object-contain opacity-60"
+                    style={{ maxHeight: '40vh' }}
+                />
+                {/* Dark mode overlay */}
+                <div className="absolute inset-0 bg-black opacity-0 dark:opacity-[0.82] transition-opacity duration-300" />
+            </div>
 
             {/* Logo & Title */}
             <div className="flex flex-col items-center mb-20 text-center max-w-2xl mx-auto z-10">

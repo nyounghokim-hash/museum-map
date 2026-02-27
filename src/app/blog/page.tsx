@@ -24,7 +24,7 @@ function BlogCard({ post, locale }: { post: any; locale: Locale }) {
             className="group flex flex-col sm:flex-row bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-neutral-800 hover:shadow-xl transition-all duration-300 shadow-sm active:scale-[0.99] min-h-auto sm:min-h-[180px]"
         >
             {/* Horizontal Thumbnail */}
-            <div className="w-full sm:w-[280px] h-[180px] sm:h-auto shrink-0 overflow-hidden bg-gray-50 dark:bg-neutral-800 relative">
+            <div className="w-full sm:w-[280px] h-[180px] sm:h-[200px] shrink-0 overflow-hidden bg-gray-50 dark:bg-neutral-800 relative">
                 {post.previewImage ? (
                     <img
                         src={post.previewImage}

@@ -182,7 +182,7 @@ export default function LoginPage() {
             {/* Background illustration */}
             <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
                 <img
-                    src="/login-bg.png"
+                    src="/login_bg.jpeg"
                     alt=""
                     className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] object-contain opacity-60"
                     style={{ maxHeight: '40vh' }}

@@ -184,8 +184,7 @@ export default function LoginPage() {
                 <img
                     src="/login_bg.jpeg"
                     alt=""
-                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] object-contain opacity-60"
-                    style={{ maxHeight: '40vh' }}
+                    className="absolute inset-0 w-full h-full object-cover object-center opacity-60"
                 />
                 {/* Dark mode overlay */}
                 <div className="absolute inset-0 bg-black opacity-0 dark:opacity-[0.82] transition-opacity duration-300" />

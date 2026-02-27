@@ -36,7 +36,7 @@ export default function BlogContentClient({ post, serverLocale }: { post: any; s
                 )}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-8 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight">
                 {displayTitle}
             </h1>
 

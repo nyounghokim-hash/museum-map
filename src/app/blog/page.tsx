@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/components/AppContext';
 import { t, formatDate, type Locale } from '@/lib/i18n';
 import { useTranslatedText } from '@/hooks/useTranslation';
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
-function BlogCard({ post, locale }: { post: any; locale: Locale }) {
+function BlogCard({ post, locale, onNavigate }: { post: any; locale: Locale; onNavigate: (id: string) => void }) {
     const rawTitle = locale !== 'ko' && post.titleEn ? post.titleEn : post.title;
     const rawContent = ((locale !== 'ko' && post.contentEn ? post.contentEn : post.content) || '').replace(/<[^>]*>/g, '').substring(0, 200);
 
@@ -19,9 +20,9 @@ function BlogCard({ post, locale }: { post: any; locale: Locale }) {
     const displayContent = needsTranslation && translatedContent ? translatedContent : rawContent;
 
     return (
-        <Link
-            href={`/blog/${post.id}`}
-            className="group flex flex-col sm:flex-row bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-neutral-800 hover:shadow-xl transition-all duration-300 shadow-sm active:scale-[0.99] min-h-auto sm:min-h-[180px]"
+        <div
+            onClick={() => onNavigate(post.id)}
+            className="group flex flex-col sm:flex-row bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-neutral-800 hover:shadow-xl transition-all duration-300 shadow-sm active:scale-[0.99] min-h-auto sm:min-h-[180px] cursor-pointer"
         >
             {/* Horizontal Thumbnail */}
             <div className="w-full sm:w-[280px] h-[180px] sm:h-[200px] shrink-0 overflow-hidden bg-gray-50 dark:bg-neutral-800 relative">
@@ -66,16 +67,23 @@ function BlogCard({ post, locale }: { post: any; locale: Locale }) {
                     </svg>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 }
 
 export default function BlogListPage() {
     const { locale } = useApp();
+    const router = useRouter();
     const [posts, setPosts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [navigating, setNavigating] = useState(false);
     const [page, setPage] = useState(1);
     const PER_PAGE = 10;
+
+    const handleNavigate = (id: string) => {
+        setNavigating(true);
+        router.push(`/blog/${id}`);
+    };
 
     useEffect(() => {
         fetch('/api/blog')
@@ -105,6 +113,7 @@ export default function BlogListPage() {
 
     return (
         <div className="w-full max-w-[1080px] mx-auto px-4 py-8 sm:px-6 md:px-8 mt-4 sm:mt-8">
+            {navigating && <LoadingAnimation />}
             <div className="mb-10 sm:mb-12">
                 <h1 className="text-2xl sm:text-3xl font-extrabold dark:text-white mb-2">
                     {t('blog.title', locale)}
@@ -136,7 +145,7 @@ export default function BlogListPage() {
                 <>
                     <div className="flex flex-col gap-6 sm:gap-8">
                         {paginatedPosts.map((post: any) => (
-                            <BlogCard key={post.id} post={post} locale={locale} />
+                            <BlogCard key={post.id} post={post} locale={locale} onNavigate={handleNavigate} />
                         ))}
                     </div>
 

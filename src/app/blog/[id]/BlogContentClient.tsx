@@ -28,6 +28,12 @@ export default function BlogContentClient({ post, serverLocale }: { post: any; s
                 <span>{post.author || 'Editorial'}</span>
                 <span className="text-gray-300 dark:text-neutral-700">•</span>
                 <span className="text-gray-400 font-medium">{formatDate(post.createdAt, effectiveLocale)}</span>
+                {post.views > 0 && (
+                    <>
+                        <span className="text-gray-300 dark:text-neutral-700">•</span>
+                        <span className="text-gray-400 font-medium normal-case">👁 {post.views.toLocaleString()}</span>
+                    </>
+                )}
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-8 leading-tight">

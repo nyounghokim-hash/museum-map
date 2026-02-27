@@ -170,7 +170,18 @@ For each museum, write ONE short reason (under 15 words) why it matches the sear
             } catch { /* reasons are optional */ }
         }
 
-        const dataWithReasons = results.map((r: any) => ({ ...r, reason: reasons[r.id] || null }));
+        // Fallback: generate template-based reasons if Gemini didn't produce them
+        const generateFallbackReason = (r: any) => {
+            const isKo = locale === 'ko';
+            const countryName = (() => { try { return new Intl.DisplayNames([locale || 'en'], { type: 'region' }).of(r.country); } catch { return r.country; } })();
+            const typeName = r.type || '';
+            if (isKo) {
+                return `${r.city ? r.city + ', ' : ''}${countryName}의 ${typeName} — "${query}" 검색 결과`;
+            }
+            return `${typeName} in ${r.city ? r.city + ', ' : ''}${countryName} — matches "${query}"`;
+        };
+
+        const dataWithReasons = results.map((r: any) => ({ ...r, reason: reasons[r.id] || generateFallbackReason(r) }));
         return NextResponse.json({ data: dataWithReasons, filters, ai: usedAI });
     } catch (e: any) {
         console.error('Recommend error:', e);

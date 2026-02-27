@@ -23,8 +23,23 @@ export async function PUT(
         const updated = await (prisma.feedback as any).update({
             where: { id: resolvedParams.id },
             data: { reply },
-            include: { user: { select: { username: true } } }
+            include: { user: { select: { id: true, username: true } } }
         });
+
+        // Send notification to the feedback author
+        if (updated.userId) {
+            await (prisma as any).notification.create({
+                data: {
+                    userId: updated.userId,
+                    type: 'feedback_reply',
+                    title: '💬 피드백에 답변이 도착했습니다',
+                    titleEn: '💬 Your feedback got a reply',
+                    message: reply.length > 80 ? reply.substring(0, 80) + '...' : reply,
+                    messageEn: reply.length > 80 ? reply.substring(0, 80) + '...' : reply,
+                    link: '/feedback',
+                }
+            });
+        }
 
         return NextResponse.json({ data: updated });
     } catch (error: any) {

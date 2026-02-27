@@ -46,6 +46,12 @@ function BlogCard({ post, locale }: { post: any; locale: Locale }) {
                     <span>{post.author || 'Editorial'}</span>
                     <span className="text-gray-300 dark:text-neutral-700">•</span>
                     <span className="text-gray-400 font-medium">{formatDate(post.createdAt, locale)}</span>
+                    {post.views > 0 && (
+                        <>
+                            <span className="text-gray-300 dark:text-neutral-700">•</span>
+                            <span className="text-gray-400 font-medium normal-case">👁 {post.views.toLocaleString()}</span>
+                        </>
+                    )}
                 </div>
                 <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2" style={{ wordBreak: 'break-word' }}>
                     {displayTitle}

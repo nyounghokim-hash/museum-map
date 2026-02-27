@@ -29,7 +29,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
     const [loadingLive, setLoadingLive] = useState(false);
 
     const translatedDesc = useTranslatedText(data?.description, locale);
-    const translatedName = useTranslatedText(data?.name, locale);
+    // Museum names should always display in their original language
 
     useEffect(() => {
         setLoading(true);
@@ -120,7 +120,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                     <div className="absolute bottom-4 left-4 right-4 sm:left-6 sm:right-6">
                         <p className="text-xs font-bold tracking-widest text-white/80 uppercase mb-1">{translateCategory(data.type, locale)} • {getCityName(data.city, locale)}, {getCountryName(data.country, locale)}</p>
-                        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">{translatedName || data.name}</h1>
+                        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">{data.name}</h1>
                     </div>
 
                     {/* Pick Button */}

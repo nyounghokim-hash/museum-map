@@ -172,7 +172,8 @@ export default function NavHeader() {
                                                                 fetch(`/api/notifications/${n.id}/read`, { method: 'POST' });
                                                                 setNotifications(prev => prev.map(notif => notif.id === n.id ? { ...notif, isRead: true } : notif));
                                                             }
-                                                            if (n.link) window.location.href = n.link;
+                                                            setNotifOpen(false);
+                                                            window.location.href = '/notifications';
                                                         }}
                                                     >
                                                         <div className="flex items-start gap-3">

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
 import { t } from '@/lib/i18n';
+import { InfoTableEditor, ArtworksEditor, MuseumLinker } from '@/components/blog/BlogEditorPanels';
 import 'react-quill/dist/quill.snow.css';
 
 // Polyfill for findDOMNode in React 19
@@ -37,6 +38,9 @@ export default function BlogEditorPage() {
     const [previewImage, setPreviewImage] = useState('');
     const [status, setStatus] = useState('DRAFT');
     const [loading, setLoading] = useState(false);
+    const [infoTable, setInfoTable] = useState<any[]>([]);
+    const [artworks, setArtworks] = useState<any[]>([]);
+    const [selectedMuseums, setSelectedMuseums] = useState<any[]>([]);
 
     const handleSave = async () => {
         if (!title || !content) {
@@ -48,7 +52,12 @@ export default function BlogEditorPage() {
             const res = await fetch('/api/blog', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title, content, description, author, previewImage, status })
+                body: JSON.stringify({
+                    title, content, description, author, previewImage, status,
+                    infoTable: infoTable.length > 0 ? infoTable : undefined,
+                    artworks: artworks.length > 0 ? artworks : undefined,
+                    museumIds: selectedMuseums.map(m => m.id),
+                })
             });
             if (res.ok) {
                 router.push('/admin');
@@ -131,6 +140,11 @@ export default function BlogEditorPage() {
                             </div>
                         </div>
                     </div>
+
+                    {/* Info Table + Artworks + Museums (below editor) */}
+                    <InfoTableEditor value={infoTable} onChange={setInfoTable} />
+                    <ArtworksEditor value={artworks} onChange={setArtworks} />
+                    <MuseumLinker selectedMuseums={selectedMuseums} onChange={setSelectedMuseums} />
                 </div>
 
                 {/* Right Side: Metadata */}

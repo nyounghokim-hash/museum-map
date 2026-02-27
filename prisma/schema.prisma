@@ -49,6 +49,8 @@ model Story {
   contentEn    String?
   titleEn      String?
   description  String?
+  infoTable    Json?
+  artworks     Json?
   museums      StoryMuseum[]
 
   @@index([status])

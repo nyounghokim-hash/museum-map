@@ -45,7 +45,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function BlogPostDetail({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = await params;
     const post = await (prisma as any).story.findUnique({
-        where: { id: resolvedParams.id }
+        where: { id: resolvedParams.id },
+        include: {
+            museums: {
+                include: {
+                    museum: { select: { id: true, name: true, city: true, country: true, imageUrl: true } }
+                }
+            }
+        }
     });
 
     const headerList = headers();
@@ -92,6 +99,9 @@ export default async function BlogPostDetail({ params }: { params: Promise<{ id:
         ...post,
         createdAt: post.createdAt.toISOString(),
         updatedAt: post.updatedAt?.toISOString() || null,
+        infoTable: post.infoTable || null,
+        artworks: post.artworks || null,
+        museums: post.museums?.map((sm: any) => sm.museum) || [],
     };
 
     return (

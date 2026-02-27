@@ -124,31 +124,33 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  username: 'username',
   email: 'email',
-  password: 'password',
   emailVerified: 'emailVerified',
   image: 'image',
   role: 'role',
   preferences: 'preferences',
-  lastIp: 'lastIp',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  username: 'username',
+  password: 'password',
+  lastIp: 'lastIp'
 };
 
 exports.Prisma.StoryScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  titleEn: 'titleEn',
   content: 'content',
-  contentEn: 'contentEn',
-  description: 'description',
   author: 'author',
   previewImage: 'previewImage',
   status: 'status',
   views: 'views',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  contentEn: 'contentEn',
+  titleEn: 'titleEn',
+  description: 'description',
+  infoTable: 'infoTable',
+  artworks: 'artworks'
 };
 
 exports.Prisma.StoryMuseumScalarFieldEnum = {
@@ -161,12 +163,12 @@ exports.Prisma.NotificationScalarFieldEnum = {
   userId: 'userId',
   type: 'type',
   title: 'title',
-  titleEn: 'titleEn',
   message: 'message',
-  messageEn: 'messageEn',
   link: 'link',
   isRead: 'isRead',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  messageEn: 'messageEn',
+  titleEn: 'titleEn'
 };
 
 exports.Prisma.MuseumScalarFieldEnum = {
@@ -178,13 +180,13 @@ exports.Prisma.MuseumScalarFieldEnum = {
   type: 'type',
   website: 'website',
   imageUrl: 'imageUrl',
-  openingHours: 'openingHours',
   latitude: 'latitude',
   longitude: 'longitude',
   popularityScore: 'popularityScore',
-  lastExhibitionSync: 'lastExhibitionSync',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  openingHours: 'openingHours',
+  lastExhibitionSync: 'lastExhibitionSync'
 };
 
 exports.Prisma.ExhibitionScalarFieldEnum = {
@@ -192,12 +194,12 @@ exports.Prisma.ExhibitionScalarFieldEnum = {
   museumId: 'museumId',
   title: 'title',
   description: 'description',
-  imageUrl: 'imageUrl',
-  link: 'link',
-  source: 'source',
   startDate: 'startDate',
   endDate: 'endDate',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  imageUrl: 'imageUrl',
+  link: 'link',
+  source: 'source'
 };
 
 exports.Prisma.FolderScalarFieldEnum = {
@@ -239,10 +241,10 @@ exports.Prisma.ReviewScalarFieldEnum = {
   museumId: 'museumId',
   content: 'content',
   photos: 'photos',
-  ipAddress: 'ipAddress',
-  country: 'country',
   visitedAt: 'visitedAt',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  country: 'country',
+  ipAddress: 'ipAddress'
 };
 
 exports.Prisma.CollectionScalarFieldEnum = {
@@ -277,9 +279,9 @@ exports.Prisma.ChallengeScalarFieldEnum = {
 exports.Prisma.ChallengeProgressScalarFieldEnum = {
   userId: 'userId',
   challengeId: 'challengeId',
-  progress: 'progress',
-  completed: 'completed',
   completedAt: 'completedAt',
+  completed: 'completed',
+  progress: 'progress',
   updatedAt: 'updatedAt'
 };
 
@@ -287,8 +289,8 @@ exports.Prisma.FeedbackScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   content: 'content',
-  reply: 'reply',
   createdAt: 'createdAt',
+  reply: 'reply',
   updatedAt: 'updatedAt'
 };
 
@@ -324,6 +326,14 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   action: 'action',
   target: 'target',
   timestamp: 'timestamp'
+};
+
+exports.Prisma.Spatial_ref_sysScalarFieldEnum = {
+  srid: 'srid',
+  auth_name: 'auth_name',
+  auth_srid: 'auth_srid',
+  srtext: 'srtext',
+  proj4text: 'proj4text'
 };
 
 exports.Prisma.SortOrder = {
@@ -404,7 +414,8 @@ exports.Prisma.ModelName = {
   AlertSubscription: 'AlertSubscription',
   Suggestion: 'Suggestion',
   Report: 'Report',
-  AuditLog: 'AuditLog'
+  AuditLog: 'AuditLog',
+  spatial_ref_sys: 'spatial_ref_sys'
 };
 
 /**

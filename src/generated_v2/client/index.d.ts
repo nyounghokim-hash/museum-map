@@ -113,6 +113,11 @@ export type Report = $Result.DefaultSelection<Prisma.$ReportPayload>
  * 
  */
 export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
+/**
+ * Model spatial_ref_sys
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ */
+export type spatial_ref_sys = $Result.DefaultSelection<Prisma.$spatial_ref_sysPayload>
 
 /**
  * Enums
@@ -500,6 +505,16 @@ export class PrismaClient<
     * ```
     */
   get auditLog(): Prisma.AuditLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.spatial_ref_sys`: Exposes CRUD operations for the **spatial_ref_sys** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Spatial_ref_sys
+    * const spatial_ref_sys = await prisma.spatial_ref_sys.findMany()
+    * ```
+    */
+  get spatial_ref_sys(): Prisma.spatial_ref_sysDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -960,7 +975,8 @@ export namespace Prisma {
     AlertSubscription: 'AlertSubscription',
     Suggestion: 'Suggestion',
     Report: 'Report',
-    AuditLog: 'AuditLog'
+    AuditLog: 'AuditLog',
+    spatial_ref_sys: 'spatial_ref_sys'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -979,7 +995,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "story" | "storyMuseum" | "notification" | "museum" | "exhibition" | "folder" | "save" | "plan" | "planStop" | "review" | "collection" | "collectionItem" | "challenge" | "challengeProgress" | "feedback" | "alertSubscription" | "suggestion" | "report" | "auditLog"
+      modelProps: "user" | "story" | "storyMuseum" | "notification" | "museum" | "exhibition" | "folder" | "save" | "plan" | "planStop" | "review" | "collection" | "collectionItem" | "challenge" | "challengeProgress" | "feedback" | "alertSubscription" | "suggestion" | "report" | "auditLog" | "spatial_ref_sys"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2463,6 +2479,80 @@ export namespace Prisma {
           }
         }
       }
+      spatial_ref_sys: {
+        payload: Prisma.$spatial_ref_sysPayload<ExtArgs>
+        fields: Prisma.spatial_ref_sysFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.spatial_ref_sysFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.spatial_ref_sysFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          findFirst: {
+            args: Prisma.spatial_ref_sysFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.spatial_ref_sysFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          findMany: {
+            args: Prisma.spatial_ref_sysFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>[]
+          }
+          create: {
+            args: Prisma.spatial_ref_sysCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          createMany: {
+            args: Prisma.spatial_ref_sysCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.spatial_ref_sysCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>[]
+          }
+          delete: {
+            args: Prisma.spatial_ref_sysDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          update: {
+            args: Prisma.spatial_ref_sysUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          deleteMany: {
+            args: Prisma.spatial_ref_sysDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.spatial_ref_sysUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.spatial_ref_sysUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>[]
+          }
+          upsert: {
+            args: Prisma.spatial_ref_sysUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$spatial_ref_sysPayload>
+          }
+          aggregate: {
+            args: Prisma.Spatial_ref_sysAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSpatial_ref_sys>
+          }
+          groupBy: {
+            args: Prisma.spatial_ref_sysGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Spatial_ref_sysGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.spatial_ref_sysCountArgs<ExtArgs>
+            result: $Utils.Optional<Spatial_ref_sysCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2579,6 +2669,7 @@ export namespace Prisma {
     suggestion?: SuggestionOmit
     report?: ReportOmit
     auditLog?: AuditLogOmit
+    spatial_ref_sys?: spatial_ref_sysOmit
   }
 
   /* Types for Logging */
@@ -2659,29 +2750,29 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    collections: number
-    folders: number
-    saves: number
-    plans: number
-    reviews: number
     challenges: number
+    collections: number
     feedbacks: number
-    suggestions: number
-    reports: number
+    folders: number
     notifications: number
+    plans: number
+    reports: number
+    reviews: number
+    saves: number
+    suggestions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    collections?: boolean | UserCountOutputTypeCountCollectionsArgs
-    folders?: boolean | UserCountOutputTypeCountFoldersArgs
-    saves?: boolean | UserCountOutputTypeCountSavesArgs
-    plans?: boolean | UserCountOutputTypeCountPlansArgs
-    reviews?: boolean | UserCountOutputTypeCountReviewsArgs
     challenges?: boolean | UserCountOutputTypeCountChallengesArgs
+    collections?: boolean | UserCountOutputTypeCountCollectionsArgs
     feedbacks?: boolean | UserCountOutputTypeCountFeedbacksArgs
-    suggestions?: boolean | UserCountOutputTypeCountSuggestionsArgs
-    reports?: boolean | UserCountOutputTypeCountReportsArgs
+    folders?: boolean | UserCountOutputTypeCountFoldersArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    plans?: boolean | UserCountOutputTypeCountPlansArgs
+    reports?: boolean | UserCountOutputTypeCountReportsArgs
+    reviews?: boolean | UserCountOutputTypeCountReviewsArgs
+    saves?: boolean | UserCountOutputTypeCountSavesArgs
+    suggestions?: boolean | UserCountOutputTypeCountSuggestionsArgs
   }
 
   // Custom InputTypes
@@ -2698,43 +2789,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountCollectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CollectionWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountFoldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: FolderWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountSavesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SaveWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountPlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PlanWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReviewWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountChallengesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChallengeProgressWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCollectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectionWhereInput
   }
 
   /**
@@ -2747,8 +2810,22 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountSuggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SuggestionWhereInput
+  export type UserCountOutputTypeCountFoldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FolderWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPlansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlanWhereInput
   }
 
   /**
@@ -2761,8 +2838,22 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationWhereInput
+  export type UserCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSavesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SaveWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSuggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SuggestionWhereInput
   }
 
 
@@ -2802,23 +2893,23 @@ export namespace Prisma {
    */
 
   export type MuseumCountOutputType = {
-    exhibitions: number
-    saves: number
-    reviews: number
-    suggestions: number
-    planStops: number
     collectionItems: number
+    exhibitions: number
+    planStops: number
+    reviews: number
+    saves: number
     stories: number
+    suggestions: number
   }
 
   export type MuseumCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    exhibitions?: boolean | MuseumCountOutputTypeCountExhibitionsArgs
-    saves?: boolean | MuseumCountOutputTypeCountSavesArgs
-    reviews?: boolean | MuseumCountOutputTypeCountReviewsArgs
-    suggestions?: boolean | MuseumCountOutputTypeCountSuggestionsArgs
-    planStops?: boolean | MuseumCountOutputTypeCountPlanStopsArgs
     collectionItems?: boolean | MuseumCountOutputTypeCountCollectionItemsArgs
+    exhibitions?: boolean | MuseumCountOutputTypeCountExhibitionsArgs
+    planStops?: boolean | MuseumCountOutputTypeCountPlanStopsArgs
+    reviews?: boolean | MuseumCountOutputTypeCountReviewsArgs
+    saves?: boolean | MuseumCountOutputTypeCountSavesArgs
     stories?: boolean | MuseumCountOutputTypeCountStoriesArgs
+    suggestions?: boolean | MuseumCountOutputTypeCountSuggestionsArgs
   }
 
   // Custom InputTypes
@@ -2835,29 +2926,15 @@ export namespace Prisma {
   /**
    * MuseumCountOutputType without action
    */
+  export type MuseumCountOutputTypeCountCollectionItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollectionItemWhereInput
+  }
+
+  /**
+   * MuseumCountOutputType without action
+   */
   export type MuseumCountOutputTypeCountExhibitionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ExhibitionWhereInput
-  }
-
-  /**
-   * MuseumCountOutputType without action
-   */
-  export type MuseumCountOutputTypeCountSavesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SaveWhereInput
-  }
-
-  /**
-   * MuseumCountOutputType without action
-   */
-  export type MuseumCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReviewWhereInput
-  }
-
-  /**
-   * MuseumCountOutputType without action
-   */
-  export type MuseumCountOutputTypeCountSuggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SuggestionWhereInput
   }
 
   /**
@@ -2870,8 +2947,15 @@ export namespace Prisma {
   /**
    * MuseumCountOutputType without action
    */
-  export type MuseumCountOutputTypeCountCollectionItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CollectionItemWhereInput
+  export type MuseumCountOutputTypeCountReviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReviewWhereInput
+  }
+
+  /**
+   * MuseumCountOutputType without action
+   */
+  export type MuseumCountOutputTypeCountSavesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SaveWhereInput
   }
 
   /**
@@ -2879,6 +2963,13 @@ export namespace Prisma {
    */
   export type MuseumCountOutputTypeCountStoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StoryMuseumWhereInput
+  }
+
+  /**
+   * MuseumCountOutputType without action
+   */
+  export type MuseumCountOutputTypeCountSuggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SuggestionWhereInput
   }
 
 
@@ -3054,44 +3145,44 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: string | null
     name: string | null
-    username: string | null
     email: string | null
-    password: string | null
     emailVerified: Date | null
     image: string | null
     role: $Enums.Role | null
-    lastIp: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    username: string | null
+    password: string | null
+    lastIp: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
     name: string | null
-    username: string | null
     email: string | null
-    password: string | null
     emailVerified: Date | null
     image: string | null
     role: $Enums.Role | null
-    lastIp: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    username: string | null
+    password: string | null
+    lastIp: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     name: number
-    username: number
     email: number
-    password: number
     emailVerified: number
     image: number
     role: number
     preferences: number
-    lastIp: number
     createdAt: number
     updatedAt: number
+    username: number
+    password: number
+    lastIp: number
     _all: number
   }
 
@@ -3099,44 +3190,44 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
-    username?: true
     email?: true
-    password?: true
     emailVerified?: true
     image?: true
     role?: true
-    lastIp?: true
     createdAt?: true
     updatedAt?: true
+    username?: true
+    password?: true
+    lastIp?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
-    username?: true
     email?: true
-    password?: true
     emailVerified?: true
     image?: true
     role?: true
-    lastIp?: true
     createdAt?: true
     updatedAt?: true
+    username?: true
+    password?: true
+    lastIp?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
-    username?: true
     email?: true
-    password?: true
     emailVerified?: true
     image?: true
     role?: true
     preferences?: true
-    lastIp?: true
     createdAt?: true
     updatedAt?: true
+    username?: true
+    password?: true
+    lastIp?: true
     _all?: true
   }
 
@@ -3215,16 +3306,16 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     name: string | null
-    username: string | null
     email: string | null
-    password: string | null
     emailVerified: Date | null
     image: string | null
     role: $Enums.Role
     preferences: JsonValue | null
-    lastIp: string | null
     createdAt: Date
     updatedAt: Date
+    username: string | null
+    password: string | null
+    lastIp: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -3247,86 +3338,86 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    username?: boolean
     email?: boolean
-    password?: boolean
     emailVerified?: boolean
     image?: boolean
     role?: boolean
     preferences?: boolean
-    lastIp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    collections?: boolean | User$collectionsArgs<ExtArgs>
-    folders?: boolean | User$foldersArgs<ExtArgs>
-    saves?: boolean | User$savesArgs<ExtArgs>
-    plans?: boolean | User$plansArgs<ExtArgs>
-    reviews?: boolean | User$reviewsArgs<ExtArgs>
+    username?: boolean
+    password?: boolean
+    lastIp?: boolean
     challenges?: boolean | User$challengesArgs<ExtArgs>
+    collections?: boolean | User$collectionsArgs<ExtArgs>
     feedbacks?: boolean | User$feedbacksArgs<ExtArgs>
-    suggestions?: boolean | User$suggestionsArgs<ExtArgs>
-    reports?: boolean | User$reportsArgs<ExtArgs>
+    folders?: boolean | User$foldersArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    plans?: boolean | User$plansArgs<ExtArgs>
+    reports?: boolean | User$reportsArgs<ExtArgs>
+    reviews?: boolean | User$reviewsArgs<ExtArgs>
+    saves?: boolean | User$savesArgs<ExtArgs>
+    suggestions?: boolean | User$suggestionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    username?: boolean
     email?: boolean
-    password?: boolean
     emailVerified?: boolean
     image?: boolean
     role?: boolean
     preferences?: boolean
-    lastIp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    username?: boolean
+    password?: boolean
+    lastIp?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    username?: boolean
     email?: boolean
-    password?: boolean
     emailVerified?: boolean
     image?: boolean
     role?: boolean
     preferences?: boolean
-    lastIp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    username?: boolean
+    password?: boolean
+    lastIp?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
     name?: boolean
-    username?: boolean
     email?: boolean
-    password?: boolean
     emailVerified?: boolean
     image?: boolean
     role?: boolean
     preferences?: boolean
-    lastIp?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    username?: boolean
+    password?: boolean
+    lastIp?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "email" | "password" | "emailVerified" | "image" | "role" | "preferences" | "lastIp" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "preferences" | "createdAt" | "updatedAt" | "username" | "password" | "lastIp", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    collections?: boolean | User$collectionsArgs<ExtArgs>
-    folders?: boolean | User$foldersArgs<ExtArgs>
-    saves?: boolean | User$savesArgs<ExtArgs>
-    plans?: boolean | User$plansArgs<ExtArgs>
-    reviews?: boolean | User$reviewsArgs<ExtArgs>
     challenges?: boolean | User$challengesArgs<ExtArgs>
+    collections?: boolean | User$collectionsArgs<ExtArgs>
     feedbacks?: boolean | User$feedbacksArgs<ExtArgs>
-    suggestions?: boolean | User$suggestionsArgs<ExtArgs>
-    reports?: boolean | User$reportsArgs<ExtArgs>
+    folders?: boolean | User$foldersArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    plans?: boolean | User$plansArgs<ExtArgs>
+    reports?: boolean | User$reportsArgs<ExtArgs>
+    reviews?: boolean | User$reviewsArgs<ExtArgs>
+    saves?: boolean | User$savesArgs<ExtArgs>
+    suggestions?: boolean | User$suggestionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3335,30 +3426,30 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      collections: Prisma.$CollectionPayload<ExtArgs>[]
-      folders: Prisma.$FolderPayload<ExtArgs>[]
-      saves: Prisma.$SavePayload<ExtArgs>[]
-      plans: Prisma.$PlanPayload<ExtArgs>[]
-      reviews: Prisma.$ReviewPayload<ExtArgs>[]
       challenges: Prisma.$ChallengeProgressPayload<ExtArgs>[]
+      collections: Prisma.$CollectionPayload<ExtArgs>[]
       feedbacks: Prisma.$FeedbackPayload<ExtArgs>[]
-      suggestions: Prisma.$SuggestionPayload<ExtArgs>[]
-      reports: Prisma.$ReportPayload<ExtArgs>[]
+      folders: Prisma.$FolderPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      plans: Prisma.$PlanPayload<ExtArgs>[]
+      reports: Prisma.$ReportPayload<ExtArgs>[]
+      reviews: Prisma.$ReviewPayload<ExtArgs>[]
+      saves: Prisma.$SavePayload<ExtArgs>[]
+      suggestions: Prisma.$SuggestionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string | null
-      username: string | null
       email: string | null
-      password: string | null
       emailVerified: Date | null
       image: string | null
       role: $Enums.Role
       preferences: Prisma.JsonValue | null
-      lastIp: string | null
       createdAt: Date
       updatedAt: Date
+      username: string | null
+      password: string | null
+      lastIp: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -3753,16 +3844,16 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    collections<T extends User$collectionsArgs<ExtArgs> = {}>(args?: Subset<T, User$collectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    folders<T extends User$foldersArgs<ExtArgs> = {}>(args?: Subset<T, User$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    saves<T extends User$savesArgs<ExtArgs> = {}>(args?: Subset<T, User$savesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    plans<T extends User$plansArgs<ExtArgs> = {}>(args?: Subset<T, User$plansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    reviews<T extends User$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     challenges<T extends User$challengesArgs<ExtArgs> = {}>(args?: Subset<T, User$challengesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChallengeProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    collections<T extends User$collectionsArgs<ExtArgs> = {}>(args?: Subset<T, User$collectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     feedbacks<T extends User$feedbacksArgs<ExtArgs> = {}>(args?: Subset<T, User$feedbacksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    suggestions<T extends User$suggestionsArgs<ExtArgs> = {}>(args?: Subset<T, User$suggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    reports<T extends User$reportsArgs<ExtArgs> = {}>(args?: Subset<T, User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    folders<T extends User$foldersArgs<ExtArgs> = {}>(args?: Subset<T, User$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    plans<T extends User$plansArgs<ExtArgs> = {}>(args?: Subset<T, User$plansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reports<T extends User$reportsArgs<ExtArgs> = {}>(args?: Subset<T, User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reviews<T extends User$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    saves<T extends User$savesArgs<ExtArgs> = {}>(args?: Subset<T, User$savesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    suggestions<T extends User$suggestionsArgs<ExtArgs> = {}>(args?: Subset<T, User$suggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3794,16 +3885,16 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
-    readonly username: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
-    readonly password: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
     readonly image: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly preferences: FieldRef<"User", 'Json'>
-    readonly lastIp: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly username: FieldRef<"User", 'String'>
+    readonly password: FieldRef<"User", 'String'>
+    readonly lastIp: FieldRef<"User", 'String'>
   }
     
 
@@ -4192,126 +4283,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.collections
-   */
-  export type User$collectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Collection
-     */
-    select?: CollectionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Collection
-     */
-    omit?: CollectionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CollectionInclude<ExtArgs> | null
-    where?: CollectionWhereInput
-    orderBy?: CollectionOrderByWithRelationInput | CollectionOrderByWithRelationInput[]
-    cursor?: CollectionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CollectionScalarFieldEnum | CollectionScalarFieldEnum[]
-  }
-
-  /**
-   * User.folders
-   */
-  export type User$foldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Folder
-     */
-    select?: FolderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Folder
-     */
-    omit?: FolderOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: FolderInclude<ExtArgs> | null
-    where?: FolderWhereInput
-    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
-    cursor?: FolderWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
-  }
-
-  /**
-   * User.saves
-   */
-  export type User$savesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Save
-     */
-    select?: SaveSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Save
-     */
-    omit?: SaveOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SaveInclude<ExtArgs> | null
-    where?: SaveWhereInput
-    orderBy?: SaveOrderByWithRelationInput | SaveOrderByWithRelationInput[]
-    cursor?: SaveWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SaveScalarFieldEnum | SaveScalarFieldEnum[]
-  }
-
-  /**
-   * User.plans
-   */
-  export type User$plansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Plan
-     */
-    select?: PlanSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Plan
-     */
-    omit?: PlanOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PlanInclude<ExtArgs> | null
-    where?: PlanWhereInput
-    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
-    cursor?: PlanWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PlanScalarFieldEnum | PlanScalarFieldEnum[]
-  }
-
-  /**
-   * User.reviews
-   */
-  export type User$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    where?: ReviewWhereInput
-    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
-    cursor?: ReviewWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
-  }
-
-  /**
    * User.challenges
    */
   export type User$challengesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4333,6 +4304,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ChallengeProgressScalarFieldEnum | ChallengeProgressScalarFieldEnum[]
+  }
+
+  /**
+   * User.collections
+   */
+  export type User$collectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collection
+     */
+    select?: CollectionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collection
+     */
+    omit?: CollectionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionInclude<ExtArgs> | null
+    where?: CollectionWhereInput
+    orderBy?: CollectionOrderByWithRelationInput | CollectionOrderByWithRelationInput[]
+    cursor?: CollectionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectionScalarFieldEnum | CollectionScalarFieldEnum[]
   }
 
   /**
@@ -4360,27 +4355,75 @@ export namespace Prisma {
   }
 
   /**
-   * User.suggestions
+   * User.folders
    */
-  export type User$suggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$foldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Suggestion
+     * Select specific fields to fetch from the Folder
      */
-    select?: SuggestionSelect<ExtArgs> | null
+    select?: FolderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Suggestion
+     * Omit specific fields from the Folder
      */
-    omit?: SuggestionOmit<ExtArgs> | null
+    omit?: FolderOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SuggestionInclude<ExtArgs> | null
-    where?: SuggestionWhereInput
-    orderBy?: SuggestionOrderByWithRelationInput | SuggestionOrderByWithRelationInput[]
-    cursor?: SuggestionWhereUniqueInput
+    include?: FolderInclude<ExtArgs> | null
+    where?: FolderWhereInput
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    cursor?: FolderWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: SuggestionScalarFieldEnum | SuggestionScalarFieldEnum[]
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
+  }
+
+  /**
+   * User.notifications
+   */
+  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.plans
+   */
+  export type User$plansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Plan
+     */
+    select?: PlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Plan
+     */
+    omit?: PlanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlanInclude<ExtArgs> | null
+    where?: PlanWhereInput
+    orderBy?: PlanOrderByWithRelationInput | PlanOrderByWithRelationInput[]
+    cursor?: PlanWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlanScalarFieldEnum | PlanScalarFieldEnum[]
   }
 
   /**
@@ -4408,27 +4451,75 @@ export namespace Prisma {
   }
 
   /**
-   * User.notifications
+   * User.reviews
    */
-  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Notification
+     * Select specific fields to fetch from the Review
      */
-    select?: NotificationSelect<ExtArgs> | null
+    select?: ReviewSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Notification
+     * Omit specific fields from the Review
      */
-    omit?: NotificationOmit<ExtArgs> | null
+    omit?: ReviewOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: NotificationInclude<ExtArgs> | null
-    where?: NotificationWhereInput
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    cursor?: NotificationWhereUniqueInput
+    include?: ReviewInclude<ExtArgs> | null
+    where?: ReviewWhereInput
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    cursor?: ReviewWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * User.saves
+   */
+  export type User$savesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Save
+     */
+    select?: SaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Save
+     */
+    omit?: SaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SaveInclude<ExtArgs> | null
+    where?: SaveWhereInput
+    orderBy?: SaveOrderByWithRelationInput | SaveOrderByWithRelationInput[]
+    cursor?: SaveWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SaveScalarFieldEnum | SaveScalarFieldEnum[]
+  }
+
+  /**
+   * User.suggestions
+   */
+  export type User$suggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Suggestion
+     */
+    select?: SuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Suggestion
+     */
+    omit?: SuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SuggestionInclude<ExtArgs> | null
+    where?: SuggestionWhereInput
+    orderBy?: SuggestionOrderByWithRelationInput | SuggestionOrderByWithRelationInput[]
+    cursor?: SuggestionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SuggestionScalarFieldEnum | SuggestionScalarFieldEnum[]
   }
 
   /**
@@ -4473,46 +4564,48 @@ export namespace Prisma {
   export type StoryMinAggregateOutputType = {
     id: string | null
     title: string | null
-    titleEn: string | null
     content: string | null
-    contentEn: string | null
-    description: string | null
     author: string | null
     previewImage: string | null
     status: $Enums.ContentStatus | null
     views: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    contentEn: string | null
+    titleEn: string | null
+    description: string | null
   }
 
   export type StoryMaxAggregateOutputType = {
     id: string | null
     title: string | null
-    titleEn: string | null
     content: string | null
-    contentEn: string | null
-    description: string | null
     author: string | null
     previewImage: string | null
     status: $Enums.ContentStatus | null
     views: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    contentEn: string | null
+    titleEn: string | null
+    description: string | null
   }
 
   export type StoryCountAggregateOutputType = {
     id: number
     title: number
-    titleEn: number
     content: number
-    contentEn: number
-    description: number
     author: number
     previewImage: number
     status: number
     views: number
     createdAt: number
     updatedAt: number
+    contentEn: number
+    titleEn: number
+    description: number
+    infoTable: number
+    artworks: number
     _all: number
   }
 
@@ -4528,46 +4621,48 @@ export namespace Prisma {
   export type StoryMinAggregateInputType = {
     id?: true
     title?: true
-    titleEn?: true
     content?: true
-    contentEn?: true
-    description?: true
     author?: true
     previewImage?: true
     status?: true
     views?: true
     createdAt?: true
     updatedAt?: true
+    contentEn?: true
+    titleEn?: true
+    description?: true
   }
 
   export type StoryMaxAggregateInputType = {
     id?: true
     title?: true
-    titleEn?: true
     content?: true
-    contentEn?: true
-    description?: true
     author?: true
     previewImage?: true
     status?: true
     views?: true
     createdAt?: true
     updatedAt?: true
+    contentEn?: true
+    titleEn?: true
+    description?: true
   }
 
   export type StoryCountAggregateInputType = {
     id?: true
     title?: true
-    titleEn?: true
     content?: true
-    contentEn?: true
-    description?: true
     author?: true
     previewImage?: true
     status?: true
     views?: true
     createdAt?: true
     updatedAt?: true
+    contentEn?: true
+    titleEn?: true
+    description?: true
+    infoTable?: true
+    artworks?: true
     _all?: true
   }
 
@@ -4660,16 +4755,18 @@ export namespace Prisma {
   export type StoryGroupByOutputType = {
     id: string
     title: string
-    titleEn: string | null
     content: string
-    contentEn: string | null
-    description: string | null
     author: string | null
     previewImage: string | null
     status: $Enums.ContentStatus
     views: number
     createdAt: Date
     updatedAt: Date
+    contentEn: string | null
+    titleEn: string | null
+    description: string | null
+    infoTable: JsonValue | null
+    artworks: JsonValue | null
     _count: StoryCountAggregateOutputType | null
     _avg: StoryAvgAggregateOutputType | null
     _sum: StorySumAggregateOutputType | null
@@ -4694,16 +4791,18 @@ export namespace Prisma {
   export type StorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    titleEn?: boolean
     content?: boolean
-    contentEn?: boolean
-    description?: boolean
     author?: boolean
     previewImage?: boolean
     status?: boolean
     views?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contentEn?: boolean
+    titleEn?: boolean
+    description?: boolean
+    infoTable?: boolean
+    artworks?: boolean
     museums?: boolean | Story$museumsArgs<ExtArgs>
     _count?: boolean | StoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["story"]>
@@ -4711,49 +4810,55 @@ export namespace Prisma {
   export type StorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    titleEn?: boolean
     content?: boolean
-    contentEn?: boolean
-    description?: boolean
     author?: boolean
     previewImage?: boolean
     status?: boolean
     views?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contentEn?: boolean
+    titleEn?: boolean
+    description?: boolean
+    infoTable?: boolean
+    artworks?: boolean
   }, ExtArgs["result"]["story"]>
 
   export type StorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
-    titleEn?: boolean
     content?: boolean
-    contentEn?: boolean
-    description?: boolean
     author?: boolean
     previewImage?: boolean
     status?: boolean
     views?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contentEn?: boolean
+    titleEn?: boolean
+    description?: boolean
+    infoTable?: boolean
+    artworks?: boolean
   }, ExtArgs["result"]["story"]>
 
   export type StorySelectScalar = {
     id?: boolean
     title?: boolean
-    titleEn?: boolean
     content?: boolean
-    contentEn?: boolean
-    description?: boolean
     author?: boolean
     previewImage?: boolean
     status?: boolean
     views?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    contentEn?: boolean
+    titleEn?: boolean
+    description?: boolean
+    infoTable?: boolean
+    artworks?: boolean
   }
 
-  export type StoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "titleEn" | "content" | "contentEn" | "description" | "author" | "previewImage" | "status" | "views" | "createdAt" | "updatedAt", ExtArgs["result"]["story"]>
+  export type StoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "author" | "previewImage" | "status" | "views" | "createdAt" | "updatedAt" | "contentEn" | "titleEn" | "description" | "infoTable" | "artworks", ExtArgs["result"]["story"]>
   export type StoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     museums?: boolean | Story$museumsArgs<ExtArgs>
     _count?: boolean | StoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -4769,16 +4874,18 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
-      titleEn: string | null
       content: string
-      contentEn: string | null
-      description: string | null
       author: string | null
       previewImage: string | null
       status: $Enums.ContentStatus
       views: number
       createdAt: Date
       updatedAt: Date
+      contentEn: string | null
+      titleEn: string | null
+      description: string | null
+      infoTable: Prisma.JsonValue | null
+      artworks: Prisma.JsonValue | null
     }, ExtArgs["result"]["story"]>
     composites: {}
   }
@@ -5205,16 +5312,18 @@ export namespace Prisma {
   interface StoryFieldRefs {
     readonly id: FieldRef<"Story", 'String'>
     readonly title: FieldRef<"Story", 'String'>
-    readonly titleEn: FieldRef<"Story", 'String'>
     readonly content: FieldRef<"Story", 'String'>
-    readonly contentEn: FieldRef<"Story", 'String'>
-    readonly description: FieldRef<"Story", 'String'>
     readonly author: FieldRef<"Story", 'String'>
     readonly previewImage: FieldRef<"Story", 'String'>
     readonly status: FieldRef<"Story", 'ContentStatus'>
     readonly views: FieldRef<"Story", 'Int'>
     readonly createdAt: FieldRef<"Story", 'DateTime'>
     readonly updatedAt: FieldRef<"Story", 'DateTime'>
+    readonly contentEn: FieldRef<"Story", 'String'>
+    readonly titleEn: FieldRef<"Story", 'String'>
+    readonly description: FieldRef<"Story", 'String'>
+    readonly infoTable: FieldRef<"Story", 'Json'>
+    readonly artworks: FieldRef<"Story", 'Json'>
   }
     
 
@@ -5785,22 +5894,22 @@ export namespace Prisma {
   export type StoryMuseumSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     storyId?: boolean
     museumId?: boolean
-    story?: boolean | StoryDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["storyMuseum"]>
 
   export type StoryMuseumSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     storyId?: boolean
     museumId?: boolean
-    story?: boolean | StoryDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["storyMuseum"]>
 
   export type StoryMuseumSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     storyId?: boolean
     museumId?: boolean
-    story?: boolean | StoryDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["storyMuseum"]>
 
   export type StoryMuseumSelectScalar = {
@@ -5810,23 +5919,23 @@ export namespace Prisma {
 
   export type StoryMuseumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"storyId" | "museumId", ExtArgs["result"]["storyMuseum"]>
   export type StoryMuseumInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    story?: boolean | StoryDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
   }
   export type StoryMuseumIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    story?: boolean | StoryDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
   }
   export type StoryMuseumIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    story?: boolean | StoryDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    story?: boolean | StoryDefaultArgs<ExtArgs>
   }
 
   export type $StoryMuseumPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "StoryMuseum"
     objects: {
-      story: Prisma.$StoryPayload<ExtArgs>
       museum: Prisma.$MuseumPayload<ExtArgs>
+      story: Prisma.$StoryPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       storyId: string
@@ -6225,8 +6334,8 @@ export namespace Prisma {
    */
   export interface Prisma__StoryMuseumClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    story<T extends StoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoryDefaultArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     museum<T extends MuseumDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MuseumDefaultArgs<ExtArgs>>): Prisma__MuseumClient<$Result.GetResult<Prisma.$MuseumPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    story<T extends StoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoryDefaultArgs<ExtArgs>>): Prisma__StoryClient<$Result.GetResult<Prisma.$StoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6687,12 +6796,12 @@ export namespace Prisma {
     userId: string | null
     type: string | null
     title: string | null
-    titleEn: string | null
     message: string | null
-    messageEn: string | null
     link: string | null
     isRead: boolean | null
     createdAt: Date | null
+    messageEn: string | null
+    titleEn: string | null
   }
 
   export type NotificationMaxAggregateOutputType = {
@@ -6700,12 +6809,12 @@ export namespace Prisma {
     userId: string | null
     type: string | null
     title: string | null
-    titleEn: string | null
     message: string | null
-    messageEn: string | null
     link: string | null
     isRead: boolean | null
     createdAt: Date | null
+    messageEn: string | null
+    titleEn: string | null
   }
 
   export type NotificationCountAggregateOutputType = {
@@ -6713,12 +6822,12 @@ export namespace Prisma {
     userId: number
     type: number
     title: number
-    titleEn: number
     message: number
-    messageEn: number
     link: number
     isRead: number
     createdAt: number
+    messageEn: number
+    titleEn: number
     _all: number
   }
 
@@ -6728,12 +6837,12 @@ export namespace Prisma {
     userId?: true
     type?: true
     title?: true
-    titleEn?: true
     message?: true
-    messageEn?: true
     link?: true
     isRead?: true
     createdAt?: true
+    messageEn?: true
+    titleEn?: true
   }
 
   export type NotificationMaxAggregateInputType = {
@@ -6741,12 +6850,12 @@ export namespace Prisma {
     userId?: true
     type?: true
     title?: true
-    titleEn?: true
     message?: true
-    messageEn?: true
     link?: true
     isRead?: true
     createdAt?: true
+    messageEn?: true
+    titleEn?: true
   }
 
   export type NotificationCountAggregateInputType = {
@@ -6754,12 +6863,12 @@ export namespace Prisma {
     userId?: true
     type?: true
     title?: true
-    titleEn?: true
     message?: true
-    messageEn?: true
     link?: true
     isRead?: true
     createdAt?: true
+    messageEn?: true
+    titleEn?: true
     _all?: true
   }
 
@@ -6840,12 +6949,12 @@ export namespace Prisma {
     userId: string | null
     type: string
     title: string
-    titleEn: string | null
     message: string
-    messageEn: string | null
     link: string | null
     isRead: boolean
     createdAt: Date
+    messageEn: string | null
+    titleEn: string | null
     _count: NotificationCountAggregateOutputType | null
     _min: NotificationMinAggregateOutputType | null
     _max: NotificationMaxAggregateOutputType | null
@@ -6870,12 +6979,12 @@ export namespace Prisma {
     userId?: boolean
     type?: boolean
     title?: boolean
-    titleEn?: boolean
     message?: boolean
-    messageEn?: boolean
     link?: boolean
     isRead?: boolean
     createdAt?: boolean
+    messageEn?: boolean
+    titleEn?: boolean
     user?: boolean | Notification$userArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
@@ -6884,12 +6993,12 @@ export namespace Prisma {
     userId?: boolean
     type?: boolean
     title?: boolean
-    titleEn?: boolean
     message?: boolean
-    messageEn?: boolean
     link?: boolean
     isRead?: boolean
     createdAt?: boolean
+    messageEn?: boolean
+    titleEn?: boolean
     user?: boolean | Notification$userArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
@@ -6898,12 +7007,12 @@ export namespace Prisma {
     userId?: boolean
     type?: boolean
     title?: boolean
-    titleEn?: boolean
     message?: boolean
-    messageEn?: boolean
     link?: boolean
     isRead?: boolean
     createdAt?: boolean
+    messageEn?: boolean
+    titleEn?: boolean
     user?: boolean | Notification$userArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
@@ -6912,15 +7021,15 @@ export namespace Prisma {
     userId?: boolean
     type?: boolean
     title?: boolean
-    titleEn?: boolean
     message?: boolean
-    messageEn?: boolean
     link?: boolean
     isRead?: boolean
     createdAt?: boolean
+    messageEn?: boolean
+    titleEn?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "title" | "titleEn" | "message" | "messageEn" | "link" | "isRead" | "createdAt", ExtArgs["result"]["notification"]>
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "title" | "message" | "link" | "isRead" | "createdAt" | "messageEn" | "titleEn", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Notification$userArgs<ExtArgs>
   }
@@ -6941,12 +7050,12 @@ export namespace Prisma {
       userId: string | null
       type: string
       title: string
-      titleEn: string | null
       message: string
-      messageEn: string | null
       link: string | null
       isRead: boolean
       createdAt: Date
+      messageEn: string | null
+      titleEn: string | null
     }, ExtArgs["result"]["notification"]>
     composites: {}
   }
@@ -7375,12 +7484,12 @@ export namespace Prisma {
     readonly userId: FieldRef<"Notification", 'String'>
     readonly type: FieldRef<"Notification", 'String'>
     readonly title: FieldRef<"Notification", 'String'>
-    readonly titleEn: FieldRef<"Notification", 'String'>
     readonly message: FieldRef<"Notification", 'String'>
-    readonly messageEn: FieldRef<"Notification", 'String'>
     readonly link: FieldRef<"Notification", 'String'>
     readonly isRead: FieldRef<"Notification", 'Boolean'>
     readonly createdAt: FieldRef<"Notification", 'DateTime'>
+    readonly messageEn: FieldRef<"Notification", 'String'>
+    readonly titleEn: FieldRef<"Notification", 'String'>
   }
     
 
@@ -7850,9 +7959,9 @@ export namespace Prisma {
     latitude: number | null
     longitude: number | null
     popularityScore: number | null
-    lastExhibitionSync: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    lastExhibitionSync: Date | null
   }
 
   export type MuseumMaxAggregateOutputType = {
@@ -7867,9 +7976,9 @@ export namespace Prisma {
     latitude: number | null
     longitude: number | null
     popularityScore: number | null
-    lastExhibitionSync: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    lastExhibitionSync: Date | null
   }
 
   export type MuseumCountAggregateOutputType = {
@@ -7881,13 +7990,13 @@ export namespace Prisma {
     type: number
     website: number
     imageUrl: number
-    openingHours: number
     latitude: number
     longitude: number
     popularityScore: number
-    lastExhibitionSync: number
     createdAt: number
     updatedAt: number
+    openingHours: number
+    lastExhibitionSync: number
     _all: number
   }
 
@@ -7916,9 +8025,9 @@ export namespace Prisma {
     latitude?: true
     longitude?: true
     popularityScore?: true
-    lastExhibitionSync?: true
     createdAt?: true
     updatedAt?: true
+    lastExhibitionSync?: true
   }
 
   export type MuseumMaxAggregateInputType = {
@@ -7933,9 +8042,9 @@ export namespace Prisma {
     latitude?: true
     longitude?: true
     popularityScore?: true
-    lastExhibitionSync?: true
     createdAt?: true
     updatedAt?: true
+    lastExhibitionSync?: true
   }
 
   export type MuseumCountAggregateInputType = {
@@ -7947,13 +8056,13 @@ export namespace Prisma {
     type?: true
     website?: true
     imageUrl?: true
-    openingHours?: true
     latitude?: true
     longitude?: true
     popularityScore?: true
-    lastExhibitionSync?: true
     createdAt?: true
     updatedAt?: true
+    openingHours?: true
+    lastExhibitionSync?: true
     _all?: true
   }
 
@@ -8052,13 +8161,13 @@ export namespace Prisma {
     type: string
     website: string | null
     imageUrl: string | null
-    openingHours: JsonValue | null
     latitude: number
     longitude: number
     popularityScore: number
-    lastExhibitionSync: Date | null
     createdAt: Date
     updatedAt: Date
+    openingHours: JsonValue | null
+    lastExhibitionSync: Date | null
     _count: MuseumCountAggregateOutputType | null
     _avg: MuseumAvgAggregateOutputType | null
     _sum: MuseumSumAggregateOutputType | null
@@ -8089,20 +8198,20 @@ export namespace Prisma {
     type?: boolean
     website?: boolean
     imageUrl?: boolean
-    openingHours?: boolean
     latitude?: boolean
     longitude?: boolean
     popularityScore?: boolean
-    lastExhibitionSync?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    exhibitions?: boolean | Museum$exhibitionsArgs<ExtArgs>
-    saves?: boolean | Museum$savesArgs<ExtArgs>
-    reviews?: boolean | Museum$reviewsArgs<ExtArgs>
-    suggestions?: boolean | Museum$suggestionsArgs<ExtArgs>
-    planStops?: boolean | Museum$planStopsArgs<ExtArgs>
+    openingHours?: boolean
+    lastExhibitionSync?: boolean
     collectionItems?: boolean | Museum$collectionItemsArgs<ExtArgs>
+    exhibitions?: boolean | Museum$exhibitionsArgs<ExtArgs>
+    planStops?: boolean | Museum$planStopsArgs<ExtArgs>
+    reviews?: boolean | Museum$reviewsArgs<ExtArgs>
+    saves?: boolean | Museum$savesArgs<ExtArgs>
     stories?: boolean | Museum$storiesArgs<ExtArgs>
+    suggestions?: boolean | Museum$suggestionsArgs<ExtArgs>
     _count?: boolean | MuseumCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["museum"]>
 
@@ -8115,13 +8224,13 @@ export namespace Prisma {
     type?: boolean
     website?: boolean
     imageUrl?: boolean
-    openingHours?: boolean
     latitude?: boolean
     longitude?: boolean
     popularityScore?: boolean
-    lastExhibitionSync?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    openingHours?: boolean
+    lastExhibitionSync?: boolean
   }, ExtArgs["result"]["museum"]>
 
   export type MuseumSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8133,13 +8242,13 @@ export namespace Prisma {
     type?: boolean
     website?: boolean
     imageUrl?: boolean
-    openingHours?: boolean
     latitude?: boolean
     longitude?: boolean
     popularityScore?: boolean
-    lastExhibitionSync?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    openingHours?: boolean
+    lastExhibitionSync?: boolean
   }, ExtArgs["result"]["museum"]>
 
   export type MuseumSelectScalar = {
@@ -8151,24 +8260,24 @@ export namespace Prisma {
     type?: boolean
     website?: boolean
     imageUrl?: boolean
-    openingHours?: boolean
     latitude?: boolean
     longitude?: boolean
     popularityScore?: boolean
-    lastExhibitionSync?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    openingHours?: boolean
+    lastExhibitionSync?: boolean
   }
 
-  export type MuseumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "country" | "city" | "type" | "website" | "imageUrl" | "openingHours" | "latitude" | "longitude" | "popularityScore" | "lastExhibitionSync" | "createdAt" | "updatedAt", ExtArgs["result"]["museum"]>
+  export type MuseumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "country" | "city" | "type" | "website" | "imageUrl" | "latitude" | "longitude" | "popularityScore" | "createdAt" | "updatedAt" | "openingHours" | "lastExhibitionSync", ExtArgs["result"]["museum"]>
   export type MuseumInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    exhibitions?: boolean | Museum$exhibitionsArgs<ExtArgs>
-    saves?: boolean | Museum$savesArgs<ExtArgs>
-    reviews?: boolean | Museum$reviewsArgs<ExtArgs>
-    suggestions?: boolean | Museum$suggestionsArgs<ExtArgs>
-    planStops?: boolean | Museum$planStopsArgs<ExtArgs>
     collectionItems?: boolean | Museum$collectionItemsArgs<ExtArgs>
+    exhibitions?: boolean | Museum$exhibitionsArgs<ExtArgs>
+    planStops?: boolean | Museum$planStopsArgs<ExtArgs>
+    reviews?: boolean | Museum$reviewsArgs<ExtArgs>
+    saves?: boolean | Museum$savesArgs<ExtArgs>
     stories?: boolean | Museum$storiesArgs<ExtArgs>
+    suggestions?: boolean | Museum$suggestionsArgs<ExtArgs>
     _count?: boolean | MuseumCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MuseumIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8177,13 +8286,13 @@ export namespace Prisma {
   export type $MuseumPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Museum"
     objects: {
-      exhibitions: Prisma.$ExhibitionPayload<ExtArgs>[]
-      saves: Prisma.$SavePayload<ExtArgs>[]
-      reviews: Prisma.$ReviewPayload<ExtArgs>[]
-      suggestions: Prisma.$SuggestionPayload<ExtArgs>[]
-      planStops: Prisma.$PlanStopPayload<ExtArgs>[]
       collectionItems: Prisma.$CollectionItemPayload<ExtArgs>[]
+      exhibitions: Prisma.$ExhibitionPayload<ExtArgs>[]
+      planStops: Prisma.$PlanStopPayload<ExtArgs>[]
+      reviews: Prisma.$ReviewPayload<ExtArgs>[]
+      saves: Prisma.$SavePayload<ExtArgs>[]
       stories: Prisma.$StoryMuseumPayload<ExtArgs>[]
+      suggestions: Prisma.$SuggestionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8194,13 +8303,13 @@ export namespace Prisma {
       type: string
       website: string | null
       imageUrl: string | null
-      openingHours: Prisma.JsonValue | null
       latitude: number
       longitude: number
       popularityScore: number
-      lastExhibitionSync: Date | null
       createdAt: Date
       updatedAt: Date
+      openingHours: Prisma.JsonValue | null
+      lastExhibitionSync: Date | null
     }, ExtArgs["result"]["museum"]>
     composites: {}
   }
@@ -8595,13 +8704,13 @@ export namespace Prisma {
    */
   export interface Prisma__MuseumClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    exhibitions<T extends Museum$exhibitionsArgs<ExtArgs> = {}>(args?: Subset<T, Museum$exhibitionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExhibitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    saves<T extends Museum$savesArgs<ExtArgs> = {}>(args?: Subset<T, Museum$savesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    reviews<T extends Museum$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Museum$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    suggestions<T extends Museum$suggestionsArgs<ExtArgs> = {}>(args?: Subset<T, Museum$suggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    planStops<T extends Museum$planStopsArgs<ExtArgs> = {}>(args?: Subset<T, Museum$planStopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanStopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     collectionItems<T extends Museum$collectionItemsArgs<ExtArgs> = {}>(args?: Subset<T, Museum$collectionItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    exhibitions<T extends Museum$exhibitionsArgs<ExtArgs> = {}>(args?: Subset<T, Museum$exhibitionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExhibitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    planStops<T extends Museum$planStopsArgs<ExtArgs> = {}>(args?: Subset<T, Museum$planStopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlanStopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reviews<T extends Museum$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Museum$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    saves<T extends Museum$savesArgs<ExtArgs> = {}>(args?: Subset<T, Museum$savesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stories<T extends Museum$storiesArgs<ExtArgs> = {}>(args?: Subset<T, Museum$storiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoryMuseumPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    suggestions<T extends Museum$suggestionsArgs<ExtArgs> = {}>(args?: Subset<T, Museum$suggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8639,13 +8748,13 @@ export namespace Prisma {
     readonly type: FieldRef<"Museum", 'String'>
     readonly website: FieldRef<"Museum", 'String'>
     readonly imageUrl: FieldRef<"Museum", 'String'>
-    readonly openingHours: FieldRef<"Museum", 'Json'>
     readonly latitude: FieldRef<"Museum", 'Float'>
     readonly longitude: FieldRef<"Museum", 'Float'>
     readonly popularityScore: FieldRef<"Museum", 'Float'>
-    readonly lastExhibitionSync: FieldRef<"Museum", 'DateTime'>
     readonly createdAt: FieldRef<"Museum", 'DateTime'>
     readonly updatedAt: FieldRef<"Museum", 'DateTime'>
+    readonly openingHours: FieldRef<"Museum", 'Json'>
+    readonly lastExhibitionSync: FieldRef<"Museum", 'DateTime'>
   }
     
 
@@ -9034,6 +9143,30 @@ export namespace Prisma {
   }
 
   /**
+   * Museum.collectionItems
+   */
+  export type Museum$collectionItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CollectionItem
+     */
+    select?: CollectionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CollectionItem
+     */
+    omit?: CollectionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollectionItemInclude<ExtArgs> | null
+    where?: CollectionItemWhereInput
+    orderBy?: CollectionItemOrderByWithRelationInput | CollectionItemOrderByWithRelationInput[]
+    cursor?: CollectionItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollectionItemScalarFieldEnum | CollectionItemScalarFieldEnum[]
+  }
+
+  /**
    * Museum.exhibitions
    */
   export type Museum$exhibitionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9055,78 +9188,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ExhibitionScalarFieldEnum | ExhibitionScalarFieldEnum[]
-  }
-
-  /**
-   * Museum.saves
-   */
-  export type Museum$savesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Save
-     */
-    select?: SaveSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Save
-     */
-    omit?: SaveOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SaveInclude<ExtArgs> | null
-    where?: SaveWhereInput
-    orderBy?: SaveOrderByWithRelationInput | SaveOrderByWithRelationInput[]
-    cursor?: SaveWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SaveScalarFieldEnum | SaveScalarFieldEnum[]
-  }
-
-  /**
-   * Museum.reviews
-   */
-  export type Museum$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Review
-     */
-    omit?: ReviewOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewInclude<ExtArgs> | null
-    where?: ReviewWhereInput
-    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
-    cursor?: ReviewWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
-  }
-
-  /**
-   * Museum.suggestions
-   */
-  export type Museum$suggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Suggestion
-     */
-    select?: SuggestionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Suggestion
-     */
-    omit?: SuggestionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SuggestionInclude<ExtArgs> | null
-    where?: SuggestionWhereInput
-    orderBy?: SuggestionOrderByWithRelationInput | SuggestionOrderByWithRelationInput[]
-    cursor?: SuggestionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SuggestionScalarFieldEnum | SuggestionScalarFieldEnum[]
   }
 
   /**
@@ -9154,27 +9215,51 @@ export namespace Prisma {
   }
 
   /**
-   * Museum.collectionItems
+   * Museum.reviews
    */
-  export type Museum$collectionItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Museum$reviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CollectionItem
+     * Select specific fields to fetch from the Review
      */
-    select?: CollectionItemSelect<ExtArgs> | null
+    select?: ReviewSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CollectionItem
+     * Omit specific fields from the Review
      */
-    omit?: CollectionItemOmit<ExtArgs> | null
+    omit?: ReviewOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CollectionItemInclude<ExtArgs> | null
-    where?: CollectionItemWhereInput
-    orderBy?: CollectionItemOrderByWithRelationInput | CollectionItemOrderByWithRelationInput[]
-    cursor?: CollectionItemWhereUniqueInput
+    include?: ReviewInclude<ExtArgs> | null
+    where?: ReviewWhereInput
+    orderBy?: ReviewOrderByWithRelationInput | ReviewOrderByWithRelationInput[]
+    cursor?: ReviewWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: CollectionItemScalarFieldEnum | CollectionItemScalarFieldEnum[]
+    distinct?: ReviewScalarFieldEnum | ReviewScalarFieldEnum[]
+  }
+
+  /**
+   * Museum.saves
+   */
+  export type Museum$savesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Save
+     */
+    select?: SaveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Save
+     */
+    omit?: SaveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SaveInclude<ExtArgs> | null
+    where?: SaveWhereInput
+    orderBy?: SaveOrderByWithRelationInput | SaveOrderByWithRelationInput[]
+    cursor?: SaveWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SaveScalarFieldEnum | SaveScalarFieldEnum[]
   }
 
   /**
@@ -9199,6 +9284,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StoryMuseumScalarFieldEnum | StoryMuseumScalarFieldEnum[]
+  }
+
+  /**
+   * Museum.suggestions
+   */
+  export type Museum$suggestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Suggestion
+     */
+    select?: SuggestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Suggestion
+     */
+    omit?: SuggestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SuggestionInclude<ExtArgs> | null
+    where?: SuggestionWhereInput
+    orderBy?: SuggestionOrderByWithRelationInput | SuggestionOrderByWithRelationInput[]
+    cursor?: SuggestionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SuggestionScalarFieldEnum | SuggestionScalarFieldEnum[]
   }
 
   /**
@@ -9235,12 +9344,12 @@ export namespace Prisma {
     museumId: string | null
     title: string | null
     description: string | null
-    imageUrl: string | null
-    link: string | null
-    source: string | null
     startDate: Date | null
     endDate: Date | null
     createdAt: Date | null
+    imageUrl: string | null
+    link: string | null
+    source: string | null
   }
 
   export type ExhibitionMaxAggregateOutputType = {
@@ -9248,12 +9357,12 @@ export namespace Prisma {
     museumId: string | null
     title: string | null
     description: string | null
-    imageUrl: string | null
-    link: string | null
-    source: string | null
     startDate: Date | null
     endDate: Date | null
     createdAt: Date | null
+    imageUrl: string | null
+    link: string | null
+    source: string | null
   }
 
   export type ExhibitionCountAggregateOutputType = {
@@ -9261,12 +9370,12 @@ export namespace Prisma {
     museumId: number
     title: number
     description: number
-    imageUrl: number
-    link: number
-    source: number
     startDate: number
     endDate: number
     createdAt: number
+    imageUrl: number
+    link: number
+    source: number
     _all: number
   }
 
@@ -9276,12 +9385,12 @@ export namespace Prisma {
     museumId?: true
     title?: true
     description?: true
-    imageUrl?: true
-    link?: true
-    source?: true
     startDate?: true
     endDate?: true
     createdAt?: true
+    imageUrl?: true
+    link?: true
+    source?: true
   }
 
   export type ExhibitionMaxAggregateInputType = {
@@ -9289,12 +9398,12 @@ export namespace Prisma {
     museumId?: true
     title?: true
     description?: true
-    imageUrl?: true
-    link?: true
-    source?: true
     startDate?: true
     endDate?: true
     createdAt?: true
+    imageUrl?: true
+    link?: true
+    source?: true
   }
 
   export type ExhibitionCountAggregateInputType = {
@@ -9302,12 +9411,12 @@ export namespace Prisma {
     museumId?: true
     title?: true
     description?: true
-    imageUrl?: true
-    link?: true
-    source?: true
     startDate?: true
     endDate?: true
     createdAt?: true
+    imageUrl?: true
+    link?: true
+    source?: true
     _all?: true
   }
 
@@ -9388,12 +9497,12 @@ export namespace Prisma {
     museumId: string
     title: string
     description: string | null
-    imageUrl: string | null
-    link: string | null
-    source: string | null
     startDate: Date | null
     endDate: Date | null
     createdAt: Date
+    imageUrl: string | null
+    link: string | null
+    source: string | null
     _count: ExhibitionCountAggregateOutputType | null
     _min: ExhibitionMinAggregateOutputType | null
     _max: ExhibitionMaxAggregateOutputType | null
@@ -9418,12 +9527,12 @@ export namespace Prisma {
     museumId?: boolean
     title?: boolean
     description?: boolean
-    imageUrl?: boolean
-    link?: boolean
-    source?: boolean
     startDate?: boolean
     endDate?: boolean
     createdAt?: boolean
+    imageUrl?: boolean
+    link?: boolean
+    source?: boolean
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["exhibition"]>
 
@@ -9432,12 +9541,12 @@ export namespace Prisma {
     museumId?: boolean
     title?: boolean
     description?: boolean
-    imageUrl?: boolean
-    link?: boolean
-    source?: boolean
     startDate?: boolean
     endDate?: boolean
     createdAt?: boolean
+    imageUrl?: boolean
+    link?: boolean
+    source?: boolean
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["exhibition"]>
 
@@ -9446,12 +9555,12 @@ export namespace Prisma {
     museumId?: boolean
     title?: boolean
     description?: boolean
-    imageUrl?: boolean
-    link?: boolean
-    source?: boolean
     startDate?: boolean
     endDate?: boolean
     createdAt?: boolean
+    imageUrl?: boolean
+    link?: boolean
+    source?: boolean
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["exhibition"]>
 
@@ -9460,15 +9569,15 @@ export namespace Prisma {
     museumId?: boolean
     title?: boolean
     description?: boolean
-    imageUrl?: boolean
-    link?: boolean
-    source?: boolean
     startDate?: boolean
     endDate?: boolean
     createdAt?: boolean
+    imageUrl?: boolean
+    link?: boolean
+    source?: boolean
   }
 
-  export type ExhibitionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "museumId" | "title" | "description" | "imageUrl" | "link" | "source" | "startDate" | "endDate" | "createdAt", ExtArgs["result"]["exhibition"]>
+  export type ExhibitionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "museumId" | "title" | "description" | "startDate" | "endDate" | "createdAt" | "imageUrl" | "link" | "source", ExtArgs["result"]["exhibition"]>
   export type ExhibitionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
   }
@@ -9489,12 +9598,12 @@ export namespace Prisma {
       museumId: string
       title: string
       description: string | null
-      imageUrl: string | null
-      link: string | null
-      source: string | null
       startDate: Date | null
       endDate: Date | null
       createdAt: Date
+      imageUrl: string | null
+      link: string | null
+      source: string | null
     }, ExtArgs["result"]["exhibition"]>
     composites: {}
   }
@@ -9923,12 +10032,12 @@ export namespace Prisma {
     readonly museumId: FieldRef<"Exhibition", 'String'>
     readonly title: FieldRef<"Exhibition", 'String'>
     readonly description: FieldRef<"Exhibition", 'String'>
-    readonly imageUrl: FieldRef<"Exhibition", 'String'>
-    readonly link: FieldRef<"Exhibition", 'String'>
-    readonly source: FieldRef<"Exhibition", 'String'>
     readonly startDate: FieldRef<"Exhibition", 'DateTime'>
     readonly endDate: FieldRef<"Exhibition", 'DateTime'>
     readonly createdAt: FieldRef<"Exhibition", 'DateTime'>
+    readonly imageUrl: FieldRef<"Exhibition", 'String'>
+    readonly link: FieldRef<"Exhibition", 'String'>
+    readonly source: FieldRef<"Exhibition", 'String'>
   }
     
 
@@ -11608,9 +11717,9 @@ export namespace Prisma {
     museumId?: boolean
     folderId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    museum?: boolean | MuseumDefaultArgs<ExtArgs>
     folder?: boolean | Save$folderArgs<ExtArgs>
+    museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["save"]>
 
   export type SaveSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11619,9 +11728,9 @@ export namespace Prisma {
     museumId?: boolean
     folderId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    museum?: boolean | MuseumDefaultArgs<ExtArgs>
     folder?: boolean | Save$folderArgs<ExtArgs>
+    museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["save"]>
 
   export type SaveSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11630,9 +11739,9 @@ export namespace Prisma {
     museumId?: boolean
     folderId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    museum?: boolean | MuseumDefaultArgs<ExtArgs>
     folder?: boolean | Save$folderArgs<ExtArgs>
+    museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["save"]>
 
   export type SaveSelectScalar = {
@@ -11645,27 +11754,27 @@ export namespace Prisma {
 
   export type SaveOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "museumId" | "folderId" | "createdAt", ExtArgs["result"]["save"]>
   export type SaveInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    museum?: boolean | MuseumDefaultArgs<ExtArgs>
     folder?: boolean | Save$folderArgs<ExtArgs>
+    museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type SaveIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    museum?: boolean | MuseumDefaultArgs<ExtArgs>
     folder?: boolean | Save$folderArgs<ExtArgs>
+    museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type SaveIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    museum?: boolean | MuseumDefaultArgs<ExtArgs>
     folder?: boolean | Save$folderArgs<ExtArgs>
+    museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $SavePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Save"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-      museum: Prisma.$MuseumPayload<ExtArgs>
       folder: Prisma.$FolderPayload<ExtArgs> | null
+      museum: Prisma.$MuseumPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -12067,9 +12176,9 @@ export namespace Prisma {
    */
   export interface Prisma__SaveClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    museum<T extends MuseumDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MuseumDefaultArgs<ExtArgs>>): Prisma__MuseumClient<$Result.GetResult<Prisma.$MuseumPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     folder<T extends Save$folderArgs<ExtArgs> = {}>(args?: Subset<T, Save$folderArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    museum<T extends MuseumDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MuseumDefaultArgs<ExtArgs>>): Prisma__MuseumClient<$Result.GetResult<Prisma.$MuseumPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13823,8 +13932,8 @@ export namespace Prisma {
     museumId?: boolean
     order?: boolean
     expectedArrival?: boolean
-    plan?: boolean | PlanDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    plan?: boolean | PlanDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["planStop"]>
 
   export type PlanStopSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13833,8 +13942,8 @@ export namespace Prisma {
     museumId?: boolean
     order?: boolean
     expectedArrival?: boolean
-    plan?: boolean | PlanDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    plan?: boolean | PlanDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["planStop"]>
 
   export type PlanStopSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13843,8 +13952,8 @@ export namespace Prisma {
     museumId?: boolean
     order?: boolean
     expectedArrival?: boolean
-    plan?: boolean | PlanDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    plan?: boolean | PlanDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["planStop"]>
 
   export type PlanStopSelectScalar = {
@@ -13857,23 +13966,23 @@ export namespace Prisma {
 
   export type PlanStopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "planId" | "museumId" | "order" | "expectedArrival", ExtArgs["result"]["planStop"]>
   export type PlanStopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    plan?: boolean | PlanDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    plan?: boolean | PlanDefaultArgs<ExtArgs>
   }
   export type PlanStopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    plan?: boolean | PlanDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    plan?: boolean | PlanDefaultArgs<ExtArgs>
   }
   export type PlanStopIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    plan?: boolean | PlanDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    plan?: boolean | PlanDefaultArgs<ExtArgs>
   }
 
   export type $PlanStopPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "PlanStop"
     objects: {
-      plan: Prisma.$PlanPayload<ExtArgs>
       museum: Prisma.$MuseumPayload<ExtArgs>
+      plan: Prisma.$PlanPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14275,8 +14384,8 @@ export namespace Prisma {
    */
   export interface Prisma__PlanStopClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    plan<T extends PlanDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlanDefaultArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     museum<T extends MuseumDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MuseumDefaultArgs<ExtArgs>>): Prisma__MuseumClient<$Result.GetResult<Prisma.$MuseumPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    plan<T extends PlanDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlanDefaultArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14740,10 +14849,10 @@ export namespace Prisma {
     userId: string | null
     museumId: string | null
     content: string | null
-    ipAddress: string | null
-    country: string | null
     visitedAt: Date | null
     createdAt: Date | null
+    country: string | null
+    ipAddress: string | null
   }
 
   export type ReviewMaxAggregateOutputType = {
@@ -14751,10 +14860,10 @@ export namespace Prisma {
     userId: string | null
     museumId: string | null
     content: string | null
-    ipAddress: string | null
-    country: string | null
     visitedAt: Date | null
     createdAt: Date | null
+    country: string | null
+    ipAddress: string | null
   }
 
   export type ReviewCountAggregateOutputType = {
@@ -14763,10 +14872,10 @@ export namespace Prisma {
     museumId: number
     content: number
     photos: number
-    ipAddress: number
-    country: number
     visitedAt: number
     createdAt: number
+    country: number
+    ipAddress: number
     _all: number
   }
 
@@ -14776,10 +14885,10 @@ export namespace Prisma {
     userId?: true
     museumId?: true
     content?: true
-    ipAddress?: true
-    country?: true
     visitedAt?: true
     createdAt?: true
+    country?: true
+    ipAddress?: true
   }
 
   export type ReviewMaxAggregateInputType = {
@@ -14787,10 +14896,10 @@ export namespace Prisma {
     userId?: true
     museumId?: true
     content?: true
-    ipAddress?: true
-    country?: true
     visitedAt?: true
     createdAt?: true
+    country?: true
+    ipAddress?: true
   }
 
   export type ReviewCountAggregateInputType = {
@@ -14799,10 +14908,10 @@ export namespace Prisma {
     museumId?: true
     content?: true
     photos?: true
-    ipAddress?: true
-    country?: true
     visitedAt?: true
     createdAt?: true
+    country?: true
+    ipAddress?: true
     _all?: true
   }
 
@@ -14884,10 +14993,10 @@ export namespace Prisma {
     museumId: string
     content: string
     photos: string[]
-    ipAddress: string | null
-    country: string | null
     visitedAt: Date
     createdAt: Date
+    country: string | null
+    ipAddress: string | null
     _count: ReviewCountAggregateOutputType | null
     _min: ReviewMinAggregateOutputType | null
     _max: ReviewMaxAggregateOutputType | null
@@ -14913,13 +15022,13 @@ export namespace Prisma {
     museumId?: boolean
     content?: boolean
     photos?: boolean
-    ipAddress?: boolean
-    country?: boolean
     visitedAt?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    country?: boolean
+    ipAddress?: boolean
     collectionItems?: boolean | Review$collectionItemsArgs<ExtArgs>
+    museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | ReviewCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["review"]>
 
@@ -14929,12 +15038,12 @@ export namespace Prisma {
     museumId?: boolean
     content?: boolean
     photos?: boolean
-    ipAddress?: boolean
-    country?: boolean
     visitedAt?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    country?: boolean
+    ipAddress?: boolean
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["review"]>
 
   export type ReviewSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -14943,12 +15052,12 @@ export namespace Prisma {
     museumId?: boolean
     content?: boolean
     photos?: boolean
-    ipAddress?: boolean
-    country?: boolean
     visitedAt?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    country?: boolean
+    ipAddress?: boolean
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["review"]>
 
   export type ReviewSelectScalar = {
@@ -14957,34 +15066,34 @@ export namespace Prisma {
     museumId?: boolean
     content?: boolean
     photos?: boolean
-    ipAddress?: boolean
-    country?: boolean
     visitedAt?: boolean
     createdAt?: boolean
+    country?: boolean
+    ipAddress?: boolean
   }
 
-  export type ReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "museumId" | "content" | "photos" | "ipAddress" | "country" | "visitedAt" | "createdAt", ExtArgs["result"]["review"]>
+  export type ReviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "museumId" | "content" | "photos" | "visitedAt" | "createdAt" | "country" | "ipAddress", ExtArgs["result"]["review"]>
   export type ReviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    museum?: boolean | MuseumDefaultArgs<ExtArgs>
     collectionItems?: boolean | Review$collectionItemsArgs<ExtArgs>
+    museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | ReviewCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ReviewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ReviewIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     museum?: boolean | MuseumDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ReviewPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Review"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-      museum: Prisma.$MuseumPayload<ExtArgs>
       collectionItems: Prisma.$CollectionItemPayload<ExtArgs>[]
+      museum: Prisma.$MuseumPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14992,10 +15101,10 @@ export namespace Prisma {
       museumId: string
       content: string
       photos: string[]
-      ipAddress: string | null
-      country: string | null
       visitedAt: Date
       createdAt: Date
+      country: string | null
+      ipAddress: string | null
     }, ExtArgs["result"]["review"]>
     composites: {}
   }
@@ -15390,9 +15499,9 @@ export namespace Prisma {
    */
   export interface Prisma__ReviewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    museum<T extends MuseumDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MuseumDefaultArgs<ExtArgs>>): Prisma__MuseumClient<$Result.GetResult<Prisma.$MuseumPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     collectionItems<T extends Review$collectionItemsArgs<ExtArgs> = {}>(args?: Subset<T, Review$collectionItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollectionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    museum<T extends MuseumDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MuseumDefaultArgs<ExtArgs>>): Prisma__MuseumClient<$Result.GetResult<Prisma.$MuseumPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15427,10 +15536,10 @@ export namespace Prisma {
     readonly museumId: FieldRef<"Review", 'String'>
     readonly content: FieldRef<"Review", 'String'>
     readonly photos: FieldRef<"Review", 'String[]'>
-    readonly ipAddress: FieldRef<"Review", 'String'>
-    readonly country: FieldRef<"Review", 'String'>
     readonly visitedAt: FieldRef<"Review", 'DateTime'>
     readonly createdAt: FieldRef<"Review", 'DateTime'>
+    readonly country: FieldRef<"Review", 'String'>
+    readonly ipAddress: FieldRef<"Review", 'String'>
   }
     
 
@@ -19242,27 +19351,27 @@ export namespace Prisma {
   export type ChallengeProgressMinAggregateOutputType = {
     userId: string | null
     challengeId: string | null
-    progress: number | null
-    completed: boolean | null
     completedAt: Date | null
+    completed: boolean | null
+    progress: number | null
     updatedAt: Date | null
   }
 
   export type ChallengeProgressMaxAggregateOutputType = {
     userId: string | null
     challengeId: string | null
-    progress: number | null
-    completed: boolean | null
     completedAt: Date | null
+    completed: boolean | null
+    progress: number | null
     updatedAt: Date | null
   }
 
   export type ChallengeProgressCountAggregateOutputType = {
     userId: number
     challengeId: number
-    progress: number
-    completed: number
     completedAt: number
+    completed: number
+    progress: number
     updatedAt: number
     _all: number
   }
@@ -19279,27 +19388,27 @@ export namespace Prisma {
   export type ChallengeProgressMinAggregateInputType = {
     userId?: true
     challengeId?: true
-    progress?: true
-    completed?: true
     completedAt?: true
+    completed?: true
+    progress?: true
     updatedAt?: true
   }
 
   export type ChallengeProgressMaxAggregateInputType = {
     userId?: true
     challengeId?: true
-    progress?: true
-    completed?: true
     completedAt?: true
+    completed?: true
+    progress?: true
     updatedAt?: true
   }
 
   export type ChallengeProgressCountAggregateInputType = {
     userId?: true
     challengeId?: true
-    progress?: true
-    completed?: true
     completedAt?: true
+    completed?: true
+    progress?: true
     updatedAt?: true
     _all?: true
   }
@@ -19393,9 +19502,9 @@ export namespace Prisma {
   export type ChallengeProgressGroupByOutputType = {
     userId: string
     challengeId: string
-    progress: number
-    completed: boolean
     completedAt: Date | null
+    completed: boolean
+    progress: number
     updatedAt: Date
     _count: ChallengeProgressCountAggregateOutputType | null
     _avg: ChallengeProgressAvgAggregateOutputType | null
@@ -19421,71 +19530,71 @@ export namespace Prisma {
   export type ChallengeProgressSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     challengeId?: boolean
-    progress?: boolean
-    completed?: boolean
     completedAt?: boolean
+    completed?: boolean
+    progress?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["challengeProgress"]>
 
   export type ChallengeProgressSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     challengeId?: boolean
-    progress?: boolean
-    completed?: boolean
     completedAt?: boolean
+    completed?: boolean
+    progress?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["challengeProgress"]>
 
   export type ChallengeProgressSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     challengeId?: boolean
-    progress?: boolean
-    completed?: boolean
     completedAt?: boolean
+    completed?: boolean
+    progress?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["challengeProgress"]>
 
   export type ChallengeProgressSelectScalar = {
     userId?: boolean
     challengeId?: boolean
-    progress?: boolean
-    completed?: boolean
     completedAt?: boolean
+    completed?: boolean
+    progress?: boolean
     updatedAt?: boolean
   }
 
-  export type ChallengeProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "challengeId" | "progress" | "completed" | "completedAt" | "updatedAt", ExtArgs["result"]["challengeProgress"]>
+  export type ChallengeProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "challengeId" | "completedAt" | "completed" | "progress" | "updatedAt", ExtArgs["result"]["challengeProgress"]>
   export type ChallengeProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ChallengeProgressIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ChallengeProgressIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ChallengeProgressPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ChallengeProgress"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       challenge: Prisma.$ChallengePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       userId: string
       challengeId: string
-      progress: number
-      completed: boolean
       completedAt: Date | null
+      completed: boolean
+      progress: number
       updatedAt: Date
     }, ExtArgs["result"]["challengeProgress"]>
     composites: {}
@@ -19881,8 +19990,8 @@ export namespace Prisma {
    */
   export interface Prisma__ChallengeProgressClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     challenge<T extends ChallengeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ChallengeDefaultArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19914,9 +20023,9 @@ export namespace Prisma {
   interface ChallengeProgressFieldRefs {
     readonly userId: FieldRef<"ChallengeProgress", 'String'>
     readonly challengeId: FieldRef<"ChallengeProgress", 'String'>
-    readonly progress: FieldRef<"ChallengeProgress", 'Int'>
-    readonly completed: FieldRef<"ChallengeProgress", 'Boolean'>
     readonly completedAt: FieldRef<"ChallengeProgress", 'DateTime'>
+    readonly completed: FieldRef<"ChallengeProgress", 'Boolean'>
+    readonly progress: FieldRef<"ChallengeProgress", 'Int'>
     readonly updatedAt: FieldRef<"ChallengeProgress", 'DateTime'>
   }
     
@@ -20346,8 +20455,8 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     content: string | null
-    reply: string | null
     createdAt: Date | null
+    reply: string | null
     updatedAt: Date | null
   }
 
@@ -20355,8 +20464,8 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     content: string | null
-    reply: string | null
     createdAt: Date | null
+    reply: string | null
     updatedAt: Date | null
   }
 
@@ -20364,8 +20473,8 @@ export namespace Prisma {
     id: number
     userId: number
     content: number
-    reply: number
     createdAt: number
+    reply: number
     updatedAt: number
     _all: number
   }
@@ -20375,8 +20484,8 @@ export namespace Prisma {
     id?: true
     userId?: true
     content?: true
-    reply?: true
     createdAt?: true
+    reply?: true
     updatedAt?: true
   }
 
@@ -20384,8 +20493,8 @@ export namespace Prisma {
     id?: true
     userId?: true
     content?: true
-    reply?: true
     createdAt?: true
+    reply?: true
     updatedAt?: true
   }
 
@@ -20393,8 +20502,8 @@ export namespace Prisma {
     id?: true
     userId?: true
     content?: true
-    reply?: true
     createdAt?: true
+    reply?: true
     updatedAt?: true
     _all?: true
   }
@@ -20475,8 +20584,8 @@ export namespace Prisma {
     id: string
     userId: string | null
     content: string
-    reply: string | null
     createdAt: Date
+    reply: string | null
     updatedAt: Date
     _count: FeedbackCountAggregateOutputType | null
     _min: FeedbackMinAggregateOutputType | null
@@ -20501,8 +20610,8 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     content?: boolean
-    reply?: boolean
     createdAt?: boolean
+    reply?: boolean
     updatedAt?: boolean
     user?: boolean | Feedback$userArgs<ExtArgs>
   }, ExtArgs["result"]["feedback"]>
@@ -20511,8 +20620,8 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     content?: boolean
-    reply?: boolean
     createdAt?: boolean
+    reply?: boolean
     updatedAt?: boolean
     user?: boolean | Feedback$userArgs<ExtArgs>
   }, ExtArgs["result"]["feedback"]>
@@ -20521,8 +20630,8 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     content?: boolean
-    reply?: boolean
     createdAt?: boolean
+    reply?: boolean
     updatedAt?: boolean
     user?: boolean | Feedback$userArgs<ExtArgs>
   }, ExtArgs["result"]["feedback"]>
@@ -20531,12 +20640,12 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     content?: boolean
-    reply?: boolean
     createdAt?: boolean
+    reply?: boolean
     updatedAt?: boolean
   }
 
-  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "content" | "reply" | "createdAt" | "updatedAt", ExtArgs["result"]["feedback"]>
+  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "content" | "createdAt" | "reply" | "updatedAt", ExtArgs["result"]["feedback"]>
   export type FeedbackInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Feedback$userArgs<ExtArgs>
   }
@@ -20556,8 +20665,8 @@ export namespace Prisma {
       id: string
       userId: string | null
       content: string
-      reply: string | null
       createdAt: Date
+      reply: string | null
       updatedAt: Date
     }, ExtArgs["result"]["feedback"]>
     composites: {}
@@ -20986,8 +21095,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Feedback", 'String'>
     readonly userId: FieldRef<"Feedback", 'String'>
     readonly content: FieldRef<"Feedback", 'String'>
-    readonly reply: FieldRef<"Feedback", 'String'>
     readonly createdAt: FieldRef<"Feedback", 'DateTime'>
+    readonly reply: FieldRef<"Feedback", 'String'>
     readonly updatedAt: FieldRef<"Feedback", 'DateTime'>
   }
     
@@ -22572,8 +22681,8 @@ export namespace Prisma {
     data?: boolean
     status?: boolean
     createdAt?: boolean
-    user?: boolean | Suggestion$userArgs<ExtArgs>
     museum?: boolean | Suggestion$museumArgs<ExtArgs>
+    user?: boolean | Suggestion$userArgs<ExtArgs>
   }, ExtArgs["result"]["suggestion"]>
 
   export type SuggestionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -22583,8 +22692,8 @@ export namespace Prisma {
     data?: boolean
     status?: boolean
     createdAt?: boolean
-    user?: boolean | Suggestion$userArgs<ExtArgs>
     museum?: boolean | Suggestion$museumArgs<ExtArgs>
+    user?: boolean | Suggestion$userArgs<ExtArgs>
   }, ExtArgs["result"]["suggestion"]>
 
   export type SuggestionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -22594,8 +22703,8 @@ export namespace Prisma {
     data?: boolean
     status?: boolean
     createdAt?: boolean
-    user?: boolean | Suggestion$userArgs<ExtArgs>
     museum?: boolean | Suggestion$museumArgs<ExtArgs>
+    user?: boolean | Suggestion$userArgs<ExtArgs>
   }, ExtArgs["result"]["suggestion"]>
 
   export type SuggestionSelectScalar = {
@@ -22609,23 +22718,23 @@ export namespace Prisma {
 
   export type SuggestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "museumId" | "userId" | "data" | "status" | "createdAt", ExtArgs["result"]["suggestion"]>
   export type SuggestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Suggestion$userArgs<ExtArgs>
     museum?: boolean | Suggestion$museumArgs<ExtArgs>
+    user?: boolean | Suggestion$userArgs<ExtArgs>
   }
   export type SuggestionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Suggestion$userArgs<ExtArgs>
     museum?: boolean | Suggestion$museumArgs<ExtArgs>
+    user?: boolean | Suggestion$userArgs<ExtArgs>
   }
   export type SuggestionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Suggestion$userArgs<ExtArgs>
     museum?: boolean | Suggestion$museumArgs<ExtArgs>
+    user?: boolean | Suggestion$userArgs<ExtArgs>
   }
 
   export type $SuggestionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Suggestion"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs> | null
       museum: Prisma.$MuseumPayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -23028,8 +23137,8 @@ export namespace Prisma {
    */
   export interface Prisma__SuggestionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends Suggestion$userArgs<ExtArgs> = {}>(args?: Subset<T, Suggestion$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     museum<T extends Suggestion$museumArgs<ExtArgs> = {}>(args?: Subset<T, Suggestion$museumArgs<ExtArgs>>): Prisma__MuseumClient<$Result.GetResult<Prisma.$MuseumPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends Suggestion$userArgs<ExtArgs> = {}>(args?: Subset<T, Suggestion$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23461,25 +23570,6 @@ export namespace Prisma {
   }
 
   /**
-   * Suggestion.user
-   */
-  export type Suggestion$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-  }
-
-  /**
    * Suggestion.museum
    */
   export type Suggestion$museumArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -23496,6 +23586,25 @@ export namespace Prisma {
      */
     include?: MuseumInclude<ExtArgs> | null
     where?: MuseumWhereInput
+  }
+
+  /**
+   * Suggestion.user
+   */
+  export type Suggestion$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -25597,6 +25706,1039 @@ export namespace Prisma {
 
 
   /**
+   * Model spatial_ref_sys
+   */
+
+  export type AggregateSpatial_ref_sys = {
+    _count: Spatial_ref_sysCountAggregateOutputType | null
+    _avg: Spatial_ref_sysAvgAggregateOutputType | null
+    _sum: Spatial_ref_sysSumAggregateOutputType | null
+    _min: Spatial_ref_sysMinAggregateOutputType | null
+    _max: Spatial_ref_sysMaxAggregateOutputType | null
+  }
+
+  export type Spatial_ref_sysAvgAggregateOutputType = {
+    srid: number | null
+    auth_srid: number | null
+  }
+
+  export type Spatial_ref_sysSumAggregateOutputType = {
+    srid: number | null
+    auth_srid: number | null
+  }
+
+  export type Spatial_ref_sysMinAggregateOutputType = {
+    srid: number | null
+    auth_name: string | null
+    auth_srid: number | null
+    srtext: string | null
+    proj4text: string | null
+  }
+
+  export type Spatial_ref_sysMaxAggregateOutputType = {
+    srid: number | null
+    auth_name: string | null
+    auth_srid: number | null
+    srtext: string | null
+    proj4text: string | null
+  }
+
+  export type Spatial_ref_sysCountAggregateOutputType = {
+    srid: number
+    auth_name: number
+    auth_srid: number
+    srtext: number
+    proj4text: number
+    _all: number
+  }
+
+
+  export type Spatial_ref_sysAvgAggregateInputType = {
+    srid?: true
+    auth_srid?: true
+  }
+
+  export type Spatial_ref_sysSumAggregateInputType = {
+    srid?: true
+    auth_srid?: true
+  }
+
+  export type Spatial_ref_sysMinAggregateInputType = {
+    srid?: true
+    auth_name?: true
+    auth_srid?: true
+    srtext?: true
+    proj4text?: true
+  }
+
+  export type Spatial_ref_sysMaxAggregateInputType = {
+    srid?: true
+    auth_name?: true
+    auth_srid?: true
+    srtext?: true
+    proj4text?: true
+  }
+
+  export type Spatial_ref_sysCountAggregateInputType = {
+    srid?: true
+    auth_name?: true
+    auth_srid?: true
+    srtext?: true
+    proj4text?: true
+    _all?: true
+  }
+
+  export type Spatial_ref_sysAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which spatial_ref_sys to aggregate.
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of spatial_ref_sys to fetch.
+     */
+    orderBy?: spatial_ref_sysOrderByWithRelationInput | spatial_ref_sysOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: spatial_ref_sysWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` spatial_ref_sys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` spatial_ref_sys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned spatial_ref_sys
+    **/
+    _count?: true | Spatial_ref_sysCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Spatial_ref_sysAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Spatial_ref_sysSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Spatial_ref_sysMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Spatial_ref_sysMaxAggregateInputType
+  }
+
+  export type GetSpatial_ref_sysAggregateType<T extends Spatial_ref_sysAggregateArgs> = {
+        [P in keyof T & keyof AggregateSpatial_ref_sys]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSpatial_ref_sys[P]>
+      : GetScalarType<T[P], AggregateSpatial_ref_sys[P]>
+  }
+
+
+
+
+  export type spatial_ref_sysGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: spatial_ref_sysWhereInput
+    orderBy?: spatial_ref_sysOrderByWithAggregationInput | spatial_ref_sysOrderByWithAggregationInput[]
+    by: Spatial_ref_sysScalarFieldEnum[] | Spatial_ref_sysScalarFieldEnum
+    having?: spatial_ref_sysScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Spatial_ref_sysCountAggregateInputType | true
+    _avg?: Spatial_ref_sysAvgAggregateInputType
+    _sum?: Spatial_ref_sysSumAggregateInputType
+    _min?: Spatial_ref_sysMinAggregateInputType
+    _max?: Spatial_ref_sysMaxAggregateInputType
+  }
+
+  export type Spatial_ref_sysGroupByOutputType = {
+    srid: number
+    auth_name: string | null
+    auth_srid: number | null
+    srtext: string | null
+    proj4text: string | null
+    _count: Spatial_ref_sysCountAggregateOutputType | null
+    _avg: Spatial_ref_sysAvgAggregateOutputType | null
+    _sum: Spatial_ref_sysSumAggregateOutputType | null
+    _min: Spatial_ref_sysMinAggregateOutputType | null
+    _max: Spatial_ref_sysMaxAggregateOutputType | null
+  }
+
+  type GetSpatial_ref_sysGroupByPayload<T extends spatial_ref_sysGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Spatial_ref_sysGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Spatial_ref_sysGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Spatial_ref_sysGroupByOutputType[P]>
+            : GetScalarType<T[P], Spatial_ref_sysGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type spatial_ref_sysSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    srid?: boolean
+    auth_name?: boolean
+    auth_srid?: boolean
+    srtext?: boolean
+    proj4text?: boolean
+  }, ExtArgs["result"]["spatial_ref_sys"]>
+
+  export type spatial_ref_sysSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    srid?: boolean
+    auth_name?: boolean
+    auth_srid?: boolean
+    srtext?: boolean
+    proj4text?: boolean
+  }, ExtArgs["result"]["spatial_ref_sys"]>
+
+  export type spatial_ref_sysSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    srid?: boolean
+    auth_name?: boolean
+    auth_srid?: boolean
+    srtext?: boolean
+    proj4text?: boolean
+  }, ExtArgs["result"]["spatial_ref_sys"]>
+
+  export type spatial_ref_sysSelectScalar = {
+    srid?: boolean
+    auth_name?: boolean
+    auth_srid?: boolean
+    srtext?: boolean
+    proj4text?: boolean
+  }
+
+  export type spatial_ref_sysOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"srid" | "auth_name" | "auth_srid" | "srtext" | "proj4text", ExtArgs["result"]["spatial_ref_sys"]>
+
+  export type $spatial_ref_sysPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "spatial_ref_sys"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      srid: number
+      auth_name: string | null
+      auth_srid: number | null
+      srtext: string | null
+      proj4text: string | null
+    }, ExtArgs["result"]["spatial_ref_sys"]>
+    composites: {}
+  }
+
+  type spatial_ref_sysGetPayload<S extends boolean | null | undefined | spatial_ref_sysDefaultArgs> = $Result.GetResult<Prisma.$spatial_ref_sysPayload, S>
+
+  type spatial_ref_sysCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<spatial_ref_sysFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Spatial_ref_sysCountAggregateInputType | true
+    }
+
+  export interface spatial_ref_sysDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['spatial_ref_sys'], meta: { name: 'spatial_ref_sys' } }
+    /**
+     * Find zero or one Spatial_ref_sys that matches the filter.
+     * @param {spatial_ref_sysFindUniqueArgs} args - Arguments to find a Spatial_ref_sys
+     * @example
+     * // Get one Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends spatial_ref_sysFindUniqueArgs>(args: SelectSubset<T, spatial_ref_sysFindUniqueArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Spatial_ref_sys that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {spatial_ref_sysFindUniqueOrThrowArgs} args - Arguments to find a Spatial_ref_sys
+     * @example
+     * // Get one Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends spatial_ref_sysFindUniqueOrThrowArgs>(args: SelectSubset<T, spatial_ref_sysFindUniqueOrThrowArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Spatial_ref_sys that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysFindFirstArgs} args - Arguments to find a Spatial_ref_sys
+     * @example
+     * // Get one Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends spatial_ref_sysFindFirstArgs>(args?: SelectSubset<T, spatial_ref_sysFindFirstArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Spatial_ref_sys that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysFindFirstOrThrowArgs} args - Arguments to find a Spatial_ref_sys
+     * @example
+     * // Get one Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends spatial_ref_sysFindFirstOrThrowArgs>(args?: SelectSubset<T, spatial_ref_sysFindFirstOrThrowArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Spatial_ref_sys that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findMany()
+     * 
+     * // Get first 10 Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.findMany({ take: 10 })
+     * 
+     * // Only select the `srid`
+     * const spatial_ref_sysWithSridOnly = await prisma.spatial_ref_sys.findMany({ select: { srid: true } })
+     * 
+     */
+    findMany<T extends spatial_ref_sysFindManyArgs>(args?: SelectSubset<T, spatial_ref_sysFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Spatial_ref_sys.
+     * @param {spatial_ref_sysCreateArgs} args - Arguments to create a Spatial_ref_sys.
+     * @example
+     * // Create one Spatial_ref_sys
+     * const Spatial_ref_sys = await prisma.spatial_ref_sys.create({
+     *   data: {
+     *     // ... data to create a Spatial_ref_sys
+     *   }
+     * })
+     * 
+     */
+    create<T extends spatial_ref_sysCreateArgs>(args: SelectSubset<T, spatial_ref_sysCreateArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Spatial_ref_sys.
+     * @param {spatial_ref_sysCreateManyArgs} args - Arguments to create many Spatial_ref_sys.
+     * @example
+     * // Create many Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends spatial_ref_sysCreateManyArgs>(args?: SelectSubset<T, spatial_ref_sysCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Spatial_ref_sys and returns the data saved in the database.
+     * @param {spatial_ref_sysCreateManyAndReturnArgs} args - Arguments to create many Spatial_ref_sys.
+     * @example
+     * // Create many Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Spatial_ref_sys and only return the `srid`
+     * const spatial_ref_sysWithSridOnly = await prisma.spatial_ref_sys.createManyAndReturn({
+     *   select: { srid: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends spatial_ref_sysCreateManyAndReturnArgs>(args?: SelectSubset<T, spatial_ref_sysCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Spatial_ref_sys.
+     * @param {spatial_ref_sysDeleteArgs} args - Arguments to delete one Spatial_ref_sys.
+     * @example
+     * // Delete one Spatial_ref_sys
+     * const Spatial_ref_sys = await prisma.spatial_ref_sys.delete({
+     *   where: {
+     *     // ... filter to delete one Spatial_ref_sys
+     *   }
+     * })
+     * 
+     */
+    delete<T extends spatial_ref_sysDeleteArgs>(args: SelectSubset<T, spatial_ref_sysDeleteArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Spatial_ref_sys.
+     * @param {spatial_ref_sysUpdateArgs} args - Arguments to update one Spatial_ref_sys.
+     * @example
+     * // Update one Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends spatial_ref_sysUpdateArgs>(args: SelectSubset<T, spatial_ref_sysUpdateArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Spatial_ref_sys.
+     * @param {spatial_ref_sysDeleteManyArgs} args - Arguments to filter Spatial_ref_sys to delete.
+     * @example
+     * // Delete a few Spatial_ref_sys
+     * const { count } = await prisma.spatial_ref_sys.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends spatial_ref_sysDeleteManyArgs>(args?: SelectSubset<T, spatial_ref_sysDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Spatial_ref_sys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends spatial_ref_sysUpdateManyArgs>(args: SelectSubset<T, spatial_ref_sysUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Spatial_ref_sys and returns the data updated in the database.
+     * @param {spatial_ref_sysUpdateManyAndReturnArgs} args - Arguments to update many Spatial_ref_sys.
+     * @example
+     * // Update many Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Spatial_ref_sys and only return the `srid`
+     * const spatial_ref_sysWithSridOnly = await prisma.spatial_ref_sys.updateManyAndReturn({
+     *   select: { srid: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends spatial_ref_sysUpdateManyAndReturnArgs>(args: SelectSubset<T, spatial_ref_sysUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Spatial_ref_sys.
+     * @param {spatial_ref_sysUpsertArgs} args - Arguments to update or create a Spatial_ref_sys.
+     * @example
+     * // Update or create a Spatial_ref_sys
+     * const spatial_ref_sys = await prisma.spatial_ref_sys.upsert({
+     *   create: {
+     *     // ... data to create a Spatial_ref_sys
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Spatial_ref_sys we want to update
+     *   }
+     * })
+     */
+    upsert<T extends spatial_ref_sysUpsertArgs>(args: SelectSubset<T, spatial_ref_sysUpsertArgs<ExtArgs>>): Prisma__spatial_ref_sysClient<$Result.GetResult<Prisma.$spatial_ref_sysPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Spatial_ref_sys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysCountArgs} args - Arguments to filter Spatial_ref_sys to count.
+     * @example
+     * // Count the number of Spatial_ref_sys
+     * const count = await prisma.spatial_ref_sys.count({
+     *   where: {
+     *     // ... the filter for the Spatial_ref_sys we want to count
+     *   }
+     * })
+    **/
+    count<T extends spatial_ref_sysCountArgs>(
+      args?: Subset<T, spatial_ref_sysCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Spatial_ref_sysCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Spatial_ref_sys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Spatial_ref_sysAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Spatial_ref_sysAggregateArgs>(args: Subset<T, Spatial_ref_sysAggregateArgs>): Prisma.PrismaPromise<GetSpatial_ref_sysAggregateType<T>>
+
+    /**
+     * Group by Spatial_ref_sys.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {spatial_ref_sysGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends spatial_ref_sysGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: spatial_ref_sysGroupByArgs['orderBy'] }
+        : { orderBy?: spatial_ref_sysGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, spatial_ref_sysGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSpatial_ref_sysGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the spatial_ref_sys model
+   */
+  readonly fields: spatial_ref_sysFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for spatial_ref_sys.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__spatial_ref_sysClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the spatial_ref_sys model
+   */
+  interface spatial_ref_sysFieldRefs {
+    readonly srid: FieldRef<"spatial_ref_sys", 'Int'>
+    readonly auth_name: FieldRef<"spatial_ref_sys", 'String'>
+    readonly auth_srid: FieldRef<"spatial_ref_sys", 'Int'>
+    readonly srtext: FieldRef<"spatial_ref_sys", 'String'>
+    readonly proj4text: FieldRef<"spatial_ref_sys", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * spatial_ref_sys findUnique
+   */
+  export type spatial_ref_sysFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter, which spatial_ref_sys to fetch.
+     */
+    where: spatial_ref_sysWhereUniqueInput
+  }
+
+  /**
+   * spatial_ref_sys findUniqueOrThrow
+   */
+  export type spatial_ref_sysFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter, which spatial_ref_sys to fetch.
+     */
+    where: spatial_ref_sysWhereUniqueInput
+  }
+
+  /**
+   * spatial_ref_sys findFirst
+   */
+  export type spatial_ref_sysFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter, which spatial_ref_sys to fetch.
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of spatial_ref_sys to fetch.
+     */
+    orderBy?: spatial_ref_sysOrderByWithRelationInput | spatial_ref_sysOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for spatial_ref_sys.
+     */
+    cursor?: spatial_ref_sysWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` spatial_ref_sys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` spatial_ref_sys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of spatial_ref_sys.
+     */
+    distinct?: Spatial_ref_sysScalarFieldEnum | Spatial_ref_sysScalarFieldEnum[]
+  }
+
+  /**
+   * spatial_ref_sys findFirstOrThrow
+   */
+  export type spatial_ref_sysFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter, which spatial_ref_sys to fetch.
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of spatial_ref_sys to fetch.
+     */
+    orderBy?: spatial_ref_sysOrderByWithRelationInput | spatial_ref_sysOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for spatial_ref_sys.
+     */
+    cursor?: spatial_ref_sysWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` spatial_ref_sys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` spatial_ref_sys.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of spatial_ref_sys.
+     */
+    distinct?: Spatial_ref_sysScalarFieldEnum | Spatial_ref_sysScalarFieldEnum[]
+  }
+
+  /**
+   * spatial_ref_sys findMany
+   */
+  export type spatial_ref_sysFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter, which spatial_ref_sys to fetch.
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of spatial_ref_sys to fetch.
+     */
+    orderBy?: spatial_ref_sysOrderByWithRelationInput | spatial_ref_sysOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing spatial_ref_sys.
+     */
+    cursor?: spatial_ref_sysWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` spatial_ref_sys from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` spatial_ref_sys.
+     */
+    skip?: number
+    distinct?: Spatial_ref_sysScalarFieldEnum | Spatial_ref_sysScalarFieldEnum[]
+  }
+
+  /**
+   * spatial_ref_sys create
+   */
+  export type spatial_ref_sysCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * The data needed to create a spatial_ref_sys.
+     */
+    data: XOR<spatial_ref_sysCreateInput, spatial_ref_sysUncheckedCreateInput>
+  }
+
+  /**
+   * spatial_ref_sys createMany
+   */
+  export type spatial_ref_sysCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many spatial_ref_sys.
+     */
+    data: spatial_ref_sysCreateManyInput | spatial_ref_sysCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * spatial_ref_sys createManyAndReturn
+   */
+  export type spatial_ref_sysCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * The data used to create many spatial_ref_sys.
+     */
+    data: spatial_ref_sysCreateManyInput | spatial_ref_sysCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * spatial_ref_sys update
+   */
+  export type spatial_ref_sysUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * The data needed to update a spatial_ref_sys.
+     */
+    data: XOR<spatial_ref_sysUpdateInput, spatial_ref_sysUncheckedUpdateInput>
+    /**
+     * Choose, which spatial_ref_sys to update.
+     */
+    where: spatial_ref_sysWhereUniqueInput
+  }
+
+  /**
+   * spatial_ref_sys updateMany
+   */
+  export type spatial_ref_sysUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update spatial_ref_sys.
+     */
+    data: XOR<spatial_ref_sysUpdateManyMutationInput, spatial_ref_sysUncheckedUpdateManyInput>
+    /**
+     * Filter which spatial_ref_sys to update
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * Limit how many spatial_ref_sys to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * spatial_ref_sys updateManyAndReturn
+   */
+  export type spatial_ref_sysUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * The data used to update spatial_ref_sys.
+     */
+    data: XOR<spatial_ref_sysUpdateManyMutationInput, spatial_ref_sysUncheckedUpdateManyInput>
+    /**
+     * Filter which spatial_ref_sys to update
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * Limit how many spatial_ref_sys to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * spatial_ref_sys upsert
+   */
+  export type spatial_ref_sysUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * The filter to search for the spatial_ref_sys to update in case it exists.
+     */
+    where: spatial_ref_sysWhereUniqueInput
+    /**
+     * In case the spatial_ref_sys found by the `where` argument doesn't exist, create a new spatial_ref_sys with this data.
+     */
+    create: XOR<spatial_ref_sysCreateInput, spatial_ref_sysUncheckedCreateInput>
+    /**
+     * In case the spatial_ref_sys was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<spatial_ref_sysUpdateInput, spatial_ref_sysUncheckedUpdateInput>
+  }
+
+  /**
+   * spatial_ref_sys delete
+   */
+  export type spatial_ref_sysDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+    /**
+     * Filter which spatial_ref_sys to delete.
+     */
+    where: spatial_ref_sysWhereUniqueInput
+  }
+
+  /**
+   * spatial_ref_sys deleteMany
+   */
+  export type spatial_ref_sysDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which spatial_ref_sys to delete
+     */
+    where?: spatial_ref_sysWhereInput
+    /**
+     * Limit how many spatial_ref_sys to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * spatial_ref_sys without action
+   */
+  export type spatial_ref_sysDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the spatial_ref_sys
+     */
+    select?: spatial_ref_sysSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the spatial_ref_sys
+     */
+    omit?: spatial_ref_sysOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -25613,16 +26755,16 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    username: 'username',
     email: 'email',
-    password: 'password',
     emailVerified: 'emailVerified',
     image: 'image',
     role: 'role',
     preferences: 'preferences',
-    lastIp: 'lastIp',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    username: 'username',
+    password: 'password',
+    lastIp: 'lastIp'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -25631,16 +26773,18 @@ export namespace Prisma {
   export const StoryScalarFieldEnum: {
     id: 'id',
     title: 'title',
-    titleEn: 'titleEn',
     content: 'content',
-    contentEn: 'contentEn',
-    description: 'description',
     author: 'author',
     previewImage: 'previewImage',
     status: 'status',
     views: 'views',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    contentEn: 'contentEn',
+    titleEn: 'titleEn',
+    description: 'description',
+    infoTable: 'infoTable',
+    artworks: 'artworks'
   };
 
   export type StoryScalarFieldEnum = (typeof StoryScalarFieldEnum)[keyof typeof StoryScalarFieldEnum]
@@ -25659,12 +26803,12 @@ export namespace Prisma {
     userId: 'userId',
     type: 'type',
     title: 'title',
-    titleEn: 'titleEn',
     message: 'message',
-    messageEn: 'messageEn',
     link: 'link',
     isRead: 'isRead',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    messageEn: 'messageEn',
+    titleEn: 'titleEn'
   };
 
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
@@ -25679,13 +26823,13 @@ export namespace Prisma {
     type: 'type',
     website: 'website',
     imageUrl: 'imageUrl',
-    openingHours: 'openingHours',
     latitude: 'latitude',
     longitude: 'longitude',
     popularityScore: 'popularityScore',
-    lastExhibitionSync: 'lastExhibitionSync',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    openingHours: 'openingHours',
+    lastExhibitionSync: 'lastExhibitionSync'
   };
 
   export type MuseumScalarFieldEnum = (typeof MuseumScalarFieldEnum)[keyof typeof MuseumScalarFieldEnum]
@@ -25696,12 +26840,12 @@ export namespace Prisma {
     museumId: 'museumId',
     title: 'title',
     description: 'description',
-    imageUrl: 'imageUrl',
-    link: 'link',
-    source: 'source',
     startDate: 'startDate',
     endDate: 'endDate',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    imageUrl: 'imageUrl',
+    link: 'link',
+    source: 'source'
   };
 
   export type ExhibitionScalarFieldEnum = (typeof ExhibitionScalarFieldEnum)[keyof typeof ExhibitionScalarFieldEnum]
@@ -25758,10 +26902,10 @@ export namespace Prisma {
     museumId: 'museumId',
     content: 'content',
     photos: 'photos',
-    ipAddress: 'ipAddress',
-    country: 'country',
     visitedAt: 'visitedAt',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    country: 'country',
+    ipAddress: 'ipAddress'
   };
 
   export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
@@ -25808,9 +26952,9 @@ export namespace Prisma {
   export const ChallengeProgressScalarFieldEnum: {
     userId: 'userId',
     challengeId: 'challengeId',
-    progress: 'progress',
-    completed: 'completed',
     completedAt: 'completedAt',
+    completed: 'completed',
+    progress: 'progress',
     updatedAt: 'updatedAt'
   };
 
@@ -25821,8 +26965,8 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     content: 'content',
-    reply: 'reply',
     createdAt: 'createdAt',
+    reply: 'reply',
     updatedAt: 'updatedAt'
   };
 
@@ -25873,6 +27017,17 @@ export namespace Prisma {
   };
 
   export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
+  export const Spatial_ref_sysScalarFieldEnum: {
+    srid: 'srid',
+    auth_name: 'auth_name',
+    auth_srid: 'auth_srid',
+    srtext: 'srtext',
+    proj4text: 'proj4text'
+  };
+
+  export type Spatial_ref_sysScalarFieldEnum = (typeof Spatial_ref_sysScalarFieldEnum)[keyof typeof Spatial_ref_sysScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -26084,94 +27239,94 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
-    username?: StringNullableFilter<"User"> | string | null
     email?: StringNullableFilter<"User"> | string | null
-    password?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
     preferences?: JsonNullableFilter<"User">
-    lastIp?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    collections?: CollectionListRelationFilter
-    folders?: FolderListRelationFilter
-    saves?: SaveListRelationFilter
-    plans?: PlanListRelationFilter
-    reviews?: ReviewListRelationFilter
+    username?: StringNullableFilter<"User"> | string | null
+    password?: StringNullableFilter<"User"> | string | null
+    lastIp?: StringNullableFilter<"User"> | string | null
     challenges?: ChallengeProgressListRelationFilter
+    collections?: CollectionListRelationFilter
     feedbacks?: FeedbackListRelationFilter
-    suggestions?: SuggestionListRelationFilter
-    reports?: ReportListRelationFilter
+    folders?: FolderListRelationFilter
     notifications?: NotificationListRelationFilter
+    plans?: PlanListRelationFilter
+    reports?: ReportListRelationFilter
+    reviews?: ReviewListRelationFilter
+    saves?: SaveListRelationFilter
+    suggestions?: SuggestionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
-    username?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
-    password?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     role?: SortOrder
     preferences?: SortOrderInput | SortOrder
-    lastIp?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    collections?: CollectionOrderByRelationAggregateInput
-    folders?: FolderOrderByRelationAggregateInput
-    saves?: SaveOrderByRelationAggregateInput
-    plans?: PlanOrderByRelationAggregateInput
-    reviews?: ReviewOrderByRelationAggregateInput
+    username?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
+    lastIp?: SortOrderInput | SortOrder
     challenges?: ChallengeProgressOrderByRelationAggregateInput
+    collections?: CollectionOrderByRelationAggregateInput
     feedbacks?: FeedbackOrderByRelationAggregateInput
-    suggestions?: SuggestionOrderByRelationAggregateInput
-    reports?: ReportOrderByRelationAggregateInput
+    folders?: FolderOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
+    plans?: PlanOrderByRelationAggregateInput
+    reports?: ReportOrderByRelationAggregateInput
+    reviews?: ReviewOrderByRelationAggregateInput
+    saves?: SaveOrderByRelationAggregateInput
+    suggestions?: SuggestionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    username?: string
     email?: string
+    username?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
-    password?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
     preferences?: JsonNullableFilter<"User">
-    lastIp?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    collections?: CollectionListRelationFilter
-    folders?: FolderListRelationFilter
-    saves?: SaveListRelationFilter
-    plans?: PlanListRelationFilter
-    reviews?: ReviewListRelationFilter
+    password?: StringNullableFilter<"User"> | string | null
+    lastIp?: StringNullableFilter<"User"> | string | null
     challenges?: ChallengeProgressListRelationFilter
+    collections?: CollectionListRelationFilter
     feedbacks?: FeedbackListRelationFilter
-    suggestions?: SuggestionListRelationFilter
-    reports?: ReportListRelationFilter
+    folders?: FolderListRelationFilter
     notifications?: NotificationListRelationFilter
-  }, "id" | "username" | "email">
+    plans?: PlanListRelationFilter
+    reports?: ReportListRelationFilter
+    reviews?: ReviewListRelationFilter
+    saves?: SaveListRelationFilter
+    suggestions?: SuggestionListRelationFilter
+  }, "id" | "email" | "username">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
-    username?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
-    password?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     role?: SortOrder
     preferences?: SortOrderInput | SortOrder
-    lastIp?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    username?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
+    lastIp?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -26183,16 +27338,16 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
-    username?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringNullableWithAggregatesFilter<"User"> | string | null
-    password?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     preferences?: JsonNullableWithAggregatesFilter<"User">
-    lastIp?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    username?: StringNullableWithAggregatesFilter<"User"> | string | null
+    password?: StringNullableWithAggregatesFilter<"User"> | string | null
+    lastIp?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type StoryWhereInput = {
@@ -26201,32 +27356,36 @@ export namespace Prisma {
     NOT?: StoryWhereInput | StoryWhereInput[]
     id?: StringFilter<"Story"> | string
     title?: StringFilter<"Story"> | string
-    titleEn?: StringNullableFilter<"Story"> | string | null
     content?: StringFilter<"Story"> | string
-    contentEn?: StringNullableFilter<"Story"> | string | null
-    description?: StringNullableFilter<"Story"> | string | null
     author?: StringNullableFilter<"Story"> | string | null
     previewImage?: StringNullableFilter<"Story"> | string | null
     status?: EnumContentStatusFilter<"Story"> | $Enums.ContentStatus
     views?: IntFilter<"Story"> | number
     createdAt?: DateTimeFilter<"Story"> | Date | string
     updatedAt?: DateTimeFilter<"Story"> | Date | string
+    contentEn?: StringNullableFilter<"Story"> | string | null
+    titleEn?: StringNullableFilter<"Story"> | string | null
+    description?: StringNullableFilter<"Story"> | string | null
+    infoTable?: JsonNullableFilter<"Story">
+    artworks?: JsonNullableFilter<"Story">
     museums?: StoryMuseumListRelationFilter
   }
 
   export type StoryOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
-    titleEn?: SortOrderInput | SortOrder
     content?: SortOrder
-    contentEn?: SortOrderInput | SortOrder
-    description?: SortOrderInput | SortOrder
     author?: SortOrderInput | SortOrder
     previewImage?: SortOrderInput | SortOrder
     status?: SortOrder
     views?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contentEn?: SortOrderInput | SortOrder
+    titleEn?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    infoTable?: SortOrderInput | SortOrder
+    artworks?: SortOrderInput | SortOrder
     museums?: StoryMuseumOrderByRelationAggregateInput
   }
 
@@ -26236,32 +27395,36 @@ export namespace Prisma {
     OR?: StoryWhereInput[]
     NOT?: StoryWhereInput | StoryWhereInput[]
     title?: StringFilter<"Story"> | string
-    titleEn?: StringNullableFilter<"Story"> | string | null
     content?: StringFilter<"Story"> | string
-    contentEn?: StringNullableFilter<"Story"> | string | null
-    description?: StringNullableFilter<"Story"> | string | null
     author?: StringNullableFilter<"Story"> | string | null
     previewImage?: StringNullableFilter<"Story"> | string | null
     status?: EnumContentStatusFilter<"Story"> | $Enums.ContentStatus
     views?: IntFilter<"Story"> | number
     createdAt?: DateTimeFilter<"Story"> | Date | string
     updatedAt?: DateTimeFilter<"Story"> | Date | string
+    contentEn?: StringNullableFilter<"Story"> | string | null
+    titleEn?: StringNullableFilter<"Story"> | string | null
+    description?: StringNullableFilter<"Story"> | string | null
+    infoTable?: JsonNullableFilter<"Story">
+    artworks?: JsonNullableFilter<"Story">
     museums?: StoryMuseumListRelationFilter
   }, "id">
 
   export type StoryOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
-    titleEn?: SortOrderInput | SortOrder
     content?: SortOrder
-    contentEn?: SortOrderInput | SortOrder
-    description?: SortOrderInput | SortOrder
     author?: SortOrderInput | SortOrder
     previewImage?: SortOrderInput | SortOrder
     status?: SortOrder
     views?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contentEn?: SortOrderInput | SortOrder
+    titleEn?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    infoTable?: SortOrderInput | SortOrder
+    artworks?: SortOrderInput | SortOrder
     _count?: StoryCountOrderByAggregateInput
     _avg?: StoryAvgOrderByAggregateInput
     _max?: StoryMaxOrderByAggregateInput
@@ -26275,16 +27438,18 @@ export namespace Prisma {
     NOT?: StoryScalarWhereWithAggregatesInput | StoryScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Story"> | string
     title?: StringWithAggregatesFilter<"Story"> | string
-    titleEn?: StringNullableWithAggregatesFilter<"Story"> | string | null
     content?: StringWithAggregatesFilter<"Story"> | string
-    contentEn?: StringNullableWithAggregatesFilter<"Story"> | string | null
-    description?: StringNullableWithAggregatesFilter<"Story"> | string | null
     author?: StringNullableWithAggregatesFilter<"Story"> | string | null
     previewImage?: StringNullableWithAggregatesFilter<"Story"> | string | null
     status?: EnumContentStatusWithAggregatesFilter<"Story"> | $Enums.ContentStatus
     views?: IntWithAggregatesFilter<"Story"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Story"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Story"> | Date | string
+    contentEn?: StringNullableWithAggregatesFilter<"Story"> | string | null
+    titleEn?: StringNullableWithAggregatesFilter<"Story"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Story"> | string | null
+    infoTable?: JsonNullableWithAggregatesFilter<"Story">
+    artworks?: JsonNullableWithAggregatesFilter<"Story">
   }
 
   export type StoryMuseumWhereInput = {
@@ -26293,15 +27458,15 @@ export namespace Prisma {
     NOT?: StoryMuseumWhereInput | StoryMuseumWhereInput[]
     storyId?: StringFilter<"StoryMuseum"> | string
     museumId?: StringFilter<"StoryMuseum"> | string
-    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
     museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
+    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
   }
 
   export type StoryMuseumOrderByWithRelationInput = {
     storyId?: SortOrder
     museumId?: SortOrder
-    story?: StoryOrderByWithRelationInput
     museum?: MuseumOrderByWithRelationInput
+    story?: StoryOrderByWithRelationInput
   }
 
   export type StoryMuseumWhereUniqueInput = Prisma.AtLeast<{
@@ -26311,8 +27476,8 @@ export namespace Prisma {
     NOT?: StoryMuseumWhereInput | StoryMuseumWhereInput[]
     storyId?: StringFilter<"StoryMuseum"> | string
     museumId?: StringFilter<"StoryMuseum"> | string
-    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
     museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
+    story?: XOR<StoryScalarRelationFilter, StoryWhereInput>
   }, "storyId_museumId">
 
   export type StoryMuseumOrderByWithAggregationInput = {
@@ -26339,12 +27504,12 @@ export namespace Prisma {
     userId?: StringNullableFilter<"Notification"> | string | null
     type?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
-    titleEn?: StringNullableFilter<"Notification"> | string | null
     message?: StringFilter<"Notification"> | string
-    messageEn?: StringNullableFilter<"Notification"> | string | null
     link?: StringNullableFilter<"Notification"> | string | null
     isRead?: BoolFilter<"Notification"> | boolean
     createdAt?: DateTimeFilter<"Notification"> | Date | string
+    messageEn?: StringNullableFilter<"Notification"> | string | null
+    titleEn?: StringNullableFilter<"Notification"> | string | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
@@ -26353,12 +27518,12 @@ export namespace Prisma {
     userId?: SortOrderInput | SortOrder
     type?: SortOrder
     title?: SortOrder
-    titleEn?: SortOrderInput | SortOrder
     message?: SortOrder
-    messageEn?: SortOrderInput | SortOrder
     link?: SortOrderInput | SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
+    messageEn?: SortOrderInput | SortOrder
+    titleEn?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -26370,12 +27535,12 @@ export namespace Prisma {
     userId?: StringNullableFilter<"Notification"> | string | null
     type?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
-    titleEn?: StringNullableFilter<"Notification"> | string | null
     message?: StringFilter<"Notification"> | string
-    messageEn?: StringNullableFilter<"Notification"> | string | null
     link?: StringNullableFilter<"Notification"> | string | null
     isRead?: BoolFilter<"Notification"> | boolean
     createdAt?: DateTimeFilter<"Notification"> | Date | string
+    messageEn?: StringNullableFilter<"Notification"> | string | null
+    titleEn?: StringNullableFilter<"Notification"> | string | null
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
@@ -26384,12 +27549,12 @@ export namespace Prisma {
     userId?: SortOrderInput | SortOrder
     type?: SortOrder
     title?: SortOrder
-    titleEn?: SortOrderInput | SortOrder
     message?: SortOrder
-    messageEn?: SortOrderInput | SortOrder
     link?: SortOrderInput | SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
+    messageEn?: SortOrderInput | SortOrder
+    titleEn?: SortOrderInput | SortOrder
     _count?: NotificationCountOrderByAggregateInput
     _max?: NotificationMaxOrderByAggregateInput
     _min?: NotificationMinOrderByAggregateInput
@@ -26403,12 +27568,12 @@ export namespace Prisma {
     userId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
     type?: StringWithAggregatesFilter<"Notification"> | string
     title?: StringWithAggregatesFilter<"Notification"> | string
-    titleEn?: StringNullableWithAggregatesFilter<"Notification"> | string | null
     message?: StringWithAggregatesFilter<"Notification"> | string
-    messageEn?: StringNullableWithAggregatesFilter<"Notification"> | string | null
     link?: StringNullableWithAggregatesFilter<"Notification"> | string | null
     isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
+    messageEn?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    titleEn?: StringNullableWithAggregatesFilter<"Notification"> | string | null
   }
 
   export type MuseumWhereInput = {
@@ -26423,20 +27588,20 @@ export namespace Prisma {
     type?: StringFilter<"Museum"> | string
     website?: StringNullableFilter<"Museum"> | string | null
     imageUrl?: StringNullableFilter<"Museum"> | string | null
-    openingHours?: JsonNullableFilter<"Museum">
     latitude?: FloatFilter<"Museum"> | number
     longitude?: FloatFilter<"Museum"> | number
     popularityScore?: FloatFilter<"Museum"> | number
-    lastExhibitionSync?: DateTimeNullableFilter<"Museum"> | Date | string | null
     createdAt?: DateTimeFilter<"Museum"> | Date | string
     updatedAt?: DateTimeFilter<"Museum"> | Date | string
-    exhibitions?: ExhibitionListRelationFilter
-    saves?: SaveListRelationFilter
-    reviews?: ReviewListRelationFilter
-    suggestions?: SuggestionListRelationFilter
-    planStops?: PlanStopListRelationFilter
+    openingHours?: JsonNullableFilter<"Museum">
+    lastExhibitionSync?: DateTimeNullableFilter<"Museum"> | Date | string | null
     collectionItems?: CollectionItemListRelationFilter
+    exhibitions?: ExhibitionListRelationFilter
+    planStops?: PlanStopListRelationFilter
+    reviews?: ReviewListRelationFilter
+    saves?: SaveListRelationFilter
     stories?: StoryMuseumListRelationFilter
+    suggestions?: SuggestionListRelationFilter
   }
 
   export type MuseumOrderByWithRelationInput = {
@@ -26448,20 +27613,20 @@ export namespace Prisma {
     type?: SortOrder
     website?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
-    openingHours?: SortOrderInput | SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
     popularityScore?: SortOrder
-    lastExhibitionSync?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    exhibitions?: ExhibitionOrderByRelationAggregateInput
-    saves?: SaveOrderByRelationAggregateInput
-    reviews?: ReviewOrderByRelationAggregateInput
-    suggestions?: SuggestionOrderByRelationAggregateInput
-    planStops?: PlanStopOrderByRelationAggregateInput
+    openingHours?: SortOrderInput | SortOrder
+    lastExhibitionSync?: SortOrderInput | SortOrder
     collectionItems?: CollectionItemOrderByRelationAggregateInput
+    exhibitions?: ExhibitionOrderByRelationAggregateInput
+    planStops?: PlanStopOrderByRelationAggregateInput
+    reviews?: ReviewOrderByRelationAggregateInput
+    saves?: SaveOrderByRelationAggregateInput
     stories?: StoryMuseumOrderByRelationAggregateInput
+    suggestions?: SuggestionOrderByRelationAggregateInput
   }
 
   export type MuseumWhereUniqueInput = Prisma.AtLeast<{
@@ -26476,20 +27641,20 @@ export namespace Prisma {
     type?: StringFilter<"Museum"> | string
     website?: StringNullableFilter<"Museum"> | string | null
     imageUrl?: StringNullableFilter<"Museum"> | string | null
-    openingHours?: JsonNullableFilter<"Museum">
     latitude?: FloatFilter<"Museum"> | number
     longitude?: FloatFilter<"Museum"> | number
     popularityScore?: FloatFilter<"Museum"> | number
-    lastExhibitionSync?: DateTimeNullableFilter<"Museum"> | Date | string | null
     createdAt?: DateTimeFilter<"Museum"> | Date | string
     updatedAt?: DateTimeFilter<"Museum"> | Date | string
-    exhibitions?: ExhibitionListRelationFilter
-    saves?: SaveListRelationFilter
-    reviews?: ReviewListRelationFilter
-    suggestions?: SuggestionListRelationFilter
-    planStops?: PlanStopListRelationFilter
+    openingHours?: JsonNullableFilter<"Museum">
+    lastExhibitionSync?: DateTimeNullableFilter<"Museum"> | Date | string | null
     collectionItems?: CollectionItemListRelationFilter
+    exhibitions?: ExhibitionListRelationFilter
+    planStops?: PlanStopListRelationFilter
+    reviews?: ReviewListRelationFilter
+    saves?: SaveListRelationFilter
     stories?: StoryMuseumListRelationFilter
+    suggestions?: SuggestionListRelationFilter
   }, "id">
 
   export type MuseumOrderByWithAggregationInput = {
@@ -26501,13 +27666,13 @@ export namespace Prisma {
     type?: SortOrder
     website?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
-    openingHours?: SortOrderInput | SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
     popularityScore?: SortOrder
-    lastExhibitionSync?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    openingHours?: SortOrderInput | SortOrder
+    lastExhibitionSync?: SortOrderInput | SortOrder
     _count?: MuseumCountOrderByAggregateInput
     _avg?: MuseumAvgOrderByAggregateInput
     _max?: MuseumMaxOrderByAggregateInput
@@ -26527,13 +27692,13 @@ export namespace Prisma {
     type?: StringWithAggregatesFilter<"Museum"> | string
     website?: StringNullableWithAggregatesFilter<"Museum"> | string | null
     imageUrl?: StringNullableWithAggregatesFilter<"Museum"> | string | null
-    openingHours?: JsonNullableWithAggregatesFilter<"Museum">
     latitude?: FloatWithAggregatesFilter<"Museum"> | number
     longitude?: FloatWithAggregatesFilter<"Museum"> | number
     popularityScore?: FloatWithAggregatesFilter<"Museum"> | number
-    lastExhibitionSync?: DateTimeNullableWithAggregatesFilter<"Museum"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Museum"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Museum"> | Date | string
+    openingHours?: JsonNullableWithAggregatesFilter<"Museum">
+    lastExhibitionSync?: DateTimeNullableWithAggregatesFilter<"Museum"> | Date | string | null
   }
 
   export type ExhibitionWhereInput = {
@@ -26544,12 +27709,12 @@ export namespace Prisma {
     museumId?: StringFilter<"Exhibition"> | string
     title?: StringFilter<"Exhibition"> | string
     description?: StringNullableFilter<"Exhibition"> | string | null
-    imageUrl?: StringNullableFilter<"Exhibition"> | string | null
-    link?: StringNullableFilter<"Exhibition"> | string | null
-    source?: StringNullableFilter<"Exhibition"> | string | null
     startDate?: DateTimeNullableFilter<"Exhibition"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Exhibition"> | Date | string | null
     createdAt?: DateTimeFilter<"Exhibition"> | Date | string
+    imageUrl?: StringNullableFilter<"Exhibition"> | string | null
+    link?: StringNullableFilter<"Exhibition"> | string | null
+    source?: StringNullableFilter<"Exhibition"> | string | null
     museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
   }
 
@@ -26558,12 +27723,12 @@ export namespace Prisma {
     museumId?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
-    imageUrl?: SortOrderInput | SortOrder
-    link?: SortOrderInput | SortOrder
-    source?: SortOrderInput | SortOrder
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    link?: SortOrderInput | SortOrder
+    source?: SortOrderInput | SortOrder
     museum?: MuseumOrderByWithRelationInput
   }
 
@@ -26575,12 +27740,12 @@ export namespace Prisma {
     museumId?: StringFilter<"Exhibition"> | string
     title?: StringFilter<"Exhibition"> | string
     description?: StringNullableFilter<"Exhibition"> | string | null
-    imageUrl?: StringNullableFilter<"Exhibition"> | string | null
-    link?: StringNullableFilter<"Exhibition"> | string | null
-    source?: StringNullableFilter<"Exhibition"> | string | null
     startDate?: DateTimeNullableFilter<"Exhibition"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Exhibition"> | Date | string | null
     createdAt?: DateTimeFilter<"Exhibition"> | Date | string
+    imageUrl?: StringNullableFilter<"Exhibition"> | string | null
+    link?: StringNullableFilter<"Exhibition"> | string | null
+    source?: StringNullableFilter<"Exhibition"> | string | null
     museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
   }, "id">
 
@@ -26589,12 +27754,12 @@ export namespace Prisma {
     museumId?: SortOrder
     title?: SortOrder
     description?: SortOrderInput | SortOrder
-    imageUrl?: SortOrderInput | SortOrder
-    link?: SortOrderInput | SortOrder
-    source?: SortOrderInput | SortOrder
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    link?: SortOrderInput | SortOrder
+    source?: SortOrderInput | SortOrder
     _count?: ExhibitionCountOrderByAggregateInput
     _max?: ExhibitionMaxOrderByAggregateInput
     _min?: ExhibitionMinOrderByAggregateInput
@@ -26608,12 +27773,12 @@ export namespace Prisma {
     museumId?: StringWithAggregatesFilter<"Exhibition"> | string
     title?: StringWithAggregatesFilter<"Exhibition"> | string
     description?: StringNullableWithAggregatesFilter<"Exhibition"> | string | null
-    imageUrl?: StringNullableWithAggregatesFilter<"Exhibition"> | string | null
-    link?: StringNullableWithAggregatesFilter<"Exhibition"> | string | null
-    source?: StringNullableWithAggregatesFilter<"Exhibition"> | string | null
     startDate?: DateTimeNullableWithAggregatesFilter<"Exhibition"> | Date | string | null
     endDate?: DateTimeNullableWithAggregatesFilter<"Exhibition"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Exhibition"> | Date | string
+    imageUrl?: StringNullableWithAggregatesFilter<"Exhibition"> | string | null
+    link?: StringNullableWithAggregatesFilter<"Exhibition"> | string | null
+    source?: StringNullableWithAggregatesFilter<"Exhibition"> | string | null
   }
 
   export type FolderWhereInput = {
@@ -26688,9 +27853,9 @@ export namespace Prisma {
     museumId?: StringFilter<"Save"> | string
     folderId?: StringNullableFilter<"Save"> | string | null
     createdAt?: DateTimeFilter<"Save"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
     folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
+    museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type SaveOrderByWithRelationInput = {
@@ -26699,9 +27864,9 @@ export namespace Prisma {
     museumId?: SortOrder
     folderId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
-    user?: UserOrderByWithRelationInput
-    museum?: MuseumOrderByWithRelationInput
     folder?: FolderOrderByWithRelationInput
+    museum?: MuseumOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type SaveWhereUniqueInput = Prisma.AtLeast<{
@@ -26714,9 +27879,9 @@ export namespace Prisma {
     museumId?: StringFilter<"Save"> | string
     folderId?: StringNullableFilter<"Save"> | string | null
     createdAt?: DateTimeFilter<"Save"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
     folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
+    museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId_museumId">
 
   export type SaveOrderByWithAggregationInput = {
@@ -26808,8 +27973,8 @@ export namespace Prisma {
     museumId?: StringFilter<"PlanStop"> | string
     order?: IntFilter<"PlanStop"> | number
     expectedArrival?: DateTimeNullableFilter<"PlanStop"> | Date | string | null
-    plan?: XOR<PlanScalarRelationFilter, PlanWhereInput>
     museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
+    plan?: XOR<PlanScalarRelationFilter, PlanWhereInput>
   }
 
   export type PlanStopOrderByWithRelationInput = {
@@ -26818,8 +27983,8 @@ export namespace Prisma {
     museumId?: SortOrder
     order?: SortOrder
     expectedArrival?: SortOrderInput | SortOrder
-    plan?: PlanOrderByWithRelationInput
     museum?: MuseumOrderByWithRelationInput
+    plan?: PlanOrderByWithRelationInput
   }
 
   export type PlanStopWhereUniqueInput = Prisma.AtLeast<{
@@ -26831,8 +27996,8 @@ export namespace Prisma {
     museumId?: StringFilter<"PlanStop"> | string
     order?: IntFilter<"PlanStop"> | number
     expectedArrival?: DateTimeNullableFilter<"PlanStop"> | Date | string | null
-    plan?: XOR<PlanScalarRelationFilter, PlanWhereInput>
     museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
+    plan?: XOR<PlanScalarRelationFilter, PlanWhereInput>
   }, "id">
 
   export type PlanStopOrderByWithAggregationInput = {
@@ -26868,13 +28033,13 @@ export namespace Prisma {
     museumId?: StringFilter<"Review"> | string
     content?: StringFilter<"Review"> | string
     photos?: StringNullableListFilter<"Review">
-    ipAddress?: StringNullableFilter<"Review"> | string | null
-    country?: StringNullableFilter<"Review"> | string | null
     visitedAt?: DateTimeFilter<"Review"> | Date | string
     createdAt?: DateTimeFilter<"Review"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
+    country?: StringNullableFilter<"Review"> | string | null
+    ipAddress?: StringNullableFilter<"Review"> | string | null
     collectionItems?: CollectionItemListRelationFilter
+    museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type ReviewOrderByWithRelationInput = {
@@ -26883,13 +28048,13 @@ export namespace Prisma {
     museumId?: SortOrder
     content?: SortOrder
     photos?: SortOrder
-    ipAddress?: SortOrderInput | SortOrder
-    country?: SortOrderInput | SortOrder
     visitedAt?: SortOrder
     createdAt?: SortOrder
-    user?: UserOrderByWithRelationInput
-    museum?: MuseumOrderByWithRelationInput
+    country?: SortOrderInput | SortOrder
+    ipAddress?: SortOrderInput | SortOrder
     collectionItems?: CollectionItemOrderByRelationAggregateInput
+    museum?: MuseumOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type ReviewWhereUniqueInput = Prisma.AtLeast<{
@@ -26901,13 +28066,13 @@ export namespace Prisma {
     museumId?: StringFilter<"Review"> | string
     content?: StringFilter<"Review"> | string
     photos?: StringNullableListFilter<"Review">
-    ipAddress?: StringNullableFilter<"Review"> | string | null
-    country?: StringNullableFilter<"Review"> | string | null
     visitedAt?: DateTimeFilter<"Review"> | Date | string
     createdAt?: DateTimeFilter<"Review"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
+    country?: StringNullableFilter<"Review"> | string | null
+    ipAddress?: StringNullableFilter<"Review"> | string | null
     collectionItems?: CollectionItemListRelationFilter
+    museum?: XOR<MuseumScalarRelationFilter, MuseumWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type ReviewOrderByWithAggregationInput = {
@@ -26916,10 +28081,10 @@ export namespace Prisma {
     museumId?: SortOrder
     content?: SortOrder
     photos?: SortOrder
-    ipAddress?: SortOrderInput | SortOrder
-    country?: SortOrderInput | SortOrder
     visitedAt?: SortOrder
     createdAt?: SortOrder
+    country?: SortOrderInput | SortOrder
+    ipAddress?: SortOrderInput | SortOrder
     _count?: ReviewCountOrderByAggregateInput
     _max?: ReviewMaxOrderByAggregateInput
     _min?: ReviewMinOrderByAggregateInput
@@ -26934,10 +28099,10 @@ export namespace Prisma {
     museumId?: StringWithAggregatesFilter<"Review"> | string
     content?: StringWithAggregatesFilter<"Review"> | string
     photos?: StringNullableListFilter<"Review">
-    ipAddress?: StringNullableWithAggregatesFilter<"Review"> | string | null
-    country?: StringNullableWithAggregatesFilter<"Review"> | string | null
     visitedAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Review"> | Date | string
+    country?: StringNullableWithAggregatesFilter<"Review"> | string | null
+    ipAddress?: StringNullableWithAggregatesFilter<"Review"> | string | null
   }
 
   export type CollectionWhereInput = {
@@ -27147,23 +28312,23 @@ export namespace Prisma {
     NOT?: ChallengeProgressWhereInput | ChallengeProgressWhereInput[]
     userId?: StringFilter<"ChallengeProgress"> | string
     challengeId?: StringFilter<"ChallengeProgress"> | string
-    progress?: IntFilter<"ChallengeProgress"> | number
-    completed?: BoolFilter<"ChallengeProgress"> | boolean
     completedAt?: DateTimeNullableFilter<"ChallengeProgress"> | Date | string | null
+    completed?: BoolFilter<"ChallengeProgress"> | boolean
+    progress?: IntFilter<"ChallengeProgress"> | number
     updatedAt?: DateTimeFilter<"ChallengeProgress"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     challenge?: XOR<ChallengeScalarRelationFilter, ChallengeWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type ChallengeProgressOrderByWithRelationInput = {
     userId?: SortOrder
     challengeId?: SortOrder
-    progress?: SortOrder
-    completed?: SortOrder
     completedAt?: SortOrderInput | SortOrder
+    completed?: SortOrder
+    progress?: SortOrder
     updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     challenge?: ChallengeOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type ChallengeProgressWhereUniqueInput = Prisma.AtLeast<{
@@ -27173,20 +28338,20 @@ export namespace Prisma {
     NOT?: ChallengeProgressWhereInput | ChallengeProgressWhereInput[]
     userId?: StringFilter<"ChallengeProgress"> | string
     challengeId?: StringFilter<"ChallengeProgress"> | string
-    progress?: IntFilter<"ChallengeProgress"> | number
-    completed?: BoolFilter<"ChallengeProgress"> | boolean
     completedAt?: DateTimeNullableFilter<"ChallengeProgress"> | Date | string | null
+    completed?: BoolFilter<"ChallengeProgress"> | boolean
+    progress?: IntFilter<"ChallengeProgress"> | number
     updatedAt?: DateTimeFilter<"ChallengeProgress"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     challenge?: XOR<ChallengeScalarRelationFilter, ChallengeWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "userId_challengeId">
 
   export type ChallengeProgressOrderByWithAggregationInput = {
     userId?: SortOrder
     challengeId?: SortOrder
-    progress?: SortOrder
-    completed?: SortOrder
     completedAt?: SortOrderInput | SortOrder
+    completed?: SortOrder
+    progress?: SortOrder
     updatedAt?: SortOrder
     _count?: ChallengeProgressCountOrderByAggregateInput
     _avg?: ChallengeProgressAvgOrderByAggregateInput
@@ -27201,9 +28366,9 @@ export namespace Prisma {
     NOT?: ChallengeProgressScalarWhereWithAggregatesInput | ChallengeProgressScalarWhereWithAggregatesInput[]
     userId?: StringWithAggregatesFilter<"ChallengeProgress"> | string
     challengeId?: StringWithAggregatesFilter<"ChallengeProgress"> | string
-    progress?: IntWithAggregatesFilter<"ChallengeProgress"> | number
-    completed?: BoolWithAggregatesFilter<"ChallengeProgress"> | boolean
     completedAt?: DateTimeNullableWithAggregatesFilter<"ChallengeProgress"> | Date | string | null
+    completed?: BoolWithAggregatesFilter<"ChallengeProgress"> | boolean
+    progress?: IntWithAggregatesFilter<"ChallengeProgress"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"ChallengeProgress"> | Date | string
   }
 
@@ -27214,8 +28379,8 @@ export namespace Prisma {
     id?: StringFilter<"Feedback"> | string
     userId?: StringNullableFilter<"Feedback"> | string | null
     content?: StringFilter<"Feedback"> | string
-    reply?: StringNullableFilter<"Feedback"> | string | null
     createdAt?: DateTimeFilter<"Feedback"> | Date | string
+    reply?: StringNullableFilter<"Feedback"> | string | null
     updatedAt?: DateTimeFilter<"Feedback"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
@@ -27224,8 +28389,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
     content?: SortOrder
-    reply?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    reply?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
@@ -27237,8 +28402,8 @@ export namespace Prisma {
     NOT?: FeedbackWhereInput | FeedbackWhereInput[]
     userId?: StringNullableFilter<"Feedback"> | string | null
     content?: StringFilter<"Feedback"> | string
-    reply?: StringNullableFilter<"Feedback"> | string | null
     createdAt?: DateTimeFilter<"Feedback"> | Date | string
+    reply?: StringNullableFilter<"Feedback"> | string | null
     updatedAt?: DateTimeFilter<"Feedback"> | Date | string
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
@@ -27247,8 +28412,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
     content?: SortOrder
-    reply?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    reply?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     _count?: FeedbackCountOrderByAggregateInput
     _max?: FeedbackMaxOrderByAggregateInput
@@ -27262,8 +28427,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Feedback"> | string
     userId?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
     content?: StringWithAggregatesFilter<"Feedback"> | string
-    reply?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
+    reply?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
   }
 
@@ -27324,8 +28489,8 @@ export namespace Prisma {
     data?: JsonFilter<"Suggestion">
     status?: EnumSuggestionStatusFilter<"Suggestion"> | $Enums.SuggestionStatus
     createdAt?: DateTimeFilter<"Suggestion"> | Date | string
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     museum?: XOR<MuseumNullableScalarRelationFilter, MuseumWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type SuggestionOrderByWithRelationInput = {
@@ -27335,8 +28500,8 @@ export namespace Prisma {
     data?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     museum?: MuseumOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type SuggestionWhereUniqueInput = Prisma.AtLeast<{
@@ -27349,8 +28514,8 @@ export namespace Prisma {
     data?: JsonFilter<"Suggestion">
     status?: EnumSuggestionStatusFilter<"Suggestion"> | $Enums.SuggestionStatus
     createdAt?: DateTimeFilter<"Suggestion"> | Date | string
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     museum?: XOR<MuseumNullableScalarRelationFilter, MuseumWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type SuggestionOrderByWithAggregationInput = {
@@ -27494,263 +28659,331 @@ export namespace Prisma {
     timestamp?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
   }
 
+  export type spatial_ref_sysWhereInput = {
+    AND?: spatial_ref_sysWhereInput | spatial_ref_sysWhereInput[]
+    OR?: spatial_ref_sysWhereInput[]
+    NOT?: spatial_ref_sysWhereInput | spatial_ref_sysWhereInput[]
+    srid?: IntFilter<"spatial_ref_sys"> | number
+    auth_name?: StringNullableFilter<"spatial_ref_sys"> | string | null
+    auth_srid?: IntNullableFilter<"spatial_ref_sys"> | number | null
+    srtext?: StringNullableFilter<"spatial_ref_sys"> | string | null
+    proj4text?: StringNullableFilter<"spatial_ref_sys"> | string | null
+  }
+
+  export type spatial_ref_sysOrderByWithRelationInput = {
+    srid?: SortOrder
+    auth_name?: SortOrderInput | SortOrder
+    auth_srid?: SortOrderInput | SortOrder
+    srtext?: SortOrderInput | SortOrder
+    proj4text?: SortOrderInput | SortOrder
+  }
+
+  export type spatial_ref_sysWhereUniqueInput = Prisma.AtLeast<{
+    srid?: number
+    AND?: spatial_ref_sysWhereInput | spatial_ref_sysWhereInput[]
+    OR?: spatial_ref_sysWhereInput[]
+    NOT?: spatial_ref_sysWhereInput | spatial_ref_sysWhereInput[]
+    auth_name?: StringNullableFilter<"spatial_ref_sys"> | string | null
+    auth_srid?: IntNullableFilter<"spatial_ref_sys"> | number | null
+    srtext?: StringNullableFilter<"spatial_ref_sys"> | string | null
+    proj4text?: StringNullableFilter<"spatial_ref_sys"> | string | null
+  }, "srid">
+
+  export type spatial_ref_sysOrderByWithAggregationInput = {
+    srid?: SortOrder
+    auth_name?: SortOrderInput | SortOrder
+    auth_srid?: SortOrderInput | SortOrder
+    srtext?: SortOrderInput | SortOrder
+    proj4text?: SortOrderInput | SortOrder
+    _count?: spatial_ref_sysCountOrderByAggregateInput
+    _avg?: spatial_ref_sysAvgOrderByAggregateInput
+    _max?: spatial_ref_sysMaxOrderByAggregateInput
+    _min?: spatial_ref_sysMinOrderByAggregateInput
+    _sum?: spatial_ref_sysSumOrderByAggregateInput
+  }
+
+  export type spatial_ref_sysScalarWhereWithAggregatesInput = {
+    AND?: spatial_ref_sysScalarWhereWithAggregatesInput | spatial_ref_sysScalarWhereWithAggregatesInput[]
+    OR?: spatial_ref_sysScalarWhereWithAggregatesInput[]
+    NOT?: spatial_ref_sysScalarWhereWithAggregatesInput | spatial_ref_sysScalarWhereWithAggregatesInput[]
+    srid?: IntWithAggregatesFilter<"spatial_ref_sys"> | number
+    auth_name?: StringNullableWithAggregatesFilter<"spatial_ref_sys"> | string | null
+    auth_srid?: IntNullableWithAggregatesFilter<"spatial_ref_sys"> | number | null
+    srtext?: StringNullableWithAggregatesFilter<"spatial_ref_sys"> | string | null
+    proj4text?: StringNullableWithAggregatesFilter<"spatial_ref_sys"> | string | null
+  }
+
   export type UserCreateInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    collections?: CollectionCreateNestedManyWithoutUserInput
-    folders?: FolderCreateNestedManyWithoutUserInput
-    saves?: SaveCreateNestedManyWithoutUserInput
-    plans?: PlanCreateNestedManyWithoutUserInput
-    reviews?: ReviewCreateNestedManyWithoutUserInput
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
     challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
+    collections?: CollectionCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionCreateNestedManyWithoutUserInput
-    reports?: ReportCreateNestedManyWithoutReporterInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    plans?: PlanCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutReporterInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    saves?: SaveCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
-    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
-    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
-    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
     challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
-    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUpdateManyWithoutUserNestedInput
-    folders?: FolderUpdateManyWithoutUserNestedInput
-    saves?: SaveUpdateManyWithoutUserNestedInput
-    plans?: PlanUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
+    collections?: CollectionUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
-    reports?: ReportUpdateManyWithoutReporterNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    plans?: PlanUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    saves?: SaveUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
-    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
-    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StoryCreateInput = {
     id?: string
     title: string
-    titleEn?: string | null
     content: string
-    contentEn?: string | null
-    description?: string | null
     author?: string | null
     previewImage?: string | null
     status?: $Enums.ContentStatus
     views?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    contentEn?: string | null
+    titleEn?: string | null
+    description?: string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
     museums?: StoryMuseumCreateNestedManyWithoutStoryInput
   }
 
   export type StoryUncheckedCreateInput = {
     id?: string
     title: string
-    titleEn?: string | null
     content: string
-    contentEn?: string | null
-    description?: string | null
     author?: string | null
     previewImage?: string | null
     status?: $Enums.ContentStatus
     views?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    contentEn?: string | null
+    titleEn?: string | null
+    description?: string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
     museums?: StoryMuseumUncheckedCreateNestedManyWithoutStoryInput
   }
 
   export type StoryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
-    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     author?: NullableStringFieldUpdateOperationsInput | string | null
     previewImage?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
     views?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
     museums?: StoryMuseumUpdateManyWithoutStoryNestedInput
   }
 
   export type StoryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
-    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     author?: NullableStringFieldUpdateOperationsInput | string | null
     previewImage?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
     views?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
     museums?: StoryMuseumUncheckedUpdateManyWithoutStoryNestedInput
   }
 
   export type StoryCreateManyInput = {
     id?: string
     title: string
-    titleEn?: string | null
     content: string
-    contentEn?: string | null
-    description?: string | null
     author?: string | null
     previewImage?: string | null
     status?: $Enums.ContentStatus
     views?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    contentEn?: string | null
+    titleEn?: string | null
+    description?: string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type StoryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
-    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     author?: NullableStringFieldUpdateOperationsInput | string | null
     previewImage?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
     views?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type StoryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
-    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
     author?: NullableStringFieldUpdateOperationsInput | string | null
     previewImage?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
     views?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type StoryMuseumCreateInput = {
-    story: StoryCreateNestedOneWithoutMuseumsInput
     museum: MuseumCreateNestedOneWithoutStoriesInput
+    story: StoryCreateNestedOneWithoutMuseumsInput
   }
 
   export type StoryMuseumUncheckedCreateInput = {
@@ -27759,8 +28992,8 @@ export namespace Prisma {
   }
 
   export type StoryMuseumUpdateInput = {
-    story?: StoryUpdateOneRequiredWithoutMuseumsNestedInput
     museum?: MuseumUpdateOneRequiredWithoutStoriesNestedInput
+    story?: StoryUpdateOneRequiredWithoutMuseumsNestedInput
   }
 
   export type StoryMuseumUncheckedUpdateInput = {
@@ -27786,12 +29019,12 @@ export namespace Prisma {
     id?: string
     type: string
     title: string
-    titleEn?: string | null
     message: string
-    messageEn?: string | null
     link?: string | null
     isRead?: boolean
     createdAt?: Date | string
+    messageEn?: string | null
+    titleEn?: string | null
     user?: UserCreateNestedOneWithoutNotificationsInput
   }
 
@@ -27800,24 +29033,24 @@ export namespace Prisma {
     userId?: string | null
     type: string
     title: string
-    titleEn?: string | null
     message: string
-    messageEn?: string | null
     link?: string | null
     isRead?: boolean
     createdAt?: Date | string
+    messageEn?: string | null
+    titleEn?: string | null
   }
 
   export type NotificationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneWithoutNotificationsNestedInput
   }
 
@@ -27826,12 +29059,12 @@ export namespace Prisma {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type NotificationCreateManyInput = {
@@ -27839,24 +29072,24 @@ export namespace Prisma {
     userId?: string | null
     type: string
     title: string
-    titleEn?: string | null
     message: string
-    messageEn?: string | null
     link?: string | null
     isRead?: boolean
     createdAt?: Date | string
+    messageEn?: string | null
+    titleEn?: string | null
   }
 
   export type NotificationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type NotificationUncheckedUpdateManyInput = {
@@ -27864,12 +29097,12 @@ export namespace Prisma {
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
     isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MuseumCreateInput = {
@@ -27881,20 +29114,20 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
-    saves?: SaveCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewCreateNestedManyWithoutMuseumInput
+    saves?: SaveCreateNestedManyWithoutMuseumInput
     stories?: StoryMuseumCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
   }
 
   export type MuseumUncheckedCreateInput = {
@@ -27906,20 +29139,20 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
-    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
+    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
     stories?: StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
   }
 
   export type MuseumUpdateInput = {
@@ -27931,20 +29164,20 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUpdateManyWithoutMuseumNestedInput
     stories?: StoryMuseumUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
   }
 
   export type MuseumUncheckedUpdateInput = {
@@ -27956,20 +29189,20 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
     stories?: StoryMuseumUncheckedUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
   }
 
   export type MuseumCreateManyInput = {
@@ -27981,13 +29214,13 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
   }
 
   export type MuseumUpdateManyMutationInput = {
@@ -27999,13 +29232,13 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type MuseumUncheckedUpdateManyInput = {
@@ -28017,25 +29250,25 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ExhibitionCreateInput = {
     id?: string
     title: string
     description?: string | null
-    imageUrl?: string | null
-    link?: string | null
-    source?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     createdAt?: Date | string
+    imageUrl?: string | null
+    link?: string | null
+    source?: string | null
     museum: MuseumCreateNestedOneWithoutExhibitionsInput
   }
 
@@ -28044,24 +29277,24 @@ export namespace Prisma {
     museumId: string
     title: string
     description?: string | null
-    imageUrl?: string | null
-    link?: string | null
-    source?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     createdAt?: Date | string
+    imageUrl?: string | null
+    link?: string | null
+    source?: string | null
   }
 
   export type ExhibitionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    source?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
     museum?: MuseumUpdateOneRequiredWithoutExhibitionsNestedInput
   }
 
@@ -28070,12 +29303,12 @@ export namespace Prisma {
     museumId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    source?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ExhibitionCreateManyInput = {
@@ -28083,24 +29316,24 @@ export namespace Prisma {
     museumId: string
     title: string
     description?: string | null
-    imageUrl?: string | null
-    link?: string | null
-    source?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     createdAt?: Date | string
+    imageUrl?: string | null
+    link?: string | null
+    source?: string | null
   }
 
   export type ExhibitionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    source?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ExhibitionUncheckedUpdateManyInput = {
@@ -28108,12 +29341,12 @@ export namespace Prisma {
     museumId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    source?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FolderCreateInput = {
@@ -28185,9 +29418,9 @@ export namespace Prisma {
   export type SaveCreateInput = {
     id?: string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutSavesInput
-    museum: MuseumCreateNestedOneWithoutSavesInput
     folder?: FolderCreateNestedOneWithoutSavesInput
+    museum: MuseumCreateNestedOneWithoutSavesInput
+    user: UserCreateNestedOneWithoutSavesInput
   }
 
   export type SaveUncheckedCreateInput = {
@@ -28201,9 +29434,9 @@ export namespace Prisma {
   export type SaveUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutSavesNestedInput
-    museum?: MuseumUpdateOneRequiredWithoutSavesNestedInput
     folder?: FolderUpdateOneWithoutSavesNestedInput
+    museum?: MuseumUpdateOneRequiredWithoutSavesNestedInput
+    user?: UserUpdateOneRequiredWithoutSavesNestedInput
   }
 
   export type SaveUncheckedUpdateInput = {
@@ -28298,8 +29531,8 @@ export namespace Prisma {
     id?: string
     order: number
     expectedArrival?: Date | string | null
-    plan: PlanCreateNestedOneWithoutStopsInput
     museum: MuseumCreateNestedOneWithoutPlanStopsInput
+    plan: PlanCreateNestedOneWithoutStopsInput
   }
 
   export type PlanStopUncheckedCreateInput = {
@@ -28314,8 +29547,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
     expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: PlanUpdateOneRequiredWithoutStopsNestedInput
     museum?: MuseumUpdateOneRequiredWithoutPlanStopsNestedInput
+    plan?: PlanUpdateOneRequiredWithoutStopsNestedInput
   }
 
   export type PlanStopUncheckedUpdateInput = {
@@ -28352,13 +29585,13 @@ export namespace Prisma {
     id?: string
     content: string
     photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
     visitedAt?: Date | string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutReviewsInput
-    museum: MuseumCreateNestedOneWithoutReviewsInput
+    country?: string | null
+    ipAddress?: string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutReviewInput
+    museum: MuseumCreateNestedOneWithoutReviewsInput
+    user: UserCreateNestedOneWithoutReviewsInput
   }
 
   export type ReviewUncheckedCreateInput = {
@@ -28367,10 +29600,10 @@ export namespace Prisma {
     museumId: string
     content: string
     photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
     visitedAt?: Date | string
     createdAt?: Date | string
+    country?: string | null
+    ipAddress?: string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutReviewInput
   }
 
@@ -28378,13 +29611,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
     visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutReviewsNestedInput
-    museum?: MuseumUpdateOneRequiredWithoutReviewsNestedInput
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     collectionItems?: CollectionItemUpdateManyWithoutReviewNestedInput
+    museum?: MuseumUpdateOneRequiredWithoutReviewsNestedInput
+    user?: UserUpdateOneRequiredWithoutReviewsNestedInput
   }
 
   export type ReviewUncheckedUpdateInput = {
@@ -28393,10 +29626,10 @@ export namespace Prisma {
     museumId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
     visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutReviewNestedInput
   }
 
@@ -28406,20 +29639,20 @@ export namespace Prisma {
     museumId: string
     content: string
     photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
     visitedAt?: Date | string
     createdAt?: Date | string
+    country?: string | null
+    ipAddress?: string | null
   }
 
   export type ReviewUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
     visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReviewUncheckedUpdateManyInput = {
@@ -28428,10 +29661,10 @@ export namespace Prisma {
     museumId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
     visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CollectionCreateInput = {
@@ -28642,71 +29875,71 @@ export namespace Prisma {
   }
 
   export type ChallengeProgressCreateInput = {
-    progress?: number
-    completed?: boolean
     completedAt?: Date | string | null
+    completed?: boolean
+    progress?: number
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutChallengesInput
     challenge: ChallengeCreateNestedOneWithoutProgressInput
+    user: UserCreateNestedOneWithoutChallengesInput
   }
 
   export type ChallengeProgressUncheckedCreateInput = {
     userId: string
     challengeId: string
-    progress?: number
-    completed?: boolean
     completedAt?: Date | string | null
+    completed?: boolean
+    progress?: number
     updatedAt?: Date | string
   }
 
   export type ChallengeProgressUpdateInput = {
-    progress?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutChallengesNestedInput
     challenge?: ChallengeUpdateOneRequiredWithoutProgressNestedInput
+    user?: UserUpdateOneRequiredWithoutChallengesNestedInput
   }
 
   export type ChallengeProgressUncheckedUpdateInput = {
     userId?: StringFieldUpdateOperationsInput | string
     challengeId?: StringFieldUpdateOperationsInput | string
-    progress?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChallengeProgressCreateManyInput = {
     userId: string
     challengeId: string
-    progress?: number
-    completed?: boolean
     completedAt?: Date | string | null
+    completed?: boolean
+    progress?: number
     updatedAt?: Date | string
   }
 
   export type ChallengeProgressUpdateManyMutationInput = {
-    progress?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChallengeProgressUncheckedUpdateManyInput = {
     userId?: StringFieldUpdateOperationsInput | string
     challengeId?: StringFieldUpdateOperationsInput | string
-    progress?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FeedbackCreateInput = {
     id?: string
     content: string
-    reply?: string | null
     createdAt?: Date | string
+    reply?: string | null
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutFeedbacksInput
   }
@@ -28715,16 +29948,16 @@ export namespace Prisma {
     id?: string
     userId?: string | null
     content: string
-    reply?: string | null
     createdAt?: Date | string
+    reply?: string | null
     updatedAt?: Date | string
   }
 
   export type FeedbackUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    reply?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutFeedbacksNestedInput
   }
@@ -28733,8 +29966,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
-    reply?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -28742,16 +29975,16 @@ export namespace Prisma {
     id?: string
     userId?: string | null
     content: string
-    reply?: string | null
     createdAt?: Date | string
+    reply?: string | null
     updatedAt?: Date | string
   }
 
   export type FeedbackUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    reply?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -28759,8 +29992,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
-    reply?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -28818,8 +30051,8 @@ export namespace Prisma {
     data: JsonNullValueInput | InputJsonValue
     status?: $Enums.SuggestionStatus
     createdAt?: Date | string
-    user?: UserCreateNestedOneWithoutSuggestionsInput
     museum?: MuseumCreateNestedOneWithoutSuggestionsInput
+    user?: UserCreateNestedOneWithoutSuggestionsInput
   }
 
   export type SuggestionUncheckedCreateInput = {
@@ -28836,8 +30069,8 @@ export namespace Prisma {
     data?: JsonNullValueInput | InputJsonValue
     status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneWithoutSuggestionsNestedInput
     museum?: MuseumUpdateOneWithoutSuggestionsNestedInput
+    user?: UserUpdateOneWithoutSuggestionsNestedInput
   }
 
   export type SuggestionUncheckedUpdateInput = {
@@ -28999,6 +30232,62 @@ export namespace Prisma {
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type spatial_ref_sysCreateInput = {
+    srid: number
+    auth_name?: string | null
+    auth_srid?: number | null
+    srtext?: string | null
+    proj4text?: string | null
+  }
+
+  export type spatial_ref_sysUncheckedCreateInput = {
+    srid: number
+    auth_name?: string | null
+    auth_srid?: number | null
+    srtext?: string | null
+    proj4text?: string | null
+  }
+
+  export type spatial_ref_sysUpdateInput = {
+    srid?: IntFieldUpdateOperationsInput | number
+    auth_name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_srid?: NullableIntFieldUpdateOperationsInput | number | null
+    srtext?: NullableStringFieldUpdateOperationsInput | string | null
+    proj4text?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type spatial_ref_sysUncheckedUpdateInput = {
+    srid?: IntFieldUpdateOperationsInput | number
+    auth_name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_srid?: NullableIntFieldUpdateOperationsInput | number | null
+    srtext?: NullableStringFieldUpdateOperationsInput | string | null
+    proj4text?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type spatial_ref_sysCreateManyInput = {
+    srid: number
+    auth_name?: string | null
+    auth_srid?: number | null
+    srtext?: string | null
+    proj4text?: string | null
+  }
+
+  export type spatial_ref_sysUpdateManyMutationInput = {
+    srid?: IntFieldUpdateOperationsInput | number
+    auth_name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_srid?: NullableIntFieldUpdateOperationsInput | number | null
+    srtext?: NullableStringFieldUpdateOperationsInput | string | null
+    proj4text?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type spatial_ref_sysUncheckedUpdateManyInput = {
+    srid?: IntFieldUpdateOperationsInput | number
+    auth_name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_srid?: NullableIntFieldUpdateOperationsInput | number | null
+    srtext?: NullableStringFieldUpdateOperationsInput | string | null
+    proj4text?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -29081,40 +30370,16 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type CollectionListRelationFilter = {
-    every?: CollectionWhereInput
-    some?: CollectionWhereInput
-    none?: CollectionWhereInput
-  }
-
-  export type FolderListRelationFilter = {
-    every?: FolderWhereInput
-    some?: FolderWhereInput
-    none?: FolderWhereInput
-  }
-
-  export type SaveListRelationFilter = {
-    every?: SaveWhereInput
-    some?: SaveWhereInput
-    none?: SaveWhereInput
-  }
-
-  export type PlanListRelationFilter = {
-    every?: PlanWhereInput
-    some?: PlanWhereInput
-    none?: PlanWhereInput
-  }
-
-  export type ReviewListRelationFilter = {
-    every?: ReviewWhereInput
-    some?: ReviewWhereInput
-    none?: ReviewWhereInput
-  }
-
   export type ChallengeProgressListRelationFilter = {
     every?: ChallengeProgressWhereInput
     some?: ChallengeProgressWhereInput
     none?: ChallengeProgressWhereInput
+  }
+
+  export type CollectionListRelationFilter = {
+    every?: CollectionWhereInput
+    some?: CollectionWhereInput
+    none?: CollectionWhereInput
   }
 
   export type FeedbackListRelationFilter = {
@@ -29123,16 +30388,10 @@ export namespace Prisma {
     none?: FeedbackWhereInput
   }
 
-  export type SuggestionListRelationFilter = {
-    every?: SuggestionWhereInput
-    some?: SuggestionWhereInput
-    none?: SuggestionWhereInput
-  }
-
-  export type ReportListRelationFilter = {
-    every?: ReportWhereInput
-    some?: ReportWhereInput
-    none?: ReportWhereInput
+  export type FolderListRelationFilter = {
+    every?: FolderWhereInput
+    some?: FolderWhereInput
+    none?: FolderWhereInput
   }
 
   export type NotificationListRelationFilter = {
@@ -29141,32 +30400,46 @@ export namespace Prisma {
     none?: NotificationWhereInput
   }
 
+  export type PlanListRelationFilter = {
+    every?: PlanWhereInput
+    some?: PlanWhereInput
+    none?: PlanWhereInput
+  }
+
+  export type ReportListRelationFilter = {
+    every?: ReportWhereInput
+    some?: ReportWhereInput
+    none?: ReportWhereInput
+  }
+
+  export type ReviewListRelationFilter = {
+    every?: ReviewWhereInput
+    some?: ReviewWhereInput
+    none?: ReviewWhereInput
+  }
+
+  export type SaveListRelationFilter = {
+    every?: SaveWhereInput
+    some?: SaveWhereInput
+    none?: SaveWhereInput
+  }
+
+  export type SuggestionListRelationFilter = {
+    every?: SuggestionWhereInput
+    some?: SuggestionWhereInput
+    none?: SuggestionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
-  export type CollectionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type FolderOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type SaveOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type PlanOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ReviewOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type ChallengeProgressOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CollectionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -29174,11 +30447,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type SuggestionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ReportOrderByRelationAggregateInput = {
+  export type FolderOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -29186,47 +30455,67 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type PlanOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReportOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReviewOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SaveOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SuggestionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    username?: SortOrder
     email?: SortOrder
-    password?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
     role?: SortOrder
     preferences?: SortOrder
-    lastIp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    lastIp?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    username?: SortOrder
     email?: SortOrder
-    password?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
     role?: SortOrder
-    lastIp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    lastIp?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    username?: SortOrder
     email?: SortOrder
-    password?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
     role?: SortOrder
-    lastIp?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    lastIp?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -29360,16 +30649,18 @@ export namespace Prisma {
   export type StoryCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    titleEn?: SortOrder
     content?: SortOrder
-    contentEn?: SortOrder
-    description?: SortOrder
     author?: SortOrder
     previewImage?: SortOrder
     status?: SortOrder
     views?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contentEn?: SortOrder
+    titleEn?: SortOrder
+    description?: SortOrder
+    infoTable?: SortOrder
+    artworks?: SortOrder
   }
 
   export type StoryAvgOrderByAggregateInput = {
@@ -29379,31 +30670,31 @@ export namespace Prisma {
   export type StoryMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    titleEn?: SortOrder
     content?: SortOrder
-    contentEn?: SortOrder
-    description?: SortOrder
     author?: SortOrder
     previewImage?: SortOrder
     status?: SortOrder
     views?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contentEn?: SortOrder
+    titleEn?: SortOrder
+    description?: SortOrder
   }
 
   export type StoryMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
-    titleEn?: SortOrder
     content?: SortOrder
-    contentEn?: SortOrder
-    description?: SortOrder
     author?: SortOrder
     previewImage?: SortOrder
     status?: SortOrder
     views?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    contentEn?: SortOrder
+    titleEn?: SortOrder
+    description?: SortOrder
   }
 
   export type StorySumOrderByAggregateInput = {
@@ -29436,14 +30727,14 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type StoryScalarRelationFilter = {
-    is?: StoryWhereInput
-    isNot?: StoryWhereInput
-  }
-
   export type MuseumScalarRelationFilter = {
     is?: MuseumWhereInput
     isNot?: MuseumWhereInput
+  }
+
+  export type StoryScalarRelationFilter = {
+    is?: StoryWhereInput
+    isNot?: StoryWhereInput
   }
 
   export type StoryMuseumStoryIdMuseumIdCompoundUniqueInput = {
@@ -29481,12 +30772,12 @@ export namespace Prisma {
     userId?: SortOrder
     type?: SortOrder
     title?: SortOrder
-    titleEn?: SortOrder
     message?: SortOrder
-    messageEn?: SortOrder
     link?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
+    messageEn?: SortOrder
+    titleEn?: SortOrder
   }
 
   export type NotificationMaxOrderByAggregateInput = {
@@ -29494,12 +30785,12 @@ export namespace Prisma {
     userId?: SortOrder
     type?: SortOrder
     title?: SortOrder
-    titleEn?: SortOrder
     message?: SortOrder
-    messageEn?: SortOrder
     link?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
+    messageEn?: SortOrder
+    titleEn?: SortOrder
   }
 
   export type NotificationMinOrderByAggregateInput = {
@@ -29507,12 +30798,12 @@ export namespace Prisma {
     userId?: SortOrder
     type?: SortOrder
     title?: SortOrder
-    titleEn?: SortOrder
     message?: SortOrder
-    messageEn?: SortOrder
     link?: SortOrder
     isRead?: SortOrder
     createdAt?: SortOrder
+    messageEn?: SortOrder
+    titleEn?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -29534,6 +30825,12 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type CollectionItemListRelationFilter = {
+    every?: CollectionItemWhereInput
+    some?: CollectionItemWhereInput
+    none?: CollectionItemWhereInput
+  }
+
   export type ExhibitionListRelationFilter = {
     every?: ExhibitionWhereInput
     some?: ExhibitionWhereInput
@@ -29546,10 +30843,8 @@ export namespace Prisma {
     none?: PlanStopWhereInput
   }
 
-  export type CollectionItemListRelationFilter = {
-    every?: CollectionItemWhereInput
-    some?: CollectionItemWhereInput
-    none?: CollectionItemWhereInput
+  export type CollectionItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ExhibitionOrderByRelationAggregateInput = {
@@ -29557,10 +30852,6 @@ export namespace Prisma {
   }
 
   export type PlanStopOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type CollectionItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -29573,13 +30864,13 @@ export namespace Prisma {
     type?: SortOrder
     website?: SortOrder
     imageUrl?: SortOrder
-    openingHours?: SortOrder
     latitude?: SortOrder
     longitude?: SortOrder
     popularityScore?: SortOrder
-    lastExhibitionSync?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    openingHours?: SortOrder
+    lastExhibitionSync?: SortOrder
   }
 
   export type MuseumAvgOrderByAggregateInput = {
@@ -29600,9 +30891,9 @@ export namespace Prisma {
     latitude?: SortOrder
     longitude?: SortOrder
     popularityScore?: SortOrder
-    lastExhibitionSync?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    lastExhibitionSync?: SortOrder
   }
 
   export type MuseumMinOrderByAggregateInput = {
@@ -29617,9 +30908,9 @@ export namespace Prisma {
     latitude?: SortOrder
     longitude?: SortOrder
     popularityScore?: SortOrder
-    lastExhibitionSync?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    lastExhibitionSync?: SortOrder
   }
 
   export type MuseumSumOrderByAggregateInput = {
@@ -29649,12 +30940,12 @@ export namespace Prisma {
     museumId?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    imageUrl?: SortOrder
-    link?: SortOrder
-    source?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     createdAt?: SortOrder
+    imageUrl?: SortOrder
+    link?: SortOrder
+    source?: SortOrder
   }
 
   export type ExhibitionMaxOrderByAggregateInput = {
@@ -29662,12 +30953,12 @@ export namespace Prisma {
     museumId?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    imageUrl?: SortOrder
-    link?: SortOrder
-    source?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     createdAt?: SortOrder
+    imageUrl?: SortOrder
+    link?: SortOrder
+    source?: SortOrder
   }
 
   export type ExhibitionMinOrderByAggregateInput = {
@@ -29675,12 +30966,12 @@ export namespace Prisma {
     museumId?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    imageUrl?: SortOrder
-    link?: SortOrder
-    source?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     createdAt?: SortOrder
+    imageUrl?: SortOrder
+    link?: SortOrder
+    source?: SortOrder
   }
 
   export type UserScalarRelationFilter = {
@@ -29824,10 +31115,10 @@ export namespace Prisma {
     museumId?: SortOrder
     content?: SortOrder
     photos?: SortOrder
-    ipAddress?: SortOrder
-    country?: SortOrder
     visitedAt?: SortOrder
     createdAt?: SortOrder
+    country?: SortOrder
+    ipAddress?: SortOrder
   }
 
   export type ReviewMaxOrderByAggregateInput = {
@@ -29835,10 +31126,10 @@ export namespace Prisma {
     userId?: SortOrder
     museumId?: SortOrder
     content?: SortOrder
-    ipAddress?: SortOrder
-    country?: SortOrder
     visitedAt?: SortOrder
     createdAt?: SortOrder
+    country?: SortOrder
+    ipAddress?: SortOrder
   }
 
   export type ReviewMinOrderByAggregateInput = {
@@ -29846,10 +31137,10 @@ export namespace Prisma {
     userId?: SortOrder
     museumId?: SortOrder
     content?: SortOrder
-    ipAddress?: SortOrder
-    country?: SortOrder
     visitedAt?: SortOrder
     createdAt?: SortOrder
+    country?: SortOrder
+    ipAddress?: SortOrder
   }
 
   export type CollectionCountOrderByAggregateInput = {
@@ -29970,9 +31261,9 @@ export namespace Prisma {
   export type ChallengeProgressCountOrderByAggregateInput = {
     userId?: SortOrder
     challengeId?: SortOrder
-    progress?: SortOrder
-    completed?: SortOrder
     completedAt?: SortOrder
+    completed?: SortOrder
+    progress?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -29983,18 +31274,18 @@ export namespace Prisma {
   export type ChallengeProgressMaxOrderByAggregateInput = {
     userId?: SortOrder
     challengeId?: SortOrder
-    progress?: SortOrder
-    completed?: SortOrder
     completedAt?: SortOrder
+    completed?: SortOrder
+    progress?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type ChallengeProgressMinOrderByAggregateInput = {
     userId?: SortOrder
     challengeId?: SortOrder
-    progress?: SortOrder
-    completed?: SortOrder
     completedAt?: SortOrder
+    completed?: SortOrder
+    progress?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -30006,8 +31297,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     content?: SortOrder
-    reply?: SortOrder
     createdAt?: SortOrder
+    reply?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -30015,8 +31306,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     content?: SortOrder
-    reply?: SortOrder
     createdAt?: SortOrder
+    reply?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -30024,8 +31315,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     content?: SortOrder
-    reply?: SortOrder
     createdAt?: SortOrder
+    reply?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -30234,39 +31525,65 @@ export namespace Prisma {
     timestamp?: SortOrder
   }
 
-  export type CollectionCreateNestedManyWithoutUserInput = {
-    create?: XOR<CollectionCreateWithoutUserInput, CollectionUncheckedCreateWithoutUserInput> | CollectionCreateWithoutUserInput[] | CollectionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CollectionCreateOrConnectWithoutUserInput | CollectionCreateOrConnectWithoutUserInput[]
-    createMany?: CollectionCreateManyUserInputEnvelope
-    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type FolderCreateNestedManyWithoutUserInput = {
-    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
-    createMany?: FolderCreateManyUserInputEnvelope
-    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+  export type spatial_ref_sysCountOrderByAggregateInput = {
+    srid?: SortOrder
+    auth_name?: SortOrder
+    auth_srid?: SortOrder
+    srtext?: SortOrder
+    proj4text?: SortOrder
   }
 
-  export type SaveCreateNestedManyWithoutUserInput = {
-    create?: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput> | SaveCreateWithoutUserInput[] | SaveUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SaveCreateOrConnectWithoutUserInput | SaveCreateOrConnectWithoutUserInput[]
-    createMany?: SaveCreateManyUserInputEnvelope
-    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+  export type spatial_ref_sysAvgOrderByAggregateInput = {
+    srid?: SortOrder
+    auth_srid?: SortOrder
   }
 
-  export type PlanCreateNestedManyWithoutUserInput = {
-    create?: XOR<PlanCreateWithoutUserInput, PlanUncheckedCreateWithoutUserInput> | PlanCreateWithoutUserInput[] | PlanUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PlanCreateOrConnectWithoutUserInput | PlanCreateOrConnectWithoutUserInput[]
-    createMany?: PlanCreateManyUserInputEnvelope
-    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+  export type spatial_ref_sysMaxOrderByAggregateInput = {
+    srid?: SortOrder
+    auth_name?: SortOrder
+    auth_srid?: SortOrder
+    srtext?: SortOrder
+    proj4text?: SortOrder
   }
 
-  export type ReviewCreateNestedManyWithoutUserInput = {
-    create?: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput> | ReviewCreateWithoutUserInput[] | ReviewUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
-    createMany?: ReviewCreateManyUserInputEnvelope
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  export type spatial_ref_sysMinOrderByAggregateInput = {
+    srid?: SortOrder
+    auth_name?: SortOrder
+    auth_srid?: SortOrder
+    srtext?: SortOrder
+    proj4text?: SortOrder
+  }
+
+  export type spatial_ref_sysSumOrderByAggregateInput = {
+    srid?: SortOrder
+    auth_srid?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type ChallengeProgressCreateNestedManyWithoutUserInput = {
@@ -30276,6 +31593,13 @@ export namespace Prisma {
     connect?: ChallengeProgressWhereUniqueInput | ChallengeProgressWhereUniqueInput[]
   }
 
+  export type CollectionCreateNestedManyWithoutUserInput = {
+    create?: XOR<CollectionCreateWithoutUserInput, CollectionUncheckedCreateWithoutUserInput> | CollectionCreateWithoutUserInput[] | CollectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CollectionCreateOrConnectWithoutUserInput | CollectionCreateOrConnectWithoutUserInput[]
+    createMany?: CollectionCreateManyUserInputEnvelope
+    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+  }
+
   export type FeedbackCreateNestedManyWithoutUserInput = {
     create?: XOR<FeedbackCreateWithoutUserInput, FeedbackUncheckedCreateWithoutUserInput> | FeedbackCreateWithoutUserInput[] | FeedbackUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FeedbackCreateOrConnectWithoutUserInput | FeedbackCreateOrConnectWithoutUserInput[]
@@ -30283,18 +31607,11 @@ export namespace Prisma {
     connect?: FeedbackWhereUniqueInput | FeedbackWhereUniqueInput[]
   }
 
-  export type SuggestionCreateNestedManyWithoutUserInput = {
-    create?: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput> | SuggestionCreateWithoutUserInput[] | SuggestionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SuggestionCreateOrConnectWithoutUserInput | SuggestionCreateOrConnectWithoutUserInput[]
-    createMany?: SuggestionCreateManyUserInputEnvelope
-    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-  }
-
-  export type ReportCreateNestedManyWithoutReporterInput = {
-    create?: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput> | ReportCreateWithoutReporterInput[] | ReportUncheckedCreateWithoutReporterInput[]
-    connectOrCreate?: ReportCreateOrConnectWithoutReporterInput | ReportCreateOrConnectWithoutReporterInput[]
-    createMany?: ReportCreateManyReporterInputEnvelope
-    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  export type FolderCreateNestedManyWithoutUserInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
   }
 
   export type NotificationCreateNestedManyWithoutUserInput = {
@@ -30304,39 +31621,39 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
-  export type CollectionUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<CollectionCreateWithoutUserInput, CollectionUncheckedCreateWithoutUserInput> | CollectionCreateWithoutUserInput[] | CollectionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CollectionCreateOrConnectWithoutUserInput | CollectionCreateOrConnectWithoutUserInput[]
-    createMany?: CollectionCreateManyUserInputEnvelope
-    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
-  }
-
-  export type FolderUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
-    createMany?: FolderCreateManyUserInputEnvelope
-    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
-  }
-
-  export type SaveUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput> | SaveCreateWithoutUserInput[] | SaveUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SaveCreateOrConnectWithoutUserInput | SaveCreateOrConnectWithoutUserInput[]
-    createMany?: SaveCreateManyUserInputEnvelope
-    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-  }
-
-  export type PlanUncheckedCreateNestedManyWithoutUserInput = {
+  export type PlanCreateNestedManyWithoutUserInput = {
     create?: XOR<PlanCreateWithoutUserInput, PlanUncheckedCreateWithoutUserInput> | PlanCreateWithoutUserInput[] | PlanUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PlanCreateOrConnectWithoutUserInput | PlanCreateOrConnectWithoutUserInput[]
     createMany?: PlanCreateManyUserInputEnvelope
     connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
   }
 
-  export type ReviewUncheckedCreateNestedManyWithoutUserInput = {
+  export type ReportCreateNestedManyWithoutReporterInput = {
+    create?: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput> | ReportCreateWithoutReporterInput[] | ReportUncheckedCreateWithoutReporterInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutReporterInput | ReportCreateOrConnectWithoutReporterInput[]
+    createMany?: ReportCreateManyReporterInputEnvelope
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+  }
+
+  export type ReviewCreateNestedManyWithoutUserInput = {
     create?: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput> | ReviewCreateWithoutUserInput[] | ReviewUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
     createMany?: ReviewCreateManyUserInputEnvelope
     connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type SaveCreateNestedManyWithoutUserInput = {
+    create?: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput> | SaveCreateWithoutUserInput[] | SaveUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SaveCreateOrConnectWithoutUserInput | SaveCreateOrConnectWithoutUserInput[]
+    createMany?: SaveCreateManyUserInputEnvelope
+    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+  }
+
+  export type SuggestionCreateNestedManyWithoutUserInput = {
+    create?: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput> | SuggestionCreateWithoutUserInput[] | SuggestionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SuggestionCreateOrConnectWithoutUserInput | SuggestionCreateOrConnectWithoutUserInput[]
+    createMany?: SuggestionCreateManyUserInputEnvelope
+    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
   }
 
   export type ChallengeProgressUncheckedCreateNestedManyWithoutUserInput = {
@@ -30346,6 +31663,13 @@ export namespace Prisma {
     connect?: ChallengeProgressWhereUniqueInput | ChallengeProgressWhereUniqueInput[]
   }
 
+  export type CollectionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CollectionCreateWithoutUserInput, CollectionUncheckedCreateWithoutUserInput> | CollectionCreateWithoutUserInput[] | CollectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CollectionCreateOrConnectWithoutUserInput | CollectionCreateOrConnectWithoutUserInput[]
+    createMany?: CollectionCreateManyUserInputEnvelope
+    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+  }
+
   export type FeedbackUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<FeedbackCreateWithoutUserInput, FeedbackUncheckedCreateWithoutUserInput> | FeedbackCreateWithoutUserInput[] | FeedbackUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FeedbackCreateOrConnectWithoutUserInput | FeedbackCreateOrConnectWithoutUserInput[]
@@ -30353,11 +31677,25 @@ export namespace Prisma {
     connect?: FeedbackWhereUniqueInput | FeedbackWhereUniqueInput[]
   }
 
-  export type SuggestionUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput> | SuggestionCreateWithoutUserInput[] | SuggestionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SuggestionCreateOrConnectWithoutUserInput | SuggestionCreateOrConnectWithoutUserInput[]
-    createMany?: SuggestionCreateManyUserInputEnvelope
-    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+  export type FolderUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type PlanUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PlanCreateWithoutUserInput, PlanUncheckedCreateWithoutUserInput> | PlanCreateWithoutUserInput[] | PlanUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutUserInput | PlanCreateOrConnectWithoutUserInput[]
+    createMany?: PlanCreateManyUserInputEnvelope
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
   }
 
   export type ReportUncheckedCreateNestedManyWithoutReporterInput = {
@@ -30367,11 +31705,25 @@ export namespace Prisma {
     connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
   }
 
-  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  export type ReviewUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput> | ReviewCreateWithoutUserInput[] | ReviewUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
+    createMany?: ReviewCreateManyUserInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type SaveUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput> | SaveCreateWithoutUserInput[] | SaveUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SaveCreateOrConnectWithoutUserInput | SaveCreateOrConnectWithoutUserInput[]
+    createMany?: SaveCreateManyUserInputEnvelope
+    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+  }
+
+  export type SuggestionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput> | SuggestionCreateWithoutUserInput[] | SuggestionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SuggestionCreateOrConnectWithoutUserInput | SuggestionCreateOrConnectWithoutUserInput[]
+    createMany?: SuggestionCreateManyUserInputEnvelope
+    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -30394,76 +31746,6 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type CollectionUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CollectionCreateWithoutUserInput, CollectionUncheckedCreateWithoutUserInput> | CollectionCreateWithoutUserInput[] | CollectionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CollectionCreateOrConnectWithoutUserInput | CollectionCreateOrConnectWithoutUserInput[]
-    upsert?: CollectionUpsertWithWhereUniqueWithoutUserInput | CollectionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CollectionCreateManyUserInputEnvelope
-    set?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
-    disconnect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
-    delete?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
-    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
-    update?: CollectionUpdateWithWhereUniqueWithoutUserInput | CollectionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CollectionUpdateManyWithWhereWithoutUserInput | CollectionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CollectionScalarWhereInput | CollectionScalarWhereInput[]
-  }
-
-  export type FolderUpdateManyWithoutUserNestedInput = {
-    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
-    upsert?: FolderUpsertWithWhereUniqueWithoutUserInput | FolderUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: FolderCreateManyUserInputEnvelope
-    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
-    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
-    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
-    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
-    update?: FolderUpdateWithWhereUniqueWithoutUserInput | FolderUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: FolderUpdateManyWithWhereWithoutUserInput | FolderUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
-  }
-
-  export type SaveUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput> | SaveCreateWithoutUserInput[] | SaveUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SaveCreateOrConnectWithoutUserInput | SaveCreateOrConnectWithoutUserInput[]
-    upsert?: SaveUpsertWithWhereUniqueWithoutUserInput | SaveUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SaveCreateManyUserInputEnvelope
-    set?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    disconnect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    delete?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    update?: SaveUpdateWithWhereUniqueWithoutUserInput | SaveUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SaveUpdateManyWithWhereWithoutUserInput | SaveUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SaveScalarWhereInput | SaveScalarWhereInput[]
-  }
-
-  export type PlanUpdateManyWithoutUserNestedInput = {
-    create?: XOR<PlanCreateWithoutUserInput, PlanUncheckedCreateWithoutUserInput> | PlanCreateWithoutUserInput[] | PlanUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: PlanCreateOrConnectWithoutUserInput | PlanCreateOrConnectWithoutUserInput[]
-    upsert?: PlanUpsertWithWhereUniqueWithoutUserInput | PlanUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: PlanCreateManyUserInputEnvelope
-    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
-    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
-    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
-    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
-    update?: PlanUpdateWithWhereUniqueWithoutUserInput | PlanUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: PlanUpdateManyWithWhereWithoutUserInput | PlanUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
-  }
-
-  export type ReviewUpdateManyWithoutUserNestedInput = {
-    create?: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput> | ReviewCreateWithoutUserInput[] | ReviewUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
-    upsert?: ReviewUpsertWithWhereUniqueWithoutUserInput | ReviewUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: ReviewCreateManyUserInputEnvelope
-    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    update?: ReviewUpdateWithWhereUniqueWithoutUserInput | ReviewUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: ReviewUpdateManyWithWhereWithoutUserInput | ReviewUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
-  }
-
   export type ChallengeProgressUpdateManyWithoutUserNestedInput = {
     create?: XOR<ChallengeProgressCreateWithoutUserInput, ChallengeProgressUncheckedCreateWithoutUserInput> | ChallengeProgressCreateWithoutUserInput[] | ChallengeProgressUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ChallengeProgressCreateOrConnectWithoutUserInput | ChallengeProgressCreateOrConnectWithoutUserInput[]
@@ -30476,6 +31758,20 @@ export namespace Prisma {
     update?: ChallengeProgressUpdateWithWhereUniqueWithoutUserInput | ChallengeProgressUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ChallengeProgressUpdateManyWithWhereWithoutUserInput | ChallengeProgressUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ChallengeProgressScalarWhereInput | ChallengeProgressScalarWhereInput[]
+  }
+
+  export type CollectionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CollectionCreateWithoutUserInput, CollectionUncheckedCreateWithoutUserInput> | CollectionCreateWithoutUserInput[] | CollectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CollectionCreateOrConnectWithoutUserInput | CollectionCreateOrConnectWithoutUserInput[]
+    upsert?: CollectionUpsertWithWhereUniqueWithoutUserInput | CollectionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CollectionCreateManyUserInputEnvelope
+    set?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    disconnect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    delete?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    update?: CollectionUpdateWithWhereUniqueWithoutUserInput | CollectionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CollectionUpdateManyWithWhereWithoutUserInput | CollectionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CollectionScalarWhereInput | CollectionScalarWhereInput[]
   }
 
   export type FeedbackUpdateManyWithoutUserNestedInput = {
@@ -30492,32 +31788,18 @@ export namespace Prisma {
     deleteMany?: FeedbackScalarWhereInput | FeedbackScalarWhereInput[]
   }
 
-  export type SuggestionUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput> | SuggestionCreateWithoutUserInput[] | SuggestionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SuggestionCreateOrConnectWithoutUserInput | SuggestionCreateOrConnectWithoutUserInput[]
-    upsert?: SuggestionUpsertWithWhereUniqueWithoutUserInput | SuggestionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SuggestionCreateManyUserInputEnvelope
-    set?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    disconnect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    delete?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    update?: SuggestionUpdateWithWhereUniqueWithoutUserInput | SuggestionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SuggestionUpdateManyWithWhereWithoutUserInput | SuggestionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
-  }
-
-  export type ReportUpdateManyWithoutReporterNestedInput = {
-    create?: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput> | ReportCreateWithoutReporterInput[] | ReportUncheckedCreateWithoutReporterInput[]
-    connectOrCreate?: ReportCreateOrConnectWithoutReporterInput | ReportCreateOrConnectWithoutReporterInput[]
-    upsert?: ReportUpsertWithWhereUniqueWithoutReporterInput | ReportUpsertWithWhereUniqueWithoutReporterInput[]
-    createMany?: ReportCreateManyReporterInputEnvelope
-    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
-    update?: ReportUpdateWithWhereUniqueWithoutReporterInput | ReportUpdateWithWhereUniqueWithoutReporterInput[]
-    updateMany?: ReportUpdateManyWithWhereWithoutReporterInput | ReportUpdateManyWithWhereWithoutReporterInput[]
-    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  export type FolderUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    upsert?: FolderUpsertWithWhereUniqueWithoutUserInput | FolderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    update?: FolderUpdateWithWhereUniqueWithoutUserInput | FolderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FolderUpdateManyWithWhereWithoutUserInput | FolderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
   }
 
   export type NotificationUpdateManyWithoutUserNestedInput = {
@@ -30534,49 +31816,7 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
-  export type CollectionUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CollectionCreateWithoutUserInput, CollectionUncheckedCreateWithoutUserInput> | CollectionCreateWithoutUserInput[] | CollectionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CollectionCreateOrConnectWithoutUserInput | CollectionCreateOrConnectWithoutUserInput[]
-    upsert?: CollectionUpsertWithWhereUniqueWithoutUserInput | CollectionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CollectionCreateManyUserInputEnvelope
-    set?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
-    disconnect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
-    delete?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
-    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
-    update?: CollectionUpdateWithWhereUniqueWithoutUserInput | CollectionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CollectionUpdateManyWithWhereWithoutUserInput | CollectionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CollectionScalarWhereInput | CollectionScalarWhereInput[]
-  }
-
-  export type FolderUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
-    upsert?: FolderUpsertWithWhereUniqueWithoutUserInput | FolderUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: FolderCreateManyUserInputEnvelope
-    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
-    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
-    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
-    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
-    update?: FolderUpdateWithWhereUniqueWithoutUserInput | FolderUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: FolderUpdateManyWithWhereWithoutUserInput | FolderUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
-  }
-
-  export type SaveUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput> | SaveCreateWithoutUserInput[] | SaveUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SaveCreateOrConnectWithoutUserInput | SaveCreateOrConnectWithoutUserInput[]
-    upsert?: SaveUpsertWithWhereUniqueWithoutUserInput | SaveUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SaveCreateManyUserInputEnvelope
-    set?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    disconnect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    delete?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    update?: SaveUpdateWithWhereUniqueWithoutUserInput | SaveUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SaveUpdateManyWithWhereWithoutUserInput | SaveUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SaveScalarWhereInput | SaveScalarWhereInput[]
-  }
-
-  export type PlanUncheckedUpdateManyWithoutUserNestedInput = {
+  export type PlanUpdateManyWithoutUserNestedInput = {
     create?: XOR<PlanCreateWithoutUserInput, PlanUncheckedCreateWithoutUserInput> | PlanCreateWithoutUserInput[] | PlanUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PlanCreateOrConnectWithoutUserInput | PlanCreateOrConnectWithoutUserInput[]
     upsert?: PlanUpsertWithWhereUniqueWithoutUserInput | PlanUpsertWithWhereUniqueWithoutUserInput[]
@@ -30590,7 +31830,21 @@ export namespace Prisma {
     deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
   }
 
-  export type ReviewUncheckedUpdateManyWithoutUserNestedInput = {
+  export type ReportUpdateManyWithoutReporterNestedInput = {
+    create?: XOR<ReportCreateWithoutReporterInput, ReportUncheckedCreateWithoutReporterInput> | ReportCreateWithoutReporterInput[] | ReportUncheckedCreateWithoutReporterInput[]
+    connectOrCreate?: ReportCreateOrConnectWithoutReporterInput | ReportCreateOrConnectWithoutReporterInput[]
+    upsert?: ReportUpsertWithWhereUniqueWithoutReporterInput | ReportUpsertWithWhereUniqueWithoutReporterInput[]
+    createMany?: ReportCreateManyReporterInputEnvelope
+    set?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    disconnect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    delete?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    connect?: ReportWhereUniqueInput | ReportWhereUniqueInput[]
+    update?: ReportUpdateWithWhereUniqueWithoutReporterInput | ReportUpdateWithWhereUniqueWithoutReporterInput[]
+    updateMany?: ReportUpdateManyWithWhereWithoutReporterInput | ReportUpdateManyWithWhereWithoutReporterInput[]
+    deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
+  }
+
+  export type ReviewUpdateManyWithoutUserNestedInput = {
     create?: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput> | ReviewCreateWithoutUserInput[] | ReviewUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
     upsert?: ReviewUpsertWithWhereUniqueWithoutUserInput | ReviewUpsertWithWhereUniqueWithoutUserInput[]
@@ -30602,6 +31856,34 @@ export namespace Prisma {
     update?: ReviewUpdateWithWhereUniqueWithoutUserInput | ReviewUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ReviewUpdateManyWithWhereWithoutUserInput | ReviewUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type SaveUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput> | SaveCreateWithoutUserInput[] | SaveUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SaveCreateOrConnectWithoutUserInput | SaveCreateOrConnectWithoutUserInput[]
+    upsert?: SaveUpsertWithWhereUniqueWithoutUserInput | SaveUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SaveCreateManyUserInputEnvelope
+    set?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    disconnect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    delete?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    update?: SaveUpdateWithWhereUniqueWithoutUserInput | SaveUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SaveUpdateManyWithWhereWithoutUserInput | SaveUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SaveScalarWhereInput | SaveScalarWhereInput[]
+  }
+
+  export type SuggestionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput> | SuggestionCreateWithoutUserInput[] | SuggestionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SuggestionCreateOrConnectWithoutUserInput | SuggestionCreateOrConnectWithoutUserInput[]
+    upsert?: SuggestionUpsertWithWhereUniqueWithoutUserInput | SuggestionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SuggestionCreateManyUserInputEnvelope
+    set?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    disconnect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    delete?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    update?: SuggestionUpdateWithWhereUniqueWithoutUserInput | SuggestionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SuggestionUpdateManyWithWhereWithoutUserInput | SuggestionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
   }
 
   export type ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput = {
@@ -30618,6 +31900,20 @@ export namespace Prisma {
     deleteMany?: ChallengeProgressScalarWhereInput | ChallengeProgressScalarWhereInput[]
   }
 
+  export type CollectionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CollectionCreateWithoutUserInput, CollectionUncheckedCreateWithoutUserInput> | CollectionCreateWithoutUserInput[] | CollectionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CollectionCreateOrConnectWithoutUserInput | CollectionCreateOrConnectWithoutUserInput[]
+    upsert?: CollectionUpsertWithWhereUniqueWithoutUserInput | CollectionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CollectionCreateManyUserInputEnvelope
+    set?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    disconnect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    delete?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    connect?: CollectionWhereUniqueInput | CollectionWhereUniqueInput[]
+    update?: CollectionUpdateWithWhereUniqueWithoutUserInput | CollectionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CollectionUpdateManyWithWhereWithoutUserInput | CollectionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CollectionScalarWhereInput | CollectionScalarWhereInput[]
+  }
+
   export type FeedbackUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<FeedbackCreateWithoutUserInput, FeedbackUncheckedCreateWithoutUserInput> | FeedbackCreateWithoutUserInput[] | FeedbackUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FeedbackCreateOrConnectWithoutUserInput | FeedbackCreateOrConnectWithoutUserInput[]
@@ -30632,18 +31928,46 @@ export namespace Prisma {
     deleteMany?: FeedbackScalarWhereInput | FeedbackScalarWhereInput[]
   }
 
-  export type SuggestionUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput> | SuggestionCreateWithoutUserInput[] | SuggestionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SuggestionCreateOrConnectWithoutUserInput | SuggestionCreateOrConnectWithoutUserInput[]
-    upsert?: SuggestionUpsertWithWhereUniqueWithoutUserInput | SuggestionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SuggestionCreateManyUserInputEnvelope
-    set?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    disconnect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    delete?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    update?: SuggestionUpdateWithWhereUniqueWithoutUserInput | SuggestionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SuggestionUpdateManyWithWhereWithoutUserInput | SuggestionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
+  export type FolderUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<FolderCreateWithoutUserInput, FolderUncheckedCreateWithoutUserInput> | FolderCreateWithoutUserInput[] | FolderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutUserInput | FolderCreateOrConnectWithoutUserInput[]
+    upsert?: FolderUpsertWithWhereUniqueWithoutUserInput | FolderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: FolderCreateManyUserInputEnvelope
+    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    update?: FolderUpdateWithWhereUniqueWithoutUserInput | FolderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: FolderUpdateManyWithWhereWithoutUserInput | FolderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: NotificationCreateManyUserInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type PlanUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PlanCreateWithoutUserInput, PlanUncheckedCreateWithoutUserInput> | PlanCreateWithoutUserInput[] | PlanUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PlanCreateOrConnectWithoutUserInput | PlanCreateOrConnectWithoutUserInput[]
+    upsert?: PlanUpsertWithWhereUniqueWithoutUserInput | PlanUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PlanCreateManyUserInputEnvelope
+    set?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    disconnect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    delete?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    connect?: PlanWhereUniqueInput | PlanWhereUniqueInput[]
+    update?: PlanUpdateWithWhereUniqueWithoutUserInput | PlanUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PlanUpdateManyWithWhereWithoutUserInput | PlanUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PlanScalarWhereInput | PlanScalarWhereInput[]
   }
 
   export type ReportUncheckedUpdateManyWithoutReporterNestedInput = {
@@ -30660,18 +31984,46 @@ export namespace Prisma {
     deleteMany?: ReportScalarWhereInput | ReportScalarWhereInput[]
   }
 
-  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  export type ReviewUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput> | ReviewCreateWithoutUserInput[] | ReviewUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutUserInput | ReviewCreateOrConnectWithoutUserInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutUserInput | ReviewUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ReviewCreateManyUserInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutUserInput | ReviewUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutUserInput | ReviewUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type SaveUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput> | SaveCreateWithoutUserInput[] | SaveUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SaveCreateOrConnectWithoutUserInput | SaveCreateOrConnectWithoutUserInput[]
+    upsert?: SaveUpsertWithWhereUniqueWithoutUserInput | SaveUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SaveCreateManyUserInputEnvelope
+    set?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    disconnect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    delete?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    update?: SaveUpdateWithWhereUniqueWithoutUserInput | SaveUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SaveUpdateManyWithWhereWithoutUserInput | SaveUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SaveScalarWhereInput | SaveScalarWhereInput[]
+  }
+
+  export type SuggestionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput> | SuggestionCreateWithoutUserInput[] | SuggestionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SuggestionCreateOrConnectWithoutUserInput | SuggestionCreateOrConnectWithoutUserInput[]
+    upsert?: SuggestionUpsertWithWhereUniqueWithoutUserInput | SuggestionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SuggestionCreateManyUserInputEnvelope
+    set?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    disconnect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    delete?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    update?: SuggestionUpdateWithWhereUniqueWithoutUserInput | SuggestionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SuggestionUpdateManyWithWhereWithoutUserInput | SuggestionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
   }
 
   export type StoryMuseumCreateNestedManyWithoutStoryInput = {
@@ -30728,24 +32080,16 @@ export namespace Prisma {
     deleteMany?: StoryMuseumScalarWhereInput | StoryMuseumScalarWhereInput[]
   }
 
-  export type StoryCreateNestedOneWithoutMuseumsInput = {
-    create?: XOR<StoryCreateWithoutMuseumsInput, StoryUncheckedCreateWithoutMuseumsInput>
-    connectOrCreate?: StoryCreateOrConnectWithoutMuseumsInput
-    connect?: StoryWhereUniqueInput
-  }
-
   export type MuseumCreateNestedOneWithoutStoriesInput = {
     create?: XOR<MuseumCreateWithoutStoriesInput, MuseumUncheckedCreateWithoutStoriesInput>
     connectOrCreate?: MuseumCreateOrConnectWithoutStoriesInput
     connect?: MuseumWhereUniqueInput
   }
 
-  export type StoryUpdateOneRequiredWithoutMuseumsNestedInput = {
+  export type StoryCreateNestedOneWithoutMuseumsInput = {
     create?: XOR<StoryCreateWithoutMuseumsInput, StoryUncheckedCreateWithoutMuseumsInput>
     connectOrCreate?: StoryCreateOrConnectWithoutMuseumsInput
-    upsert?: StoryUpsertWithoutMuseumsInput
     connect?: StoryWhereUniqueInput
-    update?: XOR<XOR<StoryUpdateToOneWithWhereWithoutMuseumsInput, StoryUpdateWithoutMuseumsInput>, StoryUncheckedUpdateWithoutMuseumsInput>
   }
 
   export type MuseumUpdateOneRequiredWithoutStoriesNestedInput = {
@@ -30754,6 +32098,14 @@ export namespace Prisma {
     upsert?: MuseumUpsertWithoutStoriesInput
     connect?: MuseumWhereUniqueInput
     update?: XOR<XOR<MuseumUpdateToOneWithWhereWithoutStoriesInput, MuseumUpdateWithoutStoriesInput>, MuseumUncheckedUpdateWithoutStoriesInput>
+  }
+
+  export type StoryUpdateOneRequiredWithoutMuseumsNestedInput = {
+    create?: XOR<StoryCreateWithoutMuseumsInput, StoryUncheckedCreateWithoutMuseumsInput>
+    connectOrCreate?: StoryCreateOrConnectWithoutMuseumsInput
+    upsert?: StoryUpsertWithoutMuseumsInput
+    connect?: StoryWhereUniqueInput
+    update?: XOR<XOR<StoryUpdateToOneWithWhereWithoutMuseumsInput, StoryUpdateWithoutMuseumsInput>, StoryUncheckedUpdateWithoutMuseumsInput>
   }
 
   export type UserCreateNestedOneWithoutNotificationsInput = {
@@ -30776,32 +32128,18 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
   }
 
+  export type CollectionItemCreateNestedManyWithoutMuseumInput = {
+    create?: XOR<CollectionItemCreateWithoutMuseumInput, CollectionItemUncheckedCreateWithoutMuseumInput> | CollectionItemCreateWithoutMuseumInput[] | CollectionItemUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: CollectionItemCreateOrConnectWithoutMuseumInput | CollectionItemCreateOrConnectWithoutMuseumInput[]
+    createMany?: CollectionItemCreateManyMuseumInputEnvelope
+    connect?: CollectionItemWhereUniqueInput | CollectionItemWhereUniqueInput[]
+  }
+
   export type ExhibitionCreateNestedManyWithoutMuseumInput = {
     create?: XOR<ExhibitionCreateWithoutMuseumInput, ExhibitionUncheckedCreateWithoutMuseumInput> | ExhibitionCreateWithoutMuseumInput[] | ExhibitionUncheckedCreateWithoutMuseumInput[]
     connectOrCreate?: ExhibitionCreateOrConnectWithoutMuseumInput | ExhibitionCreateOrConnectWithoutMuseumInput[]
     createMany?: ExhibitionCreateManyMuseumInputEnvelope
     connect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
-  }
-
-  export type SaveCreateNestedManyWithoutMuseumInput = {
-    create?: XOR<SaveCreateWithoutMuseumInput, SaveUncheckedCreateWithoutMuseumInput> | SaveCreateWithoutMuseumInput[] | SaveUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: SaveCreateOrConnectWithoutMuseumInput | SaveCreateOrConnectWithoutMuseumInput[]
-    createMany?: SaveCreateManyMuseumInputEnvelope
-    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-  }
-
-  export type ReviewCreateNestedManyWithoutMuseumInput = {
-    create?: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput> | ReviewCreateWithoutMuseumInput[] | ReviewUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutMuseumInput | ReviewCreateOrConnectWithoutMuseumInput[]
-    createMany?: ReviewCreateManyMuseumInputEnvelope
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-  }
-
-  export type SuggestionCreateNestedManyWithoutMuseumInput = {
-    create?: XOR<SuggestionCreateWithoutMuseumInput, SuggestionUncheckedCreateWithoutMuseumInput> | SuggestionCreateWithoutMuseumInput[] | SuggestionUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: SuggestionCreateOrConnectWithoutMuseumInput | SuggestionCreateOrConnectWithoutMuseumInput[]
-    createMany?: SuggestionCreateManyMuseumInputEnvelope
-    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
   }
 
   export type PlanStopCreateNestedManyWithoutMuseumInput = {
@@ -30811,11 +32149,18 @@ export namespace Prisma {
     connect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
   }
 
-  export type CollectionItemCreateNestedManyWithoutMuseumInput = {
-    create?: XOR<CollectionItemCreateWithoutMuseumInput, CollectionItemUncheckedCreateWithoutMuseumInput> | CollectionItemCreateWithoutMuseumInput[] | CollectionItemUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: CollectionItemCreateOrConnectWithoutMuseumInput | CollectionItemCreateOrConnectWithoutMuseumInput[]
-    createMany?: CollectionItemCreateManyMuseumInputEnvelope
-    connect?: CollectionItemWhereUniqueInput | CollectionItemWhereUniqueInput[]
+  export type ReviewCreateNestedManyWithoutMuseumInput = {
+    create?: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput> | ReviewCreateWithoutMuseumInput[] | ReviewUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutMuseumInput | ReviewCreateOrConnectWithoutMuseumInput[]
+    createMany?: ReviewCreateManyMuseumInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type SaveCreateNestedManyWithoutMuseumInput = {
+    create?: XOR<SaveCreateWithoutMuseumInput, SaveUncheckedCreateWithoutMuseumInput> | SaveCreateWithoutMuseumInput[] | SaveUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: SaveCreateOrConnectWithoutMuseumInput | SaveCreateOrConnectWithoutMuseumInput[]
+    createMany?: SaveCreateManyMuseumInputEnvelope
+    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
   }
 
   export type StoryMuseumCreateNestedManyWithoutMuseumInput = {
@@ -30825,39 +32170,11 @@ export namespace Prisma {
     connect?: StoryMuseumWhereUniqueInput | StoryMuseumWhereUniqueInput[]
   }
 
-  export type ExhibitionUncheckedCreateNestedManyWithoutMuseumInput = {
-    create?: XOR<ExhibitionCreateWithoutMuseumInput, ExhibitionUncheckedCreateWithoutMuseumInput> | ExhibitionCreateWithoutMuseumInput[] | ExhibitionUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: ExhibitionCreateOrConnectWithoutMuseumInput | ExhibitionCreateOrConnectWithoutMuseumInput[]
-    createMany?: ExhibitionCreateManyMuseumInputEnvelope
-    connect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
-  }
-
-  export type SaveUncheckedCreateNestedManyWithoutMuseumInput = {
-    create?: XOR<SaveCreateWithoutMuseumInput, SaveUncheckedCreateWithoutMuseumInput> | SaveCreateWithoutMuseumInput[] | SaveUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: SaveCreateOrConnectWithoutMuseumInput | SaveCreateOrConnectWithoutMuseumInput[]
-    createMany?: SaveCreateManyMuseumInputEnvelope
-    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-  }
-
-  export type ReviewUncheckedCreateNestedManyWithoutMuseumInput = {
-    create?: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput> | ReviewCreateWithoutMuseumInput[] | ReviewUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutMuseumInput | ReviewCreateOrConnectWithoutMuseumInput[]
-    createMany?: ReviewCreateManyMuseumInputEnvelope
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-  }
-
-  export type SuggestionUncheckedCreateNestedManyWithoutMuseumInput = {
+  export type SuggestionCreateNestedManyWithoutMuseumInput = {
     create?: XOR<SuggestionCreateWithoutMuseumInput, SuggestionUncheckedCreateWithoutMuseumInput> | SuggestionCreateWithoutMuseumInput[] | SuggestionUncheckedCreateWithoutMuseumInput[]
     connectOrCreate?: SuggestionCreateOrConnectWithoutMuseumInput | SuggestionCreateOrConnectWithoutMuseumInput[]
     createMany?: SuggestionCreateManyMuseumInputEnvelope
     connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-  }
-
-  export type PlanStopUncheckedCreateNestedManyWithoutMuseumInput = {
-    create?: XOR<PlanStopCreateWithoutMuseumInput, PlanStopUncheckedCreateWithoutMuseumInput> | PlanStopCreateWithoutMuseumInput[] | PlanStopUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: PlanStopCreateOrConnectWithoutMuseumInput | PlanStopCreateOrConnectWithoutMuseumInput[]
-    createMany?: PlanStopCreateManyMuseumInputEnvelope
-    connect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
   }
 
   export type CollectionItemUncheckedCreateNestedManyWithoutMuseumInput = {
@@ -30867,11 +32184,46 @@ export namespace Prisma {
     connect?: CollectionItemWhereUniqueInput | CollectionItemWhereUniqueInput[]
   }
 
+  export type ExhibitionUncheckedCreateNestedManyWithoutMuseumInput = {
+    create?: XOR<ExhibitionCreateWithoutMuseumInput, ExhibitionUncheckedCreateWithoutMuseumInput> | ExhibitionCreateWithoutMuseumInput[] | ExhibitionUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: ExhibitionCreateOrConnectWithoutMuseumInput | ExhibitionCreateOrConnectWithoutMuseumInput[]
+    createMany?: ExhibitionCreateManyMuseumInputEnvelope
+    connect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
+  }
+
+  export type PlanStopUncheckedCreateNestedManyWithoutMuseumInput = {
+    create?: XOR<PlanStopCreateWithoutMuseumInput, PlanStopUncheckedCreateWithoutMuseumInput> | PlanStopCreateWithoutMuseumInput[] | PlanStopUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: PlanStopCreateOrConnectWithoutMuseumInput | PlanStopCreateOrConnectWithoutMuseumInput[]
+    createMany?: PlanStopCreateManyMuseumInputEnvelope
+    connect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
+  }
+
+  export type ReviewUncheckedCreateNestedManyWithoutMuseumInput = {
+    create?: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput> | ReviewCreateWithoutMuseumInput[] | ReviewUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutMuseumInput | ReviewCreateOrConnectWithoutMuseumInput[]
+    createMany?: ReviewCreateManyMuseumInputEnvelope
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+  }
+
+  export type SaveUncheckedCreateNestedManyWithoutMuseumInput = {
+    create?: XOR<SaveCreateWithoutMuseumInput, SaveUncheckedCreateWithoutMuseumInput> | SaveCreateWithoutMuseumInput[] | SaveUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: SaveCreateOrConnectWithoutMuseumInput | SaveCreateOrConnectWithoutMuseumInput[]
+    createMany?: SaveCreateManyMuseumInputEnvelope
+    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+  }
+
   export type StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput = {
     create?: XOR<StoryMuseumCreateWithoutMuseumInput, StoryMuseumUncheckedCreateWithoutMuseumInput> | StoryMuseumCreateWithoutMuseumInput[] | StoryMuseumUncheckedCreateWithoutMuseumInput[]
     connectOrCreate?: StoryMuseumCreateOrConnectWithoutMuseumInput | StoryMuseumCreateOrConnectWithoutMuseumInput[]
     createMany?: StoryMuseumCreateManyMuseumInputEnvelope
     connect?: StoryMuseumWhereUniqueInput | StoryMuseumWhereUniqueInput[]
+  }
+
+  export type SuggestionUncheckedCreateNestedManyWithoutMuseumInput = {
+    create?: XOR<SuggestionCreateWithoutMuseumInput, SuggestionUncheckedCreateWithoutMuseumInput> | SuggestionCreateWithoutMuseumInput[] | SuggestionUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: SuggestionCreateOrConnectWithoutMuseumInput | SuggestionCreateOrConnectWithoutMuseumInput[]
+    createMany?: SuggestionCreateManyMuseumInputEnvelope
+    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -30880,76 +32232,6 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type ExhibitionUpdateManyWithoutMuseumNestedInput = {
-    create?: XOR<ExhibitionCreateWithoutMuseumInput, ExhibitionUncheckedCreateWithoutMuseumInput> | ExhibitionCreateWithoutMuseumInput[] | ExhibitionUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: ExhibitionCreateOrConnectWithoutMuseumInput | ExhibitionCreateOrConnectWithoutMuseumInput[]
-    upsert?: ExhibitionUpsertWithWhereUniqueWithoutMuseumInput | ExhibitionUpsertWithWhereUniqueWithoutMuseumInput[]
-    createMany?: ExhibitionCreateManyMuseumInputEnvelope
-    set?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
-    disconnect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
-    delete?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
-    connect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
-    update?: ExhibitionUpdateWithWhereUniqueWithoutMuseumInput | ExhibitionUpdateWithWhereUniqueWithoutMuseumInput[]
-    updateMany?: ExhibitionUpdateManyWithWhereWithoutMuseumInput | ExhibitionUpdateManyWithWhereWithoutMuseumInput[]
-    deleteMany?: ExhibitionScalarWhereInput | ExhibitionScalarWhereInput[]
-  }
-
-  export type SaveUpdateManyWithoutMuseumNestedInput = {
-    create?: XOR<SaveCreateWithoutMuseumInput, SaveUncheckedCreateWithoutMuseumInput> | SaveCreateWithoutMuseumInput[] | SaveUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: SaveCreateOrConnectWithoutMuseumInput | SaveCreateOrConnectWithoutMuseumInput[]
-    upsert?: SaveUpsertWithWhereUniqueWithoutMuseumInput | SaveUpsertWithWhereUniqueWithoutMuseumInput[]
-    createMany?: SaveCreateManyMuseumInputEnvelope
-    set?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    disconnect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    delete?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    update?: SaveUpdateWithWhereUniqueWithoutMuseumInput | SaveUpdateWithWhereUniqueWithoutMuseumInput[]
-    updateMany?: SaveUpdateManyWithWhereWithoutMuseumInput | SaveUpdateManyWithWhereWithoutMuseumInput[]
-    deleteMany?: SaveScalarWhereInput | SaveScalarWhereInput[]
-  }
-
-  export type ReviewUpdateManyWithoutMuseumNestedInput = {
-    create?: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput> | ReviewCreateWithoutMuseumInput[] | ReviewUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutMuseumInput | ReviewCreateOrConnectWithoutMuseumInput[]
-    upsert?: ReviewUpsertWithWhereUniqueWithoutMuseumInput | ReviewUpsertWithWhereUniqueWithoutMuseumInput[]
-    createMany?: ReviewCreateManyMuseumInputEnvelope
-    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    update?: ReviewUpdateWithWhereUniqueWithoutMuseumInput | ReviewUpdateWithWhereUniqueWithoutMuseumInput[]
-    updateMany?: ReviewUpdateManyWithWhereWithoutMuseumInput | ReviewUpdateManyWithWhereWithoutMuseumInput[]
-    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
-  }
-
-  export type SuggestionUpdateManyWithoutMuseumNestedInput = {
-    create?: XOR<SuggestionCreateWithoutMuseumInput, SuggestionUncheckedCreateWithoutMuseumInput> | SuggestionCreateWithoutMuseumInput[] | SuggestionUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: SuggestionCreateOrConnectWithoutMuseumInput | SuggestionCreateOrConnectWithoutMuseumInput[]
-    upsert?: SuggestionUpsertWithWhereUniqueWithoutMuseumInput | SuggestionUpsertWithWhereUniqueWithoutMuseumInput[]
-    createMany?: SuggestionCreateManyMuseumInputEnvelope
-    set?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    disconnect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    delete?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
-    update?: SuggestionUpdateWithWhereUniqueWithoutMuseumInput | SuggestionUpdateWithWhereUniqueWithoutMuseumInput[]
-    updateMany?: SuggestionUpdateManyWithWhereWithoutMuseumInput | SuggestionUpdateManyWithWhereWithoutMuseumInput[]
-    deleteMany?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
-  }
-
-  export type PlanStopUpdateManyWithoutMuseumNestedInput = {
-    create?: XOR<PlanStopCreateWithoutMuseumInput, PlanStopUncheckedCreateWithoutMuseumInput> | PlanStopCreateWithoutMuseumInput[] | PlanStopUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: PlanStopCreateOrConnectWithoutMuseumInput | PlanStopCreateOrConnectWithoutMuseumInput[]
-    upsert?: PlanStopUpsertWithWhereUniqueWithoutMuseumInput | PlanStopUpsertWithWhereUniqueWithoutMuseumInput[]
-    createMany?: PlanStopCreateManyMuseumInputEnvelope
-    set?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
-    disconnect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
-    delete?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
-    connect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
-    update?: PlanStopUpdateWithWhereUniqueWithoutMuseumInput | PlanStopUpdateWithWhereUniqueWithoutMuseumInput[]
-    updateMany?: PlanStopUpdateManyWithWhereWithoutMuseumInput | PlanStopUpdateManyWithWhereWithoutMuseumInput[]
-    deleteMany?: PlanStopScalarWhereInput | PlanStopScalarWhereInput[]
   }
 
   export type CollectionItemUpdateManyWithoutMuseumNestedInput = {
@@ -30966,6 +32248,62 @@ export namespace Prisma {
     deleteMany?: CollectionItemScalarWhereInput | CollectionItemScalarWhereInput[]
   }
 
+  export type ExhibitionUpdateManyWithoutMuseumNestedInput = {
+    create?: XOR<ExhibitionCreateWithoutMuseumInput, ExhibitionUncheckedCreateWithoutMuseumInput> | ExhibitionCreateWithoutMuseumInput[] | ExhibitionUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: ExhibitionCreateOrConnectWithoutMuseumInput | ExhibitionCreateOrConnectWithoutMuseumInput[]
+    upsert?: ExhibitionUpsertWithWhereUniqueWithoutMuseumInput | ExhibitionUpsertWithWhereUniqueWithoutMuseumInput[]
+    createMany?: ExhibitionCreateManyMuseumInputEnvelope
+    set?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
+    disconnect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
+    delete?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
+    connect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
+    update?: ExhibitionUpdateWithWhereUniqueWithoutMuseumInput | ExhibitionUpdateWithWhereUniqueWithoutMuseumInput[]
+    updateMany?: ExhibitionUpdateManyWithWhereWithoutMuseumInput | ExhibitionUpdateManyWithWhereWithoutMuseumInput[]
+    deleteMany?: ExhibitionScalarWhereInput | ExhibitionScalarWhereInput[]
+  }
+
+  export type PlanStopUpdateManyWithoutMuseumNestedInput = {
+    create?: XOR<PlanStopCreateWithoutMuseumInput, PlanStopUncheckedCreateWithoutMuseumInput> | PlanStopCreateWithoutMuseumInput[] | PlanStopUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: PlanStopCreateOrConnectWithoutMuseumInput | PlanStopCreateOrConnectWithoutMuseumInput[]
+    upsert?: PlanStopUpsertWithWhereUniqueWithoutMuseumInput | PlanStopUpsertWithWhereUniqueWithoutMuseumInput[]
+    createMany?: PlanStopCreateManyMuseumInputEnvelope
+    set?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
+    disconnect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
+    delete?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
+    connect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
+    update?: PlanStopUpdateWithWhereUniqueWithoutMuseumInput | PlanStopUpdateWithWhereUniqueWithoutMuseumInput[]
+    updateMany?: PlanStopUpdateManyWithWhereWithoutMuseumInput | PlanStopUpdateManyWithWhereWithoutMuseumInput[]
+    deleteMany?: PlanStopScalarWhereInput | PlanStopScalarWhereInput[]
+  }
+
+  export type ReviewUpdateManyWithoutMuseumNestedInput = {
+    create?: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput> | ReviewCreateWithoutMuseumInput[] | ReviewUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutMuseumInput | ReviewCreateOrConnectWithoutMuseumInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutMuseumInput | ReviewUpsertWithWhereUniqueWithoutMuseumInput[]
+    createMany?: ReviewCreateManyMuseumInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutMuseumInput | ReviewUpdateWithWhereUniqueWithoutMuseumInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutMuseumInput | ReviewUpdateManyWithWhereWithoutMuseumInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type SaveUpdateManyWithoutMuseumNestedInput = {
+    create?: XOR<SaveCreateWithoutMuseumInput, SaveUncheckedCreateWithoutMuseumInput> | SaveCreateWithoutMuseumInput[] | SaveUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: SaveCreateOrConnectWithoutMuseumInput | SaveCreateOrConnectWithoutMuseumInput[]
+    upsert?: SaveUpsertWithWhereUniqueWithoutMuseumInput | SaveUpsertWithWhereUniqueWithoutMuseumInput[]
+    createMany?: SaveCreateManyMuseumInputEnvelope
+    set?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    disconnect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    delete?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    update?: SaveUpdateWithWhereUniqueWithoutMuseumInput | SaveUpdateWithWhereUniqueWithoutMuseumInput[]
+    updateMany?: SaveUpdateManyWithWhereWithoutMuseumInput | SaveUpdateManyWithWhereWithoutMuseumInput[]
+    deleteMany?: SaveScalarWhereInput | SaveScalarWhereInput[]
+  }
+
   export type StoryMuseumUpdateManyWithoutMuseumNestedInput = {
     create?: XOR<StoryMuseumCreateWithoutMuseumInput, StoryMuseumUncheckedCreateWithoutMuseumInput> | StoryMuseumCreateWithoutMuseumInput[] | StoryMuseumUncheckedCreateWithoutMuseumInput[]
     connectOrCreate?: StoryMuseumCreateOrConnectWithoutMuseumInput | StoryMuseumCreateOrConnectWithoutMuseumInput[]
@@ -30980,49 +32318,7 @@ export namespace Prisma {
     deleteMany?: StoryMuseumScalarWhereInput | StoryMuseumScalarWhereInput[]
   }
 
-  export type ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput = {
-    create?: XOR<ExhibitionCreateWithoutMuseumInput, ExhibitionUncheckedCreateWithoutMuseumInput> | ExhibitionCreateWithoutMuseumInput[] | ExhibitionUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: ExhibitionCreateOrConnectWithoutMuseumInput | ExhibitionCreateOrConnectWithoutMuseumInput[]
-    upsert?: ExhibitionUpsertWithWhereUniqueWithoutMuseumInput | ExhibitionUpsertWithWhereUniqueWithoutMuseumInput[]
-    createMany?: ExhibitionCreateManyMuseumInputEnvelope
-    set?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
-    disconnect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
-    delete?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
-    connect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
-    update?: ExhibitionUpdateWithWhereUniqueWithoutMuseumInput | ExhibitionUpdateWithWhereUniqueWithoutMuseumInput[]
-    updateMany?: ExhibitionUpdateManyWithWhereWithoutMuseumInput | ExhibitionUpdateManyWithWhereWithoutMuseumInput[]
-    deleteMany?: ExhibitionScalarWhereInput | ExhibitionScalarWhereInput[]
-  }
-
-  export type SaveUncheckedUpdateManyWithoutMuseumNestedInput = {
-    create?: XOR<SaveCreateWithoutMuseumInput, SaveUncheckedCreateWithoutMuseumInput> | SaveCreateWithoutMuseumInput[] | SaveUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: SaveCreateOrConnectWithoutMuseumInput | SaveCreateOrConnectWithoutMuseumInput[]
-    upsert?: SaveUpsertWithWhereUniqueWithoutMuseumInput | SaveUpsertWithWhereUniqueWithoutMuseumInput[]
-    createMany?: SaveCreateManyMuseumInputEnvelope
-    set?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    disconnect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    delete?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
-    update?: SaveUpdateWithWhereUniqueWithoutMuseumInput | SaveUpdateWithWhereUniqueWithoutMuseumInput[]
-    updateMany?: SaveUpdateManyWithWhereWithoutMuseumInput | SaveUpdateManyWithWhereWithoutMuseumInput[]
-    deleteMany?: SaveScalarWhereInput | SaveScalarWhereInput[]
-  }
-
-  export type ReviewUncheckedUpdateManyWithoutMuseumNestedInput = {
-    create?: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput> | ReviewCreateWithoutMuseumInput[] | ReviewUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: ReviewCreateOrConnectWithoutMuseumInput | ReviewCreateOrConnectWithoutMuseumInput[]
-    upsert?: ReviewUpsertWithWhereUniqueWithoutMuseumInput | ReviewUpsertWithWhereUniqueWithoutMuseumInput[]
-    createMany?: ReviewCreateManyMuseumInputEnvelope
-    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
-    update?: ReviewUpdateWithWhereUniqueWithoutMuseumInput | ReviewUpdateWithWhereUniqueWithoutMuseumInput[]
-    updateMany?: ReviewUpdateManyWithWhereWithoutMuseumInput | ReviewUpdateManyWithWhereWithoutMuseumInput[]
-    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
-  }
-
-  export type SuggestionUncheckedUpdateManyWithoutMuseumNestedInput = {
+  export type SuggestionUpdateManyWithoutMuseumNestedInput = {
     create?: XOR<SuggestionCreateWithoutMuseumInput, SuggestionUncheckedCreateWithoutMuseumInput> | SuggestionCreateWithoutMuseumInput[] | SuggestionUncheckedCreateWithoutMuseumInput[]
     connectOrCreate?: SuggestionCreateOrConnectWithoutMuseumInput | SuggestionCreateOrConnectWithoutMuseumInput[]
     upsert?: SuggestionUpsertWithWhereUniqueWithoutMuseumInput | SuggestionUpsertWithWhereUniqueWithoutMuseumInput[]
@@ -31034,20 +32330,6 @@ export namespace Prisma {
     update?: SuggestionUpdateWithWhereUniqueWithoutMuseumInput | SuggestionUpdateWithWhereUniqueWithoutMuseumInput[]
     updateMany?: SuggestionUpdateManyWithWhereWithoutMuseumInput | SuggestionUpdateManyWithWhereWithoutMuseumInput[]
     deleteMany?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
-  }
-
-  export type PlanStopUncheckedUpdateManyWithoutMuseumNestedInput = {
-    create?: XOR<PlanStopCreateWithoutMuseumInput, PlanStopUncheckedCreateWithoutMuseumInput> | PlanStopCreateWithoutMuseumInput[] | PlanStopUncheckedCreateWithoutMuseumInput[]
-    connectOrCreate?: PlanStopCreateOrConnectWithoutMuseumInput | PlanStopCreateOrConnectWithoutMuseumInput[]
-    upsert?: PlanStopUpsertWithWhereUniqueWithoutMuseumInput | PlanStopUpsertWithWhereUniqueWithoutMuseumInput[]
-    createMany?: PlanStopCreateManyMuseumInputEnvelope
-    set?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
-    disconnect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
-    delete?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
-    connect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
-    update?: PlanStopUpdateWithWhereUniqueWithoutMuseumInput | PlanStopUpdateWithWhereUniqueWithoutMuseumInput[]
-    updateMany?: PlanStopUpdateManyWithWhereWithoutMuseumInput | PlanStopUpdateManyWithWhereWithoutMuseumInput[]
-    deleteMany?: PlanStopScalarWhereInput | PlanStopScalarWhereInput[]
   }
 
   export type CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput = {
@@ -31064,6 +32346,62 @@ export namespace Prisma {
     deleteMany?: CollectionItemScalarWhereInput | CollectionItemScalarWhereInput[]
   }
 
+  export type ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput = {
+    create?: XOR<ExhibitionCreateWithoutMuseumInput, ExhibitionUncheckedCreateWithoutMuseumInput> | ExhibitionCreateWithoutMuseumInput[] | ExhibitionUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: ExhibitionCreateOrConnectWithoutMuseumInput | ExhibitionCreateOrConnectWithoutMuseumInput[]
+    upsert?: ExhibitionUpsertWithWhereUniqueWithoutMuseumInput | ExhibitionUpsertWithWhereUniqueWithoutMuseumInput[]
+    createMany?: ExhibitionCreateManyMuseumInputEnvelope
+    set?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
+    disconnect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
+    delete?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
+    connect?: ExhibitionWhereUniqueInput | ExhibitionWhereUniqueInput[]
+    update?: ExhibitionUpdateWithWhereUniqueWithoutMuseumInput | ExhibitionUpdateWithWhereUniqueWithoutMuseumInput[]
+    updateMany?: ExhibitionUpdateManyWithWhereWithoutMuseumInput | ExhibitionUpdateManyWithWhereWithoutMuseumInput[]
+    deleteMany?: ExhibitionScalarWhereInput | ExhibitionScalarWhereInput[]
+  }
+
+  export type PlanStopUncheckedUpdateManyWithoutMuseumNestedInput = {
+    create?: XOR<PlanStopCreateWithoutMuseumInput, PlanStopUncheckedCreateWithoutMuseumInput> | PlanStopCreateWithoutMuseumInput[] | PlanStopUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: PlanStopCreateOrConnectWithoutMuseumInput | PlanStopCreateOrConnectWithoutMuseumInput[]
+    upsert?: PlanStopUpsertWithWhereUniqueWithoutMuseumInput | PlanStopUpsertWithWhereUniqueWithoutMuseumInput[]
+    createMany?: PlanStopCreateManyMuseumInputEnvelope
+    set?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
+    disconnect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
+    delete?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
+    connect?: PlanStopWhereUniqueInput | PlanStopWhereUniqueInput[]
+    update?: PlanStopUpdateWithWhereUniqueWithoutMuseumInput | PlanStopUpdateWithWhereUniqueWithoutMuseumInput[]
+    updateMany?: PlanStopUpdateManyWithWhereWithoutMuseumInput | PlanStopUpdateManyWithWhereWithoutMuseumInput[]
+    deleteMany?: PlanStopScalarWhereInput | PlanStopScalarWhereInput[]
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutMuseumNestedInput = {
+    create?: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput> | ReviewCreateWithoutMuseumInput[] | ReviewUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: ReviewCreateOrConnectWithoutMuseumInput | ReviewCreateOrConnectWithoutMuseumInput[]
+    upsert?: ReviewUpsertWithWhereUniqueWithoutMuseumInput | ReviewUpsertWithWhereUniqueWithoutMuseumInput[]
+    createMany?: ReviewCreateManyMuseumInputEnvelope
+    set?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    disconnect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    delete?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    connect?: ReviewWhereUniqueInput | ReviewWhereUniqueInput[]
+    update?: ReviewUpdateWithWhereUniqueWithoutMuseumInput | ReviewUpdateWithWhereUniqueWithoutMuseumInput[]
+    updateMany?: ReviewUpdateManyWithWhereWithoutMuseumInput | ReviewUpdateManyWithWhereWithoutMuseumInput[]
+    deleteMany?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+  }
+
+  export type SaveUncheckedUpdateManyWithoutMuseumNestedInput = {
+    create?: XOR<SaveCreateWithoutMuseumInput, SaveUncheckedCreateWithoutMuseumInput> | SaveCreateWithoutMuseumInput[] | SaveUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: SaveCreateOrConnectWithoutMuseumInput | SaveCreateOrConnectWithoutMuseumInput[]
+    upsert?: SaveUpsertWithWhereUniqueWithoutMuseumInput | SaveUpsertWithWhereUniqueWithoutMuseumInput[]
+    createMany?: SaveCreateManyMuseumInputEnvelope
+    set?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    disconnect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    delete?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    connect?: SaveWhereUniqueInput | SaveWhereUniqueInput[]
+    update?: SaveUpdateWithWhereUniqueWithoutMuseumInput | SaveUpdateWithWhereUniqueWithoutMuseumInput[]
+    updateMany?: SaveUpdateManyWithWhereWithoutMuseumInput | SaveUpdateManyWithWhereWithoutMuseumInput[]
+    deleteMany?: SaveScalarWhereInput | SaveScalarWhereInput[]
+  }
+
   export type StoryMuseumUncheckedUpdateManyWithoutMuseumNestedInput = {
     create?: XOR<StoryMuseumCreateWithoutMuseumInput, StoryMuseumUncheckedCreateWithoutMuseumInput> | StoryMuseumCreateWithoutMuseumInput[] | StoryMuseumUncheckedCreateWithoutMuseumInput[]
     connectOrCreate?: StoryMuseumCreateOrConnectWithoutMuseumInput | StoryMuseumCreateOrConnectWithoutMuseumInput[]
@@ -31076,6 +32414,20 @@ export namespace Prisma {
     update?: StoryMuseumUpdateWithWhereUniqueWithoutMuseumInput | StoryMuseumUpdateWithWhereUniqueWithoutMuseumInput[]
     updateMany?: StoryMuseumUpdateManyWithWhereWithoutMuseumInput | StoryMuseumUpdateManyWithWhereWithoutMuseumInput[]
     deleteMany?: StoryMuseumScalarWhereInput | StoryMuseumScalarWhereInput[]
+  }
+
+  export type SuggestionUncheckedUpdateManyWithoutMuseumNestedInput = {
+    create?: XOR<SuggestionCreateWithoutMuseumInput, SuggestionUncheckedCreateWithoutMuseumInput> | SuggestionCreateWithoutMuseumInput[] | SuggestionUncheckedCreateWithoutMuseumInput[]
+    connectOrCreate?: SuggestionCreateOrConnectWithoutMuseumInput | SuggestionCreateOrConnectWithoutMuseumInput[]
+    upsert?: SuggestionUpsertWithWhereUniqueWithoutMuseumInput | SuggestionUpsertWithWhereUniqueWithoutMuseumInput[]
+    createMany?: SuggestionCreateManyMuseumInputEnvelope
+    set?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    disconnect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    delete?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    connect?: SuggestionWhereUniqueInput | SuggestionWhereUniqueInput[]
+    update?: SuggestionUpdateWithWhereUniqueWithoutMuseumInput | SuggestionUpdateWithWhereUniqueWithoutMuseumInput[]
+    updateMany?: SuggestionUpdateManyWithWhereWithoutMuseumInput | SuggestionUpdateManyWithWhereWithoutMuseumInput[]
+    deleteMany?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
   }
 
   export type MuseumCreateNestedOneWithoutExhibitionsInput = {
@@ -31148,10 +32500,10 @@ export namespace Prisma {
     deleteMany?: SaveScalarWhereInput | SaveScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutSavesInput = {
-    create?: XOR<UserCreateWithoutSavesInput, UserUncheckedCreateWithoutSavesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSavesInput
-    connect?: UserWhereUniqueInput
+  export type FolderCreateNestedOneWithoutSavesInput = {
+    create?: XOR<FolderCreateWithoutSavesInput, FolderUncheckedCreateWithoutSavesInput>
+    connectOrCreate?: FolderCreateOrConnectWithoutSavesInput
+    connect?: FolderWhereUniqueInput
   }
 
   export type MuseumCreateNestedOneWithoutSavesInput = {
@@ -31160,26 +32512,10 @@ export namespace Prisma {
     connect?: MuseumWhereUniqueInput
   }
 
-  export type FolderCreateNestedOneWithoutSavesInput = {
-    create?: XOR<FolderCreateWithoutSavesInput, FolderUncheckedCreateWithoutSavesInput>
-    connectOrCreate?: FolderCreateOrConnectWithoutSavesInput
-    connect?: FolderWhereUniqueInput
-  }
-
-  export type UserUpdateOneRequiredWithoutSavesNestedInput = {
+  export type UserCreateNestedOneWithoutSavesInput = {
     create?: XOR<UserCreateWithoutSavesInput, UserUncheckedCreateWithoutSavesInput>
     connectOrCreate?: UserCreateOrConnectWithoutSavesInput
-    upsert?: UserUpsertWithoutSavesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSavesInput, UserUpdateWithoutSavesInput>, UserUncheckedUpdateWithoutSavesInput>
-  }
-
-  export type MuseumUpdateOneRequiredWithoutSavesNestedInput = {
-    create?: XOR<MuseumCreateWithoutSavesInput, MuseumUncheckedCreateWithoutSavesInput>
-    connectOrCreate?: MuseumCreateOrConnectWithoutSavesInput
-    upsert?: MuseumUpsertWithoutSavesInput
-    connect?: MuseumWhereUniqueInput
-    update?: XOR<XOR<MuseumUpdateToOneWithWhereWithoutSavesInput, MuseumUpdateWithoutSavesInput>, MuseumUncheckedUpdateWithoutSavesInput>
   }
 
   export type FolderUpdateOneWithoutSavesNestedInput = {
@@ -31190,6 +32526,22 @@ export namespace Prisma {
     delete?: FolderWhereInput | boolean
     connect?: FolderWhereUniqueInput
     update?: XOR<XOR<FolderUpdateToOneWithWhereWithoutSavesInput, FolderUpdateWithoutSavesInput>, FolderUncheckedUpdateWithoutSavesInput>
+  }
+
+  export type MuseumUpdateOneRequiredWithoutSavesNestedInput = {
+    create?: XOR<MuseumCreateWithoutSavesInput, MuseumUncheckedCreateWithoutSavesInput>
+    connectOrCreate?: MuseumCreateOrConnectWithoutSavesInput
+    upsert?: MuseumUpsertWithoutSavesInput
+    connect?: MuseumWhereUniqueInput
+    update?: XOR<XOR<MuseumUpdateToOneWithWhereWithoutSavesInput, MuseumUpdateWithoutSavesInput>, MuseumUncheckedUpdateWithoutSavesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSavesNestedInput = {
+    create?: XOR<UserCreateWithoutSavesInput, UserUncheckedCreateWithoutSavesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSavesInput
+    upsert?: UserUpsertWithoutSavesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSavesInput, UserUpdateWithoutSavesInput>, UserUncheckedUpdateWithoutSavesInput>
   }
 
   export type UserCreateNestedOneWithoutPlansInput = {
@@ -31248,24 +32600,16 @@ export namespace Prisma {
     deleteMany?: PlanStopScalarWhereInput | PlanStopScalarWhereInput[]
   }
 
-  export type PlanCreateNestedOneWithoutStopsInput = {
-    create?: XOR<PlanCreateWithoutStopsInput, PlanUncheckedCreateWithoutStopsInput>
-    connectOrCreate?: PlanCreateOrConnectWithoutStopsInput
-    connect?: PlanWhereUniqueInput
-  }
-
   export type MuseumCreateNestedOneWithoutPlanStopsInput = {
     create?: XOR<MuseumCreateWithoutPlanStopsInput, MuseumUncheckedCreateWithoutPlanStopsInput>
     connectOrCreate?: MuseumCreateOrConnectWithoutPlanStopsInput
     connect?: MuseumWhereUniqueInput
   }
 
-  export type PlanUpdateOneRequiredWithoutStopsNestedInput = {
+  export type PlanCreateNestedOneWithoutStopsInput = {
     create?: XOR<PlanCreateWithoutStopsInput, PlanUncheckedCreateWithoutStopsInput>
     connectOrCreate?: PlanCreateOrConnectWithoutStopsInput
-    upsert?: PlanUpsertWithoutStopsInput
     connect?: PlanWhereUniqueInput
-    update?: XOR<XOR<PlanUpdateToOneWithWhereWithoutStopsInput, PlanUpdateWithoutStopsInput>, PlanUncheckedUpdateWithoutStopsInput>
   }
 
   export type MuseumUpdateOneRequiredWithoutPlanStopsNestedInput = {
@@ -31276,14 +32620,23 @@ export namespace Prisma {
     update?: XOR<XOR<MuseumUpdateToOneWithWhereWithoutPlanStopsInput, MuseumUpdateWithoutPlanStopsInput>, MuseumUncheckedUpdateWithoutPlanStopsInput>
   }
 
+  export type PlanUpdateOneRequiredWithoutStopsNestedInput = {
+    create?: XOR<PlanCreateWithoutStopsInput, PlanUncheckedCreateWithoutStopsInput>
+    connectOrCreate?: PlanCreateOrConnectWithoutStopsInput
+    upsert?: PlanUpsertWithoutStopsInput
+    connect?: PlanWhereUniqueInput
+    update?: XOR<XOR<PlanUpdateToOneWithWhereWithoutStopsInput, PlanUpdateWithoutStopsInput>, PlanUncheckedUpdateWithoutStopsInput>
+  }
+
   export type ReviewCreatephotosInput = {
     set: string[]
   }
 
-  export type UserCreateNestedOneWithoutReviewsInput = {
-    create?: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutReviewsInput
-    connect?: UserWhereUniqueInput
+  export type CollectionItemCreateNestedManyWithoutReviewInput = {
+    create?: XOR<CollectionItemCreateWithoutReviewInput, CollectionItemUncheckedCreateWithoutReviewInput> | CollectionItemCreateWithoutReviewInput[] | CollectionItemUncheckedCreateWithoutReviewInput[]
+    connectOrCreate?: CollectionItemCreateOrConnectWithoutReviewInput | CollectionItemCreateOrConnectWithoutReviewInput[]
+    createMany?: CollectionItemCreateManyReviewInputEnvelope
+    connect?: CollectionItemWhereUniqueInput | CollectionItemWhereUniqueInput[]
   }
 
   export type MuseumCreateNestedOneWithoutReviewsInput = {
@@ -31292,11 +32645,10 @@ export namespace Prisma {
     connect?: MuseumWhereUniqueInput
   }
 
-  export type CollectionItemCreateNestedManyWithoutReviewInput = {
-    create?: XOR<CollectionItemCreateWithoutReviewInput, CollectionItemUncheckedCreateWithoutReviewInput> | CollectionItemCreateWithoutReviewInput[] | CollectionItemUncheckedCreateWithoutReviewInput[]
-    connectOrCreate?: CollectionItemCreateOrConnectWithoutReviewInput | CollectionItemCreateOrConnectWithoutReviewInput[]
-    createMany?: CollectionItemCreateManyReviewInputEnvelope
-    connect?: CollectionItemWhereUniqueInput | CollectionItemWhereUniqueInput[]
+  export type UserCreateNestedOneWithoutReviewsInput = {
+    create?: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReviewsInput
+    connect?: UserWhereUniqueInput
   }
 
   export type CollectionItemUncheckedCreateNestedManyWithoutReviewInput = {
@@ -31311,22 +32663,6 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
-    create?: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutReviewsInput
-    upsert?: UserUpsertWithoutReviewsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReviewsInput, UserUpdateWithoutReviewsInput>, UserUncheckedUpdateWithoutReviewsInput>
-  }
-
-  export type MuseumUpdateOneRequiredWithoutReviewsNestedInput = {
-    create?: XOR<MuseumCreateWithoutReviewsInput, MuseumUncheckedCreateWithoutReviewsInput>
-    connectOrCreate?: MuseumCreateOrConnectWithoutReviewsInput
-    upsert?: MuseumUpsertWithoutReviewsInput
-    connect?: MuseumWhereUniqueInput
-    update?: XOR<XOR<MuseumUpdateToOneWithWhereWithoutReviewsInput, MuseumUpdateWithoutReviewsInput>, MuseumUncheckedUpdateWithoutReviewsInput>
-  }
-
   export type CollectionItemUpdateManyWithoutReviewNestedInput = {
     create?: XOR<CollectionItemCreateWithoutReviewInput, CollectionItemUncheckedCreateWithoutReviewInput> | CollectionItemCreateWithoutReviewInput[] | CollectionItemUncheckedCreateWithoutReviewInput[]
     connectOrCreate?: CollectionItemCreateOrConnectWithoutReviewInput | CollectionItemCreateOrConnectWithoutReviewInput[]
@@ -31339,6 +32675,22 @@ export namespace Prisma {
     update?: CollectionItemUpdateWithWhereUniqueWithoutReviewInput | CollectionItemUpdateWithWhereUniqueWithoutReviewInput[]
     updateMany?: CollectionItemUpdateManyWithWhereWithoutReviewInput | CollectionItemUpdateManyWithWhereWithoutReviewInput[]
     deleteMany?: CollectionItemScalarWhereInput | CollectionItemScalarWhereInput[]
+  }
+
+  export type MuseumUpdateOneRequiredWithoutReviewsNestedInput = {
+    create?: XOR<MuseumCreateWithoutReviewsInput, MuseumUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: MuseumCreateOrConnectWithoutReviewsInput
+    upsert?: MuseumUpsertWithoutReviewsInput
+    connect?: MuseumWhereUniqueInput
+    update?: XOR<XOR<MuseumUpdateToOneWithWhereWithoutReviewsInput, MuseumUpdateWithoutReviewsInput>, MuseumUncheckedUpdateWithoutReviewsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutReviewsNestedInput = {
+    create?: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReviewsInput
+    upsert?: UserUpsertWithoutReviewsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReviewsInput, UserUpdateWithoutReviewsInput>, UserUncheckedUpdateWithoutReviewsInput>
   }
 
   export type CollectionItemUncheckedUpdateManyWithoutReviewNestedInput = {
@@ -31497,24 +32849,16 @@ export namespace Prisma {
     deleteMany?: ChallengeProgressScalarWhereInput | ChallengeProgressScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutChallengesInput = {
-    create?: XOR<UserCreateWithoutChallengesInput, UserUncheckedCreateWithoutChallengesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutChallengesInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type ChallengeCreateNestedOneWithoutProgressInput = {
     create?: XOR<ChallengeCreateWithoutProgressInput, ChallengeUncheckedCreateWithoutProgressInput>
     connectOrCreate?: ChallengeCreateOrConnectWithoutProgressInput
     connect?: ChallengeWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutChallengesNestedInput = {
+  export type UserCreateNestedOneWithoutChallengesInput = {
     create?: XOR<UserCreateWithoutChallengesInput, UserUncheckedCreateWithoutChallengesInput>
     connectOrCreate?: UserCreateOrConnectWithoutChallengesInput
-    upsert?: UserUpsertWithoutChallengesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChallengesInput, UserUpdateWithoutChallengesInput>, UserUncheckedUpdateWithoutChallengesInput>
   }
 
   export type ChallengeUpdateOneRequiredWithoutProgressNestedInput = {
@@ -31523,6 +32867,14 @@ export namespace Prisma {
     upsert?: ChallengeUpsertWithoutProgressInput
     connect?: ChallengeWhereUniqueInput
     update?: XOR<XOR<ChallengeUpdateToOneWithWhereWithoutProgressInput, ChallengeUpdateWithoutProgressInput>, ChallengeUncheckedUpdateWithoutProgressInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutChallengesNestedInput = {
+    create?: XOR<UserCreateWithoutChallengesInput, UserUncheckedCreateWithoutChallengesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutChallengesInput
+    upsert?: UserUpsertWithoutChallengesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChallengesInput, UserUpdateWithoutChallengesInput>, UserUncheckedUpdateWithoutChallengesInput>
   }
 
   export type UserCreateNestedOneWithoutFeedbacksInput = {
@@ -31541,30 +32893,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFeedbacksInput, UserUpdateWithoutFeedbacksInput>, UserUncheckedUpdateWithoutFeedbacksInput>
   }
 
-  export type UserCreateNestedOneWithoutSuggestionsInput = {
-    create?: XOR<UserCreateWithoutSuggestionsInput, UserUncheckedCreateWithoutSuggestionsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutSuggestionsInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type MuseumCreateNestedOneWithoutSuggestionsInput = {
     create?: XOR<MuseumCreateWithoutSuggestionsInput, MuseumUncheckedCreateWithoutSuggestionsInput>
     connectOrCreate?: MuseumCreateOrConnectWithoutSuggestionsInput
     connect?: MuseumWhereUniqueInput
   }
 
-  export type EnumSuggestionStatusFieldUpdateOperationsInput = {
-    set?: $Enums.SuggestionStatus
-  }
-
-  export type UserUpdateOneWithoutSuggestionsNestedInput = {
+  export type UserCreateNestedOneWithoutSuggestionsInput = {
     create?: XOR<UserCreateWithoutSuggestionsInput, UserUncheckedCreateWithoutSuggestionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSuggestionsInput
-    upsert?: UserUpsertWithoutSuggestionsInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSuggestionsInput, UserUpdateWithoutSuggestionsInput>, UserUncheckedUpdateWithoutSuggestionsInput>
+  }
+
+  export type EnumSuggestionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SuggestionStatus
   }
 
   export type MuseumUpdateOneWithoutSuggestionsNestedInput = {
@@ -31575,6 +32917,16 @@ export namespace Prisma {
     delete?: MuseumWhereInput | boolean
     connect?: MuseumWhereUniqueInput
     update?: XOR<XOR<MuseumUpdateToOneWithWhereWithoutSuggestionsInput, MuseumUpdateWithoutSuggestionsInput>, MuseumUncheckedUpdateWithoutSuggestionsInput>
+  }
+
+  export type UserUpdateOneWithoutSuggestionsNestedInput = {
+    create?: XOR<UserCreateWithoutSuggestionsInput, UserUncheckedCreateWithoutSuggestionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSuggestionsInput
+    upsert?: UserUpsertWithoutSuggestionsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSuggestionsInput, UserUpdateWithoutSuggestionsInput>, UserUncheckedUpdateWithoutSuggestionsInput>
   }
 
   export type UserCreateNestedOneWithoutReportsInput = {
@@ -31597,6 +32949,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutReportsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReportsInput, UserUpdateWithoutReportsInput>, UserUncheckedUpdateWithoutReportsInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -31920,6 +33280,59 @@ export namespace Prisma {
     _max?: NestedEnumReportStatusFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type ChallengeProgressCreateWithoutUserInput = {
+    completedAt?: Date | string | null
+    completed?: boolean
+    progress?: number
+    updatedAt?: Date | string
+    challenge: ChallengeCreateNestedOneWithoutProgressInput
+  }
+
+  export type ChallengeProgressUncheckedCreateWithoutUserInput = {
+    challengeId: string
+    completedAt?: Date | string | null
+    completed?: boolean
+    progress?: number
+    updatedAt?: Date | string
+  }
+
+  export type ChallengeProgressCreateOrConnectWithoutUserInput = {
+    where: ChallengeProgressWhereUniqueInput
+    create: XOR<ChallengeProgressCreateWithoutUserInput, ChallengeProgressUncheckedCreateWithoutUserInput>
+  }
+
+  export type ChallengeProgressCreateManyUserInputEnvelope = {
+    data: ChallengeProgressCreateManyUserInput | ChallengeProgressCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CollectionCreateWithoutUserInput = {
     id?: string
     title: string
@@ -31952,6 +33365,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FeedbackCreateWithoutUserInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    reply?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type FeedbackUncheckedCreateWithoutUserInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    reply?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type FeedbackCreateOrConnectWithoutUserInput = {
+    where: FeedbackWhereUniqueInput
+    create: XOR<FeedbackCreateWithoutUserInput, FeedbackUncheckedCreateWithoutUserInput>
+  }
+
+  export type FeedbackCreateManyUserInputEnvelope = {
+    data: FeedbackCreateManyUserInput | FeedbackCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type FolderCreateWithoutUserInput = {
     id?: string
     name: string
@@ -31980,27 +33419,37 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SaveCreateWithoutUserInput = {
+  export type NotificationCreateWithoutUserInput = {
     id?: string
+    type: string
+    title: string
+    message: string
+    link?: string | null
+    isRead?: boolean
     createdAt?: Date | string
-    museum: MuseumCreateNestedOneWithoutSavesInput
-    folder?: FolderCreateNestedOneWithoutSavesInput
+    messageEn?: string | null
+    titleEn?: string | null
   }
 
-  export type SaveUncheckedCreateWithoutUserInput = {
+  export type NotificationUncheckedCreateWithoutUserInput = {
     id?: string
-    museumId: string
-    folderId?: string | null
+    type: string
+    title: string
+    message: string
+    link?: string | null
+    isRead?: boolean
     createdAt?: Date | string
+    messageEn?: string | null
+    titleEn?: string | null
   }
 
-  export type SaveCreateOrConnectWithoutUserInput = {
-    where: SaveWhereUniqueInput
-    create: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput>
+  export type NotificationCreateOrConnectWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
   }
 
-  export type SaveCreateManyUserInputEnvelope = {
-    data: SaveCreateManyUserInput | SaveCreateManyUserInput[]
+  export type NotificationCreateManyUserInputEnvelope = {
+    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -32027,118 +33476,6 @@ export namespace Prisma {
 
   export type PlanCreateManyUserInputEnvelope = {
     data: PlanCreateManyUserInput | PlanCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ReviewCreateWithoutUserInput = {
-    id?: string
-    content: string
-    photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
-    visitedAt?: Date | string
-    createdAt?: Date | string
-    museum: MuseumCreateNestedOneWithoutReviewsInput
-    collectionItems?: CollectionItemCreateNestedManyWithoutReviewInput
-  }
-
-  export type ReviewUncheckedCreateWithoutUserInput = {
-    id?: string
-    museumId: string
-    content: string
-    photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
-    visitedAt?: Date | string
-    createdAt?: Date | string
-    collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutReviewInput
-  }
-
-  export type ReviewCreateOrConnectWithoutUserInput = {
-    where: ReviewWhereUniqueInput
-    create: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput>
-  }
-
-  export type ReviewCreateManyUserInputEnvelope = {
-    data: ReviewCreateManyUserInput | ReviewCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ChallengeProgressCreateWithoutUserInput = {
-    progress?: number
-    completed?: boolean
-    completedAt?: Date | string | null
-    updatedAt?: Date | string
-    challenge: ChallengeCreateNestedOneWithoutProgressInput
-  }
-
-  export type ChallengeProgressUncheckedCreateWithoutUserInput = {
-    challengeId: string
-    progress?: number
-    completed?: boolean
-    completedAt?: Date | string | null
-    updatedAt?: Date | string
-  }
-
-  export type ChallengeProgressCreateOrConnectWithoutUserInput = {
-    where: ChallengeProgressWhereUniqueInput
-    create: XOR<ChallengeProgressCreateWithoutUserInput, ChallengeProgressUncheckedCreateWithoutUserInput>
-  }
-
-  export type ChallengeProgressCreateManyUserInputEnvelope = {
-    data: ChallengeProgressCreateManyUserInput | ChallengeProgressCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type FeedbackCreateWithoutUserInput = {
-    id?: string
-    content: string
-    reply?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type FeedbackUncheckedCreateWithoutUserInput = {
-    id?: string
-    content: string
-    reply?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type FeedbackCreateOrConnectWithoutUserInput = {
-    where: FeedbackWhereUniqueInput
-    create: XOR<FeedbackCreateWithoutUserInput, FeedbackUncheckedCreateWithoutUserInput>
-  }
-
-  export type FeedbackCreateManyUserInputEnvelope = {
-    data: FeedbackCreateManyUserInput | FeedbackCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type SuggestionCreateWithoutUserInput = {
-    id?: string
-    data: JsonNullValueInput | InputJsonValue
-    status?: $Enums.SuggestionStatus
-    createdAt?: Date | string
-    museum?: MuseumCreateNestedOneWithoutSuggestionsInput
-  }
-
-  export type SuggestionUncheckedCreateWithoutUserInput = {
-    id?: string
-    museumId?: string | null
-    data: JsonNullValueInput | InputJsonValue
-    status?: $Enums.SuggestionStatus
-    createdAt?: Date | string
-  }
-
-  export type SuggestionCreateOrConnectWithoutUserInput = {
-    where: SuggestionWhereUniqueInput
-    create: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput>
-  }
-
-  export type SuggestionCreateManyUserInputEnvelope = {
-    data: SuggestionCreateManyUserInput | SuggestionCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -32170,38 +33507,116 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type NotificationCreateWithoutUserInput = {
+  export type ReviewCreateWithoutUserInput = {
     id?: string
-    type: string
-    title: string
-    titleEn?: string | null
-    message: string
-    messageEn?: string | null
-    link?: string | null
-    isRead?: boolean
+    content: string
+    photos?: ReviewCreatephotosInput | string[]
+    visitedAt?: Date | string
     createdAt?: Date | string
+    country?: string | null
+    ipAddress?: string | null
+    collectionItems?: CollectionItemCreateNestedManyWithoutReviewInput
+    museum: MuseumCreateNestedOneWithoutReviewsInput
   }
 
-  export type NotificationUncheckedCreateWithoutUserInput = {
+  export type ReviewUncheckedCreateWithoutUserInput = {
     id?: string
-    type: string
-    title: string
-    titleEn?: string | null
-    message: string
-    messageEn?: string | null
-    link?: string | null
-    isRead?: boolean
+    museumId: string
+    content: string
+    photos?: ReviewCreatephotosInput | string[]
+    visitedAt?: Date | string
     createdAt?: Date | string
+    country?: string | null
+    ipAddress?: string | null
+    collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutReviewInput
   }
 
-  export type NotificationCreateOrConnectWithoutUserInput = {
-    where: NotificationWhereUniqueInput
-    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  export type ReviewCreateOrConnectWithoutUserInput = {
+    where: ReviewWhereUniqueInput
+    create: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput>
   }
 
-  export type NotificationCreateManyUserInputEnvelope = {
-    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
+  export type ReviewCreateManyUserInputEnvelope = {
+    data: ReviewCreateManyUserInput | ReviewCreateManyUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type SaveCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    folder?: FolderCreateNestedOneWithoutSavesInput
+    museum: MuseumCreateNestedOneWithoutSavesInput
+  }
+
+  export type SaveUncheckedCreateWithoutUserInput = {
+    id?: string
+    museumId: string
+    folderId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SaveCreateOrConnectWithoutUserInput = {
+    where: SaveWhereUniqueInput
+    create: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput>
+  }
+
+  export type SaveCreateManyUserInputEnvelope = {
+    data: SaveCreateManyUserInput | SaveCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SuggestionCreateWithoutUserInput = {
+    id?: string
+    data: JsonNullValueInput | InputJsonValue
+    status?: $Enums.SuggestionStatus
+    createdAt?: Date | string
+    museum?: MuseumCreateNestedOneWithoutSuggestionsInput
+  }
+
+  export type SuggestionUncheckedCreateWithoutUserInput = {
+    id?: string
+    museumId?: string | null
+    data: JsonNullValueInput | InputJsonValue
+    status?: $Enums.SuggestionStatus
+    createdAt?: Date | string
+  }
+
+  export type SuggestionCreateOrConnectWithoutUserInput = {
+    where: SuggestionWhereUniqueInput
+    create: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SuggestionCreateManyUserInputEnvelope = {
+    data: SuggestionCreateManyUserInput | SuggestionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChallengeProgressUpsertWithWhereUniqueWithoutUserInput = {
+    where: ChallengeProgressWhereUniqueInput
+    update: XOR<ChallengeProgressUpdateWithoutUserInput, ChallengeProgressUncheckedUpdateWithoutUserInput>
+    create: XOR<ChallengeProgressCreateWithoutUserInput, ChallengeProgressUncheckedCreateWithoutUserInput>
+  }
+
+  export type ChallengeProgressUpdateWithWhereUniqueWithoutUserInput = {
+    where: ChallengeProgressWhereUniqueInput
+    data: XOR<ChallengeProgressUpdateWithoutUserInput, ChallengeProgressUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ChallengeProgressUpdateManyWithWhereWithoutUserInput = {
+    where: ChallengeProgressScalarWhereInput
+    data: XOR<ChallengeProgressUpdateManyMutationInput, ChallengeProgressUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ChallengeProgressScalarWhereInput = {
+    AND?: ChallengeProgressScalarWhereInput | ChallengeProgressScalarWhereInput[]
+    OR?: ChallengeProgressScalarWhereInput[]
+    NOT?: ChallengeProgressScalarWhereInput | ChallengeProgressScalarWhereInput[]
+    userId?: StringFilter<"ChallengeProgress"> | string
+    challengeId?: StringFilter<"ChallengeProgress"> | string
+    completedAt?: DateTimeNullableFilter<"ChallengeProgress"> | Date | string | null
+    completed?: BoolFilter<"ChallengeProgress"> | boolean
+    progress?: IntFilter<"ChallengeProgress"> | number
+    updatedAt?: DateTimeFilter<"ChallengeProgress"> | Date | string
   }
 
   export type CollectionUpsertWithWhereUniqueWithoutUserInput = {
@@ -32234,6 +33649,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Collection"> | Date | string
   }
 
+  export type FeedbackUpsertWithWhereUniqueWithoutUserInput = {
+    where: FeedbackWhereUniqueInput
+    update: XOR<FeedbackUpdateWithoutUserInput, FeedbackUncheckedUpdateWithoutUserInput>
+    create: XOR<FeedbackCreateWithoutUserInput, FeedbackUncheckedCreateWithoutUserInput>
+  }
+
+  export type FeedbackUpdateWithWhereUniqueWithoutUserInput = {
+    where: FeedbackWhereUniqueInput
+    data: XOR<FeedbackUpdateWithoutUserInput, FeedbackUncheckedUpdateWithoutUserInput>
+  }
+
+  export type FeedbackUpdateManyWithWhereWithoutUserInput = {
+    where: FeedbackScalarWhereInput
+    data: XOR<FeedbackUpdateManyMutationInput, FeedbackUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type FeedbackScalarWhereInput = {
+    AND?: FeedbackScalarWhereInput | FeedbackScalarWhereInput[]
+    OR?: FeedbackScalarWhereInput[]
+    NOT?: FeedbackScalarWhereInput | FeedbackScalarWhereInput[]
+    id?: StringFilter<"Feedback"> | string
+    userId?: StringNullableFilter<"Feedback"> | string | null
+    content?: StringFilter<"Feedback"> | string
+    createdAt?: DateTimeFilter<"Feedback"> | Date | string
+    reply?: StringNullableFilter<"Feedback"> | string | null
+    updatedAt?: DateTimeFilter<"Feedback"> | Date | string
+  }
+
   export type FolderUpsertWithWhereUniqueWithoutUserInput = {
     where: FolderWhereUniqueInput
     update: XOR<FolderUpdateWithoutUserInput, FolderUncheckedUpdateWithoutUserInput>
@@ -32262,31 +33705,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Folder"> | Date | string
   }
 
-  export type SaveUpsertWithWhereUniqueWithoutUserInput = {
-    where: SaveWhereUniqueInput
-    update: XOR<SaveUpdateWithoutUserInput, SaveUncheckedUpdateWithoutUserInput>
-    create: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput>
+  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
   }
 
-  export type SaveUpdateWithWhereUniqueWithoutUserInput = {
-    where: SaveWhereUniqueInput
-    data: XOR<SaveUpdateWithoutUserInput, SaveUncheckedUpdateWithoutUserInput>
+  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
   }
 
-  export type SaveUpdateManyWithWhereWithoutUserInput = {
-    where: SaveScalarWhereInput
-    data: XOR<SaveUpdateManyMutationInput, SaveUncheckedUpdateManyWithoutUserInput>
+  export type NotificationUpdateManyWithWhereWithoutUserInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type SaveScalarWhereInput = {
-    AND?: SaveScalarWhereInput | SaveScalarWhereInput[]
-    OR?: SaveScalarWhereInput[]
-    NOT?: SaveScalarWhereInput | SaveScalarWhereInput[]
-    id?: StringFilter<"Save"> | string
-    userId?: StringFilter<"Save"> | string
-    museumId?: StringFilter<"Save"> | string
-    folderId?: StringNullableFilter<"Save"> | string | null
-    createdAt?: DateTimeFilter<"Save"> | Date | string
+  export type NotificationScalarWhereInput = {
+    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    OR?: NotificationScalarWhereInput[]
+    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    userId?: StringNullableFilter<"Notification"> | string | null
+    type?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    message?: StringFilter<"Notification"> | string
+    link?: StringNullableFilter<"Notification"> | string | null
+    isRead?: BoolFilter<"Notification"> | boolean
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    messageEn?: StringNullableFilter<"Notification"> | string | null
+    titleEn?: StringNullableFilter<"Notification"> | string | null
   }
 
   export type PlanUpsertWithWhereUniqueWithoutUserInput = {
@@ -32314,121 +33762,6 @@ export namespace Prisma {
     title?: StringNullableFilter<"Plan"> | string | null
     date?: DateTimeFilter<"Plan"> | Date | string
     createdAt?: DateTimeFilter<"Plan"> | Date | string
-  }
-
-  export type ReviewUpsertWithWhereUniqueWithoutUserInput = {
-    where: ReviewWhereUniqueInput
-    update: XOR<ReviewUpdateWithoutUserInput, ReviewUncheckedUpdateWithoutUserInput>
-    create: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput>
-  }
-
-  export type ReviewUpdateWithWhereUniqueWithoutUserInput = {
-    where: ReviewWhereUniqueInput
-    data: XOR<ReviewUpdateWithoutUserInput, ReviewUncheckedUpdateWithoutUserInput>
-  }
-
-  export type ReviewUpdateManyWithWhereWithoutUserInput = {
-    where: ReviewScalarWhereInput
-    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type ReviewScalarWhereInput = {
-    AND?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
-    OR?: ReviewScalarWhereInput[]
-    NOT?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
-    id?: StringFilter<"Review"> | string
-    userId?: StringFilter<"Review"> | string
-    museumId?: StringFilter<"Review"> | string
-    content?: StringFilter<"Review"> | string
-    photos?: StringNullableListFilter<"Review">
-    ipAddress?: StringNullableFilter<"Review"> | string | null
-    country?: StringNullableFilter<"Review"> | string | null
-    visitedAt?: DateTimeFilter<"Review"> | Date | string
-    createdAt?: DateTimeFilter<"Review"> | Date | string
-  }
-
-  export type ChallengeProgressUpsertWithWhereUniqueWithoutUserInput = {
-    where: ChallengeProgressWhereUniqueInput
-    update: XOR<ChallengeProgressUpdateWithoutUserInput, ChallengeProgressUncheckedUpdateWithoutUserInput>
-    create: XOR<ChallengeProgressCreateWithoutUserInput, ChallengeProgressUncheckedCreateWithoutUserInput>
-  }
-
-  export type ChallengeProgressUpdateWithWhereUniqueWithoutUserInput = {
-    where: ChallengeProgressWhereUniqueInput
-    data: XOR<ChallengeProgressUpdateWithoutUserInput, ChallengeProgressUncheckedUpdateWithoutUserInput>
-  }
-
-  export type ChallengeProgressUpdateManyWithWhereWithoutUserInput = {
-    where: ChallengeProgressScalarWhereInput
-    data: XOR<ChallengeProgressUpdateManyMutationInput, ChallengeProgressUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type ChallengeProgressScalarWhereInput = {
-    AND?: ChallengeProgressScalarWhereInput | ChallengeProgressScalarWhereInput[]
-    OR?: ChallengeProgressScalarWhereInput[]
-    NOT?: ChallengeProgressScalarWhereInput | ChallengeProgressScalarWhereInput[]
-    userId?: StringFilter<"ChallengeProgress"> | string
-    challengeId?: StringFilter<"ChallengeProgress"> | string
-    progress?: IntFilter<"ChallengeProgress"> | number
-    completed?: BoolFilter<"ChallengeProgress"> | boolean
-    completedAt?: DateTimeNullableFilter<"ChallengeProgress"> | Date | string | null
-    updatedAt?: DateTimeFilter<"ChallengeProgress"> | Date | string
-  }
-
-  export type FeedbackUpsertWithWhereUniqueWithoutUserInput = {
-    where: FeedbackWhereUniqueInput
-    update: XOR<FeedbackUpdateWithoutUserInput, FeedbackUncheckedUpdateWithoutUserInput>
-    create: XOR<FeedbackCreateWithoutUserInput, FeedbackUncheckedCreateWithoutUserInput>
-  }
-
-  export type FeedbackUpdateWithWhereUniqueWithoutUserInput = {
-    where: FeedbackWhereUniqueInput
-    data: XOR<FeedbackUpdateWithoutUserInput, FeedbackUncheckedUpdateWithoutUserInput>
-  }
-
-  export type FeedbackUpdateManyWithWhereWithoutUserInput = {
-    where: FeedbackScalarWhereInput
-    data: XOR<FeedbackUpdateManyMutationInput, FeedbackUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type FeedbackScalarWhereInput = {
-    AND?: FeedbackScalarWhereInput | FeedbackScalarWhereInput[]
-    OR?: FeedbackScalarWhereInput[]
-    NOT?: FeedbackScalarWhereInput | FeedbackScalarWhereInput[]
-    id?: StringFilter<"Feedback"> | string
-    userId?: StringNullableFilter<"Feedback"> | string | null
-    content?: StringFilter<"Feedback"> | string
-    reply?: StringNullableFilter<"Feedback"> | string | null
-    createdAt?: DateTimeFilter<"Feedback"> | Date | string
-    updatedAt?: DateTimeFilter<"Feedback"> | Date | string
-  }
-
-  export type SuggestionUpsertWithWhereUniqueWithoutUserInput = {
-    where: SuggestionWhereUniqueInput
-    update: XOR<SuggestionUpdateWithoutUserInput, SuggestionUncheckedUpdateWithoutUserInput>
-    create: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput>
-  }
-
-  export type SuggestionUpdateWithWhereUniqueWithoutUserInput = {
-    where: SuggestionWhereUniqueInput
-    data: XOR<SuggestionUpdateWithoutUserInput, SuggestionUncheckedUpdateWithoutUserInput>
-  }
-
-  export type SuggestionUpdateManyWithWhereWithoutUserInput = {
-    where: SuggestionScalarWhereInput
-    data: XOR<SuggestionUpdateManyMutationInput, SuggestionUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type SuggestionScalarWhereInput = {
-    AND?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
-    OR?: SuggestionScalarWhereInput[]
-    NOT?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
-    id?: StringFilter<"Suggestion"> | string
-    museumId?: StringNullableFilter<"Suggestion"> | string | null
-    userId?: StringNullableFilter<"Suggestion"> | string | null
-    data?: JsonFilter<"Suggestion">
-    status?: EnumSuggestionStatusFilter<"Suggestion"> | $Enums.SuggestionStatus
-    createdAt?: DateTimeFilter<"Suggestion"> | Date | string
   }
 
   export type ReportUpsertWithWhereUniqueWithoutReporterInput = {
@@ -32460,36 +33793,90 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Report"> | Date | string
   }
 
-  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
-    where: NotificationWhereUniqueInput
-    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
-    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
+  export type ReviewUpsertWithWhereUniqueWithoutUserInput = {
+    where: ReviewWhereUniqueInput
+    update: XOR<ReviewUpdateWithoutUserInput, ReviewUncheckedUpdateWithoutUserInput>
+    create: XOR<ReviewCreateWithoutUserInput, ReviewUncheckedCreateWithoutUserInput>
   }
 
-  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
-    where: NotificationWhereUniqueInput
-    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
+  export type ReviewUpdateWithWhereUniqueWithoutUserInput = {
+    where: ReviewWhereUniqueInput
+    data: XOR<ReviewUpdateWithoutUserInput, ReviewUncheckedUpdateWithoutUserInput>
   }
 
-  export type NotificationUpdateManyWithWhereWithoutUserInput = {
-    where: NotificationScalarWhereInput
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
+  export type ReviewUpdateManyWithWhereWithoutUserInput = {
+    where: ReviewScalarWhereInput
+    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type NotificationScalarWhereInput = {
-    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-    OR?: NotificationScalarWhereInput[]
-    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-    id?: StringFilter<"Notification"> | string
-    userId?: StringNullableFilter<"Notification"> | string | null
-    type?: StringFilter<"Notification"> | string
-    title?: StringFilter<"Notification"> | string
-    titleEn?: StringNullableFilter<"Notification"> | string | null
-    message?: StringFilter<"Notification"> | string
-    messageEn?: StringNullableFilter<"Notification"> | string | null
-    link?: StringNullableFilter<"Notification"> | string | null
-    isRead?: BoolFilter<"Notification"> | boolean
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
+  export type ReviewScalarWhereInput = {
+    AND?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+    OR?: ReviewScalarWhereInput[]
+    NOT?: ReviewScalarWhereInput | ReviewScalarWhereInput[]
+    id?: StringFilter<"Review"> | string
+    userId?: StringFilter<"Review"> | string
+    museumId?: StringFilter<"Review"> | string
+    content?: StringFilter<"Review"> | string
+    photos?: StringNullableListFilter<"Review">
+    visitedAt?: DateTimeFilter<"Review"> | Date | string
+    createdAt?: DateTimeFilter<"Review"> | Date | string
+    country?: StringNullableFilter<"Review"> | string | null
+    ipAddress?: StringNullableFilter<"Review"> | string | null
+  }
+
+  export type SaveUpsertWithWhereUniqueWithoutUserInput = {
+    where: SaveWhereUniqueInput
+    update: XOR<SaveUpdateWithoutUserInput, SaveUncheckedUpdateWithoutUserInput>
+    create: XOR<SaveCreateWithoutUserInput, SaveUncheckedCreateWithoutUserInput>
+  }
+
+  export type SaveUpdateWithWhereUniqueWithoutUserInput = {
+    where: SaveWhereUniqueInput
+    data: XOR<SaveUpdateWithoutUserInput, SaveUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SaveUpdateManyWithWhereWithoutUserInput = {
+    where: SaveScalarWhereInput
+    data: XOR<SaveUpdateManyMutationInput, SaveUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SaveScalarWhereInput = {
+    AND?: SaveScalarWhereInput | SaveScalarWhereInput[]
+    OR?: SaveScalarWhereInput[]
+    NOT?: SaveScalarWhereInput | SaveScalarWhereInput[]
+    id?: StringFilter<"Save"> | string
+    userId?: StringFilter<"Save"> | string
+    museumId?: StringFilter<"Save"> | string
+    folderId?: StringNullableFilter<"Save"> | string | null
+    createdAt?: DateTimeFilter<"Save"> | Date | string
+  }
+
+  export type SuggestionUpsertWithWhereUniqueWithoutUserInput = {
+    where: SuggestionWhereUniqueInput
+    update: XOR<SuggestionUpdateWithoutUserInput, SuggestionUncheckedUpdateWithoutUserInput>
+    create: XOR<SuggestionCreateWithoutUserInput, SuggestionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SuggestionUpdateWithWhereUniqueWithoutUserInput = {
+    where: SuggestionWhereUniqueInput
+    data: XOR<SuggestionUpdateWithoutUserInput, SuggestionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SuggestionUpdateManyWithWhereWithoutUserInput = {
+    where: SuggestionScalarWhereInput
+    data: XOR<SuggestionUpdateManyMutationInput, SuggestionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SuggestionScalarWhereInput = {
+    AND?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
+    OR?: SuggestionScalarWhereInput[]
+    NOT?: SuggestionScalarWhereInput | SuggestionScalarWhereInput[]
+    id?: StringFilter<"Suggestion"> | string
+    museumId?: StringNullableFilter<"Suggestion"> | string | null
+    userId?: StringNullableFilter<"Suggestion"> | string | null
+    data?: JsonFilter<"Suggestion">
+    status?: EnumSuggestionStatusFilter<"Suggestion"> | $Enums.SuggestionStatus
+    createdAt?: DateTimeFilter<"Suggestion"> | Date | string
   }
 
   export type StoryMuseumCreateWithoutStoryInput = {
@@ -32534,41 +33921,6 @@ export namespace Prisma {
     museumId?: StringFilter<"StoryMuseum"> | string
   }
 
-  export type StoryCreateWithoutMuseumsInput = {
-    id?: string
-    title: string
-    titleEn?: string | null
-    content: string
-    contentEn?: string | null
-    description?: string | null
-    author?: string | null
-    previewImage?: string | null
-    status?: $Enums.ContentStatus
-    views?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type StoryUncheckedCreateWithoutMuseumsInput = {
-    id?: string
-    title: string
-    titleEn?: string | null
-    content: string
-    contentEn?: string | null
-    description?: string | null
-    author?: string | null
-    previewImage?: string | null
-    status?: $Enums.ContentStatus
-    views?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type StoryCreateOrConnectWithoutMuseumsInput = {
-    where: StoryWhereUniqueInput
-    create: XOR<StoryCreateWithoutMuseumsInput, StoryUncheckedCreateWithoutMuseumsInput>
-  }
-
   export type MuseumCreateWithoutStoriesInput = {
     id?: string
     name: string
@@ -32578,19 +33930,19 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
-    saves?: SaveCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewCreateNestedManyWithoutMuseumInput
+    saves?: SaveCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
   }
 
   export type MuseumUncheckedCreateWithoutStoriesInput = {
@@ -32602,19 +33954,19 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
-    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
+    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
   }
 
   export type MuseumCreateOrConnectWithoutStoriesInput = {
@@ -32622,45 +33974,43 @@ export namespace Prisma {
     create: XOR<MuseumCreateWithoutStoriesInput, MuseumUncheckedCreateWithoutStoriesInput>
   }
 
-  export type StoryUpsertWithoutMuseumsInput = {
-    update: XOR<StoryUpdateWithoutMuseumsInput, StoryUncheckedUpdateWithoutMuseumsInput>
+  export type StoryCreateWithoutMuseumsInput = {
+    id?: string
+    title: string
+    content: string
+    author?: string | null
+    previewImage?: string | null
+    status?: $Enums.ContentStatus
+    views?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentEn?: string | null
+    titleEn?: string | null
+    description?: string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type StoryUncheckedCreateWithoutMuseumsInput = {
+    id?: string
+    title: string
+    content: string
+    author?: string | null
+    previewImage?: string | null
+    status?: $Enums.ContentStatus
+    views?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    contentEn?: string | null
+    titleEn?: string | null
+    description?: string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type StoryCreateOrConnectWithoutMuseumsInput = {
+    where: StoryWhereUniqueInput
     create: XOR<StoryCreateWithoutMuseumsInput, StoryUncheckedCreateWithoutMuseumsInput>
-    where?: StoryWhereInput
-  }
-
-  export type StoryUpdateToOneWithWhereWithoutMuseumsInput = {
-    where?: StoryWhereInput
-    data: XOR<StoryUpdateWithoutMuseumsInput, StoryUncheckedUpdateWithoutMuseumsInput>
-  }
-
-  export type StoryUpdateWithoutMuseumsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
-    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    author?: NullableStringFieldUpdateOperationsInput | string | null
-    previewImage?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-    views?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type StoryUncheckedUpdateWithoutMuseumsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
-    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    author?: NullableStringFieldUpdateOperationsInput | string | null
-    previewImage?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
-    views?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MuseumUpsertWithoutStoriesInput = {
@@ -32683,19 +34033,19 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
   }
 
   export type MuseumUncheckedUpdateWithoutStoriesInput = {
@@ -32707,67 +34057,112 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
+  }
+
+  export type StoryUpsertWithoutMuseumsInput = {
+    update: XOR<StoryUpdateWithoutMuseumsInput, StoryUncheckedUpdateWithoutMuseumsInput>
+    create: XOR<StoryCreateWithoutMuseumsInput, StoryUncheckedCreateWithoutMuseumsInput>
+    where?: StoryWhereInput
+  }
+
+  export type StoryUpdateToOneWithWhereWithoutMuseumsInput = {
+    where?: StoryWhereInput
+    data: XOR<StoryUpdateWithoutMuseumsInput, StoryUncheckedUpdateWithoutMuseumsInput>
+  }
+
+  export type StoryUpdateWithoutMuseumsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    author?: NullableStringFieldUpdateOperationsInput | string | null
+    previewImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+    views?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type StoryUncheckedUpdateWithoutMuseumsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    author?: NullableStringFieldUpdateOperationsInput | string | null
+    previewImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+    views?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contentEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    infoTable?: NullableJsonNullValueInput | InputJsonValue
+    artworks?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserCreateWithoutNotificationsInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    collections?: CollectionCreateNestedManyWithoutUserInput
-    folders?: FolderCreateNestedManyWithoutUserInput
-    saves?: SaveCreateNestedManyWithoutUserInput
-    plans?: PlanCreateNestedManyWithoutUserInput
-    reviews?: ReviewCreateNestedManyWithoutUserInput
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
     challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
+    collections?: CollectionCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    plans?: PlanCreateNestedManyWithoutUserInput
     reports?: ReportCreateNestedManyWithoutReporterInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    saves?: SaveCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
-    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
-    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
-    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
     challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
     reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -32789,73 +34184,97 @@ export namespace Prisma {
   export type UserUpdateWithoutNotificationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUpdateManyWithoutUserNestedInput
-    folders?: FolderUpdateManyWithoutUserNestedInput
-    saves?: SaveUpdateManyWithoutUserNestedInput
-    plans?: PlanUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
+    collections?: CollectionUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    plans?: PlanUpdateManyWithoutUserNestedInput
     reports?: ReportUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    saves?: SaveUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
-    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
-    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
     reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CollectionItemCreateWithoutMuseumInput = {
+    id?: string
+    order: number
+    collection: CollectionCreateNestedOneWithoutItemsInput
+    review?: ReviewCreateNestedOneWithoutCollectionItemsInput
+  }
+
+  export type CollectionItemUncheckedCreateWithoutMuseumInput = {
+    id?: string
+    collectionId: string
+    reviewId?: string | null
+    order: number
+  }
+
+  export type CollectionItemCreateOrConnectWithoutMuseumInput = {
+    where: CollectionItemWhereUniqueInput
+    create: XOR<CollectionItemCreateWithoutMuseumInput, CollectionItemUncheckedCreateWithoutMuseumInput>
+  }
+
+  export type CollectionItemCreateManyMuseumInputEnvelope = {
+    data: CollectionItemCreateManyMuseumInput | CollectionItemCreateManyMuseumInput[]
+    skipDuplicates?: boolean
   }
 
   export type ExhibitionCreateWithoutMuseumInput = {
     id?: string
     title: string
     description?: string | null
-    imageUrl?: string | null
-    link?: string | null
-    source?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     createdAt?: Date | string
+    imageUrl?: string | null
+    link?: string | null
+    source?: string | null
   }
 
   export type ExhibitionUncheckedCreateWithoutMuseumInput = {
     id?: string
     title: string
     description?: string | null
-    imageUrl?: string | null
-    link?: string | null
-    source?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     createdAt?: Date | string
+    imageUrl?: string | null
+    link?: string | null
+    source?: string | null
   }
 
   export type ExhibitionCreateOrConnectWithoutMuseumInput = {
@@ -32868,11 +34287,69 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PlanStopCreateWithoutMuseumInput = {
+    id?: string
+    order: number
+    expectedArrival?: Date | string | null
+    plan: PlanCreateNestedOneWithoutStopsInput
+  }
+
+  export type PlanStopUncheckedCreateWithoutMuseumInput = {
+    id?: string
+    planId: string
+    order: number
+    expectedArrival?: Date | string | null
+  }
+
+  export type PlanStopCreateOrConnectWithoutMuseumInput = {
+    where: PlanStopWhereUniqueInput
+    create: XOR<PlanStopCreateWithoutMuseumInput, PlanStopUncheckedCreateWithoutMuseumInput>
+  }
+
+  export type PlanStopCreateManyMuseumInputEnvelope = {
+    data: PlanStopCreateManyMuseumInput | PlanStopCreateManyMuseumInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReviewCreateWithoutMuseumInput = {
+    id?: string
+    content: string
+    photos?: ReviewCreatephotosInput | string[]
+    visitedAt?: Date | string
+    createdAt?: Date | string
+    country?: string | null
+    ipAddress?: string | null
+    collectionItems?: CollectionItemCreateNestedManyWithoutReviewInput
+    user: UserCreateNestedOneWithoutReviewsInput
+  }
+
+  export type ReviewUncheckedCreateWithoutMuseumInput = {
+    id?: string
+    userId: string
+    content: string
+    photos?: ReviewCreatephotosInput | string[]
+    visitedAt?: Date | string
+    createdAt?: Date | string
+    country?: string | null
+    ipAddress?: string | null
+    collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutReviewInput
+  }
+
+  export type ReviewCreateOrConnectWithoutMuseumInput = {
+    where: ReviewWhereUniqueInput
+    create: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput>
+  }
+
+  export type ReviewCreateManyMuseumInputEnvelope = {
+    data: ReviewCreateManyMuseumInput | ReviewCreateManyMuseumInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SaveCreateWithoutMuseumInput = {
     id?: string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutSavesInput
     folder?: FolderCreateNestedOneWithoutSavesInput
+    user: UserCreateNestedOneWithoutSavesInput
   }
 
   export type SaveUncheckedCreateWithoutMuseumInput = {
@@ -32892,37 +34369,21 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ReviewCreateWithoutMuseumInput = {
-    id?: string
-    content: string
-    photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
-    visitedAt?: Date | string
-    createdAt?: Date | string
-    user: UserCreateNestedOneWithoutReviewsInput
-    collectionItems?: CollectionItemCreateNestedManyWithoutReviewInput
+  export type StoryMuseumCreateWithoutMuseumInput = {
+    story: StoryCreateNestedOneWithoutMuseumsInput
   }
 
-  export type ReviewUncheckedCreateWithoutMuseumInput = {
-    id?: string
-    userId: string
-    content: string
-    photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
-    visitedAt?: Date | string
-    createdAt?: Date | string
-    collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutReviewInput
+  export type StoryMuseumUncheckedCreateWithoutMuseumInput = {
+    storyId: string
   }
 
-  export type ReviewCreateOrConnectWithoutMuseumInput = {
-    where: ReviewWhereUniqueInput
-    create: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput>
+  export type StoryMuseumCreateOrConnectWithoutMuseumInput = {
+    where: StoryMuseumWhereUniqueInput
+    create: XOR<StoryMuseumCreateWithoutMuseumInput, StoryMuseumUncheckedCreateWithoutMuseumInput>
   }
 
-  export type ReviewCreateManyMuseumInputEnvelope = {
-    data: ReviewCreateManyMuseumInput | ReviewCreateManyMuseumInput[]
+  export type StoryMuseumCreateManyMuseumInputEnvelope = {
+    data: StoryMuseumCreateManyMuseumInput | StoryMuseumCreateManyMuseumInput[]
     skipDuplicates?: boolean
   }
 
@@ -32952,70 +34413,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type PlanStopCreateWithoutMuseumInput = {
-    id?: string
-    order: number
-    expectedArrival?: Date | string | null
-    plan: PlanCreateNestedOneWithoutStopsInput
-  }
-
-  export type PlanStopUncheckedCreateWithoutMuseumInput = {
-    id?: string
-    planId: string
-    order: number
-    expectedArrival?: Date | string | null
-  }
-
-  export type PlanStopCreateOrConnectWithoutMuseumInput = {
-    where: PlanStopWhereUniqueInput
-    create: XOR<PlanStopCreateWithoutMuseumInput, PlanStopUncheckedCreateWithoutMuseumInput>
-  }
-
-  export type PlanStopCreateManyMuseumInputEnvelope = {
-    data: PlanStopCreateManyMuseumInput | PlanStopCreateManyMuseumInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CollectionItemCreateWithoutMuseumInput = {
-    id?: string
-    order: number
-    collection: CollectionCreateNestedOneWithoutItemsInput
-    review?: ReviewCreateNestedOneWithoutCollectionItemsInput
-  }
-
-  export type CollectionItemUncheckedCreateWithoutMuseumInput = {
-    id?: string
-    collectionId: string
-    reviewId?: string | null
-    order: number
-  }
-
-  export type CollectionItemCreateOrConnectWithoutMuseumInput = {
+  export type CollectionItemUpsertWithWhereUniqueWithoutMuseumInput = {
     where: CollectionItemWhereUniqueInput
+    update: XOR<CollectionItemUpdateWithoutMuseumInput, CollectionItemUncheckedUpdateWithoutMuseumInput>
     create: XOR<CollectionItemCreateWithoutMuseumInput, CollectionItemUncheckedCreateWithoutMuseumInput>
   }
 
-  export type CollectionItemCreateManyMuseumInputEnvelope = {
-    data: CollectionItemCreateManyMuseumInput | CollectionItemCreateManyMuseumInput[]
-    skipDuplicates?: boolean
+  export type CollectionItemUpdateWithWhereUniqueWithoutMuseumInput = {
+    where: CollectionItemWhereUniqueInput
+    data: XOR<CollectionItemUpdateWithoutMuseumInput, CollectionItemUncheckedUpdateWithoutMuseumInput>
   }
 
-  export type StoryMuseumCreateWithoutMuseumInput = {
-    story: StoryCreateNestedOneWithoutMuseumsInput
+  export type CollectionItemUpdateManyWithWhereWithoutMuseumInput = {
+    where: CollectionItemScalarWhereInput
+    data: XOR<CollectionItemUpdateManyMutationInput, CollectionItemUncheckedUpdateManyWithoutMuseumInput>
   }
 
-  export type StoryMuseumUncheckedCreateWithoutMuseumInput = {
-    storyId: string
-  }
-
-  export type StoryMuseumCreateOrConnectWithoutMuseumInput = {
-    where: StoryMuseumWhereUniqueInput
-    create: XOR<StoryMuseumCreateWithoutMuseumInput, StoryMuseumUncheckedCreateWithoutMuseumInput>
-  }
-
-  export type StoryMuseumCreateManyMuseumInputEnvelope = {
-    data: StoryMuseumCreateManyMuseumInput | StoryMuseumCreateManyMuseumInput[]
-    skipDuplicates?: boolean
+  export type CollectionItemScalarWhereInput = {
+    AND?: CollectionItemScalarWhereInput | CollectionItemScalarWhereInput[]
+    OR?: CollectionItemScalarWhereInput[]
+    NOT?: CollectionItemScalarWhereInput | CollectionItemScalarWhereInput[]
+    id?: StringFilter<"CollectionItem"> | string
+    collectionId?: StringFilter<"CollectionItem"> | string
+    museumId?: StringFilter<"CollectionItem"> | string
+    reviewId?: StringNullableFilter<"CollectionItem"> | string | null
+    order?: IntFilter<"CollectionItem"> | number
   }
 
   export type ExhibitionUpsertWithWhereUniqueWithoutMuseumInput = {
@@ -33042,60 +34464,12 @@ export namespace Prisma {
     museumId?: StringFilter<"Exhibition"> | string
     title?: StringFilter<"Exhibition"> | string
     description?: StringNullableFilter<"Exhibition"> | string | null
-    imageUrl?: StringNullableFilter<"Exhibition"> | string | null
-    link?: StringNullableFilter<"Exhibition"> | string | null
-    source?: StringNullableFilter<"Exhibition"> | string | null
     startDate?: DateTimeNullableFilter<"Exhibition"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Exhibition"> | Date | string | null
     createdAt?: DateTimeFilter<"Exhibition"> | Date | string
-  }
-
-  export type SaveUpsertWithWhereUniqueWithoutMuseumInput = {
-    where: SaveWhereUniqueInput
-    update: XOR<SaveUpdateWithoutMuseumInput, SaveUncheckedUpdateWithoutMuseumInput>
-    create: XOR<SaveCreateWithoutMuseumInput, SaveUncheckedCreateWithoutMuseumInput>
-  }
-
-  export type SaveUpdateWithWhereUniqueWithoutMuseumInput = {
-    where: SaveWhereUniqueInput
-    data: XOR<SaveUpdateWithoutMuseumInput, SaveUncheckedUpdateWithoutMuseumInput>
-  }
-
-  export type SaveUpdateManyWithWhereWithoutMuseumInput = {
-    where: SaveScalarWhereInput
-    data: XOR<SaveUpdateManyMutationInput, SaveUncheckedUpdateManyWithoutMuseumInput>
-  }
-
-  export type ReviewUpsertWithWhereUniqueWithoutMuseumInput = {
-    where: ReviewWhereUniqueInput
-    update: XOR<ReviewUpdateWithoutMuseumInput, ReviewUncheckedUpdateWithoutMuseumInput>
-    create: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput>
-  }
-
-  export type ReviewUpdateWithWhereUniqueWithoutMuseumInput = {
-    where: ReviewWhereUniqueInput
-    data: XOR<ReviewUpdateWithoutMuseumInput, ReviewUncheckedUpdateWithoutMuseumInput>
-  }
-
-  export type ReviewUpdateManyWithWhereWithoutMuseumInput = {
-    where: ReviewScalarWhereInput
-    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutMuseumInput>
-  }
-
-  export type SuggestionUpsertWithWhereUniqueWithoutMuseumInput = {
-    where: SuggestionWhereUniqueInput
-    update: XOR<SuggestionUpdateWithoutMuseumInput, SuggestionUncheckedUpdateWithoutMuseumInput>
-    create: XOR<SuggestionCreateWithoutMuseumInput, SuggestionUncheckedCreateWithoutMuseumInput>
-  }
-
-  export type SuggestionUpdateWithWhereUniqueWithoutMuseumInput = {
-    where: SuggestionWhereUniqueInput
-    data: XOR<SuggestionUpdateWithoutMuseumInput, SuggestionUncheckedUpdateWithoutMuseumInput>
-  }
-
-  export type SuggestionUpdateManyWithWhereWithoutMuseumInput = {
-    where: SuggestionScalarWhereInput
-    data: XOR<SuggestionUpdateManyMutationInput, SuggestionUncheckedUpdateManyWithoutMuseumInput>
+    imageUrl?: StringNullableFilter<"Exhibition"> | string | null
+    link?: StringNullableFilter<"Exhibition"> | string | null
+    source?: StringNullableFilter<"Exhibition"> | string | null
   }
 
   export type PlanStopUpsertWithWhereUniqueWithoutMuseumInput = {
@@ -33125,31 +34499,36 @@ export namespace Prisma {
     expectedArrival?: DateTimeNullableFilter<"PlanStop"> | Date | string | null
   }
 
-  export type CollectionItemUpsertWithWhereUniqueWithoutMuseumInput = {
-    where: CollectionItemWhereUniqueInput
-    update: XOR<CollectionItemUpdateWithoutMuseumInput, CollectionItemUncheckedUpdateWithoutMuseumInput>
-    create: XOR<CollectionItemCreateWithoutMuseumInput, CollectionItemUncheckedCreateWithoutMuseumInput>
+  export type ReviewUpsertWithWhereUniqueWithoutMuseumInput = {
+    where: ReviewWhereUniqueInput
+    update: XOR<ReviewUpdateWithoutMuseumInput, ReviewUncheckedUpdateWithoutMuseumInput>
+    create: XOR<ReviewCreateWithoutMuseumInput, ReviewUncheckedCreateWithoutMuseumInput>
   }
 
-  export type CollectionItemUpdateWithWhereUniqueWithoutMuseumInput = {
-    where: CollectionItemWhereUniqueInput
-    data: XOR<CollectionItemUpdateWithoutMuseumInput, CollectionItemUncheckedUpdateWithoutMuseumInput>
+  export type ReviewUpdateWithWhereUniqueWithoutMuseumInput = {
+    where: ReviewWhereUniqueInput
+    data: XOR<ReviewUpdateWithoutMuseumInput, ReviewUncheckedUpdateWithoutMuseumInput>
   }
 
-  export type CollectionItemUpdateManyWithWhereWithoutMuseumInput = {
-    where: CollectionItemScalarWhereInput
-    data: XOR<CollectionItemUpdateManyMutationInput, CollectionItemUncheckedUpdateManyWithoutMuseumInput>
+  export type ReviewUpdateManyWithWhereWithoutMuseumInput = {
+    where: ReviewScalarWhereInput
+    data: XOR<ReviewUpdateManyMutationInput, ReviewUncheckedUpdateManyWithoutMuseumInput>
   }
 
-  export type CollectionItemScalarWhereInput = {
-    AND?: CollectionItemScalarWhereInput | CollectionItemScalarWhereInput[]
-    OR?: CollectionItemScalarWhereInput[]
-    NOT?: CollectionItemScalarWhereInput | CollectionItemScalarWhereInput[]
-    id?: StringFilter<"CollectionItem"> | string
-    collectionId?: StringFilter<"CollectionItem"> | string
-    museumId?: StringFilter<"CollectionItem"> | string
-    reviewId?: StringNullableFilter<"CollectionItem"> | string | null
-    order?: IntFilter<"CollectionItem"> | number
+  export type SaveUpsertWithWhereUniqueWithoutMuseumInput = {
+    where: SaveWhereUniqueInput
+    update: XOR<SaveUpdateWithoutMuseumInput, SaveUncheckedUpdateWithoutMuseumInput>
+    create: XOR<SaveCreateWithoutMuseumInput, SaveUncheckedCreateWithoutMuseumInput>
+  }
+
+  export type SaveUpdateWithWhereUniqueWithoutMuseumInput = {
+    where: SaveWhereUniqueInput
+    data: XOR<SaveUpdateWithoutMuseumInput, SaveUncheckedUpdateWithoutMuseumInput>
+  }
+
+  export type SaveUpdateManyWithWhereWithoutMuseumInput = {
+    where: SaveScalarWhereInput
+    data: XOR<SaveUpdateManyMutationInput, SaveUncheckedUpdateManyWithoutMuseumInput>
   }
 
   export type StoryMuseumUpsertWithWhereUniqueWithoutMuseumInput = {
@@ -33168,6 +34547,22 @@ export namespace Prisma {
     data: XOR<StoryMuseumUpdateManyMutationInput, StoryMuseumUncheckedUpdateManyWithoutMuseumInput>
   }
 
+  export type SuggestionUpsertWithWhereUniqueWithoutMuseumInput = {
+    where: SuggestionWhereUniqueInput
+    update: XOR<SuggestionUpdateWithoutMuseumInput, SuggestionUncheckedUpdateWithoutMuseumInput>
+    create: XOR<SuggestionCreateWithoutMuseumInput, SuggestionUncheckedCreateWithoutMuseumInput>
+  }
+
+  export type SuggestionUpdateWithWhereUniqueWithoutMuseumInput = {
+    where: SuggestionWhereUniqueInput
+    data: XOR<SuggestionUpdateWithoutMuseumInput, SuggestionUncheckedUpdateWithoutMuseumInput>
+  }
+
+  export type SuggestionUpdateManyWithWhereWithoutMuseumInput = {
+    where: SuggestionScalarWhereInput
+    data: XOR<SuggestionUpdateManyMutationInput, SuggestionUncheckedUpdateManyWithoutMuseumInput>
+  }
+
   export type MuseumCreateWithoutExhibitionsInput = {
     id?: string
     name: string
@@ -33177,19 +34572,19 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    saves?: SaveCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewCreateNestedManyWithoutMuseumInput
+    saves?: SaveCreateNestedManyWithoutMuseumInput
     stories?: StoryMuseumCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
   }
 
   export type MuseumUncheckedCreateWithoutExhibitionsInput = {
@@ -33201,19 +34596,19 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
+    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
     stories?: StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
   }
 
   export type MuseumCreateOrConnectWithoutExhibitionsInput = {
@@ -33241,19 +34636,19 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    saves?: SaveUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUpdateManyWithoutMuseumNestedInput
     stories?: StoryMuseumUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
   }
 
   export type MuseumUncheckedUpdateWithoutExhibitionsInput = {
@@ -33265,67 +34660,67 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
     stories?: StoryMuseumUncheckedUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
   }
 
   export type UserCreateWithoutFoldersInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    collections?: CollectionCreateNestedManyWithoutUserInput
-    saves?: SaveCreateNestedManyWithoutUserInput
-    plans?: PlanCreateNestedManyWithoutUserInput
-    reviews?: ReviewCreateNestedManyWithoutUserInput
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
     challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
+    collections?: CollectionCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionCreateNestedManyWithoutUserInput
-    reports?: ReportCreateNestedManyWithoutReporterInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    plans?: PlanCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutReporterInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    saves?: SaveCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFoldersInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
-    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
-    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
     challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
-    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFoldersInput = {
@@ -33336,8 +34731,8 @@ export namespace Prisma {
   export type SaveCreateWithoutFolderInput = {
     id?: string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutSavesInput
     museum: MuseumCreateNestedOneWithoutSavesInput
+    user: UserCreateNestedOneWithoutSavesInput
   }
 
   export type SaveUncheckedCreateWithoutFolderInput = {
@@ -33371,49 +34766,49 @@ export namespace Prisma {
   export type UserUpdateWithoutFoldersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUpdateManyWithoutUserNestedInput
-    saves?: SaveUpdateManyWithoutUserNestedInput
-    plans?: PlanUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
+    collections?: CollectionUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
-    reports?: ReportUpdateManyWithoutReporterNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    plans?: PlanUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    saves?: SaveUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFoldersInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
-    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SaveUpsertWithWhereUniqueWithoutFolderInput = {
@@ -33430,112 +34825,6 @@ export namespace Prisma {
   export type SaveUpdateManyWithWhereWithoutFolderInput = {
     where: SaveScalarWhereInput
     data: XOR<SaveUpdateManyMutationInput, SaveUncheckedUpdateManyWithoutFolderInput>
-  }
-
-  export type UserCreateWithoutSavesInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    password?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    role?: $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    collections?: CollectionCreateNestedManyWithoutUserInput
-    folders?: FolderCreateNestedManyWithoutUserInput
-    plans?: PlanCreateNestedManyWithoutUserInput
-    reviews?: ReviewCreateNestedManyWithoutUserInput
-    challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
-    feedbacks?: FeedbackCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionCreateNestedManyWithoutUserInput
-    reports?: ReportCreateNestedManyWithoutReporterInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutSavesInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    password?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    role?: $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
-    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
-    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
-    challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
-    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
-    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutSavesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutSavesInput, UserUncheckedCreateWithoutSavesInput>
-  }
-
-  export type MuseumCreateWithoutSavesInput = {
-    id?: string
-    name: string
-    description?: string | null
-    country: string
-    city: string
-    type: string
-    website?: string | null
-    imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
-    latitude: number
-    longitude: number
-    popularityScore?: number
-    lastExhibitionSync?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
-    collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
-    stories?: StoryMuseumCreateNestedManyWithoutMuseumInput
-  }
-
-  export type MuseumUncheckedCreateWithoutSavesInput = {
-    id?: string
-    name: string
-    description?: string | null
-    country: string
-    city: string
-    type: string
-    website?: string | null
-    imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
-    latitude: number
-    longitude: number
-    popularityScore?: number
-    lastExhibitionSync?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
-    collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
-    stories?: StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput
-  }
-
-  export type MuseumCreateOrConnectWithoutSavesInput = {
-    where: MuseumWhereUniqueInput
-    create: XOR<MuseumCreateWithoutSavesInput, MuseumUncheckedCreateWithoutSavesInput>
   }
 
   export type FolderCreateWithoutSavesInput = {
@@ -33561,122 +34850,110 @@ export namespace Prisma {
     create: XOR<FolderCreateWithoutSavesInput, FolderUncheckedCreateWithoutSavesInput>
   }
 
-  export type UserUpsertWithoutSavesInput = {
-    update: XOR<UserUpdateWithoutSavesInput, UserUncheckedUpdateWithoutSavesInput>
-    create: XOR<UserCreateWithoutSavesInput, UserUncheckedCreateWithoutSavesInput>
-    where?: UserWhereInput
+  export type MuseumCreateWithoutSavesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    country: string
+    city: string
+    type: string
+    website?: string | null
+    imageUrl?: string | null
+    latitude: number
+    longitude: number
+    popularityScore?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
+    collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewCreateNestedManyWithoutMuseumInput
+    stories?: StoryMuseumCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutSavesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutSavesInput, UserUncheckedUpdateWithoutSavesInput>
+  export type MuseumUncheckedCreateWithoutSavesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    country: string
+    city: string
+    type: string
+    website?: string | null
+    imageUrl?: string | null
+    latitude: number
+    longitude: number
+    popularityScore?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
+    collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
+    stories?: StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
   }
 
-  export type UserUpdateWithoutSavesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUpdateManyWithoutUserNestedInput
-    folders?: FolderUpdateManyWithoutUserNestedInput
-    plans?: PlanUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUpdateManyWithoutUserNestedInput
-    challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
-    feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
-    reports?: ReportUpdateManyWithoutReporterNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutSavesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
-    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
-    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
-    challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
-    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type MuseumUpsertWithoutSavesInput = {
-    update: XOR<MuseumUpdateWithoutSavesInput, MuseumUncheckedUpdateWithoutSavesInput>
+  export type MuseumCreateOrConnectWithoutSavesInput = {
+    where: MuseumWhereUniqueInput
     create: XOR<MuseumCreateWithoutSavesInput, MuseumUncheckedCreateWithoutSavesInput>
-    where?: MuseumWhereInput
   }
 
-  export type MuseumUpdateToOneWithWhereWithoutSavesInput = {
-    where?: MuseumWhereInput
-    data: XOR<MuseumUpdateWithoutSavesInput, MuseumUncheckedUpdateWithoutSavesInput>
+  export type UserCreateWithoutSavesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
+    collections?: CollectionCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    plans?: PlanCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutReporterInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionCreateNestedManyWithoutUserInput
   }
 
-  export type MuseumUpdateWithoutSavesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
-    collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
-    stories?: StoryMuseumUpdateManyWithoutMuseumNestedInput
+  export type UserUncheckedCreateWithoutSavesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type MuseumUncheckedUpdateWithoutSavesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
-    collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
-    stories?: StoryMuseumUncheckedUpdateManyWithoutMuseumNestedInput
+  export type UserCreateOrConnectWithoutSavesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSavesInput, UserUncheckedCreateWithoutSavesInput>
   }
 
   export type FolderUpsertWithoutSavesInput = {
@@ -33708,52 +34985,170 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MuseumUpsertWithoutSavesInput = {
+    update: XOR<MuseumUpdateWithoutSavesInput, MuseumUncheckedUpdateWithoutSavesInput>
+    create: XOR<MuseumCreateWithoutSavesInput, MuseumUncheckedCreateWithoutSavesInput>
+    where?: MuseumWhereInput
+  }
+
+  export type MuseumUpdateToOneWithWhereWithoutSavesInput = {
+    where?: MuseumWhereInput
+    data: XOR<MuseumUpdateWithoutSavesInput, MuseumUncheckedUpdateWithoutSavesInput>
+  }
+
+  export type MuseumUpdateWithoutSavesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    popularityScore?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
+    stories?: StoryMuseumUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
+  }
+
+  export type MuseumUncheckedUpdateWithoutSavesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    popularityScore?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
+    stories?: StoryMuseumUncheckedUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
+  }
+
+  export type UserUpsertWithoutSavesInput = {
+    update: XOR<UserUpdateWithoutSavesInput, UserUncheckedUpdateWithoutSavesInput>
+    create: XOR<UserCreateWithoutSavesInput, UserUncheckedCreateWithoutSavesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSavesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSavesInput, UserUncheckedUpdateWithoutSavesInput>
+  }
+
+  export type UserUpdateWithoutSavesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
+    collections?: CollectionUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    plans?: PlanUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSavesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutPlansInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    collections?: CollectionCreateNestedManyWithoutUserInput
-    folders?: FolderCreateNestedManyWithoutUserInput
-    saves?: SaveCreateNestedManyWithoutUserInput
-    reviews?: ReviewCreateNestedManyWithoutUserInput
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
     challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
+    collections?: CollectionCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionCreateNestedManyWithoutUserInput
-    reports?: ReportCreateNestedManyWithoutReporterInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutReporterInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    saves?: SaveCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPlansInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
-    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
-    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
     challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
-    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPlansInput = {
@@ -33799,49 +35194,49 @@ export namespace Prisma {
   export type UserUpdateWithoutPlansInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUpdateManyWithoutUserNestedInput
-    folders?: FolderUpdateManyWithoutUserNestedInput
-    saves?: SaveUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
+    collections?: CollectionUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
-    reports?: ReportUpdateManyWithoutReporterNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    saves?: SaveUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPlansInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
-    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PlanStopUpsertWithWhereUniqueWithoutPlanInput = {
@@ -33858,6 +35253,59 @@ export namespace Prisma {
   export type PlanStopUpdateManyWithWhereWithoutPlanInput = {
     where: PlanStopScalarWhereInput
     data: XOR<PlanStopUpdateManyMutationInput, PlanStopUncheckedUpdateManyWithoutPlanInput>
+  }
+
+  export type MuseumCreateWithoutPlanStopsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    country: string
+    city: string
+    type: string
+    website?: string | null
+    imageUrl?: string | null
+    latitude: number
+    longitude: number
+    popularityScore?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
+    collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewCreateNestedManyWithoutMuseumInput
+    saves?: SaveCreateNestedManyWithoutMuseumInput
+    stories?: StoryMuseumCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
+  }
+
+  export type MuseumUncheckedCreateWithoutPlanStopsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    country: string
+    city: string
+    type: string
+    website?: string | null
+    imageUrl?: string | null
+    latitude: number
+    longitude: number
+    popularityScore?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
+    collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
+    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
+    stories?: StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
+  }
+
+  export type MuseumCreateOrConnectWithoutPlanStopsInput = {
+    where: MuseumWhereUniqueInput
+    create: XOR<MuseumCreateWithoutPlanStopsInput, MuseumUncheckedCreateWithoutPlanStopsInput>
   }
 
   export type PlanCreateWithoutStopsInput = {
@@ -33881,57 +35329,63 @@ export namespace Prisma {
     create: XOR<PlanCreateWithoutStopsInput, PlanUncheckedCreateWithoutStopsInput>
   }
 
-  export type MuseumCreateWithoutPlanStopsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    country: string
-    city: string
-    type: string
-    website?: string | null
-    imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
-    latitude: number
-    longitude: number
-    popularityScore?: number
-    lastExhibitionSync?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
-    saves?: SaveCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
-    collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
-    stories?: StoryMuseumCreateNestedManyWithoutMuseumInput
-  }
-
-  export type MuseumUncheckedCreateWithoutPlanStopsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    country: string
-    city: string
-    type: string
-    website?: string | null
-    imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
-    latitude: number
-    longitude: number
-    popularityScore?: number
-    lastExhibitionSync?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
-    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
-    collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
-    stories?: StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput
-  }
-
-  export type MuseumCreateOrConnectWithoutPlanStopsInput = {
-    where: MuseumWhereUniqueInput
+  export type MuseumUpsertWithoutPlanStopsInput = {
+    update: XOR<MuseumUpdateWithoutPlanStopsInput, MuseumUncheckedUpdateWithoutPlanStopsInput>
     create: XOR<MuseumCreateWithoutPlanStopsInput, MuseumUncheckedCreateWithoutPlanStopsInput>
+    where?: MuseumWhereInput
+  }
+
+  export type MuseumUpdateToOneWithWhereWithoutPlanStopsInput = {
+    where?: MuseumWhereInput
+    data: XOR<MuseumUpdateWithoutPlanStopsInput, MuseumUncheckedUpdateWithoutPlanStopsInput>
+  }
+
+  export type MuseumUpdateWithoutPlanStopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    popularityScore?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUpdateManyWithoutMuseumNestedInput
+    stories?: StoryMuseumUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
+  }
+
+  export type MuseumUncheckedUpdateWithoutPlanStopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    city?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
+    popularityScore?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
+    stories?: StoryMuseumUncheckedUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
   }
 
   export type PlanUpsertWithoutStopsInput = {
@@ -33961,171 +35415,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type MuseumUpsertWithoutPlanStopsInput = {
-    update: XOR<MuseumUpdateWithoutPlanStopsInput, MuseumUncheckedUpdateWithoutPlanStopsInput>
-    create: XOR<MuseumCreateWithoutPlanStopsInput, MuseumUncheckedCreateWithoutPlanStopsInput>
-    where?: MuseumWhereInput
-  }
-
-  export type MuseumUpdateToOneWithWhereWithoutPlanStopsInput = {
-    where?: MuseumWhereInput
-    data: XOR<MuseumUpdateWithoutPlanStopsInput, MuseumUncheckedUpdateWithoutPlanStopsInput>
-  }
-
-  export type MuseumUpdateWithoutPlanStopsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
-    collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
-    stories?: StoryMuseumUpdateManyWithoutMuseumNestedInput
-  }
-
-  export type MuseumUncheckedUpdateWithoutPlanStopsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
-    latitude?: FloatFieldUpdateOperationsInput | number
-    longitude?: FloatFieldUpdateOperationsInput | number
-    popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
-    collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
-    stories?: StoryMuseumUncheckedUpdateManyWithoutMuseumNestedInput
-  }
-
-  export type UserCreateWithoutReviewsInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    password?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    role?: $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    collections?: CollectionCreateNestedManyWithoutUserInput
-    folders?: FolderCreateNestedManyWithoutUserInput
-    saves?: SaveCreateNestedManyWithoutUserInput
-    plans?: PlanCreateNestedManyWithoutUserInput
-    challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
-    feedbacks?: FeedbackCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionCreateNestedManyWithoutUserInput
-    reports?: ReportCreateNestedManyWithoutReporterInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutReviewsInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    password?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    role?: $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
-    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
-    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
-    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
-    challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
-    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
-    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutReviewsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
-  }
-
-  export type MuseumCreateWithoutReviewsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    country: string
-    city: string
-    type: string
-    website?: string | null
-    imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
-    latitude: number
-    longitude: number
-    popularityScore?: number
-    lastExhibitionSync?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
-    saves?: SaveCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
-    collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
-    stories?: StoryMuseumCreateNestedManyWithoutMuseumInput
-  }
-
-  export type MuseumUncheckedCreateWithoutReviewsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    country: string
-    city: string
-    type: string
-    website?: string | null
-    imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
-    latitude: number
-    longitude: number
-    popularityScore?: number
-    lastExhibitionSync?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
-    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
-    collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
-    stories?: StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput
-  }
-
-  export type MuseumCreateOrConnectWithoutReviewsInput = {
-    where: MuseumWhereUniqueInput
-    create: XOR<MuseumCreateWithoutReviewsInput, MuseumUncheckedCreateWithoutReviewsInput>
-  }
-
   export type CollectionItemCreateWithoutReviewInput = {
     id?: string
     order: number
@@ -34150,63 +35439,126 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutReviewsInput = {
-    update: XOR<UserUpdateWithoutReviewsInput, UserUncheckedUpdateWithoutReviewsInput>
+  export type MuseumCreateWithoutReviewsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    country: string
+    city: string
+    type: string
+    website?: string | null
+    imageUrl?: string | null
+    latitude: number
+    longitude: number
+    popularityScore?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
+    collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    saves?: SaveCreateNestedManyWithoutMuseumInput
+    stories?: StoryMuseumCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
+  }
+
+  export type MuseumUncheckedCreateWithoutReviewsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    country: string
+    city: string
+    type: string
+    website?: string | null
+    imageUrl?: string | null
+    latitude: number
+    longitude: number
+    popularityScore?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
+    collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
+    stories?: StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
+  }
+
+  export type MuseumCreateOrConnectWithoutReviewsInput = {
+    where: MuseumWhereUniqueInput
+    create: XOR<MuseumCreateWithoutReviewsInput, MuseumUncheckedCreateWithoutReviewsInput>
+  }
+
+  export type UserCreateWithoutReviewsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
+    collections?: CollectionCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    plans?: PlanCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutReporterInput
+    saves?: SaveCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutReviewsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutReviewsInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
-    where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutReviewsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutReviewsInput, UserUncheckedUpdateWithoutReviewsInput>
+  export type CollectionItemUpsertWithWhereUniqueWithoutReviewInput = {
+    where: CollectionItemWhereUniqueInput
+    update: XOR<CollectionItemUpdateWithoutReviewInput, CollectionItemUncheckedUpdateWithoutReviewInput>
+    create: XOR<CollectionItemCreateWithoutReviewInput, CollectionItemUncheckedCreateWithoutReviewInput>
   }
 
-  export type UserUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUpdateManyWithoutUserNestedInput
-    folders?: FolderUpdateManyWithoutUserNestedInput
-    saves?: SaveUpdateManyWithoutUserNestedInput
-    plans?: PlanUpdateManyWithoutUserNestedInput
-    challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
-    feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
-    reports?: ReportUpdateManyWithoutReporterNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
+  export type CollectionItemUpdateWithWhereUniqueWithoutReviewInput = {
+    where: CollectionItemWhereUniqueInput
+    data: XOR<CollectionItemUpdateWithoutReviewInput, CollectionItemUncheckedUpdateWithoutReviewInput>
   }
 
-  export type UserUncheckedUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
-    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
-    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
-    challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
-    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+  export type CollectionItemUpdateManyWithWhereWithoutReviewInput = {
+    where: CollectionItemScalarWhereInput
+    data: XOR<CollectionItemUpdateManyMutationInput, CollectionItemUncheckedUpdateManyWithoutReviewInput>
   }
 
   export type MuseumUpsertWithoutReviewsInput = {
@@ -34229,19 +35581,19 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUpdateManyWithoutMuseumNestedInput
     stories?: StoryMuseumUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
   }
 
   export type MuseumUncheckedUpdateWithoutReviewsInput = {
@@ -34253,83 +35605,126 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
     stories?: StoryMuseumUncheckedUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
   }
 
-  export type CollectionItemUpsertWithWhereUniqueWithoutReviewInput = {
-    where: CollectionItemWhereUniqueInput
-    update: XOR<CollectionItemUpdateWithoutReviewInput, CollectionItemUncheckedUpdateWithoutReviewInput>
-    create: XOR<CollectionItemCreateWithoutReviewInput, CollectionItemUncheckedCreateWithoutReviewInput>
+  export type UserUpsertWithoutReviewsInput = {
+    update: XOR<UserUpdateWithoutReviewsInput, UserUncheckedUpdateWithoutReviewsInput>
+    create: XOR<UserCreateWithoutReviewsInput, UserUncheckedCreateWithoutReviewsInput>
+    where?: UserWhereInput
   }
 
-  export type CollectionItemUpdateWithWhereUniqueWithoutReviewInput = {
-    where: CollectionItemWhereUniqueInput
-    data: XOR<CollectionItemUpdateWithoutReviewInput, CollectionItemUncheckedUpdateWithoutReviewInput>
+  export type UserUpdateToOneWithWhereWithoutReviewsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReviewsInput, UserUncheckedUpdateWithoutReviewsInput>
   }
 
-  export type CollectionItemUpdateManyWithWhereWithoutReviewInput = {
-    where: CollectionItemScalarWhereInput
-    data: XOR<CollectionItemUpdateManyMutationInput, CollectionItemUncheckedUpdateManyWithoutReviewInput>
+  export type UserUpdateWithoutReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
+    collections?: CollectionUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    plans?: PlanUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutReporterNestedInput
+    saves?: SaveUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCollectionsInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    folders?: FolderCreateNestedManyWithoutUserInput
-    saves?: SaveCreateNestedManyWithoutUserInput
-    plans?: PlanCreateNestedManyWithoutUserInput
-    reviews?: ReviewCreateNestedManyWithoutUserInput
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
     challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionCreateNestedManyWithoutUserInput
-    reports?: ReportCreateNestedManyWithoutReporterInput
+    folders?: FolderCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    plans?: PlanCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutReporterInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    saves?: SaveCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCollectionsInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
-    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
-    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
     challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
     feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
-    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCollectionsInput = {
@@ -34375,49 +35770,49 @@ export namespace Prisma {
   export type UserUpdateWithoutCollectionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    folders?: FolderUpdateManyWithoutUserNestedInput
-    saves?: SaveUpdateManyWithoutUserNestedInput
-    plans?: PlanUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
-    reports?: ReportUpdateManyWithoutReporterNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    plans?: PlanUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    saves?: SaveUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCollectionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
-    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
     feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CollectionItemUpsertWithWhereUniqueWithoutCollectionInput = {
@@ -34472,19 +35867,19 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
     exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
-    saves?: SaveCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
     planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewCreateNestedManyWithoutMuseumInput
+    saves?: SaveCreateNestedManyWithoutMuseumInput
     stories?: StoryMuseumCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionCreateNestedManyWithoutMuseumInput
   }
 
   export type MuseumUncheckedCreateWithoutCollectionItemsInput = {
@@ -34496,19 +35891,19 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
     exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
-    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
     planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
+    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
     stories?: StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutMuseumInput
   }
 
   export type MuseumCreateOrConnectWithoutCollectionItemsInput = {
@@ -34520,12 +35915,12 @@ export namespace Prisma {
     id?: string
     content: string
     photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
     visitedAt?: Date | string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutReviewsInput
+    country?: string | null
+    ipAddress?: string | null
     museum: MuseumCreateNestedOneWithoutReviewsInput
+    user: UserCreateNestedOneWithoutReviewsInput
   }
 
   export type ReviewUncheckedCreateWithoutCollectionItemsInput = {
@@ -34534,10 +35929,10 @@ export namespace Prisma {
     museumId: string
     content: string
     photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
     visitedAt?: Date | string
     createdAt?: Date | string
+    country?: string | null
+    ipAddress?: string | null
   }
 
   export type ReviewCreateOrConnectWithoutCollectionItemsInput = {
@@ -34598,19 +35993,19 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
     planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUpdateManyWithoutMuseumNestedInput
     stories?: StoryMuseumUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUpdateManyWithoutMuseumNestedInput
   }
 
   export type MuseumUncheckedUpdateWithoutCollectionItemsInput = {
@@ -34622,19 +36017,19 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
     planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
     stories?: StoryMuseumUncheckedUpdateManyWithoutMuseumNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutMuseumNestedInput
   }
 
   export type ReviewUpsertWithoutCollectionItemsInput = {
@@ -34652,12 +36047,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
     visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutReviewsNestedInput
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     museum?: MuseumUpdateOneRequiredWithoutReviewsNestedInput
+    user?: UserUpdateOneRequiredWithoutReviewsNestedInput
   }
 
   export type ReviewUncheckedUpdateWithoutCollectionItemsInput = {
@@ -34666,25 +36061,25 @@ export namespace Prisma {
     museumId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
     visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChallengeProgressCreateWithoutChallengeInput = {
-    progress?: number
-    completed?: boolean
     completedAt?: Date | string | null
+    completed?: boolean
+    progress?: number
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutChallengesInput
   }
 
   export type ChallengeProgressUncheckedCreateWithoutChallengeInput = {
     userId: string
-    progress?: number
-    completed?: boolean
     completedAt?: Date | string | null
+    completed?: boolean
+    progress?: number
     updatedAt?: Date | string
   }
 
@@ -34714,59 +36109,6 @@ export namespace Prisma {
     data: XOR<ChallengeProgressUpdateManyMutationInput, ChallengeProgressUncheckedUpdateManyWithoutChallengeInput>
   }
 
-  export type UserCreateWithoutChallengesInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    password?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    role?: $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    collections?: CollectionCreateNestedManyWithoutUserInput
-    folders?: FolderCreateNestedManyWithoutUserInput
-    saves?: SaveCreateNestedManyWithoutUserInput
-    plans?: PlanCreateNestedManyWithoutUserInput
-    reviews?: ReviewCreateNestedManyWithoutUserInput
-    feedbacks?: FeedbackCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionCreateNestedManyWithoutUserInput
-    reports?: ReportCreateNestedManyWithoutReporterInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutChallengesInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    password?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    role?: $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
-    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
-    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
-    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
-    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
-    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutChallengesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutChallengesInput, UserUncheckedCreateWithoutChallengesInput>
-  }
-
   export type ChallengeCreateWithoutProgressInput = {
     id?: string
     title: string
@@ -34792,63 +36134,57 @@ export namespace Prisma {
     create: XOR<ChallengeCreateWithoutProgressInput, ChallengeUncheckedCreateWithoutProgressInput>
   }
 
-  export type UserUpsertWithoutChallengesInput = {
-    update: XOR<UserUpdateWithoutChallengesInput, UserUncheckedUpdateWithoutChallengesInput>
+  export type UserCreateWithoutChallengesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    collections?: CollectionCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    plans?: PlanCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutReporterInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    saves?: SaveCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutChallengesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutChallengesInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutChallengesInput, UserUncheckedCreateWithoutChallengesInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutChallengesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutChallengesInput, UserUncheckedUpdateWithoutChallengesInput>
-  }
-
-  export type UserUpdateWithoutChallengesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUpdateManyWithoutUserNestedInput
-    folders?: FolderUpdateManyWithoutUserNestedInput
-    saves?: SaveUpdateManyWithoutUserNestedInput
-    plans?: PlanUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUpdateManyWithoutUserNestedInput
-    feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
-    reports?: ReportUpdateManyWithoutReporterNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutChallengesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
-    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
-    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
-    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChallengeUpsertWithoutProgressInput = {
@@ -34882,52 +36218,111 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserUpsertWithoutChallengesInput = {
+    update: XOR<UserUpdateWithoutChallengesInput, UserUncheckedUpdateWithoutChallengesInput>
+    create: XOR<UserCreateWithoutChallengesInput, UserUncheckedCreateWithoutChallengesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutChallengesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutChallengesInput, UserUncheckedUpdateWithoutChallengesInput>
+  }
+
+  export type UserUpdateWithoutChallengesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    collections?: CollectionUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    plans?: PlanUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    saves?: SaveUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutChallengesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutFeedbacksInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
     collections?: CollectionCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
-    saves?: SaveCreateNestedManyWithoutUserInput
-    plans?: PlanCreateNestedManyWithoutUserInput
-    reviews?: ReviewCreateNestedManyWithoutUserInput
-    challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionCreateNestedManyWithoutUserInput
-    reports?: ReportCreateNestedManyWithoutReporterInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    plans?: PlanCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutReporterInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    saves?: SaveCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFeedbacksInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
     collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
-    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
-    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
-    challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
-    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
-    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
+    suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFeedbacksInput = {
@@ -34949,102 +36344,49 @@ export namespace Prisma {
   export type UserUpdateWithoutFeedbacksInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
     collections?: CollectionUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
-    saves?: SaveUpdateManyWithoutUserNestedInput
-    plans?: PlanUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUpdateManyWithoutUserNestedInput
-    challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
-    reports?: ReportUpdateManyWithoutReporterNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    plans?: PlanUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    saves?: SaveUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFeedbacksInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
     collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
-    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
-    challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
-    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserCreateWithoutSuggestionsInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    password?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    role?: $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    collections?: CollectionCreateNestedManyWithoutUserInput
-    folders?: FolderCreateNestedManyWithoutUserInput
-    saves?: SaveCreateNestedManyWithoutUserInput
-    plans?: PlanCreateNestedManyWithoutUserInput
-    reviews?: ReviewCreateNestedManyWithoutUserInput
-    challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
-    feedbacks?: FeedbackCreateNestedManyWithoutUserInput
-    reports?: ReportCreateNestedManyWithoutReporterInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutSuggestionsInput = {
-    id?: string
-    name?: string | null
-    username?: string | null
-    email?: string | null
-    password?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    role?: $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
-    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
-    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
-    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
-    challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
-    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
-    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutSuggestionsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutSuggestionsInput, UserUncheckedCreateWithoutSuggestionsInput>
+    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
+    suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MuseumCreateWithoutSuggestionsInput = {
@@ -35056,18 +36398,18 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
-    saves?: SaveCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewCreateNestedManyWithoutMuseumInput
+    saves?: SaveCreateNestedManyWithoutMuseumInput
     stories?: StoryMuseumCreateNestedManyWithoutMuseumInput
   }
 
@@ -35080,18 +36422,18 @@ export namespace Prisma {
     type: string
     website?: string | null
     imageUrl?: string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude: number
     longitude: number
     popularityScore?: number
-    lastExhibitionSync?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
-    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
-    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
-    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
+    exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
+    planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutMuseumInput
+    saves?: SaveUncheckedCreateNestedManyWithoutMuseumInput
     stories?: StoryMuseumUncheckedCreateNestedManyWithoutMuseumInput
   }
 
@@ -35100,63 +36442,57 @@ export namespace Prisma {
     create: XOR<MuseumCreateWithoutSuggestionsInput, MuseumUncheckedCreateWithoutSuggestionsInput>
   }
 
-  export type UserUpsertWithoutSuggestionsInput = {
-    update: XOR<UserUpdateWithoutSuggestionsInput, UserUncheckedUpdateWithoutSuggestionsInput>
+  export type UserCreateWithoutSuggestionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
+    collections?: CollectionCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackCreateNestedManyWithoutUserInput
+    folders?: FolderCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    plans?: PlanCreateNestedManyWithoutUserInput
+    reports?: ReportCreateNestedManyWithoutReporterInput
+    reviews?: ReviewCreateNestedManyWithoutUserInput
+    saves?: SaveCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSuggestionsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
+    collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
+    folders?: FolderUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    plans?: PlanUncheckedCreateNestedManyWithoutUserInput
+    reports?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
+    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSuggestionsInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutSuggestionsInput, UserUncheckedCreateWithoutSuggestionsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutSuggestionsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutSuggestionsInput, UserUncheckedUpdateWithoutSuggestionsInput>
-  }
-
-  export type UserUpdateWithoutSuggestionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUpdateManyWithoutUserNestedInput
-    folders?: FolderUpdateManyWithoutUserNestedInput
-    saves?: SaveUpdateManyWithoutUserNestedInput
-    plans?: PlanUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUpdateManyWithoutUserNestedInput
-    challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
-    feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
-    reports?: ReportUpdateManyWithoutReporterNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutSuggestionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
-    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
-    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
-    challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
-    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
-    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MuseumUpsertWithoutSuggestionsInput = {
@@ -35179,18 +36515,18 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUpdateManyWithoutMuseumNestedInput
     stories?: StoryMuseumUpdateManyWithoutMuseumNestedInput
   }
 
@@ -35203,67 +36539,126 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     website?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    openingHours?: NullableJsonNullValueInput | InputJsonValue
     latitude?: FloatFieldUpdateOperationsInput | number
     longitude?: FloatFieldUpdateOperationsInput | number
     popularityScore?: FloatFieldUpdateOperationsInput | number
-    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
-    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
-    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    openingHours?: NullableJsonNullValueInput | InputJsonValue
+    lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
+    exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
+    planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutMuseumNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutMuseumNestedInput
     stories?: StoryMuseumUncheckedUpdateManyWithoutMuseumNestedInput
+  }
+
+  export type UserUpsertWithoutSuggestionsInput = {
+    update: XOR<UserUpdateWithoutSuggestionsInput, UserUncheckedUpdateWithoutSuggestionsInput>
+    create: XOR<UserCreateWithoutSuggestionsInput, UserUncheckedCreateWithoutSuggestionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSuggestionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSuggestionsInput, UserUncheckedUpdateWithoutSuggestionsInput>
+  }
+
+  export type UserUpdateWithoutSuggestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
+    collections?: CollectionUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
+    folders?: FolderUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    plans?: PlanUpdateManyWithoutUserNestedInput
+    reports?: ReportUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUpdateManyWithoutUserNestedInput
+    saves?: SaveUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSuggestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
+    collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutReportsInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
     collections?: CollectionCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackCreateNestedManyWithoutUserInput
     folders?: FolderCreateNestedManyWithoutUserInput
-    saves?: SaveCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
     plans?: PlanCreateNestedManyWithoutUserInput
     reviews?: ReviewCreateNestedManyWithoutUserInput
-    challenges?: ChallengeProgressCreateNestedManyWithoutUserInput
-    feedbacks?: FeedbackCreateNestedManyWithoutUserInput
+    saves?: SaveCreateNestedManyWithoutUserInput
     suggestions?: SuggestionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReportsInput = {
     id?: string
     name?: string | null
-    username?: string | null
     email?: string | null
-    password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
     role?: $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    username?: string | null
+    password?: string | null
+    lastIp?: string | null
+    challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
     collections?: CollectionUncheckedCreateNestedManyWithoutUserInput
+    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
     folders?: FolderUncheckedCreateNestedManyWithoutUserInput
-    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     plans?: PlanUncheckedCreateNestedManyWithoutUserInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutUserInput
-    challenges?: ChallengeProgressUncheckedCreateNestedManyWithoutUserInput
-    feedbacks?: FeedbackUncheckedCreateNestedManyWithoutUserInput
+    saves?: SaveUncheckedCreateNestedManyWithoutUserInput
     suggestions?: SuggestionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReportsInput = {
@@ -35285,49 +36680,57 @@ export namespace Prisma {
   export type UserUpdateWithoutReportsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
     collections?: CollectionUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
     folders?: FolderUpdateManyWithoutUserNestedInput
-    saves?: SaveUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
     plans?: PlanUpdateManyWithoutUserNestedInput
     reviews?: ReviewUpdateManyWithoutUserNestedInput
-    challenges?: ChallengeProgressUpdateManyWithoutUserNestedInput
-    feedbacks?: FeedbackUpdateManyWithoutUserNestedInput
+    saves?: SaveUpdateManyWithoutUserNestedInput
     suggestions?: SuggestionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReportsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
-    username?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     preferences?: NullableJsonNullValueInput | InputJsonValue
-    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    lastIp?: NullableStringFieldUpdateOperationsInput | string | null
+    challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
     collections?: CollectionUncheckedUpdateManyWithoutUserNestedInput
+    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
     folders?: FolderUncheckedUpdateManyWithoutUserNestedInput
-    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     plans?: PlanUncheckedUpdateManyWithoutUserNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutUserNestedInput
-    challenges?: ChallengeProgressUncheckedUpdateManyWithoutUserNestedInput
-    feedbacks?: FeedbackUncheckedUpdateManyWithoutUserNestedInput
+    saves?: SaveUncheckedUpdateManyWithoutUserNestedInput
     suggestions?: SuggestionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ChallengeProgressCreateManyUserInput = {
+    challengeId: string
+    completedAt?: Date | string | null
+    completed?: boolean
+    progress?: number
+    updatedAt?: Date | string
   }
 
   export type CollectionCreateManyUserInput = {
@@ -35340,6 +36743,14 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type FeedbackCreateManyUserInput = {
+    id?: string
+    content: string
+    createdAt?: Date | string
+    reply?: string | null
+    updatedAt?: Date | string
+  }
+
   export type FolderCreateManyUserInput = {
     id?: string
     name: string
@@ -35348,52 +36759,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type SaveCreateManyUserInput = {
+  export type NotificationCreateManyUserInput = {
     id?: string
-    museumId: string
-    folderId?: string | null
+    type: string
+    title: string
+    message: string
+    link?: string | null
+    isRead?: boolean
     createdAt?: Date | string
+    messageEn?: string | null
+    titleEn?: string | null
   }
 
   export type PlanCreateManyUserInput = {
     id?: string
     title?: string | null
     date?: Date | string
-    createdAt?: Date | string
-  }
-
-  export type ReviewCreateManyUserInput = {
-    id?: string
-    museumId: string
-    content: string
-    photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
-    visitedAt?: Date | string
-    createdAt?: Date | string
-  }
-
-  export type ChallengeProgressCreateManyUserInput = {
-    challengeId: string
-    progress?: number
-    completed?: boolean
-    completedAt?: Date | string | null
-    updatedAt?: Date | string
-  }
-
-  export type FeedbackCreateManyUserInput = {
-    id?: string
-    content: string
-    reply?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type SuggestionCreateManyUserInput = {
-    id?: string
-    museumId?: string | null
-    data: JsonNullValueInput | InputJsonValue
-    status?: $Enums.SuggestionStatus
     createdAt?: Date | string
   }
 
@@ -35406,16 +36787,54 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type NotificationCreateManyUserInput = {
+  export type ReviewCreateManyUserInput = {
     id?: string
-    type: string
-    title: string
-    titleEn?: string | null
-    message: string
-    messageEn?: string | null
-    link?: string | null
-    isRead?: boolean
+    museumId: string
+    content: string
+    photos?: ReviewCreatephotosInput | string[]
+    visitedAt?: Date | string
     createdAt?: Date | string
+    country?: string | null
+    ipAddress?: string | null
+  }
+
+  export type SaveCreateManyUserInput = {
+    id?: string
+    museumId: string
+    folderId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type SuggestionCreateManyUserInput = {
+    id?: string
+    museumId?: string | null
+    data: JsonNullValueInput | InputJsonValue
+    status?: $Enums.SuggestionStatus
+    createdAt?: Date | string
+  }
+
+  export type ChallengeProgressUpdateWithoutUserInput = {
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    challenge?: ChallengeUpdateOneRequiredWithoutProgressNestedInput
+  }
+
+  export type ChallengeProgressUncheckedUpdateWithoutUserInput = {
+    challengeId?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChallengeProgressUncheckedUpdateManyWithoutUserInput = {
+    challengeId?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CollectionUpdateWithoutUserInput = {
@@ -35450,6 +36869,30 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FeedbackUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FeedbackUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FeedbackUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reply?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type FolderUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -35476,25 +36919,40 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SaveUpdateWithoutUserInput = {
+  export type NotificationUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    museum?: MuseumUpdateOneRequiredWithoutSavesNestedInput
-    folder?: FolderUpdateOneWithoutSavesNestedInput
+    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type SaveUncheckedUpdateWithoutUserInput = {
+  export type NotificationUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    museumId?: StringFieldUpdateOperationsInput | string
-    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type SaveUncheckedUpdateManyWithoutUserInput = {
+  export type NotificationUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    museumId?: StringFieldUpdateOperationsInput | string
-    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
+    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PlanUpdateWithoutUserInput = {
@@ -35517,113 +36975,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ReviewUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    museum?: MuseumUpdateOneRequiredWithoutReviewsNestedInput
-    collectionItems?: CollectionItemUpdateManyWithoutReviewNestedInput
-  }
-
-  export type ReviewUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    museumId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collectionItems?: CollectionItemUncheckedUpdateManyWithoutReviewNestedInput
-  }
-
-  export type ReviewUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    museumId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ChallengeProgressUpdateWithoutUserInput = {
-    progress?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    challenge?: ChallengeUpdateOneRequiredWithoutProgressNestedInput
-  }
-
-  export type ChallengeProgressUncheckedUpdateWithoutUserInput = {
-    challengeId?: StringFieldUpdateOperationsInput | string
-    progress?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ChallengeProgressUncheckedUpdateManyWithoutUserInput = {
-    challengeId?: StringFieldUpdateOperationsInput | string
-    progress?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FeedbackUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    reply?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FeedbackUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    reply?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type FeedbackUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    reply?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SuggestionUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    data?: JsonNullValueInput | InputJsonValue
-    status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    museum?: MuseumUpdateOneWithoutSuggestionsNestedInput
-  }
-
-  export type SuggestionUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    museumId?: NullableStringFieldUpdateOperationsInput | string | null
-    data?: JsonNullValueInput | InputJsonValue
-    status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SuggestionUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    museumId?: NullableStringFieldUpdateOperationsInput | string | null
-    data?: JsonNullValueInput | InputJsonValue
-    status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -35654,39 +37005,83 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationUpdateWithoutUserInput = {
+  export type ReviewUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
-    message?: StringFieldUpdateOperationsInput | string
-    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    isRead?: BoolFieldUpdateOperationsInput | boolean
+    content?: StringFieldUpdateOperationsInput | string
+    photos?: ReviewUpdatephotosInput | string[]
+    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    collectionItems?: CollectionItemUpdateManyWithoutReviewNestedInput
+    museum?: MuseumUpdateOneRequiredWithoutReviewsNestedInput
+  }
+
+  export type ReviewUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    museumId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    photos?: ReviewUpdatephotosInput | string[]
+    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    collectionItems?: CollectionItemUncheckedUpdateManyWithoutReviewNestedInput
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    museumId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    photos?: ReviewUpdatephotosInput | string[]
+    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SaveUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folder?: FolderUpdateOneWithoutSavesNestedInput
+    museum?: MuseumUpdateOneRequiredWithoutSavesNestedInput
+  }
+
+  export type SaveUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    museumId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationUncheckedUpdateWithoutUserInput = {
+  export type SaveUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
-    message?: StringFieldUpdateOperationsInput | string
-    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    isRead?: BoolFieldUpdateOperationsInput | boolean
+    museumId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationUncheckedUpdateManyWithoutUserInput = {
+  export type SuggestionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    titleEn?: NullableStringFieldUpdateOperationsInput | string | null
-    message?: StringFieldUpdateOperationsInput | string
-    messageEn?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    isRead?: BoolFieldUpdateOperationsInput | boolean
+    data?: JsonNullValueInput | InputJsonValue
+    status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    museum?: MuseumUpdateOneWithoutSuggestionsNestedInput
+  }
+
+  export type SuggestionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    museumId?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: JsonNullValueInput | InputJsonValue
+    status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SuggestionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    museumId?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: JsonNullValueInput | InputJsonValue
+    status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -35706,16 +37101,41 @@ export namespace Prisma {
     museumId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type CollectionItemCreateManyMuseumInput = {
+    id?: string
+    collectionId: string
+    reviewId?: string | null
+    order: number
+  }
+
   export type ExhibitionCreateManyMuseumInput = {
     id?: string
     title: string
     description?: string | null
-    imageUrl?: string | null
-    link?: string | null
-    source?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     createdAt?: Date | string
+    imageUrl?: string | null
+    link?: string | null
+    source?: string | null
+  }
+
+  export type PlanStopCreateManyMuseumInput = {
+    id?: string
+    planId: string
+    order: number
+    expectedArrival?: Date | string | null
+  }
+
+  export type ReviewCreateManyMuseumInput = {
+    id?: string
+    userId: string
+    content: string
+    photos?: ReviewCreatephotosInput | string[]
+    visitedAt?: Date | string
+    createdAt?: Date | string
+    country?: string | null
+    ipAddress?: string | null
   }
 
   export type SaveCreateManyMuseumInput = {
@@ -35725,15 +37145,8 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type ReviewCreateManyMuseumInput = {
-    id?: string
-    userId: string
-    content: string
-    photos?: ReviewCreatephotosInput | string[]
-    ipAddress?: string | null
-    country?: string | null
-    visitedAt?: Date | string
-    createdAt?: Date | string
+  export type StoryMuseumCreateManyMuseumInput = {
+    storyId: string
   }
 
   export type SuggestionCreateManyMuseumInput = {
@@ -35744,65 +37157,124 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type PlanStopCreateManyMuseumInput = {
-    id?: string
-    planId: string
-    order: number
-    expectedArrival?: Date | string | null
+  export type CollectionItemUpdateWithoutMuseumInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    collection?: CollectionUpdateOneRequiredWithoutItemsNestedInput
+    review?: ReviewUpdateOneWithoutCollectionItemsNestedInput
   }
 
-  export type CollectionItemCreateManyMuseumInput = {
-    id?: string
-    collectionId: string
-    reviewId?: string | null
-    order: number
+  export type CollectionItemUncheckedUpdateWithoutMuseumInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectionId?: StringFieldUpdateOperationsInput | string
+    reviewId?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
   }
 
-  export type StoryMuseumCreateManyMuseumInput = {
-    storyId: string
+  export type CollectionItemUncheckedUpdateManyWithoutMuseumInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    collectionId?: StringFieldUpdateOperationsInput | string
+    reviewId?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
   }
 
   export type ExhibitionUpdateWithoutMuseumInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    source?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ExhibitionUncheckedUpdateWithoutMuseumInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    source?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ExhibitionUncheckedUpdateManyWithoutMuseumInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    source?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PlanStopUpdateWithoutMuseumInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    plan?: PlanUpdateOneRequiredWithoutStopsNestedInput
+  }
+
+  export type PlanStopUncheckedUpdateWithoutMuseumInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PlanStopUncheckedUpdateManyWithoutMuseumInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    planId?: StringFieldUpdateOperationsInput | string
+    order?: IntFieldUpdateOperationsInput | number
+    expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ReviewUpdateWithoutMuseumInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    photos?: ReviewUpdatephotosInput | string[]
+    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    collectionItems?: CollectionItemUpdateManyWithoutReviewNestedInput
+    user?: UserUpdateOneRequiredWithoutReviewsNestedInput
+  }
+
+  export type ReviewUncheckedUpdateWithoutMuseumInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    photos?: ReviewUpdatephotosInput | string[]
+    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    collectionItems?: CollectionItemUncheckedUpdateManyWithoutReviewNestedInput
+  }
+
+  export type ReviewUncheckedUpdateManyWithoutMuseumInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    photos?: ReviewUpdatephotosInput | string[]
+    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SaveUpdateWithoutMuseumInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutSavesNestedInput
     folder?: FolderUpdateOneWithoutSavesNestedInput
+    user?: UserUpdateOneRequiredWithoutSavesNestedInput
   }
 
   export type SaveUncheckedUpdateWithoutMuseumInput = {
@@ -35819,39 +37291,16 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ReviewUpdateWithoutMuseumInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutReviewsNestedInput
-    collectionItems?: CollectionItemUpdateManyWithoutReviewNestedInput
+  export type StoryMuseumUpdateWithoutMuseumInput = {
+    story?: StoryUpdateOneRequiredWithoutMuseumsNestedInput
   }
 
-  export type ReviewUncheckedUpdateWithoutMuseumInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    collectionItems?: CollectionItemUncheckedUpdateManyWithoutReviewNestedInput
+  export type StoryMuseumUncheckedUpdateWithoutMuseumInput = {
+    storyId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ReviewUncheckedUpdateManyWithoutMuseumInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    photos?: ReviewUpdatephotosInput | string[]
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    country?: NullableStringFieldUpdateOperationsInput | string | null
-    visitedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type StoryMuseumUncheckedUpdateManyWithoutMuseumInput = {
+    storyId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SuggestionUpdateWithoutMuseumInput = {
@@ -35878,60 +37327,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PlanStopUpdateWithoutMuseumInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    plan?: PlanUpdateOneRequiredWithoutStopsNestedInput
-  }
-
-  export type PlanStopUncheckedUpdateWithoutMuseumInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    planId?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type PlanStopUncheckedUpdateManyWithoutMuseumInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    planId?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    expectedArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type CollectionItemUpdateWithoutMuseumInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    order?: IntFieldUpdateOperationsInput | number
-    collection?: CollectionUpdateOneRequiredWithoutItemsNestedInput
-    review?: ReviewUpdateOneWithoutCollectionItemsNestedInput
-  }
-
-  export type CollectionItemUncheckedUpdateWithoutMuseumInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    collectionId?: StringFieldUpdateOperationsInput | string
-    reviewId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type CollectionItemUncheckedUpdateManyWithoutMuseumInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    collectionId?: StringFieldUpdateOperationsInput | string
-    reviewId?: NullableStringFieldUpdateOperationsInput | string | null
-    order?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type StoryMuseumUpdateWithoutMuseumInput = {
-    story?: StoryUpdateOneRequiredWithoutMuseumsNestedInput
-  }
-
-  export type StoryMuseumUncheckedUpdateWithoutMuseumInput = {
-    storyId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type StoryMuseumUncheckedUpdateManyWithoutMuseumInput = {
-    storyId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type SaveCreateManyFolderInput = {
     id?: string
     userId: string
@@ -35942,8 +37337,8 @@ export namespace Prisma {
   export type SaveUpdateWithoutFolderInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutSavesNestedInput
     museum?: MuseumUpdateOneRequiredWithoutSavesNestedInput
+    user?: UserUpdateOneRequiredWithoutSavesNestedInput
   }
 
   export type SaveUncheckedUpdateWithoutFolderInput = {
@@ -36046,33 +37441,33 @@ export namespace Prisma {
 
   export type ChallengeProgressCreateManyChallengeInput = {
     userId: string
-    progress?: number
-    completed?: boolean
     completedAt?: Date | string | null
+    completed?: boolean
+    progress?: number
     updatedAt?: Date | string
   }
 
   export type ChallengeProgressUpdateWithoutChallengeInput = {
-    progress?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutChallengesNestedInput
   }
 
   export type ChallengeProgressUncheckedUpdateWithoutChallengeInput = {
     userId?: StringFieldUpdateOperationsInput | string
-    progress?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChallengeProgressUncheckedUpdateManyWithoutChallengeInput = {
     userId?: StringFieldUpdateOperationsInput | string
-    progress?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    progress?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

@@ -24,10 +24,15 @@ export async function GET(req: NextRequest) {
             where.latitude = { gte: minLat, lte: maxLat };
         }
 
-        if (query) {
-            where.name = { contains: query, mode: 'insensitive' };
+        const q = searchParams.get('q') || query;
+        if (q) {
+            where.OR = [
+                { name: { contains: q, mode: 'insensitive' } },
+                { city: { contains: q, mode: 'insensitive' } },
+                { country: { contains: q, mode: 'insensitive' } },
+            ];
         }
-        if (country) {
+        if (country && !q) {
             where.country = country;
         }
 

@@ -221,6 +221,11 @@ export default function MainPage() {
                           <span className="inline-block mt-1 px-2 py-0.5 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-[10px] font-medium truncate max-w-full">
                             {translateCategory(m.type || '', locale)}
                           </span>
+                          {m.reason && (
+                            <p className="mt-1.5 text-[10px] text-gray-500 dark:text-gray-400 leading-snug line-clamp-2" title={m.reason}>
+                              💡 {m.reason}
+                            </p>
+                          )}
                         </button>
                       ))}
                     </div>

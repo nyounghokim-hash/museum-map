@@ -69,7 +69,7 @@ function localSearch(query: string) {
 
 export async function POST(req: NextRequest) {
     try {
-        const { query } = await req.json();
+        const { query, locale } = await req.json();
         if (!query || query.trim().length < 2) {
             return NextResponse.json({ error: 'Query too short' }, { status: 400 });
         }
@@ -133,7 +133,45 @@ Countries: ISO 2-letter. Query: "${query.substring(0, 80)}"`;
             select: { id: true, name: true, description: true, country: true, city: true, type: true, imageUrl: true, latitude: true, longitude: true }
         });
 
-        return NextResponse.json({ data: results, filters, ai: usedAI });
+        // Generate recommendation reasons via Gemini
+        let reasons: Record<string, string> = {};
+        if (apiKey && results.length > 0) {
+            try {
+                const lang = locale === 'ko' ? '한국어' : 'English';
+                const museumList = results.slice(0, 10).map((r: any, i: number) => `${i + 1}. ${r.name} (${r.city}, ${r.country})`).join('\n');
+                const reasonPrompt = `User searched: "${query.substring(0, 80)}"
+Results:
+${museumList}
+
+For each museum, write ONE short reason (under 15 words) why it matches the search, in ${lang}. Reply JSON only: {"1":"reason","2":"reason",...}`;
+
+                const reasonRes = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: reasonPrompt }] }],
+                            generationConfig: { temperature: 0.3, maxOutputTokens: 300 }
+                        }),
+                        signal: AbortSignal.timeout(6000),
+                    }
+                );
+                if (reasonRes.ok) {
+                    const reasonRaw = (await reasonRes.json()).candidates?.[0]?.content?.parts?.[0]?.text || '';
+                    const reasonMatch = reasonRaw.match(/\{[\s\S]*\}/);
+                    if (reasonMatch) {
+                        const parsed = JSON.parse(reasonMatch[0]);
+                        results.forEach((r: any, i: number) => {
+                            if (parsed[String(i + 1)]) reasons[r.id] = parsed[String(i + 1)];
+                        });
+                    }
+                }
+            } catch { /* reasons are optional */ }
+        }
+
+        const dataWithReasons = results.map((r: any) => ({ ...r, reason: reasons[r.id] || null }));
+        return NextResponse.json({ data: dataWithReasons, filters, ai: usedAI });
     } catch (e: any) {
         console.error('Recommend error:', e);
         return NextResponse.json({ error: 'Failed' }, { status: 500 });

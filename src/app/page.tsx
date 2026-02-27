@@ -188,7 +188,7 @@ export default function MainPage() {
                       value={aiQuery}
                       onChange={(e) => setAiQuery(e.target.value)}
                       placeholder={translateCategory('ai.placeholder', locale)}
-                      className="flex-1 px-4 py-2.5 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-full shadow-lg border border-purple-200 dark:border-purple-800 text-sm text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-purple-500"
+                      className="flex-1 px-4 py-2.5 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-full shadow-lg border border-purple-200 dark:border-purple-800 text-base text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-purple-500"
                       autoFocus
                     />
                     <button

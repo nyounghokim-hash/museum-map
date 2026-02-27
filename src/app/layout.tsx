@@ -23,8 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     keywords: isKorean
-      ? ['미술관', '박물관', '여행', '현대미술', '전시회', '뮤지엄맵', '아트투어', '미술관 지도']
-      : ['museum', 'art gallery', 'travel', 'contemporary art', 'exhibitions', 'museum map', 'art tour', 'itinerary'],
+      ? ['미술관', '박물관', '여행', '현대미술', '전시회', '뮤지엄맵', '아트투어', '미술관 지도', '박물관 추천', '숨은 미술관', '세계 박물관', '미술관 여행코스', '뮤지엄 투어', '겟어 뮤지엄']
+      : ['museum', 'art gallery', 'travel', 'contemporary art', 'exhibitions', 'museum map', 'art tour', 'itinerary', 'best museums', 'hidden gem museums', 'world museums', 'museum guide', 'art travel planner'],
     icons: {
       icon: [
         { url: '/icon.svg', type: 'image/svg+xml' },
@@ -111,6 +111,36 @@ export default function RootLayout({
             u();window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',u);
           })();
         `}} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'WebSite',
+                  name: 'Museum Map',
+                  alternateName: '뮤지엄 맵',
+                  url: 'https://global-museums.vercel.app',
+                  description: 'Explore 3,200+ museums and art galleries worldwide. AI-powered recommendations, curated stories, and personalized travel planning.',
+                  potentialAction: {
+                    '@type': 'SearchAction',
+                    target: 'https://global-museums.vercel.app/?q={search_term_string}',
+                    'query-input': 'required name=search_term_string'
+                  }
+                },
+                {
+                  '@type': 'Organization',
+                  name: 'Museum Map',
+                  url: 'https://global-museums.vercel.app',
+                  logo: 'https://global-museums.vercel.app/icon.svg',
+                  sameAs: [],
+                  description: 'Global museum and art gallery discovery platform featuring AI-powered recommendations, in-depth stories about hidden gem museums, and personalized trip planning for art lovers worldwide.'
+                }
+              ]
+            })
+          }}
+        />
       </head>
       <body className={`${inter.className} min-h-screen bg-neutral-50 dark:bg-neutral-950 flex flex-col transition-colors`}>
         <SplashScreen />

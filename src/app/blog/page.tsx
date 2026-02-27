@@ -148,15 +148,15 @@ export default function BlogListPage() {
                                 disabled={page === 1}
                                 className="px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95"
                             >
-                                ←
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
                             </button>
                             {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                                 <button
                                     key={p}
                                     onClick={() => goToPage(p)}
                                     className={`w-9 h-9 rounded-lg text-sm font-bold transition-all active:scale-95 ${p === page
-                                            ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20'
-                                            : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-neutral-800'
+                                        ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20'
+                                        : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-neutral-800'
                                         }`}
                                 >
                                     {p}
@@ -167,7 +167,7 @@ export default function BlogListPage() {
                                 disabled={page === totalPages}
                                 className="px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95"
                             >
-                                →
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                             </button>
                         </div>
                     )}

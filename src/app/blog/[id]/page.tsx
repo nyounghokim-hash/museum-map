@@ -39,6 +39,18 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
             description,
             images: post.previewImage ? [post.previewImage] : [],
         },
+        other: {
+            'article:structured-data': JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Article',
+                headline: displayTitle,
+                description,
+                image: post.previewImage || '',
+                author: { '@type': 'Organization', name: 'Museum Map' },
+                publisher: { '@type': 'Organization', name: 'Museum Map', logo: { '@type': 'ImageObject', url: 'https://global-museums.vercel.app/icon.svg' } },
+                mainEntityOfPage: `https://global-museums.vercel.app/blog/${resolvedParams.id}`,
+            })
+        }
     };
 }
 

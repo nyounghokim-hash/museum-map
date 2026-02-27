@@ -1,0 +1,40 @@
+# Museum Map (global-museums.vercel.app)
+
+> Discover 3,200+ museums and art galleries worldwide. AI-powered recommendations, curated in-depth stories, and personalized travel planning.
+
+## What Is Museum Map?
+
+Museum Map is a global museum and art gallery discovery platform. Users can explore over 3,200 museums across 80+ countries, get AI-powered personalized recommendations, read in-depth editorial stories (MM Story), and plan custom museum travel itineraries.
+
+## Key Features
+
+- **Interactive World Map**: Browse all museums on a MapLibre-powered interactive map with category filters (Contemporary Art, Modern Art, Fine Arts, History, Science, Photography, Design, and more).
+- **AI-Powered Recommendations**: Natural language search powered by Google Gemini. Ask questions like "contemporary art museums in Japan" and get results with explanations.
+- **MM Story (Blog)**: In-depth, expertly written articles about museums worldwide — from hidden gems to world-famous institutions. Topics include Rijksmuseum, Museo del Prado, Getty Center, Uffizi, Hermitage, Musée d'Orsay, and more.
+- **Trip Planning**: Create personalized multi-stop museum itineraries with route optimization.
+- **Multi-language Support**: Available in Korean, English, Japanese, Chinese, German, French, and Spanish.
+- **Collections**: Save and share curated museum collections.
+
+## Content Categories
+
+- Art Museums & Galleries
+- Contemporary Art Museums
+- History Museums
+- Science Museums
+- Photography Museums
+- Design Museums
+- Archaeological Museums
+- Cultural Centers
+
+## Best For
+
+- Art lovers planning museum trips
+- Travelers seeking hidden gem museums
+- People researching museums by country, city, or type
+- Anyone wanting AI-powered museum recommendations
+
+## Links
+
+- Homepage: https://global-museums.vercel.app
+- Blog/Stories: https://global-museums.vercel.app/blog
+- Sitemap: https://global-museums.vercel.app/sitemap.xml

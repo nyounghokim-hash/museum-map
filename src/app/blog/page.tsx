@@ -74,6 +74,8 @@ export default function BlogListPage() {
     const { locale } = useApp();
     const [posts, setPosts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const PER_PAGE = 10;
 
     useEffect(() => {
         fetch('/api/blog')
@@ -86,6 +88,14 @@ export default function BlogListPage() {
             })
             .catch(() => setLoading(false));
     }, []);
+
+    const totalPages = Math.ceil(posts.length / PER_PAGE);
+    const paginatedPosts = posts.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+    const goToPage = (p: number) => {
+        setPage(p);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     if (loading) return (
         <div className="flex items-center justify-center min-h-[60vh]">
@@ -123,11 +133,45 @@ export default function BlogListPage() {
                     </Link>
                 </div>
             ) : (
-                <div className="flex flex-col gap-6 sm:gap-8">
-                    {posts.map((post: any) => (
-                        <BlogCard key={post.id} post={post} locale={locale} />
-                    ))}
-                </div>
+                <>
+                    <div className="flex flex-col gap-6 sm:gap-8">
+                        {paginatedPosts.map((post: any) => (
+                            <BlogCard key={post.id} post={post} locale={locale} />
+                        ))}
+                    </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className="flex items-center justify-center gap-2 mt-10 mb-4">
+                            <button
+                                onClick={() => goToPage(page - 1)}
+                                disabled={page === 1}
+                                className="px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95"
+                            >
+                                ←
+                            </button>
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                                <button
+                                    key={p}
+                                    onClick={() => goToPage(p)}
+                                    className={`w-9 h-9 rounded-lg text-sm font-bold transition-all active:scale-95 ${p === page
+                                            ? 'bg-purple-600 text-white shadow-md shadow-purple-500/20'
+                                            : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-neutral-800'
+                                        }`}
+                                >
+                                    {p}
+                                </button>
+                            ))}
+                            <button
+                                onClick={() => goToPage(page + 1)}
+                                disabled={page === totalPages}
+                                className="px-3 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95"
+                            >
+                                →
+                            </button>
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );

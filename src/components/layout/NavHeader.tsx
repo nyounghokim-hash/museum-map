@@ -132,7 +132,7 @@ export default function NavHeader() {
                                 <button
                                     onClick={() => setNotifOpen(!notifOpen)}
                                     className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400 relative"
-                                    title={locale === 'ko' ? '알림' : 'Notifications'}
+                                    title={t('notif.title', locale)}
                                 >
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -144,7 +144,7 @@ export default function NavHeader() {
                                 {notifOpen && (
                                     <div className="absolute right-[-8px] top-full mt-1 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-2xl shadow-2xl py-0 min-w-[300px] max-w-[350px] z-50 overflow-hidden mx-4">
                                         <div className="px-4 py-3 border-b dark:border-neutral-800 flex items-center justify-between">
-                                            <span className="text-sm font-bold dark:text-white">{locale === 'ko' ? '알림' : 'Notifications'}</span>
+                                            <span className="text-sm font-bold dark:text-white">{t('notif.title', locale)}</span>
                                             {notifications.length > 0 && (
                                                 <button
                                                     onClick={() => {
@@ -153,14 +153,14 @@ export default function NavHeader() {
                                                     }}
                                                     className="text-[10px] text-blue-600 dark:text-blue-400 font-bold hover:underline"
                                                 >
-                                                    {locale === 'ko' ? '모두 읽음' : 'Mark all as read'}
+                                                    {t('notif.markAllRead', locale)}
                                                 </button>
                                             )}
                                         </div>
                                         <div className="max-h-[400px] overflow-y-auto">
                                             {notifications.length === 0 ? (
                                                 <div className="px-4 py-10 text-center">
-                                                    <p className="text-sm text-gray-500 dark:text-gray-400">{locale === 'ko' ? '새로운 알림이 없습니다.' : 'No new notifications.'}</p>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('notif.noNew', locale)}</p>
                                                 </div>
                                             ) : (
                                                 notifications.map(n => (
@@ -270,7 +270,7 @@ export default function NavHeader() {
                                                     {t('nav.favorites', locale)}
                                                 </Link>
                                                 <Link href="/notifications" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
-                                                    {locale === 'ko' ? '알림' : 'Notifications'}
+                                                    {t('notif.title', locale)}
                                                 </Link>
                                                 <button
                                                     onClick={() => {
@@ -279,7 +279,7 @@ export default function NavHeader() {
                                                     }}
                                                     className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                                                 >
-                                                    {locale === 'ko' ? '로그아웃' : 'Logout'}
+                                                    {t('auth.logout', locale)}
                                                 </button>
                                             </div>
                                         )}
@@ -359,7 +359,7 @@ export default function NavHeader() {
                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                                 </svg>
-                                {locale === 'ko' ? '알림' : 'Notifications'}
+                                {t('notif.title', locale)}
                                 {Array.isArray(notifications) && notifications.some(n => !n.isRead) && (
                                     <span className="w-2 h-2 bg-red-500 rounded-full" />
                                 )}

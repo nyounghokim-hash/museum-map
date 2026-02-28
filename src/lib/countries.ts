@@ -3,6 +3,7 @@
 
 const COUNTRY_NAMES: Record<string, Record<string, string>> = {
     AF: { en: 'Afghanistan', ko: '아프가니스탄', ja: 'アフガニスタン', zh: '阿富汗', de: 'Afghanistan', fr: 'Afghanistan', es: 'Afganistán' },
+    AQ: { en: 'Antarctica', ko: '남극', ja: '南極', zh: '南极洲', de: 'Antarktis', fr: 'Antarctique', es: 'Antártida' },
     AL: { en: 'Albania', ko: '알바니아', ja: 'アルバニア', zh: '阿尔巴尼亚', de: 'Albanien', fr: 'Albanie', es: 'Albania' },
     DZ: { en: 'Algeria', ko: '알제리', ja: 'アルジェリア', zh: '阿尔及利亚', de: 'Algerien', fr: 'Algérie', es: 'Argelia' },
     AR: { en: 'Argentina', ko: '아르헨티나', ja: 'アルゼンチン', zh: '阿根廷', de: 'Argentinien', fr: 'Argentine', es: 'Argentina' },
@@ -30,6 +31,7 @@ const COUNTRY_NAMES: Record<string, Record<string, string>> = {
     FR: { en: 'France', ko: '프랑스', ja: 'フランス', zh: '法国', de: 'Frankreich', fr: 'France', es: 'Francia' },
     GE: { en: 'Georgia', ko: '조지아', ja: 'ジョージア', zh: '格鲁吉亚', de: 'Georgien', fr: 'Géorgie', es: 'Georgia' },
     DE: { en: 'Germany', ko: '독일', ja: 'ドイツ', zh: '德国', de: 'Deutschland', fr: 'Allemagne', es: 'Alemania' },
+    GL: { en: 'Greenland', ko: '그린란드', ja: 'グリーンランド', zh: '格陵兰', de: 'Grönland', fr: 'Groenland', es: 'Groenlandia' },
     GR: { en: 'Greece', ko: '그리스', ja: 'ギリシャ', zh: '希腊', de: 'Griechenland', fr: 'Grèce', es: 'Grecia' },
     HU: { en: 'Hungary', ko: '헝가리', ja: 'ハンガリー', zh: '匈牙利', de: 'Ungarn', fr: 'Hongrie', es: 'Hungría' },
     IS: { en: 'Iceland', ko: '아이슬란드', ja: 'アイスランド', zh: '冰岛', de: 'Island', fr: 'Islande', es: 'Islandia' },

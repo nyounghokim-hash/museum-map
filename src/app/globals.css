@@ -136,6 +136,16 @@
   display: none;
 }
 
+/* Prevent iOS Safari zoom on input focus - minimum 16px font-size */
+@media screen and (max-width: 768px) {
+
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
 /* ── Global Animation System ── */
 
 /* Smooth transitions for all interactive elements */

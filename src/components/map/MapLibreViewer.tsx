@@ -67,11 +67,22 @@ export default function MapLibreViewer({
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: darkMode ? DARK_STYLE : LIGHT_STYLE,
-      center: [12.0, 50.0],
+      center: [126.97, 37.57], // Default: Seoul, Korea
       zoom: 3,
       pitch: 0,
       minZoom: 2,
     });
+
+    // Try to center on user's country via geolocation
+    if (typeof navigator !== 'undefined' && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          map.flyTo({ center: [pos.coords.longitude, pos.coords.latitude], zoom: 5, duration: 1500 });
+        },
+        () => { /* Keep default (Korea) on error */ },
+        { timeout: 5000, maximumAge: 300000 }
+      );
+    }
 
     map.on('load', () => {
       mapLoaded.current = true;

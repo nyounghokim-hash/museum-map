@@ -43,12 +43,12 @@ export default function NotificationsPage() {
             <div className="flex items-center justify-between mb-6 sm:mb-8">
                 <div>
                     <h1 className="text-2xl sm:text-3xl font-extrabold dark:text-white">
-                        {locale === 'ko' ? '알림' : 'Notifications'}
+                        {t('notif.title', locale)}
                     </h1>
                     <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm">
                         {unreadCount > 0
-                            ? (locale === 'ko' ? `읽지 않은 알림 ${unreadCount}개` : `${unreadCount} unread`)
-                            : (locale === 'ko' ? '모든 알림을 확인했습니다' : 'All caught up')}
+                            ? `${unreadCount} ${t('notif.unreadCount', locale)}`
+                            : t('notif.allCaughtUp', locale)}
                     </p>
                 </div>
                 {unreadCount > 0 && (
@@ -56,7 +56,7 @@ export default function NotificationsPage() {
                         onClick={markAllRead}
                         className="px-4 py-2 text-xs font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors"
                     >
-                        {locale === 'ko' ? '모두 읽음' : 'Mark all read'}
+                        {t('notif.markAllRead', locale)}
                     </button>
                 )}
             </div>
@@ -65,10 +65,10 @@ export default function NotificationsPage() {
                 <div className="py-20 text-center">
                     <div className="text-6xl mb-4">🔔</div>
                     <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
-                        {locale === 'ko' ? '알림이 없습니다' : 'No notifications'}
+                        {t('notif.empty', locale)}
                     </h2>
                     <p className="text-gray-500 dark:text-gray-400 text-sm">
-                        {locale === 'ko' ? '새로운 소식이 있으면 여기에 표시됩니다' : 'New updates will appear here'}
+                        {t('notif.emptyDesc', locale)}
                     </p>
                 </div>
             ) : (
@@ -79,8 +79,8 @@ export default function NotificationsPage() {
                             href={`/notifications/${n.id}`}
                             onClick={() => { if (!n.isRead) markRead(n.id); }}
                             className={`block rounded-2xl border transition-all hover:shadow-md active:scale-[0.99] ${!n.isRead
-                                    ? 'bg-purple-50/50 dark:bg-purple-900/10 border-purple-100 dark:border-purple-800/30'
-                                    : 'bg-white dark:bg-neutral-900 border-gray-100 dark:border-neutral-800'
+                                ? 'bg-purple-50/50 dark:bg-purple-900/10 border-purple-100 dark:border-purple-800/30'
+                                : 'bg-white dark:bg-neutral-900 border-gray-100 dark:border-neutral-800'
                                 }`}
                         >
                             <div className="p-4 sm:p-5 flex items-start gap-3">

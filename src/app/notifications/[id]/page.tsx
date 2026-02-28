@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/components/AppContext';
-import { formatDate } from '@/lib/i18n';
+import { formatDate, t } from '@/lib/i18n';
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
 export default function NotificationDetailPage() {
@@ -40,10 +40,10 @@ export default function NotificationDetailPage() {
         <div className="w-full max-w-[1080px] mx-auto px-4 py-20 text-center">
             <div className="text-6xl mb-4">🔕</div>
             <h1 className="text-xl font-bold dark:text-white mb-4">
-                {locale === 'ko' ? '알림을 찾을 수 없습니다' : 'Notification not found'}
+                {t('notif.notFound', locale)}
             </h1>
             <Link href="/notifications" className="text-purple-600 dark:text-purple-400 hover:underline font-medium text-sm">
-                ← {locale === 'ko' ? '알림 목록으로' : 'Back to notifications'}
+                ← {t('notif.backToList', locale)}
             </Link>
         </div>
     );
@@ -60,7 +60,7 @@ export default function NotificationDetailPage() {
                 <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>
-                {locale === 'ko' ? '알림 목록' : 'Notifications'}
+                {t('notif.list', locale)}
             </Link>
 
             <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-gray-100 dark:border-neutral-800 shadow-xl overflow-hidden">
@@ -73,7 +73,7 @@ export default function NotificationDetailPage() {
                         </div>
                         <div>
                             <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">
-                                {locale === 'ko' ? '알림' : 'Notification'}
+                                {t('notif.label', locale)}
                             </span>
                             <p className="text-xs text-gray-400 dark:text-neutral-500 font-medium">
                                 {formatDate(notification.createdAt, locale)}
@@ -95,7 +95,7 @@ export default function NotificationDetailPage() {
                                 href={notification.link}
                                 className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold text-sm shadow-lg shadow-purple-600/20 active:scale-95 transition-all"
                             >
-                                {locale === 'ko' ? '바로 가기' : 'Go to link'}
+                                {t('notif.goToLink', locale)}
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                 </svg>

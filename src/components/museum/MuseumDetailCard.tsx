@@ -11,6 +11,7 @@ import { useTranslatedText } from '@/hooks/useTranslation';
 import * as gtag from '@/lib/gtag';
 import { getCountryName, getCityName } from '@/lib/countries';
 import ReportModal from '@/components/ui/ReportModal';
+import { translateViLabel, translateViValue, getWebsiteLabels, getFeaturedWorksTitle, getReportLabels, getCopyToast } from '@/lib/visitorInfoI18n';
 
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
@@ -29,6 +30,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
     const [exhibitions, setExhibitions] = useState<any[]>([]);
     const [loadingLive, setLoadingLive] = useState(false);
     const [reportOpen, setReportOpen] = useState(false);
+    const [copyToast, setCopyToast] = useState(false);
 
     const translatedDesc = useTranslatedText(data?.description, locale);
     // Museum names should always display in their original language
@@ -93,6 +95,13 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
 
     const mapLinks = buildMapLinks({ name: data.name, lat: data.latitude, lng: data.longitude });
     const appleFirst = typeof window !== 'undefined' && isAppleDevice();
+
+    const handleCopyAddress = (address: string) => {
+        navigator.clipboard.writeText(address).then(() => {
+            setCopyToast(true);
+            setTimeout(() => setCopyToast(false), 2000);
+        }).catch(() => {/* ignore */ });
+    };
 
     return (
         <div className="w-full flex flex-col pt-2 sm:pt-4">
@@ -161,10 +170,13 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                     .catch(() => { setIsPicked(false); });
                             }
                         }}
-                        className={`absolute top-4 right-4 w-11 h-11 rounded-full flex items-center justify-center shadow-lg backdrop-blur-md transition-all active:scale-95 cursor-pointer z-10 ${isPicked ? 'bg-yellow-400 border border-yellow-300 text-white' : 'bg-black/40 border border-white/30 text-white hover:bg-black/60 hover:border-white/60'}`}
+                        className={`absolute top-4 right-4 z-20 w-12 h-12 flex items-center justify-center rounded-full shadow-lg active:scale-90 transition-all duration-300 ${isPicked
+                            ? 'bg-gradient-to-br from-purple-500 to-purple-700 text-white shadow-purple-500/30'
+                            : 'bg-black/40 backdrop-blur-md text-white/80 hover:bg-black/60'
+                            }`}
                     >
-                        <svg className={`w-5 h-5 transition-transform ${isPicked ? 'scale-110 drop-shadow-sm' : 'scale-100 opacity-90'}`} fill={isPicked ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={isPicked ? 0 : 2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        <svg className="w-6 h-6" fill={isPicked ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v18l7-5 7 5V3H5z" />
                         </svg>
                     </button>
                 </div>
@@ -181,8 +193,8 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                 className="flex items-center gap-4 py-3.5 border-b border-gray-50 dark:border-neutral-800/50 hover:bg-gray-50 dark:hover:bg-neutral-800/30 -mx-2 px-2 rounded-lg transition-colors group">
                                 <span className="text-base w-6 text-center flex-shrink-0">🌐</span>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-xs text-gray-400 dark:text-neutral-500 font-bold">{locale === 'ko' ? '웹사이트' : 'Website'}</p>
-                                    <p className="text-sm text-blue-600 dark:text-blue-400 font-bold group-hover:underline">{locale === 'ko' ? '공식 웹사이트 바로가기' : 'Visit official website'}</p>
+                                    <p className="text-xs text-gray-400 dark:text-neutral-500 font-bold">{getWebsiteLabels(locale).label}</p>
+                                    <p className="text-sm text-blue-600 dark:text-blue-400 font-bold group-hover:underline">{getWebsiteLabels(locale).cta}</p>
                                 </div>
                                 <svg className="w-4 h-4 text-gray-300 dark:text-neutral-600 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -191,27 +203,71 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                         )}
 
                         {/* Visitor Info Items */}
-                        {data.visitorInfo && Array.isArray(data.visitorInfo) && data.visitorInfo.map((item: any, i: number) => (
-                            <div key={i} className="flex items-start gap-4 py-3.5 border-b border-gray-50 dark:border-neutral-800/50 -mx-2 px-2">
-                                <span className="text-base w-6 text-center flex-shrink-0 mt-0.5">{item.icon || '📌'}</span>
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-xs text-gray-400 dark:text-neutral-500 font-bold">{item.label}</p>
-                                    <p className="text-sm text-gray-800 dark:text-gray-200 font-medium leading-relaxed">{item.value}</p>
+                        {data.visitorInfo && Array.isArray(data.visitorInfo) && data.visitorInfo.map((item: any, i: number) => {
+                            const displayLabel = translateViLabel(item.label, locale);
+                            const isLocation = item.label === '위치';
+                            return (
+                                <div key={i}>
+                                    <div
+                                        className={`flex items-start gap-4 py-3.5 border-b border-gray-50 dark:border-neutral-800/50 -mx-2 px-2 ${isLocation ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-800/30 rounded-lg transition-colors active:scale-[0.99]' : ''}`}
+                                        onClick={isLocation ? () => handleCopyAddress(item.value) : undefined}
+                                    >
+                                        <span className="text-base w-6 text-center flex-shrink-0 mt-0.5">{item.icon || '📌'}</span>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-xs text-gray-400 dark:text-neutral-500 font-bold">{displayLabel}</p>
+                                            <p className="text-sm text-gray-800 dark:text-gray-200 font-medium leading-relaxed">{translateViValue(item.value, locale)}</p>
+                                            {isLocation && (
+                                                <p className="text-[10px] text-gray-400 dark:text-neutral-500 mt-0.5">
+                                                    {locale === 'ko' ? '터치하여 주소 복사' : 'Tap to copy address'}
+                                                </p>
+                                            )}
+                                        </div>
+                                        {isLocation && (
+                                            <svg className="w-4 h-4 text-gray-300 dark:text-neutral-600 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                            </svg>
+                                        )}
+                                    </div>
+                                    {/* Map links below location */}
+                                    {isLocation && (
+                                        <div className="flex gap-2 ml-10 mb-2 mt-1">
+                                            <a
+                                                href={mapLinks.appleDirections}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                onClick={() => { gtag.event('get_directions', { category: 'navigation', label: 'Apple Maps', value: 1 }); }}
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-neutral-800 border border-gray-100 dark:border-neutral-700 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition active:scale-95"
+                                            >
+                                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7.589 2 4 5.589 4 9.995 4 16.44 12 22 12 22s8-5.56 8-12.005C20 5.589 16.411 2 12 2zm0 12a4 4 0 110-8 4 4 0 010 8z" /></svg>
+                                                Apple Maps
+                                            </a>
+                                            <a
+                                                href={mapLinks.googleDirections}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                onClick={() => { gtag.event('get_directions', { category: 'navigation', label: 'Google Maps', value: 1 }); }}
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-neutral-800 border border-gray-100 dark:border-neutral-700 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition active:scale-95"
+                                            >
+                                                <svg className="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M12 11.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" /><path fill="#EA4335" d="M12 2C8.13 2 5 5.13 5 9c0 3.54 2.98 7.8 6.09 11.57.4.48 1.42.48 1.82 0C16.02 16.8 19 12.54 19 9c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" /></svg>
+                                                Google Maps
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
 
                     {/* Featured Artworks */}
                     {data.artworks && data.artworks.length > 0 && (
                         <div className="mt-6 pt-4">
                             <h3 className="text-xs font-extrabold text-gray-500 dark:text-neutral-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                🖼️ {locale === 'ko' ? '대표 작품' : 'Featured Works'}
+                                🖼️ {getFeaturedWorksTitle(locale)}
                             </h3>
-                            <div className="flex gap-3 overflow-x-auto pb-3 -mx-2 px-2 snap-x snap-mandatory scrollbar-hide">
+                            <div className="flex gap-3 overflow-x-auto pb-3 -mx-2 px-2 snap-x snap-mandatory scrollbar-hide max-h-[35vh]">
                                 {data.artworks.map((work: any, i: number) => (
-                                    <div key={i} className="min-w-[200px] max-w-[220px] flex-shrink-0 snap-start rounded-2xl overflow-hidden bg-gray-50 dark:bg-neutral-800 border border-gray-100 dark:border-neutral-700 group">
-                                        <div className="h-[140px] overflow-hidden bg-gray-100 dark:bg-neutral-700">
+                                    <div key={i} className="min-w-[160px] max-w-[180px] sm:min-w-[200px] sm:max-w-[220px] flex-shrink-0 snap-start rounded-2xl overflow-hidden bg-gray-50 dark:bg-neutral-800 border border-gray-100 dark:border-neutral-700 group">
+                                        <div className="h-[100px] sm:h-[140px] overflow-hidden bg-gray-100 dark:bg-neutral-700">
                                             <img
                                                 src={work.image}
                                                 alt={work.title || ''}
@@ -219,7 +275,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                                             />
                                         </div>
-                                        <div className="p-3">
+                                        <div className="p-2.5 sm:p-3">
                                             <p className="text-[9px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">{work.artist}</p>
                                             <h4 className="font-bold text-xs dark:text-white leading-tight mt-0.5 line-clamp-1">{work.title}</h4>
                                             {work.description && (
@@ -232,105 +288,86 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                         </div>
                     )}
 
-                    {/* Map Navigation */}
-                    <div className="mt-6 pt-4 border-t border-gray-100 dark:border-neutral-800">
-                        <div className="flex flex-wrap gap-2">
-                            <a
-                                href={appleFirst ? mapLinks.appleDirections : mapLinks.googleDirections}
-                                target="_blank"
-                                rel="noreferrer"
-                                onClick={() => { gtag.event('get_directions', { category: 'navigation', label: appleFirst ? 'Apple Maps' : 'Google Maps', value: 1 }); }}
-                                className="inline-flex flex-1 sm:flex-none justify-center items-center gap-2 bg-blue-600 text-white px-4 py-3 sm:py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition active:scale-95 shadow-md"
-                            >
-                                🗺️ {appleFirst ? t('map.appleMaps', locale) : t('map.googleMaps', locale)}
-                            </a>
-                            <a
-                                href={appleFirst ? mapLinks.googleDirections : mapLinks.appleDirections}
-                                target="_blank"
-                                rel="noreferrer"
-                                onClick={() => { gtag.event('get_directions', { category: 'navigation', label: appleFirst ? 'Google Maps' : 'Apple Maps', value: 1 }); }}
-                                className="inline-flex flex-1 sm:flex-none justify-center items-center gap-2 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-gray-700 dark:text-gray-300 px-4 py-3 sm:py-2.5 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-neutral-700 transition active:scale-95"
-                            >
-                                📍 {appleFirst ? t('map.googleMaps', locale) : t('map.appleMaps', locale)}
-                            </a>
+                    {/* Copy Toast */}
+                    {copyToast && (
+                        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-black/80 text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-lg backdrop-blur-md animate-fadeInUp">
+                            ✅ {getCopyToast(locale)}
                         </div>
-                        <div className="pb-14 lg:pb-0"></div>
+                    )}
+                    <div className="pb-14 lg:pb-0"></div>
 
-                        {/* Report Info Update Button */}
-                        <button
-                            onClick={() => setReportOpen(true)}
-                            className="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800/50 text-gray-400 dark:text-gray-500 hover:text-purple-600 hover:border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10 dark:hover:border-purple-800 text-xs font-bold transition-all active:scale-95"
-                        >
-                            <span className="text-sm">✏️</span>
-                            {locale === 'ko' ? '정보 수정 요청' : 'Request info update'}
-                        </button>
-                        <ReportModal
-                            isOpen={reportOpen}
-                            onClose={() => setReportOpen(false)}
-                            locale={locale}
-                            targetName={data.name}
-                            onSubmit={async (msg) => {
-                                await fetch('/api/feedback', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({
-                                        content: msg,
-                                        type: 'report',
-                                        category: 'museum_info',
-                                        targetId: data.id,
-                                        targetName: data.name,
-                                    })
-                                });
-                                showAlert(
-                                    locale === 'ko' ? '감사합니다!' : 'Thank you!',
-                                    locale === 'ko' ? '수정 요청이 접수되었어요. 빠르게 반영하겠습니다 🙏' : 'Your request has been received. We will review it shortly 🙏'
-                                );
-                            }}
-                        />
-                    </div>
+                    {/* Report Info Update Button */}
+                    <button
+                        onClick={() => setReportOpen(true)}
+                        className="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800/50 text-gray-400 dark:text-gray-500 hover:text-purple-600 hover:border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10 dark:hover:border-purple-800 text-xs font-bold transition-all active:scale-95"
+                    >
+                        <span className="text-sm">✏️</span>
+                        {getReportLabels(locale).button}
+                    </button>
+                    <ReportModal
+                        isOpen={reportOpen}
+                        onClose={() => setReportOpen(false)}
+                        locale={locale}
+                        targetName={data.name}
+                        onSubmit={async (msg) => {
+                            await fetch('/api/feedback', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    content: msg,
+                                    type: 'report',
+                                    category: 'museum_info',
+                                    targetId: data.id,
+                                    targetName: data.name,
+                                })
+                            });
+                            showAlert(
+                                getReportLabels(locale).thanks,
+                                getReportLabels(locale).thanksDesc
+                            );
+                        }}
+                    />
                 </div>
-            </GlassPanel >
+            </GlassPanel>
 
             {/* Google Places Reviews */}
-            {
-                googleReviews && (
-                    <div className="mb-12 mt-8 px-4 sm:px-0">
-                        <div className="flex items-center gap-3 mb-6">
-                            <h2 className="text-xl sm:text-2xl font-bold dark:text-white">Google Reviews</h2>
-                            <div className="flex items-center gap-1 bg-yellow-100 text-yellow-800 px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold">
-                                ⭐ {googleReviews.rating || 'N/A'} <span className="text-yellow-600 font-normal ml-1">({googleReviews.totalRatings?.toLocaleString() || 0} reviews)</span>
-                            </div>
+            {googleReviews && (
+                <div className="mb-12 mt-8 px-4 sm:px-0">
+                    <div className="flex items-center gap-3 mb-6">
+                        <h2 className="text-xl sm:text-2xl font-bold dark:text-white">Google Reviews</h2>
+                        <div className="flex items-center gap-1 bg-yellow-100 text-yellow-800 px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold">
+                            ⭐ {googleReviews.rating || 'N/A'} <span className="text-yellow-600 font-normal ml-1">({googleReviews.totalRatings?.toLocaleString() || 0} reviews)</span>
                         </div>
-                        {googleReviews.reviews && googleReviews.reviews.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                                {googleReviews.reviews.map((r: any, i: number) => (
-                                    <div key={i} className="bg-white dark:bg-neutral-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-neutral-800">
-                                        <div className="flex items-center gap-3 mb-4">
-                                            <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center font-bold text-blue-600 dark:text-blue-400 shrink-0">
-                                                {r.author_name.charAt(0)}
-                                            </div>
-                                            <div className="min-w-0">
-                                                <p className="font-bold text-sm dark:text-white truncate">{r.author_name}</p>
-                                                <p className="text-[10px] text-gray-400 truncate">{r.relative_time_description}</p>
-                                            </div>
-                                            <div className="ml-auto text-yellow-400 text-xs sm:text-sm shrink-0">
-                                                {'★'.repeat(Math.round(r.rating))}
-                                            </div>
-                                        </div>
-                                        <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
-                                            {r.text || "No text provided."}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="text-sm text-gray-500 dark:text-gray-400">No descriptive Google Reviews available at the moment.</p>
-                        )}
                     </div>
-                )
-            }
+                    {googleReviews.reviews && googleReviews.reviews.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                            {googleReviews.reviews.map((r: any, i: number) => (
+                                <div key={i} className="bg-white dark:bg-neutral-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-neutral-800">
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center font-bold text-blue-600 dark:text-blue-400 shrink-0">
+                                            {r.author_name.charAt(0)}
+                                        </div>
+                                        <div className="min-w-0">
+                                            <p className="font-bold text-sm dark:text-white truncate">{r.author_name}</p>
+                                            <p className="text-[10px] text-gray-400 truncate">{r.relative_time_description}</p>
+                                        </div>
+                                        <div className="ml-auto text-yellow-400 text-xs sm:text-sm shrink-0">
+                                            {'★'.repeat(Math.round(r.rating))}
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
+                                        {r.text || "No text provided."}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-sm text-gray-500 dark:text-gray-400">No descriptive Google Reviews available at the moment.</p>
+                    )}
+                </div>
+            )}
             {/* Mobile bottom spacer */}
             <div className="h-32 lg:h-8" />
-        </div >
+        </div>
     );
 }

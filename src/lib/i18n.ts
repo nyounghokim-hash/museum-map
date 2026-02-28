@@ -262,7 +262,7 @@ type TranslationKeys = {
     'legal.privacy.s8.title': string;
     'legal.privacy.s8.content': string;
     'legal.privacy.s9.title': string;
-        // Notifications & Auth
+    // Notifications & Auth
     'notif.title': string;
     'notif.unreadCount': string;
     'notif.allCaughtUp': string;
@@ -276,7 +276,7 @@ type TranslationKeys = {
     'notif.label': string;
     'notif.goToLink': string;
     'auth.logout': string;
-'legal.privacy.s9.content': string;
+    'legal.privacy.s9.content': string;
 };
 
 const translations: Record<Locale, Record<string, string>> = {
@@ -1208,7 +1208,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.title': '8. Cookies',
         'legal.privacy.s8.content': 'Vi bruger cookies til at levere personlige tjenester, og du kan afvise dem via browserindstillinger.',
         'legal.privacy.s9.title': '9. Kontakt',
-        'legal.privacy.s9.content': 'E-mail: [Admin Email]',
+        'legal.privacy.s9.content': 'E-mail: nyoungho.kim@gmail.com',
         'saved.planRoute': 'Plan Route',
         'notif.title': 'Notifikationer',
         'notif.unreadCount': 'ulæste',
@@ -1445,7 +1445,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.title': '8. Cookies',
         'legal.privacy.s8.content': 'We use cookies to provide personalized services and you can reject them via browser settings.',
         'legal.privacy.s9.title': '9. Contact',
-        'legal.privacy.s9.content': 'Email: [Admin Email]',
+        'legal.privacy.s9.content': 'Email: nyoungho.kim@gmail.com',
         'saved.planRoute': 'Plan Route',
         'notif.title': 'Notifications',
         'notif.unreadCount': 'unread',
@@ -1652,7 +1652,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.terms.s3.title': '제 3조 (약관의 변경)',
         'legal.terms.s3.content': '서비스는 관련 법령을 위배하지 않는 범위 내에서 본 약관을 개정할 수 있으며, 변경된 약관은 서비스 화면에 공지합니다.',
         'legal.terms.s4.title': '제 4조 (서비스의 제공)',
-        'legal.terms.s4.content': '박물관 검색, 공간 데이터 시각화, 자동 경로 생성 서비스를 제공합니다. 일부 기능은 로그인이 필요할 수 있습니다.',
+        'legal.terms.s4.content': '전 세계 미술관 및 박물관 검색, 공간 데이터 시각화, AI 챗봇 기반 큐레이션, 자동 경로 생성, 전시 정보 검색, 컬렉션 관리 서비스를 제공합니다. 일부 기능은 로그인이 필요할 수 있습니다.',
         'legal.terms.s5.title': '제 5조 (회원가입)',
         'legal.terms.s5.content': '이용자가 약관에 동의하고 가입 절차를 완료함으로써 회원가입이 성립됩니다.',
         'legal.terms.s6.title': '제 6조 (탈퇴)',
@@ -1668,7 +1668,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.terms.s11.title': '제 11조 (관할 법원)',
         'legal.terms.s11.content': '분쟁 발생 시 대한민국 법령에 따르며, 관할 법원은 관련 법령에 따릅니다.',
         'legal.privacy.s1.title': '1. 수집 항목',
-        'legal.privacy.s1.content': '운영을 위해 아이디(username), 암호화된 비밀번호, 서비스 이용 기록 등 최소한의 정보를 수집합니다.',
+        'legal.privacy.s1.content': '서비스 운영을 위해 아이디(username), 암호화된 비밀번호, 서비스 이용 기록(접속 시간, 페이지 방문 기록 등)을 수집합니다. 또한 Google Analytics를 통해 익명의 웹사이트 이용 통계를 수집합니다.',
         'legal.privacy.s2.title': '2. 수집 목적',
         'legal.privacy.s2.content': '이용자 식별, 서비스 개선, 고객 지원을 목적으로 수집한 정보를 사용합니다.',
         'legal.privacy.s3.title': '3. 보유 기간',
@@ -1684,7 +1684,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.title': '8. 쿠키(Cookie)',
         'legal.privacy.s8.content': '개인화된 서비스를 위해 쿠키를 사용하며, 브라우저 설정을 통해 거부할 수 있습니다.',
         'legal.privacy.s9.title': '9. 문의',
-        'legal.privacy.s9.content': '이메일: [Admin Email]',
+        'legal.privacy.s9.content': '이메일: nyoungho.kim@gmail.com',
     },
     ja: {
         'nav.mapExplore': 'マップ',
@@ -1906,7 +1906,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.title': '8. クッキーとパーソナライズ広告',
         'legal.privacy.s8.content': '当社はパーソナライズ広告を提供するためにクッキーを使用しており、ブラウザの設定で拒否することができます。',
         'legal.privacy.s9.title': '9. お問い合わせ',
-        'legal.privacy.s9.content': 'メール：[Admin Email]',
+        'legal.privacy.s9.content': 'メール：nyoungho.kim@gmail.com',
         'saved.planRoute': 'Plan Route',
         'notif.title': '알림',
         'notif.unreadCount': '개 읽지 않음',
@@ -2142,7 +2142,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.title': '8. Cookies',
         'legal.privacy.s8.content': 'Wir verwenden Cookies, um personalisierte Dienste anzubieten. Sie können diese über die Browsereinstellungen ablehnen.',
         'legal.privacy.s9.title': '9. Kontakt',
-        'legal.privacy.s9.content': 'E-Mail: [Admin Email]',
+        'legal.privacy.s9.content': 'E-Mail: nyoungho.kim@gmail.com',
         'saved.planRoute': 'Plan Route',
         'notif.title': '通知',
         'notif.unreadCount': '件未読',
@@ -2378,7 +2378,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.title': '8. Cookies',
         'legal.privacy.s8.content': 'Nous utilisons des cookies pour fournir des services personnalisés et vous pouvez les refuser via les paramètres de votre navigateur.',
         'legal.privacy.s9.title': '9. Contact',
-        'legal.privacy.s9.content': 'Email : [Admin Email]',
+        'legal.privacy.s9.content': 'Email : nyoungho.kim@gmail.com',
         'saved.planRoute': 'Plan Route',
         'notif.title': 'Notifications',
         'notif.unreadCount': 'non lues',
@@ -2610,7 +2610,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.title': '8. Cookies',
         'legal.privacy.s8.content': 'Utilizamos cookies para proporcionar servicios personalizados y puede rechazarlos a través de la configuración del navegador.',
         'legal.privacy.s9.title': '9. Contacto',
-        'legal.privacy.s9.content': 'Correo electrónico: [Admin Email]',
+        'legal.privacy.s9.content': 'Correo electrónico: nyoungho.kim@gmail.com',
         'saved.planRoute': 'Plan Route',
         'notif.title': 'Notificaciones',
         'notif.unreadCount': 'sin leer',
@@ -2844,7 +2844,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.title': '8. Cookies',
         'legal.privacy.s8.content': 'Utilizamos cookies para fornecer serviços personalizados e você pode recusá-los através das configurações do navegador.',
         'legal.privacy.s9.title': '9. Contato',
-        'legal.privacy.s9.content': 'E-mail: [Admin Email]',
+        'legal.privacy.s9.content': 'E-mail: nyoungho.kim@gmail.com',
         'saved.planRoute': 'Plan Route',
         'notif.title': 'Notificações',
         'notif.unreadCount': 'não lidas',
@@ -3078,7 +3078,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.title': '8. Cookie',
         'legal.privacy.s8.content': '我們使用 Cookie 來提供個性化服務，您可以透過瀏覽器設定拒絕它們。',
         'legal.privacy.s9.title': '9. 聯繫方式',
-        'legal.privacy.s9.content': '電子郵件：[Admin Email]',
+        'legal.privacy.s9.content': '電子郵件：nyoungho.kim@gmail.com',
         'notif.title': '通知',
         'notif.unreadCount': '則未讀',
         'notif.allCaughtUp': '已全部查看',
@@ -3309,7 +3309,7 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.title': '8. Cookie',
         'legal.privacy.s8.content': '我们使用 Cookie 来提供个性化服务，您可以通过浏览器设置拒绝它们。',
         'legal.privacy.s9.title': '9. 联系方式',
-        'legal.privacy.s9.content': '电子邮件：[Admin Email]',
+        'legal.privacy.s9.content': '电子邮件：nyoungho.kim@gmail.com',
         'notif.title': '通知',
         'notif.unreadCount': '条未读',
         'notif.allCaughtUp': '已全部查看',

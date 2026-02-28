@@ -62,7 +62,7 @@ export default function MobileBottomNav() {
     ];
 
     return (
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50">
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
             {/* Glassmorphism floating bar - higher position, mega rounded */}
             <div className="mx-4 mb-6 rounded-[28px] overflow-hidden"
                 style={{

@@ -28,7 +28,6 @@ export default function NavHeader() {
         { href: '/plans', label: t('nav.myPlans', locale) },
         { href: '/collections', label: t('nav.myCollections', locale) },
         { href: '/blog', label: t('nav.mmStory', locale) },
-        { href: '/feedback', label: t('nav.feedback', locale) || 'Feedback' },
     ];
 
     useEffect(() => { setMobileOpen(false); setLangOpen(false); setUserMenuOpen(false); setNotifOpen(false); }, [pathname]);
@@ -224,6 +223,16 @@ export default function NavHeader() {
                         {/* Auth UI */}
                         {session ? (
                             <div className="flex items-center gap-2">
+                                {/* Feedback mail icon - PC only */}
+                                <Link
+                                    href="/feedback"
+                                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400"
+                                    title={t('nav.feedback', locale) || 'Feedback'}
+                                >
+                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </Link>
                                 {/* Admin button - left of profile */}
                                 {(session.user as any)?.role === 'ADMIN' && (
                                     <Link
@@ -363,6 +372,19 @@ export default function NavHeader() {
                                 {Array.isArray(notifications) && notifications.some(n => !n.isRead) && (
                                     <span className="w-2 h-2 bg-red-500 rounded-full" />
                                 )}
+                            </Link>
+                        </div>
+
+                        {/* Mobile feedback */}
+                        <div className="px-4 py-2">
+                            <Link
+                                href="/feedback"
+                                className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-all"
+                            >
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                {t('nav.feedback', locale) || '의견 보내기'}
                             </Link>
                         </div>
 

@@ -220,7 +220,7 @@ export default function MainPage() {
 
         {/* AI Recommend — PC: bottom-left, Mobile/Tablet: above bottom nav */}
         {!isViewingActiveRoute && !isPanelOpen && (
-          <div className="absolute bottom-[94px] lg:bottom-4 left-4 right-4 lg:right-auto lg:max-w-md z-10 pointer-events-none">
+          <div className="absolute bottom-[94px] lg:bottom-4 left-4 right-[120px] z-10 pointer-events-none">
             <div className="pointer-events-auto">
               {!aiOpen ? (
                 <button
@@ -233,7 +233,7 @@ export default function MainPage() {
                   </span>
                 </button>
               ) : (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col-reverse gap-2">
                   <form onSubmit={(e) => { e.preventDefault(); handleAiRecommend(); }} className="flex gap-2">
                     <input
                       type="text"
@@ -257,7 +257,7 @@ export default function MainPage() {
                     >✕</button>
                   </form>
 
-                  {/* AI Results */}
+                  {/* AI Results — shown above input */}
                   {aiResults.length > 0 && (
                     <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                       {aiResults.map((m: any) => (

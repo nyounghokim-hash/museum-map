@@ -33,6 +33,7 @@ export default function MainPage() {
   const [aiResults, setAiResults] = useState<any[]>([]);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Show detailed panel if museum selected OR if viewing active route (and not seeing a specific museum)
   const isPanelOpen = !!selectedMuseum || (isViewingActiveRoute && !!activeTrip);
@@ -92,9 +93,15 @@ export default function MainPage() {
     }
   };
 
-  const filteredMuseums = activeFilter === 'All'
-    ? museums
-    : museums.filter(m => m.type === activeFilter);
+  const filteredMuseums = museums.filter(m => {
+    const matchesFilter = activeFilter === 'All' || m.type === activeFilter;
+    const q = searchQuery.toLowerCase().trim();
+    const matchesSearch = !q ||
+      m.name?.toLowerCase().includes(q) ||
+      m.city?.toLowerCase().includes(q) ||
+      m.country?.toLowerCase().includes(q);
+    return matchesFilter && matchesSearch;
+  });
 
   const isDarkMode = darkMode;
 
@@ -148,9 +155,31 @@ export default function MainPage() {
           />
         )}
 
-        {/* Filters overlay — stacked */}
+        {/* Filters overlay — Search → Categories → AI */}
         {!isViewingActiveRoute && (
           <div className="absolute top-4 left-4 right-4 z-10 flex flex-col gap-2 sm:gap-3 pointer-events-none">
+            {/* Search Bar */}
+            <div className="pointer-events-auto">
+              <div className="relative">
+                <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={translateCategory('search.placeholder', locale)}
+                  className="w-full pl-10 pr-4 py-3 bg-white/92 dark:bg-neutral-900/92 backdrop-blur-xl rounded-2xl shadow-lg border border-gray-100/50 dark:border-neutral-800/50 text-sm text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-300 dark:focus:border-purple-700 transition-all"
+                />
+                {searchQuery && (
+                  <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-white">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Category Chips */}
             <div className="flex gap-2 pointer-events-auto overflow-x-auto pb-1 scrollbar-hide">
               {['All', 'Art Gallery', 'Contemporary Art', 'Modern Art', 'Fine Arts', 'General Museum', 'History Museum', 'Natural History', 'Science Museum', 'Maritime Museum', 'Archaeological Museum', 'Photography Museum', 'Design Museum', 'Cultural Center'].map(f => (
                 <FilterChip key={f} active={activeFilter === f} onClick={() => {
@@ -168,7 +197,7 @@ export default function MainPage() {
               ))}
             </div>
 
-            {/* AI Search Bar */}
+            {/* AI Recommend Button / Panel */}
             <div className="pointer-events-auto">
               {!aiOpen ? (
                 <button

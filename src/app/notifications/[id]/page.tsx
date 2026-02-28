@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/components/AppContext';
-import { formatDate, t } from '@/lib/i18n';
+import { formatDate, t, type Locale } from '@/lib/i18n';
+import { useTranslatedTexts } from '@/hooks/useTranslation';
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
 export default function NotificationDetailPage() {
@@ -30,6 +31,11 @@ export default function NotificationDetailPage() {
             .catch(() => setLoading(false));
     }, [id]);
 
+    // Translate title and message
+    const srcTitle = notification ? (notification.titleEn || notification.title || '') : '';
+    const srcMessage = notification ? (notification.messageEn || notification.message || '') : '';
+    const translations = useTranslatedTexts([srcTitle, srcMessage], locale as Locale);
+
     if (loading) return (
         <div className="flex items-center justify-center min-h-[60vh]">
             <LoadingAnimation size={160} />
@@ -48,8 +54,8 @@ export default function NotificationDetailPage() {
         </div>
     );
 
-    const title = locale !== 'ko' && notification.titleEn ? notification.titleEn : notification.title;
-    const message = locale !== 'ko' && notification.messageEn ? notification.messageEn : notification.message;
+    const title = locale === 'ko' ? notification.title : (translations.get(srcTitle) || srcTitle);
+    const message = locale === 'ko' ? notification.message : (translations.get(srcMessage) || srcMessage);
 
     return (
         <div className="w-full max-w-[1080px] mx-auto px-4 py-4 sm:px-6 sm:py-8 md:px-8 mt-4 sm:mt-8">

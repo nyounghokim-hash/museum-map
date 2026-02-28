@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useApp } from '@/components/AppContext';
-import { t, formatDate } from '@/lib/i18n';
+import { t, formatDate, type Locale } from '@/lib/i18n';
+import { useTranslatedTexts } from '@/hooks/useTranslation';
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
 export default function NotificationsPage() {
@@ -19,6 +20,24 @@ export default function NotificationsPage() {
             })
             .catch(() => setLoading(false));
     }, []);
+
+    // Collect all translatable texts (use English version if available, otherwise Korean)
+    const textsToTranslate = notifications.flatMap(n => [
+        n.titleEn || n.title || '',
+        n.messageEn || n.message || ''
+    ]);
+    const translations = useTranslatedTexts(textsToTranslate, locale as Locale);
+
+    const getTitle = (n: any) => {
+        if (locale === 'ko') return n.title;
+        const src = n.titleEn || n.title || '';
+        return translations.get(src) || src;
+    };
+    const getMessage = (n: any) => {
+        if (locale === 'ko') return n.message;
+        const src = n.messageEn || n.message || '';
+        return translations.get(src) || src;
+    };
 
     const markAllRead = () => {
         fetch('/api/notifications/read-all', { method: 'POST' })
@@ -87,10 +106,10 @@ export default function NotificationsPage() {
                                 <div className={`w-2.5 h-2.5 shrink-0 rounded-full mt-1.5 ${!n.isRead ? 'bg-purple-500' : 'bg-transparent'}`} />
                                 <div className="flex-1 min-w-0">
                                     <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1" style={{ wordBreak: 'break-word' }}>
-                                        {locale !== 'ko' && n.titleEn ? n.titleEn : n.title}
+                                        {getTitle(n)}
                                     </h3>
                                     <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed" style={{ wordBreak: 'break-word' }}>
-                                        {locale !== 'ko' && n.messageEn ? n.messageEn : n.message}
+                                        {getMessage(n)}
                                     </p>
                                     <span className="text-[10px] text-gray-400 dark:text-neutral-600 mt-2 block font-medium">
                                         {formatDate(n.createdAt, locale)}

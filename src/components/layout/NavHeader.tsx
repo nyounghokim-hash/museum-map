@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useApp } from '@/components/AppContext';
 import { t, LOCALE_NAMES, Locale } from '@/lib/i18n';
+import { useTranslatedTexts } from '@/hooks/useTranslation';
 import { useModal } from '@/components/ui/Modal';
 
 export default function NavHeader() {
@@ -21,6 +22,23 @@ export default function NavHeader() {
     const userMenuRef = useRef<HTMLDivElement>(null);
     const notifRef = useRef<HTMLDivElement>(null);
     const { locale, setLocale, darkMode, setDarkMode } = useApp();
+
+    // Translate notification texts for dropdown
+    const notifTexts = notifications.flatMap((n: any) => [
+        n.titleEn || n.title || '',
+        n.messageEn || n.message || ''
+    ]);
+    const notifTranslations = useTranslatedTexts(notifTexts, locale);
+    const getNotifTitle = (n: any) => {
+        if (locale === 'ko') return n.title;
+        const src = n.titleEn || n.title || '';
+        return notifTranslations.get(src) || src;
+    };
+    const getNotifMessage = (n: any) => {
+        if (locale === 'ko') return n.message;
+        const src = n.messageEn || n.message || '';
+        return notifTranslations.get(src) || src;
+    };
 
     const NAV_LINKS = [
         { href: '/', label: t('nav.mapExplore', locale) },
@@ -171,8 +189,8 @@ export default function NavHeader() {
                                                     <div className="flex items-start gap-3">
                                                         <div className={`w-2 h-2 shrink-0 rounded-full mt-1.5 ${!n.isRead ? 'bg-blue-500' : 'bg-transparent'}`} />
                                                         <div className="min-w-0">
-                                                            <p className="text-xs font-bold text-gray-900 dark:text-white mb-0.5">{locale !== 'ko' && n.titleEn ? n.titleEn : n.title}</p>
-                                                            <p className="text-[11px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{locale !== 'ko' && n.messageEn ? n.messageEn : n.message}</p>
+                                                            <p className="text-xs font-bold text-gray-900 dark:text-white mb-0.5">{getNotifTitle(n)}</p>
+                                                            <p className="text-[11px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{getNotifMessage(n)}</p>
                                                             <p className="text-[9px] text-gray-400 dark:text-neutral-600 mt-1">{new Date(n.createdAt).toLocaleString()}</p>
                                                         </div>
                                                     </div>

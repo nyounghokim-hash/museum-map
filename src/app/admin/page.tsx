@@ -258,7 +258,7 @@ export default function AdminPage() {
                     <div className="flex flex-wrap gap-2 sm:gap-3 mt-6">
                         <button
                             onClick={() => setTab('dashboard')}
-                            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'dashboard' ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
+                            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'dashboard' ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
                         >
                             대시보드
                         </button>

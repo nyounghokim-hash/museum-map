@@ -243,7 +243,6 @@ export default function MainPage() {
                     onChange={(e) => setAiQuery(e.target.value)}
                     placeholder={translateCategory('ai.placeholder', locale)}
                     className="flex-1 min-w-0 px-4 py-2 bg-gray-50 dark:bg-neutral-800 rounded-xl text-sm text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-purple-400 transition-all"
-                    autoFocus
                   />
                   <button
                     type="submit"

@@ -66,33 +66,31 @@ export default function MobileBottomNav() {
 
     return (
         <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
-            {/* Glassmorphism floating bar - higher position, mega rounded */}
-            <div className="mx-4 mb-6 rounded-[28px] overflow-hidden"
+            <div className="w-full overflow-hidden"
                 style={{
-                    background: 'rgba(255, 255, 255, 0.78)',
+                    background: 'rgba(255, 255, 255, 0.92)',
                     backdropFilter: 'blur(24px) saturate(200%)',
                     WebkitBackdropFilter: 'blur(24px) saturate(200%)',
-                    border: '1px solid rgba(255, 255, 255, 0.35)',
-                    boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08)',
+                    borderTop: '1px solid rgba(0, 0, 0, 0.06)',
                 }}
             >
                 {/* Dark mode overlay */}
-                <div className="hidden dark:block absolute inset-0 rounded-[28px]"
+                <div className="hidden dark:block absolute inset-0"
                     style={{
-                        background: 'rgba(23, 23, 23, 0.82)',
+                        background: 'rgba(23, 23, 23, 0.92)',
                         backdropFilter: 'blur(24px) saturate(200%)',
                         WebkitBackdropFilter: 'blur(24px) saturate(200%)',
-                        border: '1px solid rgba(255, 255, 255, 0.06)',
+                        borderTop: '1px solid rgba(255, 255, 255, 0.06)',
                     }}
                 />
-                <div className="relative flex items-center justify-around py-2.5 px-3">
+                <div className="relative flex items-stretch">
                     {tabs.map((tab) => (
                         <Link
                             key={tab.href}
                             href={tab.href}
-                            className={`flex flex-col items-center gap-1 px-5 py-2 rounded-[20px] transition-all duration-200 active:scale-90 ${tab.isActive
-                                ? 'bg-purple-600 dark:bg-purple-500 shadow-lg shadow-purple-600/30'
-                                : 'hover:bg-gray-100/60 dark:hover:bg-neutral-700/30'
+                            className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 transition-all duration-200 active:scale-95 ${tab.isActive
+                                ? 'bg-purple-600 dark:bg-purple-500'
+                                : ''
                                 }`}
                         >
                             {tab.icon(tab.isActive)}
@@ -106,9 +104,10 @@ export default function MobileBottomNav() {
                     ))}
                 </div>
             </div>
-
             {/* Safe area spacer */}
-            <div className="h-[env(safe-area-inset-bottom,0px)] bg-transparent" />
+            <div className="h-[env(safe-area-inset-bottom,0px)]"
+                style={{ background: 'rgba(255, 255, 255, 0.92)' }}
+            />
         </nav>
     );
 }

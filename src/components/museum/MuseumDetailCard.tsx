@@ -209,7 +209,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                             return (
                                 <div key={i}>
                                     <div
-                                        className={`flex items-start gap-4 py-3.5 border-b border-gray-50 dark:border-neutral-800/50 -mx-2 px-2 ${isLocation ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-800/30 rounded-lg transition-colors active:scale-[0.99]' : ''}`}
+                                        className={`flex items-start gap-4 py-3.5 ${!isLocation ? 'border-b border-gray-50 dark:border-neutral-800/50' : ''} -mx-2 px-2 ${isLocation ? 'cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-800/30 rounded-lg transition-colors active:scale-[0.99]' : ''}`}
                                         onClick={isLocation ? () => handleCopyAddress(item.value) : undefined}
                                     >
                                         <span className="text-base w-6 text-center flex-shrink-0 mt-0.5">{item.icon || '📌'}</span>
@@ -228,29 +228,31 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                             </svg>
                                         )}
                                     </div>
-                                    {/* Map links below location */}
+                                    {/* Map links below location, divider after buttons */}
                                     {isLocation && (
-                                        <div className="flex gap-2 ml-10 mb-2 mt-1">
-                                            <a
-                                                href={mapLinks.appleDirections}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                onClick={() => { gtag.event('get_directions', { category: 'navigation', label: 'Apple Maps', value: 1 }); }}
-                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-neutral-800 border border-gray-100 dark:border-neutral-700 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition active:scale-95"
-                                            >
-                                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7.589 2 4 5.589 4 9.995 4 16.44 12 22 12 22s8-5.56 8-12.005C20 5.589 16.411 2 12 2zm0 12a4 4 0 110-8 4 4 0 010 8z" /></svg>
-                                                Apple Maps
-                                            </a>
-                                            <a
-                                                href={mapLinks.googleDirections}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                onClick={() => { gtag.event('get_directions', { category: 'navigation', label: 'Google Maps', value: 1 }); }}
-                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-neutral-800 border border-gray-100 dark:border-neutral-700 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition active:scale-95"
-                                            >
-                                                <svg className="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M12 11.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" /><path fill="#EA4335" d="M12 2C8.13 2 5 5.13 5 9c0 3.54 2.98 7.8 6.09 11.57.4.48 1.42.48 1.82 0C16.02 16.8 19 12.54 19 9c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" /></svg>
-                                                Google Maps
-                                            </a>
+                                        <div className="border-b border-gray-50 dark:border-neutral-800/50 pb-3">
+                                            <div className="flex gap-2 ml-10 mt-1">
+                                                <a
+                                                    href={mapLinks.appleDirections}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    onClick={() => { gtag.event('get_directions', { category: 'navigation', label: 'Apple Maps', value: 1 }); }}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-neutral-800 border border-gray-100 dark:border-neutral-700 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition active:scale-95"
+                                                >
+                                                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7.589 2 4 5.589 4 9.995 4 16.44 12 22 12 22s8-5.56 8-12.005C20 5.589 16.411 2 12 2zm0 12a4 4 0 110-8 4 4 0 010 8z" /></svg>
+                                                    Apple Maps
+                                                </a>
+                                                <a
+                                                    href={mapLinks.googleDirections}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    onClick={() => { gtag.event('get_directions', { category: 'navigation', label: 'Google Maps', value: 1 }); }}
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 dark:bg-neutral-800 border border-gray-100 dark:border-neutral-700 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-700 transition active:scale-95"
+                                                >
+                                                    <svg className="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M12 11.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" /><path fill="#EA4335" d="M12 2C8.13 2 5 5.13 5 9c0 3.54 2.98 7.8 6.09 11.57.4.48 1.42.48 1.82 0C16.02 16.8 19 12.54 19 9c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" /></svg>
+                                                    Google Maps
+                                                </a>
+                                            </div>
                                         </div>
                                     )}
                                 </div>

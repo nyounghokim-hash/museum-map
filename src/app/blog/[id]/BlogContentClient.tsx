@@ -15,7 +15,7 @@ function InfoTable({ data, locale }: { data: any[]; locale: string }) {
     return (
         <div className="mt-10">
             <h2 className="text-xl font-extrabold dark:text-white mb-4 flex items-center gap-2">
-                📋 <span>{t('blog.visitorInfo', locale)}</span>
+                📋 <span>{t('blog.visitorInfo', locale as Locale)}</span>
             </h2>
             <div className="overflow-hidden rounded-2xl border border-gray-100 dark:border-neutral-800">
                 <table className="w-full text-sm">
@@ -54,7 +54,7 @@ function ArtworkCards({ data, locale }: { data: any[]; locale: string }) {
     return (
         <div className="mt-10">
             <h2 className="text-xl font-extrabold dark:text-white mb-4 flex items-center gap-2">
-                🖼️ <span>{t('blog.featuredWorks', locale)}</span>
+                🖼️ <span>{t('blog.featuredWorks', locale as Locale)}</span>
             </h2>
             <div className="flex gap-4 overflow-x-auto pb-4 -mx-2 px-2 snap-x snap-mandatory scrollbar-hide">
                 {data.map((work: any, i: number) => (
@@ -191,7 +191,7 @@ export default function BlogContentClient({ post, serverLocale }: { post: any; s
                     className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800/50 text-gray-400 dark:text-gray-500 hover:text-purple-600 hover:border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10 dark:hover:border-purple-800 text-xs font-bold transition-all active:scale-95"
                 >
                     <span className="text-sm">✏️</span>
-                    {t('blog.requestInfoUpdate', effectiveLocale)}
+                    {t('blog.requestInfoUpdate', effectiveLocale as Locale)}
                 </button>
             </div>
             <ReportModal

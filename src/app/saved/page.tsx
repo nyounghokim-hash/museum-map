@@ -67,8 +67,17 @@ export default function SavedPage() {
         <div className="w-full max-w-[1080px] mx-auto px-4 py-4 sm:px-6 sm:py-8 md:px-8 mt-4 sm:mt-8">
             <div className="mb-6 sm:mb-8 flex justify-between items-end">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight dark:text-white">{t('saved.title', locale)}</h1>
-                    <p className="text-gray-500 dark:text-gray-400 mt-1 sm:mt-2 text-sm">{t('saved.subtitle', locale)}</p>
+                    {loading ? (
+                        <>
+                            <div className="h-8 w-40 bg-gray-200 dark:bg-neutral-800 rounded-lg animate-pulse" />
+                            <div className="h-4 w-64 bg-gray-100 dark:bg-neutral-800/60 rounded mt-2 animate-pulse" />
+                        </>
+                    ) : (
+                        <>
+                            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight dark:text-white">{t('saved.title', locale)}</h1>
+                            <p className="text-gray-500 dark:text-gray-400 mt-1 sm:mt-2 text-sm">{t('saved.subtitle', locale)}</p>
+                        </>
+                    )}
                 </div>
                 {saves.length > 0 && (
                     <button

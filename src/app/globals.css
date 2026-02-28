@@ -336,6 +336,14 @@ button,
   display: none !important;
 }
 
+/* Hide MapLibre attribution and logo */
+.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-logo,
+.maplibregl-ctrl-bottom-left,
+.maplibregl-ctrl-bottom-right {
+  display: none !important;
+}
+
 /* Quill Snow CSS for blog detail page */
 @import 'react-quill/dist/quill.snow.css';
 

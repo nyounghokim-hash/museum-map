@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { getReportModalLabels } from '@/lib/visitorInfoI18n';
 
 interface ReportModalProps {
     isOpen: boolean;
@@ -12,6 +13,9 @@ interface ReportModalProps {
 export default function ReportModal({ isOpen, onClose, onSubmit, locale, targetName }: ReportModalProps) {
     const [message, setMessage] = useState('');
     const [sending, setSending] = useState(false);
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const labels = getReportModalLabels(locale);
 
     if (!isOpen) return null;
 
@@ -29,9 +33,10 @@ export default function ReportModal({ isOpen, onClose, onSubmit, locale, targetN
             {/* Backdrop */}
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 
-            {/* Modal */}
+            {/* Modal - positioned above keyboard on mobile */}
             <div
                 className="relative w-full sm:w-[440px] bg-white dark:bg-neutral-900 sm:rounded-3xl rounded-t-3xl p-6 sm:p-8 shadow-2xl animate-slideUp"
+                style={{ paddingBottom: keyboardHeight > 0 ? `${keyboardHeight + 24}px` : undefined }}
                 onClick={e => e.stopPropagation()}
             >
                 {/* Header */}
@@ -42,7 +47,7 @@ export default function ReportModal({ isOpen, onClose, onSubmit, locale, targetN
                         </div>
                         <div>
                             <h3 className="text-sm font-extrabold dark:text-white">
-                                {locale === 'ko' ? '정보 수정 요청' : 'Request Info Update'}
+                                {labels.title}
                             </h3>
                             {targetName && (
                                 <p className="text-[10px] text-gray-400 font-bold mt-0.5 truncate max-w-[250px]">{targetName}</p>
@@ -59,13 +64,18 @@ export default function ReportModal({ isOpen, onClose, onSubmit, locale, targetN
 
                 {/* Textarea */}
                 <textarea
+                    ref={textareaRef}
                     value={message}
                     onChange={e => setMessage(e.target.value)}
-                    placeholder={locale === 'ko'
-                        ? '어떤 정보가 실제와 다른가요?\n예: 입장료가 변경되었어요, 운영시간이 달라요 등'
-                        : 'What information is inaccurate?\ne.g. Admission fee has changed, hours are different, etc.'}
+                    placeholder={labels.placeholder}
                     className="w-full h-28 p-4 rounded-2xl bg-gray-50 dark:bg-neutral-800 border border-gray-100 dark:border-neutral-700 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-neutral-500 resize-none focus:outline-none focus:ring-2 focus:ring-purple-300 dark:focus:ring-purple-700 transition-all"
                     autoFocus
+                    onFocus={() => {
+                        // On mobile, scroll into view when keyboard appears
+                        setTimeout(() => {
+                            textareaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 300);
+                    }}
                 />
 
                 {/* Submit */}
@@ -74,13 +84,11 @@ export default function ReportModal({ isOpen, onClose, onSubmit, locale, targetN
                     disabled={!message.trim() || sending}
                     className="mt-4 w-full py-3.5 rounded-2xl bg-purple-600 hover:bg-purple-700 disabled:bg-gray-200 dark:disabled:bg-neutral-700 text-white disabled:text-gray-400 dark:disabled:text-neutral-500 text-sm font-bold transition-all active:scale-[0.98] shadow-lg shadow-purple-600/20 disabled:shadow-none"
                 >
-                    {sending
-                        ? (locale === 'ko' ? '전송 중...' : 'Sending...')
-                        : (locale === 'ko' ? '수정 요청 보내기' : 'Submit Request')}
+                    {sending ? labels.sending : labels.submit}
                 </button>
 
                 <p className="text-[10px] text-gray-300 dark:text-neutral-600 text-center mt-3">
-                    {locale === 'ko' ? '보내주신 내용은 관리자가 확인 후 반영합니다' : 'Your request will be reviewed by our team'}
+                    {labels.note}
                 </p>
             </div>
 

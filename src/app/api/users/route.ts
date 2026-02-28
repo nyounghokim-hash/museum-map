@@ -18,6 +18,7 @@ export async function GET(req: Request) {
                 id: true,
                 role: true,
                 createdAt: true,
+                preferences: true,
             },
             orderBy: {
                 createdAt: 'desc',
@@ -29,6 +30,7 @@ export async function GET(req: Request) {
             id: `usr_${u.id.substring(u.id.length - 6)}`,
             role: u.role,
             createdAt: u.createdAt,
+            preferences: u.preferences,
         }));
 
         return NextResponse.json({ data: anonymousUsers });

@@ -27,7 +27,7 @@ export default function AdminPage() {
     const [dashboardData, setDashboardData] = useState<any>(null);
     const [exhibitionStats, setExhibitionStats] = useState<any[]>([]);
     const [aiUsage, setAiUsage] = useState<any>(null);
-    const [tab, setTab] = useState<'dashboard' | 'users' | 'blog' | 'museums' | 'exhibitions' | 'notifications' | 'ai'>('dashboard');
+    const [tab, setTab] = useState<'dashboard' | 'users' | 'blog' | 'museums' | 'notifications' | 'ai'>('dashboard');
     const [notifForm, setNotifForm] = useState({ title: '', message: '', link: '', targetUserId: '' });
     const [sortCol, setSortCol] = useState<string>('name');
     const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
@@ -81,8 +81,6 @@ export default function AdminPage() {
             endpoints = ['/api/blog?includeDrafts=true'];
         } else if (tab === 'museums') {
             endpoints = [`/api/admin/museums?query=${museumQuery}&page=${museumPage}`];
-        } else if (tab === 'exhibitions') {
-            endpoints = ['/api/admin/exhibitions'];
         } else if (tab === 'ai') {
             endpoints = ['/api/admin/ai-usage'];
         }
@@ -99,8 +97,6 @@ export default function AdminPage() {
                 } else if (tab === 'museums') {
                     setMuseums(results[0]?.data?.data || []);
                     setMuseumTotal(results[0]?.data?.total || 0);
-                } else if (tab === 'exhibitions') {
-                    setExhibitionStats(results[0]?.data || []);
                 } else if (tab === 'ai') {
                     setAiUsage(results[0]?.data || null);
                 }
@@ -274,12 +270,7 @@ export default function AdminPage() {
                         >
                             미술관/박물관 관리
                         </button>
-                        <button
-                            onClick={() => setTab('exhibitions')}
-                            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'exhibitions' ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
-                        >
-                            전시회 동기화
-                        </button>
+
                         <button
                             onClick={() => setTab('notifications')}
                             className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'notifications' ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
@@ -435,6 +426,7 @@ export default function AdminPage() {
                                 <tr>
                                     <th scope="col" className="px-8 py-5">익명 ID</th>
                                     <th scope="col" className="px-8 py-5">권한</th>
+                                    <th scope="col" className="px-8 py-5">국가/언어</th>
                                     <th scope="col" className="px-8 py-5">가입일시</th>
                                 </tr>
                             </thead>
@@ -448,6 +440,11 @@ export default function AdminPage() {
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase ${u.role === 'ADMIN' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'}`}>
                                                 {u.role}
                                             </span>
+                                        </td>
+                                        <td className="px-8 py-5 text-xs font-bold text-gray-500">
+                                            {u.preferences && typeof u.preferences === 'object' && (u.preferences as any).locale
+                                                ? <span className="px-2 py-0.5 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-[10px] font-black uppercase">{(u.preferences as any).locale}</span>
+                                                : <span className="text-gray-300 dark:text-neutral-600">—</span>}
                                         </td>
                                         <td className="px-8 py-5 text-xs font-bold text-gray-400">
                                             {new Date(u.createdAt).toLocaleString('ko-KR')}
@@ -627,55 +624,6 @@ export default function AdminPage() {
                         >
                             다음
                         </button>
-                    </div>
-                </div>
-            ) : tab === 'exhibitions' ? (
-                <div className="animate-fadeIn">
-                    <div className="flex justify-between items-center mb-8">
-                        <div>
-                            <h2 className="text-xl font-black dark:text-white uppercase tracking-tight">전시회 동기화 현황</h2>
-                            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">최대 7일간의 외부 API 캐시 정보를 관리합니다.</p>
-                        </div>
-                        <button
-                            onClick={() => handleClearExhibitionCache()}
-                            className="px-6 py-3 rounded-2xl border border-red-100 dark:border-red-900/20 text-red-500 text-[11px] font-black hover:bg-red-50 dark:hover:bg-red-900/10 transition-all active:scale-95 shadow-sm uppercase tracking-widest"
-                        >
-                            전체 캐시 삭제
-                        </button>
-                    </div>
-
-                    <div className="overflow-x-auto border border-gray-100 dark:border-neutral-800 rounded-3xl bg-white dark:bg-neutral-900 shadow-sm mb-10">
-                        <table className="w-full min-w-[800px] text-left text-sm text-gray-500 dark:text-gray-400">
-                            <thead className="text-[10px] text-gray-400 uppercase bg-gray-50 dark:bg-neutral-800/50 dark:text-neutral-500 font-black tracking-widest">
-                                <tr>
-                                    <th className="px-8 py-5">미술관/박물관명</th>
-                                    <th className="px-8 py-5">동기화된 전시회 수</th>
-                                    <th className="px-8 py-5">마지막 동기화</th>
-                                    <th className="px-8 py-5">관리</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50 dark:divide-neutral-800">
-                                {exhibitionStats.map((item) => (
-                                    <tr key={item.id} className="hover:bg-gray-50/50 dark:hover:bg-neutral-800/50 transition-colors">
-                                        <td className="px-8 py-5 font-black text-gray-900 dark:text-white">{item.name}</td>
-                                        <td className="px-8 py-5">
-                                            <span className="text-sm font-black text-purple-600 dark:text-purple-400">{item._count.exhibitions}개</span>
-                                        </td>
-                                        <td className="px-8 py-5 text-xs font-bold text-gray-400">
-                                            {item.lastExhibitionSync ? new Date(item.lastExhibitionSync).toLocaleString('ko-KR') : '동기화 이력 없음'}
-                                        </td>
-                                        <td className="px-8 py-5">
-                                            <button
-                                                onClick={() => handleClearExhibitionCache(item.id)}
-                                                className="px-4 py-2 bg-gray-50 dark:bg-neutral-800 rounded-xl text-[10px] font-black text-gray-400 hover:text-red-500 transition-colors tracking-widest uppercase"
-                                            >
-                                                캐시 삭제
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             ) : tab === 'ai' ? (

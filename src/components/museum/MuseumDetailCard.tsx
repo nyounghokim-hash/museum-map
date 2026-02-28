@@ -11,7 +11,7 @@ import { useTranslatedText } from '@/hooks/useTranslation';
 import * as gtag from '@/lib/gtag';
 import { getCountryName, getCityName } from '@/lib/countries';
 import ReportModal from '@/components/ui/ReportModal';
-import { translateViLabel, translateViValue, getWebsiteLabels, getFeaturedWorksTitle, getReportLabels, getCopyToast } from '@/lib/visitorInfoI18n';
+import { translateViLabel, translateViValue, getWebsiteLabels, getFeaturedWorksTitle, getReportLabels, getCopyToast, getTapCopyHint } from '@/lib/visitorInfoI18n';
 
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
@@ -218,7 +218,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                             <p className="text-sm text-gray-800 dark:text-gray-200 font-medium leading-relaxed">{translateViValue(item.value, locale)}</p>
                                             {isLocation && (
                                                 <p className="text-[10px] text-gray-400 dark:text-neutral-500 mt-0.5">
-                                                    {locale === 'ko' ? '터치하여 주소 복사' : 'Tap to copy address'}
+                                                    {getTapCopyHint(locale)}
                                                 </p>
                                             )}
                                         </div>

@@ -101,9 +101,28 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setInitialized(true);
     }, []);
 
+    // Persist locale to DB when it changes or on first load
+    useEffect(() => {
+        if (initialized && session?.user && !(session.user as any).name?.startsWith('guest_')) {
+            fetch('/api/me/preferences', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ locale })
+            }).catch(() => { });
+        }
+    }, [initialized, locale, session]);
+
     const setLocale = (l: Locale) => {
         setLocaleState(l);
         localStorage.setItem('locale', l);
+        // Persist locale to user preferences in DB (fire-and-forget)
+        if (session?.user) {
+            fetch('/api/me/preferences', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ locale: l })
+            }).catch(() => { });
+        }
     };
 
     const setDarkMode = (d: boolean) => {

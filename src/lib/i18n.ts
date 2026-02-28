@@ -1685,7 +1685,6 @@ const translations: Record<Locale, Record<string, string>> = {
         'legal.privacy.s8.content': '개인화된 서비스를 위해 쿠키를 사용하며, 브라우저 설정을 통해 거부할 수 있습니다.',
         'legal.privacy.s9.title': '9. 문의',
         'legal.privacy.s9.content': '이메일: nyoungho.kim@gmail.com',
-        'saved.planRoute': 'Plan Route',
         'notif.title': '알림',
         'notif.unreadCount': '개 읽지 않음',
         'notif.allCaughtUp': '모든 알림을 확인했습니다',

@@ -259,6 +259,12 @@ export default function AdminPage() {
                             대시보드
                         </button>
                         <button
+                            onClick={() => setTab('analytics')}
+                            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'analytics' ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
+                        >
+                            구글 애널리틱스
+                        </button>
+                        <button
                             onClick={() => setTab('users')}
                             className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'users' ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
                         >
@@ -289,12 +295,7 @@ export default function AdminPage() {
                         >
                             AI 사용량
                         </button>
-                        <button
-                            onClick={() => setTab('analytics')}
-                            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'analytics' ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
-                        >
-                            📊 Analytics
-                        </button>
+
                     </div>
                 </div>
                 <div className="hidden sm:flex flex-col items-end gap-1">

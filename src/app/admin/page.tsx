@@ -77,6 +77,9 @@ export default function AdminPage() {
 
         if (tab === 'dashboard') {
             endpoints = ['/api/admin/dashboard'];
+            // Fetch GA & AI data in parallel for dashboard summary
+            fetch('/api/admin/analytics').then(r => r.json()).then(res => setGaData(res.data)).catch(() => { });
+            fetch('/api/admin/ai-usage').then(r => r.json()).then(res => setAiUsage(res.data)).catch(() => { });
         } else if (tab === 'users') {
             endpoints = ['/api/users?pw=admin0724', '/api/feedback?pw=admin0724'];
         } else if (tab === 'blog') {
@@ -332,6 +335,29 @@ export default function AdminPage() {
                         </div>
                     </div>
 
+                    {/* GA4 & AI Key Metrics */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+                        <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-5 rounded-3xl shadow-lg text-white">
+                            <h3 className="text-[10px] font-black uppercase tracking-widest opacity-80">실시간 사용자</h3>
+                            <div className="text-2xl font-black mt-1">{gaData?.realtime ?? '-'}</div>
+                            <p className="text-[9px] font-bold opacity-60 mt-0.5">Google Analytics</p>
+                        </div>
+                        <div className="bg-gradient-to-br from-purple-500 to-violet-600 p-5 rounded-3xl shadow-lg text-white">
+                            <h3 className="text-[10px] font-black uppercase tracking-widest opacity-80">30일 페이지뷰</h3>
+                            <div className="text-2xl font-black mt-1">{gaData?.totals30d?.pageViews?.toLocaleString() ?? '-'}</div>
+                            <p className="text-[9px] font-bold opacity-60 mt-0.5">Google Analytics</p>
+                        </div>
+                        <div className="bg-gradient-to-br from-blue-500 to-cyan-600 p-5 rounded-3xl shadow-lg text-white">
+                            <h3 className="text-[10px] font-black uppercase tracking-widest opacity-80">오늘 AI 호출</h3>
+                            <div className="text-2xl font-black mt-1">{aiUsage?.today?.requests ?? '-'}</div>
+                            <p className="text-[9px] font-bold opacity-60 mt-0.5">Gemini API</p>
+                        </div>
+                        <div className="bg-gradient-to-br from-orange-500 to-amber-600 p-5 rounded-3xl shadow-lg text-white">
+                            <h3 className="text-[10px] font-black uppercase tracking-widest opacity-80">이번 달 AI</h3>
+                            <div className="text-2xl font-black mt-1">{aiUsage?.month?.requests ?? '-'}</div>
+                            <p className="text-[9px] font-bold opacity-60 mt-0.5">Gemini API</p>
+                        </div>
+                    </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div>
                             <h2 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-6 flex items-center gap-2">

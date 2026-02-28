@@ -128,7 +128,7 @@ export default function MainPage() {
   };
 
   return (
-    <div className="relative w-full h-[calc(100vh-3.5rem-70px)] md:h-[calc(100vh-3.5rem)] flex overflow-hidden">
+    <div className="relative w-full h-[calc(100vh-3.5rem-70px)] lg:h-[calc(100vh-3.5rem)] flex overflow-hidden">
       {/* PC Click-outside Overlay */}
       {selectedMuseum && (
         <div

@@ -328,12 +328,12 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                             ✅ {getCopyToast(locale)}
                         </div>
                     )}
-                    <div className="pb-14 lg:pb-0"></div>
+
 
                     {/* Report Info Update Button */}
                     <button
                         onClick={() => setReportOpen(true)}
-                        className="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800/50 text-gray-400 dark:text-gray-500 hover:text-purple-600 hover:border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10 dark:hover:border-purple-800 text-xs font-bold transition-all active:scale-95"
+                        className="mt-2 w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800/50 text-gray-400 dark:text-gray-500 hover:text-purple-600 hover:border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10 dark:hover:border-purple-800 text-xs font-bold transition-all active:scale-95"
                     >
                         <span className="text-sm">✏️</span>
                         {getReportLabels(locale).button}
@@ -401,7 +401,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                 </div>
             )}
             {/* Mobile bottom spacer */}
-            <div className="h-32 lg:h-8" />
+            <div className="h-[24px] lg:h-8" />
         </div>
     );
 }

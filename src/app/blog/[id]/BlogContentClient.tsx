@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { useTranslatedText } from '@/hooks/useTranslation';
 import { useApp } from '@/components/AppContext';
 import { formatDate, type Locale } from '@/lib/i18n';
@@ -31,6 +32,18 @@ function InfoTable({ data, locale }: { data: any[]; locale: string }) {
     );
 }
 
+function SafeImage({ src, alt, className, fallbackIcon }: { src: string; alt: string; className: string; fallbackIcon?: string }) {
+    const [error, setError] = useState(false);
+    if (error || !src) {
+        return (
+            <div className={`${className} bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 flex items-center justify-center`}>
+                <span className="text-2xl">{fallbackIcon || '🖼️'}</span>
+            </div>
+        );
+    }
+    return <img src={src} alt={alt} className={className} onError={() => setError(true)} loading="lazy" />;
+}
+
 function ArtworkCards({ data, locale }: { data: any[]; locale: string }) {
     if (!data || data.length === 0) return null;
     return (
@@ -41,15 +54,14 @@ function ArtworkCards({ data, locale }: { data: any[]; locale: string }) {
             <div className="flex gap-4 overflow-x-auto pb-4 -mx-2 px-2 snap-x snap-mandatory scrollbar-hide">
                 {data.map((work: any, i: number) => (
                     <div key={i} className="min-w-[260px] max-w-[280px] flex-shrink-0 snap-start bg-white dark:bg-neutral-900 rounded-2xl border border-gray-100 dark:border-neutral-800 overflow-hidden shadow-sm hover:shadow-lg transition-all group">
-                        {work.image && (
-                            <div className="h-[180px] overflow-hidden bg-gray-100 dark:bg-neutral-800">
-                                <img
-                                    src={work.image}
-                                    alt={work.title || ''}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                            </div>
-                        )}
+                        <div className="h-[180px] overflow-hidden bg-gray-100 dark:bg-neutral-800">
+                            <SafeImage
+                                src={work.image}
+                                alt={work.title || ''}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                fallbackIcon="🎨"
+                            />
+                        </div>
                         <div className="p-4">
                             <p className="text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest mb-1">
                                 {work.artist}
@@ -73,37 +85,30 @@ function ArtworkCards({ data, locale }: { data: any[]; locale: string }) {
 function RelatedMuseums({ museums, locale }: { museums: any[]; locale: string }) {
     if (!museums || museums.length === 0) return null;
     return (
-        <div className="mt-10">
-            <h2 className="text-xl font-extrabold dark:text-white mb-4 flex items-center gap-2">
-                🏛️ <span>{locale === 'ko' ? '관련 박물관' : 'Related Museums'}</span>
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="mb-6">
+            <div className="flex flex-wrap gap-2">
                 {museums.map((m: any) => (
                     <Link
                         key={m.id}
                         href={`/museums/${m.id}`}
-                        className="flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-neutral-900 border border-gray-100 dark:border-neutral-800 hover:shadow-md hover:border-purple-200 dark:hover:border-purple-800 transition-all group"
+                        className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-purple-50 dark:bg-purple-900/15 border border-purple-100 dark:border-purple-800/30 hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:border-purple-200 dark:hover:border-purple-700 transition-all group"
                     >
                         {m.imageUrl ? (
-                            <img
+                            <SafeImage
                                 src={m.imageUrl}
                                 alt={m.name}
-                                className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
+                                className="w-7 h-7 rounded-lg object-cover flex-shrink-0"
+                                fallbackIcon="🏛️"
                             />
                         ) : (
-                            <div className="w-14 h-14 rounded-xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center flex-shrink-0">
-                                <span className="text-2xl">🏛️</span>
+                            <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center flex-shrink-0">
+                                <span className="text-sm">🏛️</span>
                             </div>
                         )}
-                        <div className="flex-1 min-w-0">
-                            <h3 className="font-bold text-sm dark:text-white truncate group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                                {m.name}
-                            </h3>
-                            <p className="text-xs text-gray-400 mt-0.5">
-                                {m.city}, {m.country}
-                            </p>
-                        </div>
-                        <svg className="w-4 h-4 text-gray-300 dark:text-neutral-600 group-hover:text-purple-500 group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <span className="font-bold text-xs text-purple-700 dark:text-purple-300 group-hover:text-purple-900 dark:group-hover:text-purple-100 transition-colors">
+                            {m.name}
+                        </span>
+                        <svg className="w-3 h-3 text-purple-400 group-hover:text-purple-600 group-hover:translate-x-0.5 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
                     </Link>
@@ -146,9 +151,12 @@ export default function BlogContentClient({ post, serverLocale }: { post: any; s
                 )}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-5 leading-tight">
                 {displayTitle}
             </h1>
+
+            {/* Related Museums — right below title */}
+            <RelatedMuseums museums={post.museums} locale={effectiveLocale} />
 
             {needsTranslation && translatedContent ? (
                 <div className="prose prose-lg dark:prose-invert max-w-none prose-purple prose-headings:font-bold prose-a:text-purple-600">
@@ -169,9 +177,6 @@ export default function BlogContentClient({ post, serverLocale }: { post: any; s
 
             {/* Artwork Cards */}
             <ArtworkCards data={post.artworks} locale={effectiveLocale} />
-
-            {/* Related Museums */}
-            <RelatedMuseums museums={post.museums} locale={effectiveLocale} />
         </div>
     );
 }

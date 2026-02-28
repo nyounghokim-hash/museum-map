@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 const SUBTITLES: Record<string, string> = {
-    ko: '세계의 미술관을 탐험하세요',
+    ko: '세계의 미술관/박물관을 탐험하세요',
     en: 'Explore World Museums',
     ja: '世界の美術館を巡ろう',
     zh: '探索全球博物馆',

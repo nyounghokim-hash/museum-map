@@ -106,8 +106,30 @@ export default function BlogListPage() {
     };
 
     if (loading) return (
-        <div className="flex items-center justify-center min-h-[60vh]">
-            <LoadingAnimation size={160} />
+        <div className="w-full max-w-[1080px] mx-auto px-4 py-8 sm:px-6 md:px-8 mt-4 sm:mt-8">
+            <div className="mb-10 sm:mb-12">
+                <div className="h-8 w-48 bg-gray-200 dark:bg-neutral-800 rounded-lg animate-pulse" />
+                <div className="h-4 w-72 bg-gray-100 dark:bg-neutral-800/60 rounded mt-3 animate-pulse" />
+            </div>
+            <div className="flex flex-col gap-6 sm:gap-8">
+                {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="flex flex-col sm:flex-row bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-neutral-800">
+                        <div className="w-full sm:w-[280px] h-[180px] sm:h-[200px] shrink-0 bg-gray-200 dark:bg-neutral-800 animate-pulse" />
+                        <div className="p-5 sm:p-6 flex-1 flex flex-col justify-center gap-3">
+                            <div className="flex gap-2">
+                                <div className="h-3 w-16 bg-gray-200 dark:bg-neutral-700 rounded animate-pulse" />
+                                <div className="h-3 w-20 bg-gray-100 dark:bg-neutral-800 rounded animate-pulse" />
+                            </div>
+                            <div className="h-6 w-3/4 bg-gray-200 dark:bg-neutral-800 rounded-lg animate-pulse" />
+                            <div className="space-y-2">
+                                <div className="h-4 w-full bg-gray-100 dark:bg-neutral-800/60 rounded animate-pulse" />
+                                <div className="h-4 w-2/3 bg-gray-100 dark:bg-neutral-800/60 rounded animate-pulse" />
+                            </div>
+                            <div className="h-3 w-20 bg-gray-200 dark:bg-neutral-700 rounded animate-pulse mt-1" />
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 

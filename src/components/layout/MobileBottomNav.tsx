@@ -27,7 +27,7 @@ export default function MobileBottomNav() {
     const isGuest = !session || session.user?.name?.startsWith('guest_');
 
     // Hide on admin, login, and detail pages
-    if (pathname.startsWith('/admin') || pathname.startsWith('/login') || pathname.startsWith('/museum/') || pathname.startsWith('/museums/')) return null;
+    if (pathname.startsWith('/admin') || pathname.startsWith('/login') || pathname.startsWith('/museum/') || pathname.startsWith('/museums/') || /^\/blog\/.+/.test(pathname)) return null;
 
     const labels = NAV_LABELS[locale] || NAV_LABELS.en;
 

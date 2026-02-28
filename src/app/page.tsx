@@ -132,7 +132,7 @@ export default function MainPage() {
       {/* PC Click-outside Overlay */}
       {selectedMuseum && (
         <div
-          className="hidden md:block absolute inset-0 z-30 cursor-pointer"
+          className="hidden lg:block absolute inset-0 z-30 cursor-pointer"
           onClick={() => setSelectedMuseum(null)}
           aria-label="Close detail panel"
         />
@@ -220,7 +220,7 @@ export default function MainPage() {
 
         {/* AI Recommend — PC: bottom-left, Mobile/Tablet: above bottom nav */}
         {!isViewingActiveRoute && !isPanelOpen && (
-          <div className="absolute bottom-20 lg:bottom-4 left-4 right-4 lg:right-auto lg:max-w-md z-10 pointer-events-none">
+          <div className="absolute bottom-[94px] lg:bottom-4 left-4 right-4 lg:right-auto lg:max-w-md z-10 pointer-events-none">
             <div className="pointer-events-auto">
               {!aiOpen ? (
                 <button
@@ -301,7 +301,7 @@ export default function MainPage() {
 
         {/* Museum count — clickable expandable badge */}
         {!isViewingActiveRoute && (
-          <div className="absolute bottom-20 lg:bottom-4 right-4 z-10">
+          <div className="absolute bottom-[94px] lg:bottom-4 right-4 z-10">
             <button
               onClick={() => setCountExpanded(prev => !prev)}
               className={`bg-black/80 text-white backdrop-blur-md rounded-2xl shadow-lg cursor-pointer hover:bg-black/90 active:scale-95 transition-all duration-300 overflow-hidden ${countExpanded ? 'px-5 py-3' : 'px-3 py-1.5 text-xs'
@@ -354,16 +354,16 @@ export default function MainPage() {
       </div>
 
       <div
-        className={`absolute top-0 right-0 h-full w-full md:w-[600px] lg:w-[700px] max-w-full 
-          bg-neutral-50 dark:bg-neutral-950 md:bg-transparent md:dark:bg-transparent 
-          shadow-2xl md:shadow-none transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] z-40 
-          overflow-y-auto hide-scrollbar md:p-6 lg:p-8
-          border-l border-gray-200 dark:border-neutral-800 md:border-none
+        className={`absolute top-0 right-0 h-full w-full lg:w-[700px] max-w-full 
+          bg-neutral-50 dark:bg-neutral-950 lg:bg-transparent lg:dark:bg-transparent 
+          shadow-2xl lg:shadow-none transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] z-40 
+          overflow-y-auto hide-scrollbar lg:p-8
+          border-l border-gray-200 dark:border-neutral-800 lg:border-none
           ${isPanelOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'}`}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="w-full flex flex-col pb-12 md:pb-6">
+        <div className="w-full flex flex-col pb-12 lg:pb-6">
           {selectedMuseum ? (
             <MuseumDetailCard
               museumId={selectedMuseum.id}

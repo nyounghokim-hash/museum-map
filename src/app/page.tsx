@@ -218,51 +218,47 @@ export default function MainPage() {
           </div>
         )}
 
-        {/* AI Recommend — morphing pill: button ↔ search bar */}
+        {/* AI Recommend — button / search bar */}
         {!isViewingActiveRoute && !isPanelOpen && (
           <div className="absolute bottom-6 lg:bottom-4 left-4 right-4 z-10 pointer-events-none">
-            <div className="pointer-events-auto flex flex-col-reverse gap-2">
-              {/* Morphing pill container */}
-              <div
-                className={`relative bg-white/92 dark:bg-neutral-900/92 backdrop-blur-md rounded-full shadow-lg border border-purple-200 dark:border-purple-800 overflow-hidden
-                  transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]
-                  ${aiOpen ? 'w-full' : 'w-fit cursor-pointer hover:shadow-xl active:scale-95'}`}
-                onClick={() => !aiOpen && setAiOpen(true)}
-              >
-                {/* Closed state — button label */}
-                <div className={`flex items-center gap-2 px-4 py-2.5 whitespace-nowrap transition-all duration-300 ${aiOpen ? 'opacity-0 max-h-0 py-0 px-0 pointer-events-none' : 'opacity-100 max-h-12'}`}>
+            <div className="pointer-events-auto flex flex-col-reverse gap-2 lg:max-w-xl">
+              {!aiOpen ? (
+                <button
+                  onClick={() => setAiOpen(true)}
+                  className="flex items-center gap-2 px-5 py-3 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-2xl shadow-lg border border-purple-200 dark:border-purple-800 hover:shadow-xl transition-all active:scale-95 w-fit"
+                >
                   <span className="text-lg">✨</span>
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                  <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                     {translateCategory('ai.recommend', locale)}
                   </span>
-                </div>
-                {/* Open state — search form */}
+                </button>
+              ) : (
                 <form
                   onSubmit={(e) => { e.preventDefault(); handleAiRecommend(); }}
-                  className={`flex items-center gap-2 p-2 transition-all duration-300 ${aiOpen ? 'opacity-100 max-h-16' : 'opacity-0 max-h-0 p-0 pointer-events-none overflow-hidden'}`}
+                  className="flex items-center gap-2 p-2 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-2xl shadow-lg border border-purple-200 dark:border-purple-800 animate-fadeInUp"
                 >
                   <input
                     type="text"
                     value={aiQuery}
                     onChange={(e) => setAiQuery(e.target.value)}
                     placeholder={translateCategory('ai.placeholder', locale)}
-                    className="flex-1 min-w-0 px-4 py-2.5 bg-gray-50 dark:bg-neutral-800 rounded-full text-sm text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:bg-white dark:focus:bg-neutral-700 transition-colors"
-                    autoFocus={aiOpen}
+                    className="flex-1 min-w-0 px-4 py-2 bg-gray-50 dark:bg-neutral-800 rounded-xl text-sm text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-purple-400 transition-all"
+                    autoFocus
                   />
                   <button
                     type="submit"
                     disabled={aiLoading}
-                    className="w-10 h-10 flex items-center justify-center bg-purple-600 text-white rounded-full text-sm font-bold hover:bg-purple-700 active:scale-95 transition-all disabled:opacity-50 shrink-0"
+                    className="w-10 h-10 flex items-center justify-center bg-purple-600 text-white rounded-xl text-sm font-bold hover:bg-purple-700 active:scale-95 transition-all disabled:opacity-50 shrink-0"
                   >
-                    {aiLoading ? '...' : '✨'}
+                    {aiLoading ? '…' : '✨'}
                   </button>
                   <button
                     type="button"
-                    onClick={(e) => { e.stopPropagation(); setAiOpen(false); setAiResults([]); setAiQuery(''); }}
-                    className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-neutral-800 rounded-full text-gray-500 hover:text-gray-800 dark:hover:text-white text-sm active:scale-95 transition-all shrink-0"
+                    onClick={() => { setAiOpen(false); setAiResults([]); setAiQuery(''); }}
+                    className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-neutral-800 rounded-xl text-gray-500 hover:text-gray-800 dark:hover:text-white text-sm font-bold active:scale-95 transition-all shrink-0"
                   >✕</button>
                 </form>
-              </div>
+              )}
 
               {/* AI Results — shown above the pill */}
               {aiOpen && aiResults.length > 0 && (

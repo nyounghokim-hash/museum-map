@@ -116,7 +116,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
         <div className="w-full flex flex-col pt-2 sm:pt-4">
 
             {/* Hero Card with Cover Image */}
-            <GlassPanel intensity="heavy" className="mb-8 relative overflow-hidden group border-0 sm:border !rounded-none sm:!rounded-3xl">
+            <GlassPanel intensity="heavy" className="mb-8 relative overflow-hidden group border-0 sm:border !rounded-none sm:!rounded-3xl shadow-none sm:shadow">
                 {/* Cover Image */}
                 <div className="relative h-56 sm:h-72 w-full overflow-hidden bg-gray-900">
                     {/* Back button - always top-left on image */}

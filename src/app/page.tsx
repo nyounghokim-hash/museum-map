@@ -158,7 +158,7 @@ export default function MainPage() {
 
         {/* Filters overlay — Search → Categories → AI */}
         {!isViewingActiveRoute && (
-          <div className={`absolute top-4 left-4 right-4 z-10 flex flex-col gap-2 sm:gap-3 pointer-events-none ${isPanelOpen ? 'hidden lg:flex' : ''}`}>
+          <div className={`absolute top-4 left-4 z-10 flex flex-col gap-2 sm:gap-3 pointer-events-none transition-all duration-500 ${isPanelOpen ? 'hidden lg:flex lg:right-[716px]' : 'right-4'}`}>
             {/* Search Bar */}
             <div className="pointer-events-auto">
               <div className="relative">

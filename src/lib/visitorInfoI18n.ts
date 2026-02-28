@@ -87,6 +87,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, 'Thanksgiving'], [/크리스마스/g, 'Christmas'], [/설날/g, 'New Year'],
         [/공휴일/g, 'holidays'], [/휴관/g, 'closed'], [/자율 기부 입장/g, 'Pay-what-you-wish admission'],
         [/역/g, 'Stn'],
+        [/지하철/g, 'Subway'], [/호선/g, ' Line'], [/출구/g, 'Exit'], [/번 출구/g, 'Exit No.'],
+        [/버스/g, 'Bus'], [/택시/g, 'Taxi'], [/공항/g, 'Airport'], [/터미널/g, 'Terminal'],
+        [/정류장/g, 'Stop'], [/환승/g, 'Transfer'], [/직행/g, 'Direct'], [/건축/g, 'Architecture'],
     ],
     ja: [
         [/무료/g, '無料'], [/성인/g, '大人'], [/어린이/g, '子供'], [/학생/g, '学生'],
@@ -114,6 +117,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, '感謝祭'], [/크리스마스/g, 'クリスマス'], [/설날/g, '正月'],
         [/공휴일/g, '祝日'], [/휴관/g, '休館'], [/자율 기부 입장/g, '任意寄付入場'],
         [/역/g, '駅'],
+        [/지하철/g, '地下鉄'], [/호선/g, '号線'], [/출구/g, '出口'], [/번 출구/g, '番出口'],
+        [/버스/g, 'バス'], [/택시/g, 'タクシー'], [/공항/g, '空港'], [/터미널/g, 'ターミナル'],
+        [/정류장/g, '停留所'], [/환승/g, '乗換'], [/직행/g, '直行'], [/건축/g, '建築'],
     ],
     de: [
         [/무료/g, 'Kostenlos'], [/성인/g, 'Erwachsene'], [/어린이/g, 'Kinder'], [/학생/g, 'Studenten'],
@@ -137,6 +143,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, 'Erntedankfest'], [/크리스마스/g, 'Weihnachten'],
         [/공휴일/g, 'Feiertage'], [/휴관/g, 'geschlossen'],
         [/역/g, 'Bhf'],
+        [/지하철/g, 'U-Bahn'], [/호선/g, ' Linie'], [/출구/g, 'Ausgang'], [/번 출구/g, 'Ausgang Nr.'],
+        [/버스/g, 'Bus'], [/택시/g, 'Taxi'], [/공항/g, 'Flughafen'], [/터미널/g, 'Terminal'],
+        [/정류장/g, 'Haltestelle'], [/환승/g, 'Umsteigen'], [/직행/g, 'Direkt'], [/건축/g, 'Architektur'],
     ],
     fr: [
         [/무료/g, 'Gratuit'], [/성인/g, 'Adulte'], [/어린이/g, 'Enfant'], [/학생/g, 'Étudiant'],
@@ -160,6 +169,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, 'Thanksgiving'], [/크리스마스/g, 'Noël'],
         [/공휴일/g, 'jours fériés'], [/휴관/g, 'fermé'],
         [/역/g, 'gare'],
+        [/지하철/g, 'Métro'], [/호선/g, ' ligne'], [/출구/g, 'sortie'], [/번 출구/g, 'sortie n°'],
+        [/버스/g, 'Bus'], [/택시/g, 'Taxi'], [/공항/g, 'Aéroport'], [/터미널/g, 'Terminal'],
+        [/정류장/g, 'Arrêt'], [/환승/g, 'Correspondance'], [/직행/g, 'Direct'], [/건축/g, 'Architecture'],
     ],
     es: [
         [/무료/g, 'Gratis'], [/성인/g, 'Adulto'], [/어린이/g, 'Niño'], [/학생/g, 'Estudiante'],
@@ -183,6 +195,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, 'Acción de Gracias'], [/크리스마스/g, 'Navidad'],
         [/공휴일/g, 'festivos'], [/휴관/g, 'cerrado'],
         [/역/g, 'est.'],
+        [/지하철/g, 'Metro'], [/호선/g, ' línea'], [/출구/g, 'salida'], [/번 출구/g, 'salida n.º'],
+        [/버스/g, 'Autobús'], [/택시/g, 'Taxi'], [/공항/g, 'Aeropuerto'], [/터미널/g, 'Terminal'],
+        [/정류장/g, 'Parada'], [/환승/g, 'Transbordo'], [/직행/g, 'Directo'], [/건축/g, 'Arquitectura'],
     ],
     pt: [
         [/무료/g, 'Gratuito'], [/성인/g, 'Adulto'], [/어린이/g, 'Criança'], [/학생/g, 'Estudante'],
@@ -206,6 +221,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, 'Ação de Graças'], [/크리스마스/g, 'Natal'],
         [/공휴일/g, 'feriados'], [/휴관/g, 'fechado'],
         [/역/g, 'est.'],
+        [/지하철/g, 'Metrô'], [/호선/g, ' linha'], [/출구/g, 'saída'], [/번 출구/g, 'saída n.º'],
+        [/버스/g, 'Ônibus'], [/택시/g, 'Táxi'], [/공항/g, 'Aeroporto'], [/터미널/g, 'Terminal'],
+        [/정류장/g, 'Parada'], [/환승/g, 'Baldeação'], [/직행/g, 'Direto'], [/건축/g, 'Arquitetura'],
     ],
     'zh-CN': [
         [/무료/g, '免费'], [/성인/g, '成人'], [/어린이/g, '儿童'], [/학생/g, '学生'],
@@ -229,6 +247,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, '感恩节'], [/크리스마스/g, '圣诞节'],
         [/공휴일/g, '公休日'], [/휴관/g, '闭馆'],
         [/역/g, '站'],
+        [/지하철/g, '地铁'], [/호선/g, '号线'], [/출구/g, '出口'], [/번 출구/g, '号出口'],
+        [/버스/g, '公交'], [/택시/g, '出租车'], [/공항/g, '机场'], [/터미널/g, '航站楼'],
+        [/정류장/g, '站台'], [/환승/g, '换乘'], [/직행/g, '直达'], [/건축/g, '建筑'],
     ],
     'zh-TW': [
         [/무료/g, '免費'], [/성인/g, '成人'], [/어린이/g, '兒童'], [/학생/g, '學生'],
@@ -252,6 +273,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, '感恩節'], [/크리스마스/g, '聖誕節'],
         [/공휴일/g, '公休日'], [/휴관/g, '休館'],
         [/역/g, '站'],
+        [/지하철/g, '地鐵'], [/호선/g, '號線'], [/출구/g, '出口'], [/번 출구/g, '號出口'],
+        [/버스/g, '公車'], [/택시/g, '計程車'], [/공항/g, '機場'], [/터미널/g, '航廈'],
+        [/정류장/g, '站'], [/환승/g, '轉乘'], [/직행/g, '直達'], [/건축/g, '建築'],
     ],
     da: [
         [/무료/g, 'Gratis'], [/성인/g, 'Voksen'], [/어린이/g, 'Barn'], [/학생/g, 'Studerende'],
@@ -275,6 +299,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, 'Thanksgiving'], [/크리스마스/g, 'Jul'],
         [/공휴일/g, 'helligdage'], [/휴관/g, 'lukket'],
         [/역/g, 'st.'],
+        [/지하철/g, 'Metro'], [/호선/g, ' linje'], [/출구/g, 'udgang'], [/번 출구/g, 'udgang nr.'],
+        [/버스/g, 'Bus'], [/택시/g, 'Taxa'], [/공항/g, 'Lufthavn'], [/터미널/g, 'Terminal'],
+        [/정류장/g, 'Stoppested'], [/환승/g, 'Skift'], [/직행/g, 'Direkte'], [/건축/g, 'Arkitektur'],
     ],
     fi: [
         [/무료/g, 'Ilmainen'], [/성인/g, 'Aikuinen'], [/어린이/g, 'Lapsi'], [/학생/g, 'Opiskelija'],
@@ -298,6 +325,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, 'Kiitospäivä'], [/크리스마스/g, 'Joulu'],
         [/공휴일/g, 'pyhäpäivät'], [/휴관/g, 'suljettu'],
         [/역/g, 'as.'],
+        [/지하철/g, 'Metro'], [/호선/g, ' linja'], [/출구/g, 'uloskäynti'], [/번 출구/g, 'uloskäynti nro'],
+        [/버스/g, 'Bussi'], [/택시/g, 'Taksi'], [/공항/g, 'Lentokenttä'], [/터미널/g, 'Terminaali'],
+        [/정류장/g, 'Pysäkki'], [/환승/g, 'Vaihto'], [/직행/g, 'Suora'], [/건축/g, 'Arkkitehtuuri'],
     ],
     sv: [
         [/무료/g, 'Gratis'], [/성인/g, 'Vuxen'], [/어린이/g, 'Barn'], [/학생/g, 'Student'],
@@ -321,6 +351,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, 'Thanksgiving'], [/크리스마스/g, 'Jul'],
         [/공휴일/g, 'helgdagar'], [/휴관/g, 'stängt'],
         [/역/g, 'st.'],
+        [/지하철/g, 'Tunnelbana'], [/호선/g, ' linje'], [/출구/g, 'utgång'], [/번 출구/g, 'utgång nr'],
+        [/버스/g, 'Buss'], [/택시/g, 'Taxi'], [/공항/g, 'Flygplats'], [/터미널/g, 'Terminal'],
+        [/정류장/g, 'Hållplats'], [/환승/g, 'Byte'], [/직행/g, 'Direkt'], [/건축/g, 'Arkitektur'],
     ],
     et: [
         [/무료/g, 'Tasuta'], [/성인/g, 'Täiskasvanu'], [/어린이/g, 'Laps'], [/학생/g, 'Üliõpilane'],
@@ -344,6 +377,9 @@ const VALUE_WORDS: Record<string, WordMap> = {
         [/추수감사절/g, 'Tänupüha'], [/크리스마스/g, 'Jõulud'],
         [/공휴일/g, 'pühad'], [/휴관/g, 'suletud'],
         [/역/g, 'jaam'],
+        [/지하철/g, 'Metroo'], [/호선/g, ' liin'], [/출구/g, 'väljapääs'], [/번 출구/g, 'väljapääs nr'],
+        [/버스/g, 'Buss'], [/택시/g, 'Takso'], [/공항/g, 'Lennujaam'], [/터미널/g, 'Terminal'],
+        [/정류장/g, 'Peatus'], [/환승/g, 'Ümberistumine'], [/직행/g, 'Otse'], [/건축/g, 'Arhitektuur'],
     ],
 };
 

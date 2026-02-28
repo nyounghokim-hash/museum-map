@@ -16,9 +16,12 @@ import { translateViLabel, translateViValue, getWebsiteLabels, getFeaturedWorksT
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
 // Sub-component for sentence-level translation using Gemini API
+// Falls back to regex-based translateViValue while API loads
 function TranslatedViText({ text, targetLocale }: { text: string; targetLocale: string }) {
+    const regexFallback = translateViValue(text, targetLocale);
     const translated = useTranslatedText(text, targetLocale as Locale);
-    return <>{translated}</>;
+    // If API hasn't returned yet (translated === original text), show regex fallback
+    return <>{translated === text ? regexFallback : translated}</>;
 }
 
 export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { museumId: string; onClose?: () => void; isMapContext?: boolean }) {

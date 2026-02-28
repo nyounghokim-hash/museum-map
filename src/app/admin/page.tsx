@@ -320,7 +320,7 @@ export default function AdminPage() {
                 </div>
             ) : tab === 'dashboard' ? (
                 <div className="animate-fadeIn">
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-4">
                         <div className="bg-white dark:bg-neutral-900 p-6 rounded-3xl border border-gray-100 dark:border-neutral-800 shadow-sm">
                             <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">가입 사용자</h3>
                             <div className="text-3xl font-black dark:text-white">{Math.max((dashboardData?.stats?.users || 0) - 1, 0)}</div>

@@ -98,6 +98,7 @@ export default function MainPage() {
     const q = searchQuery.toLowerCase().trim();
     const matchesSearch = !q ||
       m.name?.toLowerCase().includes(q) ||
+      m.nameEn?.toLowerCase().includes(q) ||
       m.city?.toLowerCase().includes(q) ||
       m.country?.toLowerCase().includes(q);
     return matchesFilter && matchesSearch;
@@ -161,7 +162,7 @@ export default function MainPage() {
             {/* Search Bar */}
             <div className="pointer-events-auto">
               <div className="relative">
-                <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input
@@ -169,12 +170,30 @@ export default function MainPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={translateCategory('search.placeholder', locale)}
-                  className="w-full pl-10 pr-4 py-3 bg-white/92 dark:bg-neutral-900/92 backdrop-blur-xl rounded-2xl shadow-lg border border-gray-100/50 dark:border-neutral-800/50 text-sm text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-300 dark:focus:border-purple-700 transition-all"
+                  className="w-full pl-8 pr-4 py-3 bg-white/92 dark:bg-neutral-900/92 backdrop-blur-xl rounded-2xl shadow-lg border border-gray-100/50 dark:border-neutral-800/50 text-sm text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-neutral-500 outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-300 dark:focus:border-purple-700 transition-all"
                 />
                 {searchQuery && (
                   <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-white">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                   </button>
+                )}
+                {searchQuery.trim().length > 0 && filteredMuseums.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xl rounded-2xl shadow-xl border border-gray-100/50 dark:border-neutral-800/50 max-h-60 overflow-y-auto z-50">
+                    {filteredMuseums.slice(0, 8).map(m => (
+                      <button
+                        key={m.id}
+                        className="w-full text-left px-4 py-3 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors border-b border-gray-50 dark:border-neutral-800/50 last:border-0"
+                        onClick={() => {
+                          setSelectedMuseum(m);
+                          setSearchQuery('');
+                        }}
+                      >
+                        <div className="text-sm font-bold text-gray-800 dark:text-white truncate">{m.name}</div>
+                        {m.nameEn && <div className="text-[11px] text-gray-400 dark:text-neutral-500 truncate">{m.nameEn}</div>}
+                        <div className="text-[10px] text-gray-400 mt-0.5">{m.city}, {m.country}</div>
+                      </button>
+                    ))}
+                  </div>
                 )}
               </div>
             </div>

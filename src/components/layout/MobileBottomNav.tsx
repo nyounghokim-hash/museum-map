@@ -23,8 +23,8 @@ export default function MobileBottomNav() {
     const pathname = usePathname();
     const { locale } = useApp();
 
-    // Hide on admin and login pages
-    if (pathname.startsWith('/admin') || pathname.startsWith('/login')) return null;
+    // Hide on admin, login, and detail pages
+    if (pathname.startsWith('/admin') || pathname.startsWith('/login') || pathname.startsWith('/museum/')) return null;
 
     const labels = NAV_LABELS[locale] || NAV_LABELS.en;
 
@@ -88,14 +88,14 @@ export default function MobileBottomNav() {
                             key={tab.href}
                             href={tab.href}
                             className={`flex flex-col items-center gap-1 px-5 py-2 rounded-[20px] transition-all duration-200 active:scale-90 ${tab.isActive
-                                    ? 'bg-purple-600 dark:bg-purple-500 shadow-lg shadow-purple-600/30'
-                                    : 'hover:bg-gray-100/60 dark:hover:bg-neutral-700/30'
+                                ? 'bg-purple-600 dark:bg-purple-500 shadow-lg shadow-purple-600/30'
+                                : 'hover:bg-gray-100/60 dark:hover:bg-neutral-700/30'
                                 }`}
                         >
                             {tab.icon(tab.isActive)}
                             <span className={`text-[10px] font-extrabold tracking-tight ${tab.isActive
-                                    ? 'text-white'
-                                    : 'text-gray-400 dark:text-neutral-500'
+                                ? 'text-white'
+                                : 'text-gray-400 dark:text-neutral-500'
                                 }`}>
                                 {tab.label}
                             </span>

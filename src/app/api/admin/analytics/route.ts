@@ -1,105 +1,97 @@
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { BetaAnalyticsDataClient } from '@google-analytics/data';
+import { NextRequest, NextResponse } from 'next/server';
+import { requireAuth } from '@/lib/auth';
 
-function getAnalyticsClient() {
-  const credentialsJson = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
-  if (!credentialsJson) return null;
-  try {
-    const credentials = JSON.parse(credentialsJson);
-    return new BetaAnalyticsDataClient({ credentials });
-  } catch {
-    return null;
-  }
-}
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { google } = require('googleapis');
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || (session.user as any).role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const user = await requireAuth();
+    if ((user as any).role !== 'ADMIN') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const propertyId = process.env.GA4_PROPERTY_ID;
-    if (!propertyId) {
+    const credentialsJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+
+    if (!propertyId || !credentialsJson) {
       return NextResponse.json({
         data: null,
-        error: 'GA4_PROPERTY_ID not configured'
+        error: 'GA4_PROPERTY_ID or GOOGLE_SERVICE_ACCOUNT_JSON not set',
+        setup: {
+          GA4_PROPERTY_ID: !!propertyId,
+          GOOGLE_SERVICE_ACCOUNT_JSON: !!credentialsJson,
+        }
       });
     }
 
-    const analyticsClient = getAnalyticsClient();
-    if (!analyticsClient) {
-      return NextResponse.json({
-        data: null,
-        error: 'GOOGLE_APPLICATION_CREDENTIALS_JSON not configured'
-      });
+    let credentials;
+    try {
+      credentials = JSON.parse(credentialsJson);
+    } catch {
+      return NextResponse.json({ error: 'Invalid GOOGLE_SERVICE_ACCOUNT_JSON format' }, { status: 500 });
     }
 
-    const [overview, countryReport, pageReport, realtimeReport] = await Promise.all([
-      // 30일 전체 개요
-      analyticsClient.runReport({
-        property: propertyId,
-        dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
-        metrics: [
-          { name: 'activeUsers' },
-          { name: 'screenPageViews' },
-          { name: 'sessions' },
-          { name: 'bounceRate' },
-          { name: 'averageSessionDuration' },
-        ],
+    const auth = new google.auth.GoogleAuth({
+      credentials,
+      scopes: ['https://www.googleapis.com/auth/analytics.readonly'],
+    });
+
+    const analyticsData = google.analyticsdata({ version: 'v1beta', auth });
+
+    const [realtimeRes, last7dRes, last30dRes, pageViewsRes, countriesRes] = await Promise.allSettled([
+      analyticsData.properties.runRealtimeReport({
+        property: `properties/${propertyId}`,
+        requestBody: { metrics: [{ name: 'activeUsers' }] },
       }),
-      // 국가별 분포
-      analyticsClient.runReport({
-        property: propertyId,
-        dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
-        dimensions: [{ name: 'country' }],
-        metrics: [{ name: 'activeUsers' }],
-        orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
-        limit: 10,
+      analyticsData.properties.runReport({
+        property: `properties/${propertyId}`,
+        requestBody: {
+          dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+          dimensions: [{ name: 'date' }],
+          metrics: [{ name: 'activeUsers' }, { name: 'sessions' }, { name: 'screenPageViews' }],
+          orderBys: [{ dimension: { dimensionName: 'date' } }],
+        },
       }),
-      // 인기 페이지
-      analyticsClient.runReport({
-        property: propertyId,
-        dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
-        dimensions: [{ name: 'pagePath' }],
-        metrics: [{ name: 'screenPageViews' }],
-        orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
-        limit: 10,
+      analyticsData.properties.runReport({
+        property: `properties/${propertyId}`,
+        requestBody: {
+          dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+          metrics: [{ name: 'activeUsers' }, { name: 'sessions' }, { name: 'screenPageViews' }, { name: 'averageSessionDuration' }, { name: 'bounceRate' }],
+        },
       }),
-      // 실시간 활성 사용자
-      analyticsClient.runRealtimeReport({
-        property: propertyId,
-        metrics: [{ name: 'activeUsers' }],
+      analyticsData.properties.runReport({
+        property: `properties/${propertyId}`,
+        requestBody: {
+          dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+          dimensions: [{ name: 'pagePath' }],
+          metrics: [{ name: 'screenPageViews' }],
+          orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
+          limit: 10,
+        },
+      }),
+      analyticsData.properties.runReport({
+        property: `properties/${propertyId}`,
+        requestBody: {
+          dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+          dimensions: [{ name: 'country' }],
+          metrics: [{ name: 'activeUsers' }],
+          orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
+          limit: 10,
+        },
       }),
     ]);
 
-    const overviewData = overview[0]?.rows?.[0]?.metricValues || [];
-    const realtimeUsers = parseInt(realtimeReport[0]?.rows?.[0]?.metricValues?.[0]?.value || '0');
+    const realtime = realtimeRes.status === 'fulfilled' ? parseInt(realtimeRes.value.data?.rows?.[0]?.metricValues?.[0]?.value || '0') : 0;
+    const daily = last7dRes.status === 'fulfilled' ? (last7dRes.value.data?.rows || []).map((r: any) => ({ date: r.dimensionValues[0].value, users: parseInt(r.metricValues[0].value || '0'), sessions: parseInt(r.metricValues[1].value || '0'), pageViews: parseInt(r.metricValues[2].value || '0') })) : [];
+    const totals30d = last30dRes.status === 'fulfilled' ? { users: parseInt(last30dRes.value.data?.rows?.[0]?.metricValues?.[0]?.value || '0'), sessions: parseInt(last30dRes.value.data?.rows?.[0]?.metricValues?.[1]?.value || '0'), pageViews: parseInt(last30dRes.value.data?.rows?.[0]?.metricValues?.[2]?.value || '0'), avgSessionDuration: parseFloat(last30dRes.value.data?.rows?.[0]?.metricValues?.[3]?.value || '0'), bounceRate: parseFloat(last30dRes.value.data?.rows?.[0]?.metricValues?.[4]?.value || '0') } : null;
+    const topPages = pageViewsRes.status === 'fulfilled' ? (pageViewsRes.value.data?.rows || []).map((r: any) => ({ path: r.dimensionValues[0].value, views: parseInt(r.metricValues[0].value || '0') })) : [];
+    const countries = countriesRes.status === 'fulfilled' ? (countriesRes.value.data?.rows || []).map((r: any) => ({ country: r.dimensionValues[0].value, users: parseInt(r.metricValues[0].value || '0') })) : [];
 
-    return NextResponse.json({
-      data: {
-        overview: {
-          activeUsers: parseInt(overviewData[0]?.value || '0'),
-          pageViews: parseInt(overviewData[1]?.value || '0'),
-          sessions: parseInt(overviewData[2]?.value || '0'),
-          bounceRate: parseFloat(overviewData[3]?.value || '0'),
-          avgSessionDuration: parseFloat(overviewData[4]?.value || '0'),
-          realtimeUsers,
-        },
-        countryData: (countryReport[0]?.rows || []).map(row => ({
-          country: row.dimensionValues?.[0]?.value || 'Unknown',
-          users: parseInt(row.metricValues?.[0]?.value || '0'),
-        })),
-        topPages: (pageReport[0]?.rows || []).map(row => ({
-          path: row.dimensionValues?.[0]?.value || '/',
-          views: parseInt(row.metricValues?.[0]?.value || '0'),
-        })),
-      }
-    });
-  } catch (error) {
-    console.error('GA4 Analytics Error:', error);
-    return NextResponse.json({ error: 'Failed to fetch analytics', data: null }, { status: 500 });
+    return NextResponse.json({ data: { realtime, daily, totals30d, topPages, countries } });
+  } catch (err: any) {
+    if (err.message === 'UNAUTHORIZED') return NextResponse.json({ error: 'Auth required' }, { status: 401 });
+    console.error('GA4 API Error:', err);
+    return NextResponse.json({ error: err.message || 'Failed to fetch analytics', detail: err.code }, { status: 500 });
   }
 }

@@ -182,10 +182,10 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                 <span className="text-base w-6 text-center flex-shrink-0">🌐</span>
                                 <div className="flex-1 min-w-0">
                                     <p className="text-xs text-gray-400 dark:text-neutral-500 font-bold">{locale === 'ko' ? '웹사이트' : 'Website'}</p>
-                                    <p className="text-sm text-blue-600 dark:text-blue-400 font-bold truncate group-hover:underline">{data.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}</p>
+                                    <p className="text-sm text-blue-600 dark:text-blue-400 font-bold group-hover:underline">{locale === 'ko' ? '공식 웹사이트 바로가기' : 'Visit official website'}</p>
                                 </div>
-                                <svg className="w-4 h-4 text-gray-300 dark:text-neutral-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                <svg className="w-4 h-4 text-gray-300 dark:text-neutral-600 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                                 </svg>
                             </a>
                         )}

@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
             },
             include: {
                 museum: {
-                    select: { id: true, name: true, city: true, country: true, imageUrl: true }
+                    select: { id: true, name: true, city: true, country: true, imageUrl: true, type: true }
                 }
             },
             orderBy: { createdAt: 'desc' }

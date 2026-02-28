@@ -29,14 +29,13 @@ export default function ReportModal({ isOpen, onClose, onSubmit, locale, targetN
     };
 
     return (
-        <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center" onClick={onClose}>
+        <div className="fixed inset-0 z-[9999] flex items-end justify-center" onClick={onClose}>
             {/* Backdrop */}
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 
-            {/* Modal - positioned above keyboard on mobile */}
+            {/* Modal - anchored to bottom, above navigation */}
             <div
-                className="relative w-full sm:w-[440px] bg-white dark:bg-neutral-900 sm:rounded-3xl rounded-t-3xl p-6 sm:p-8 shadow-2xl animate-slideUp"
-                style={{ paddingBottom: keyboardHeight > 0 ? `${keyboardHeight + 24}px` : undefined }}
+                className="relative w-full sm:max-w-[440px] bg-white dark:bg-neutral-900 rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl animate-slideUp mb-14 sm:mb-0"
                 onClick={e => e.stopPropagation()}
             >
                 {/* Header */}

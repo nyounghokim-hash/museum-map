@@ -107,6 +107,83 @@ export default function NavHeader() {
                     </nav>
 
                     <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
+                        {/* Notification — visible on all screens */}
+                        <div className="relative" ref={notifRef}>
+                            <Link
+                                href="/notifications"
+                                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400 relative"
+                                title={t('notif.title', locale)}
+                            >
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                </svg>
+                                {Array.isArray(notifications) && notifications.some(n => !n.isRead) && (
+                                    <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-neutral-900" />
+                                )}
+                            </Link>
+                            <button
+                                onClick={() => setNotifOpen(!notifOpen)}
+                                className="hidden lg:flex p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400 relative"
+                                title={t('notif.title', locale)}
+                            >
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                </svg>
+                                {Array.isArray(notifications) && notifications.some(n => !n.isRead) && (
+                                    <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-neutral-900" />
+                                )}
+                            </button>
+                            {notifOpen && (
+                                <div className="absolute right-[-8px] top-full mt-1 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-2xl shadow-2xl py-0 min-w-[300px] max-w-[350px] z-50 overflow-hidden mx-4">
+                                    <div className="px-4 py-3 border-b dark:border-neutral-800 flex items-center justify-between">
+                                        <span className="text-sm font-bold dark:text-white">{t('notif.title', locale)}</span>
+                                        {notifications.length > 0 && (
+                                            <button
+                                                onClick={() => {
+                                                    fetch('/api/notifications/read-all', { method: 'POST' })
+                                                        .then(() => setNotifications(prev => prev.map(n => ({ ...n, isRead: true }))));
+                                                }}
+                                                className="text-[10px] text-blue-600 dark:text-blue-400 font-bold hover:underline"
+                                            >
+                                                {t('notif.markAllRead', locale)}
+                                            </button>
+                                        )}
+                                    </div>
+                                    <div className="max-h-[400px] overflow-y-auto">
+                                        {notifications.length === 0 ? (
+                                            <div className="px-4 py-10 text-center">
+                                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('notif.noNew', locale)}</p>
+                                            </div>
+                                        ) : (
+                                            notifications.map(n => (
+                                                <div
+                                                    key={n.id}
+                                                    className={`px-4 py-3 border-b last:border-0 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors cursor-pointer ${!n.isRead ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`}
+                                                    onClick={() => {
+                                                        if (!n.isRead) {
+                                                            fetch(`/api/notifications/${n.id}/read`, { method: 'POST' });
+                                                            setNotifications(prev => prev.map(notif => notif.id === n.id ? { ...notif, isRead: true } : notif));
+                                                        }
+                                                        setNotifOpen(false);
+                                                        window.location.href = '/notifications';
+                                                    }}
+                                                >
+                                                    <div className="flex items-start gap-3">
+                                                        <div className={`w-2 h-2 shrink-0 rounded-full mt-1.5 ${!n.isRead ? 'bg-blue-500' : 'bg-transparent'}`} />
+                                                        <div className="min-w-0">
+                                                            <p className="text-xs font-bold text-gray-900 dark:text-white mb-0.5">{locale !== 'ko' && n.titleEn ? n.titleEn : n.title}</p>
+                                                            <p className="text-[11px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{locale !== 'ko' && n.messageEn ? n.messageEn : n.message}</p>
+                                                            <p className="text-[9px] text-gray-400 dark:text-neutral-600 mt-1">{new Date(n.createdAt).toLocaleString()}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                         {/* Dark mode toggle - desktop only */}
                         <button
                             onClick={() => setDarkMode(!darkMode)}
@@ -124,75 +201,16 @@ export default function NavHeader() {
                             )}
                         </button>
 
-                        {/* Notification Dropdown */}
-                        {/* Notification - desktop only */}
-                        {(
-                            <div className="relative hidden lg:block" ref={notifRef}>
-                                <button
-                                    onClick={() => setNotifOpen(!notifOpen)}
-                                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400 relative"
-                                    title={t('notif.title', locale)}
-                                >
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                    </svg>
-                                    {Array.isArray(notifications) && notifications.some(n => !n.isRead) && (
-                                        <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-neutral-900" />
-                                    )}
-                                </button>
-                                {notifOpen && (
-                                    <div className="absolute right-[-8px] top-full mt-1 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-2xl shadow-2xl py-0 min-w-[300px] max-w-[350px] z-50 overflow-hidden mx-4">
-                                        <div className="px-4 py-3 border-b dark:border-neutral-800 flex items-center justify-between">
-                                            <span className="text-sm font-bold dark:text-white">{t('notif.title', locale)}</span>
-                                            {notifications.length > 0 && (
-                                                <button
-                                                    onClick={() => {
-                                                        fetch('/api/notifications/read-all', { method: 'POST' })
-                                                            .then(() => setNotifications(prev => prev.map(n => ({ ...n, isRead: true }))));
-                                                    }}
-                                                    className="text-[10px] text-blue-600 dark:text-blue-400 font-bold hover:underline"
-                                                >
-                                                    {t('notif.markAllRead', locale)}
-                                                </button>
-                                            )}
-                                        </div>
-                                        <div className="max-h-[400px] overflow-y-auto">
-                                            {notifications.length === 0 ? (
-                                                <div className="px-4 py-10 text-center">
-                                                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('notif.noNew', locale)}</p>
-                                                </div>
-                                            ) : (
-                                                notifications.map(n => (
-                                                    <div
-                                                        key={n.id}
-                                                        className={`px-4 py-3 border-b last:border-0 dark:border-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-800/50 transition-colors cursor-pointer ${!n.isRead ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''}`}
-                                                        onClick={() => {
-                                                            if (!n.isRead) {
-                                                                fetch(`/api/notifications/${n.id}/read`, { method: 'POST' });
-                                                                setNotifications(prev => prev.map(notif => notif.id === n.id ? { ...notif, isRead: true } : notif));
-                                                            }
-                                                            setNotifOpen(false);
-                                                            window.location.href = '/notifications';
-                                                        }}
-                                                    >
-                                                        <div className="flex items-start gap-3">
-                                                            <div className={`w-2 h-2 shrink-0 rounded-full mt-1.5 ${!n.isRead ? 'bg-blue-500' : 'bg-transparent'}`} />
-                                                            <div className="min-w-0">
-                                                                <p className="text-xs font-bold text-gray-900 dark:text-white mb-0.5">{locale !== 'ko' && n.titleEn ? n.titleEn : n.title}</p>
-                                                                <p className="text-[11px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">{locale !== 'ko' && n.messageEn ? n.messageEn : n.message}</p>
-                                                                <p className="text-[9px] text-gray-400 dark:text-neutral-600 mt-1">{new Date(n.createdAt).toLocaleString()}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
-
+                        {/* Feedback mail icon - PC only */}
+                        <Link
+                            href="/feedback"
+                            className="hidden lg:flex p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400"
+                            title={t('nav.feedback', locale) || 'Feedback'}
+                        >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </Link>
 
                         {/* Language dropdown */}
                         <div className="relative" ref={langRef}>
@@ -223,16 +241,6 @@ export default function NavHeader() {
                         {/* Auth UI */}
                         {session ? (
                             <div className="flex items-center gap-2">
-                                {/* Feedback mail icon - PC only */}
-                                <Link
-                                    href="/feedback"
-                                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 transition-colors text-gray-500 dark:text-gray-400"
-                                    title={t('nav.feedback', locale) || 'Feedback'}
-                                >
-                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                </Link>
                                 {/* Admin button - left of profile */}
                                 {(session.user as any)?.role === 'ADMIN' && (
                                     <Link
@@ -275,12 +283,6 @@ export default function NavHeader() {
                                                     <p className="text-xs font-bold text-gray-900 dark:text-white truncate">{session.user?.name}</p>
                                                     <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">{session.user?.email}</p>
                                                 </div>
-                                                <Link href="/saved" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
-                                                    {t('nav.favorites', locale)}
-                                                </Link>
-                                                <Link href="/notifications" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
-                                                    {t('notif.title', locale)}
-                                                </Link>
                                                 <button
                                                     onClick={() => {
                                                         const { signOut } = require('next-auth/react');
@@ -359,21 +361,7 @@ export default function NavHeader() {
                             })}
                         </nav>
 
-                        {/* Mobile notification */}
-                        <div className="px-4 py-2">
-                            <Link
-                                href="/notifications"
-                                className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800 transition-all relative"
-                            >
-                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                </svg>
-                                {t('notif.title', locale)}
-                                {Array.isArray(notifications) && notifications.some(n => !n.isRead) && (
-                                    <span className="w-2 h-2 bg-red-500 rounded-full" />
-                                )}
-                            </Link>
-                        </div>
+
 
                         {/* Mobile feedback */}
                         <div className="px-4 py-2">

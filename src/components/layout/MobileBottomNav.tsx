@@ -2,29 +2,32 @@
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useApp } from '@/components/AppContext';
+import { useSession } from 'next-auth/react';
 
-const NAV_LABELS: Record<string, { map: string; trip: string; story: string }> = {
-    ko: { map: '지도', trip: '내 여행', story: 'MM스토리' },
-    en: { map: 'Map', trip: 'My Trip', story: 'MM Story' },
-    ja: { map: '地図', trip: 'マイ旅行', story: 'MMストーリー' },
-    de: { map: 'Karte', trip: 'Meine Reise', story: 'MM Story' },
-    fr: { map: 'Carte', trip: 'Mon voyage', story: 'MM Story' },
-    es: { map: 'Mapa', trip: 'Mi viaje', story: 'MM Story' },
-    pt: { map: 'Mapa', trip: 'Minha viagem', story: 'MM Story' },
-    'zh-CN': { map: '地图', trip: '我的旅行', story: 'MM故事' },
-    'zh-TW': { map: '地圖', trip: '我的旅行', story: 'MM故事' },
-    da: { map: 'Kort', trip: 'Min rejse', story: 'MM Story' },
-    fi: { map: 'Kartta', trip: 'Matkani', story: 'MM Story' },
-    sv: { map: 'Karta', trip: 'Min resa', story: 'MM Story' },
-    et: { map: 'Kaart', trip: 'Minu reis', story: 'MM Story' },
+const NAV_LABELS: Record<string, { map: string; saved: string; story: string }> = {
+    ko: { map: '지도', saved: '즐겨찾기', story: 'MM스토리' },
+    en: { map: 'Map', saved: 'Saved', story: 'MM Story' },
+    ja: { map: '地図', saved: 'お気に入り', story: 'MMストーリー' },
+    de: { map: 'Karte', saved: 'Gespeichert', story: 'MM Story' },
+    fr: { map: 'Carte', saved: 'Favoris', story: 'MM Story' },
+    es: { map: 'Mapa', saved: 'Guardados', story: 'MM Story' },
+    pt: { map: 'Mapa', saved: 'Salvos', story: 'MM Story' },
+    'zh-CN': { map: '地图', saved: '收藏', story: 'MM故事' },
+    'zh-TW': { map: '地圖', saved: '收藏', story: 'MM故事' },
+    da: { map: 'Kort', saved: 'Gemt', story: 'MM Story' },
+    fi: { map: 'Kartta', saved: 'Tallennettu', story: 'MM Story' },
+    sv: { map: 'Karta', saved: 'Sparade', story: 'MM Story' },
+    et: { map: 'Kaart', saved: 'Salvestatud', story: 'MM Story' },
 };
 
 export default function MobileBottomNav() {
     const pathname = usePathname();
     const { locale } = useApp();
+    const { data: session } = useSession();
+    const isGuest = !session || session.user?.name?.startsWith('guest_');
 
     // Hide on admin, login, and detail pages
-    if (pathname.startsWith('/admin') || pathname.startsWith('/login') || pathname.startsWith('/museum/')) return null;
+    if (pathname.startsWith('/admin') || pathname.startsWith('/login') || pathname.startsWith('/museum/') || pathname.startsWith('/museums/')) return null;
 
     const labels = NAV_LABELS[locale] || NAV_LABELS.en;
 
@@ -40,14 +43,14 @@ export default function MobileBottomNav() {
             isActive: pathname === '/',
         },
         {
-            href: '/plans',
-            label: labels.trip,
+            href: isGuest ? '/login' : '/saved',
+            label: labels.saved,
             icon: (active: boolean) => (
-                <svg className={`w-7 h-7 ${active ? 'text-white' : 'text-gray-400 dark:text-neutral-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={active ? 2.2 : 1.6}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <svg className={`w-7 h-7 ${active ? 'text-white' : 'text-gray-400 dark:text-neutral-500'}`} fill={active ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={active ? 0 : 1.6}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                 </svg>
             ),
-            isActive: pathname.startsWith('/plans'),
+            isActive: pathname.startsWith('/saved'),
         },
         {
             href: '/blog',

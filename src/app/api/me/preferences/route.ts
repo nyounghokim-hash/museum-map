@@ -20,9 +20,10 @@ export async function PUT(req: NextRequest) {
         // Merge new preferences
         const updated = { ...existing, ...body };
 
-        await prisma.user.update({
+        await prisma.user.upsert({
             where: { id: userId },
-            data: { preferences: updated }
+            update: { preferences: updated },
+            create: { id: userId, name: session.user.name || 'guest', preferences: updated }
         });
 
         return NextResponse.json({ success: true });

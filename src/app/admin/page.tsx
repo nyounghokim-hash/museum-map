@@ -782,14 +782,43 @@ export default function AdminPage() {
                                     </div>
                                 ))}
                             </div>
-                            {gaData.daily?.length > 0 && (
-                                <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-gray-100 dark:border-neutral-800 p-6 mb-8 shadow-sm">
-                                    <h3 className="text-sm font-black dark:text-white uppercase tracking-tight mb-4">일별 트래픽 (7일)</h3>
-                                    <div className="flex items-end gap-2 h-32">
-                                        {gaData.daily.map((d: any) => { const mx = Math.max(...gaData.daily.map((x: any) => x.pageViews || 1)); const h = Math.max(8, (d.pageViews / mx) * 100); return (<div key={d.date} className="flex-1 flex flex-col items-center gap-1"><span className="text-[9px] font-bold text-gray-400">{d.pageViews}</span><div className="w-full bg-purple-500 rounded-t-lg transition-all" style={{ height: `${h}%` }} /><span className="text-[8px] font-bold text-gray-400">{d.date?.slice(4, 6)}/{d.date?.slice(6)}</span></div>); })}
+                            {gaData.daily?.length > 0 && (() => {
+                                const maxPv = Math.max(...gaData.daily.map((x: any) => x.pageViews || 1));
+                                const maxUsers = Math.max(...gaData.daily.map((x: any) => x.users || 1));
+                                return (
+                                    <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-gray-100 dark:border-neutral-800 p-6 mb-8 shadow-sm">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h3 className="text-sm font-black dark:text-white uppercase tracking-tight">일별 트래픽 (7일)</h3>
+                                            <div className="flex gap-3 text-[10px] font-bold">
+                                                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-purple-500" />페이지뷰</span>
+                                                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500" />사용자</span>
+                                                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500" />세션</span>
+                                            </div>
+                                        </div>
+                                        <div className="relative">
+                                            <div className="flex items-end gap-3" style={{ height: '180px' }}>
+                                                {gaData.daily.map((d: any, i: number) => {
+                                                    const pvH = Math.max(6, (d.pageViews / maxPv) * 100);
+                                                    const uH = Math.max(6, (d.users / maxUsers) * 100);
+                                                    const sH = Math.max(6, (d.sessions / Math.max(...gaData.daily.map((x: any) => x.sessions || 1))) * 100);
+                                                    const dateStr = d.date ? `${d.date.slice(4, 6)}/${d.date.slice(6)}` : '';
+                                                    return (
+                                                        <div key={d.date} className="flex-1 flex flex-col items-center gap-1">
+                                                            <div className="text-[9px] font-bold text-purple-500">{d.pageViews}</div>
+                                                            <div className="w-full flex items-end justify-center gap-[2px]" style={{ height: '140px' }}>
+                                                                <div className="flex-1 rounded-t-md bg-gradient-to-t from-blue-500 to-blue-400 transition-all" style={{ height: `${uH}%` }} title={`사용자: ${d.users}`} />
+                                                                <div className="flex-1 rounded-t-md bg-gradient-to-t from-purple-600 to-purple-400 transition-all" style={{ height: `${pvH}%` }} title={`페이지뷰: ${d.pageViews}`} />
+                                                                <div className="flex-1 rounded-t-md bg-gradient-to-t from-emerald-500 to-emerald-400 transition-all" style={{ height: `${sH}%` }} title={`세션: ${d.sessions}`} />
+                                                            </div>
+                                                            <div className="text-[10px] font-bold text-gray-400 mt-1">{dateStr}</div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                );
+                            })()}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {gaData.topPages?.length > 0 && (
                                     <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-gray-100 dark:border-neutral-800 p-6 shadow-sm">

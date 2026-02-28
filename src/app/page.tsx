@@ -233,7 +233,7 @@ export default function MainPage() {
                   </span>
                 </button>
               ) : (
-                <div className="flex flex-col-reverse gap-2">
+                <div className="flex flex-col-reverse gap-2 animate-fadeInUp">
                   <form onSubmit={(e) => { e.preventDefault(); handleAiRecommend(); }} className="flex gap-2">
                     <input
                       type="text"
@@ -357,7 +357,7 @@ export default function MainPage() {
         className={`absolute top-0 right-0 h-full w-full lg:w-[700px] max-w-full 
           bg-neutral-50 dark:bg-neutral-950 lg:bg-transparent lg:dark:bg-transparent 
           shadow-2xl lg:shadow-none transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] z-40 
-          overflow-y-auto hide-scrollbar lg:p-8
+          overflow-y-auto hide-scrollbar lg:pt-4 lg:px-8 lg:pb-8
           border-l border-gray-200 dark:border-neutral-800 lg:border-none
           ${isPanelOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'}`}
         onTouchStart={handleTouchStart}

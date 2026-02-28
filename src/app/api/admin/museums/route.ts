@@ -82,7 +82,7 @@ export async function PUT(req: NextRequest) {
 
         // Explicitly pick only allowed Museum fields to avoid Prisma errors
         const updateData: any = {};
-        const allowedFields = ['name', 'description', 'country', 'city', 'type', 'latitude', 'longitude', 'imageUrl', 'website', 'popularityScore'];
+        const allowedFields = ['name', 'description', 'country', 'city', 'type', 'latitude', 'longitude', 'imageUrl', 'website', 'popularityScore', 'visitorInfo'];
         for (const field of allowedFields) {
             if (body[field] !== undefined) {
                 updateData[field] = body[field];

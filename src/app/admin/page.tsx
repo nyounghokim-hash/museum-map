@@ -768,123 +768,139 @@ function MuseumEditModal({ museum, onClose, onSave }: { museum: any, onClose: ()
         latitude: museum?.latitude || 0,
         longitude: museum?.longitude || 0,
         imageUrl: museum?.imageUrl || '',
-        website: museum?.website || ''
+        website: museum?.website || '',
+        visitorInfo: museum?.visitorInfo || [],
     });
+    const [loading, setLoading] = useState(!!museum?.id);
 
-    const handleSubmit = (e?: any) => {
-        if (e?.preventDefault) e.preventDefault();
-        onSave(formData);
-    };
+    useEffect(() => {
+        if (!museum?.id) { setLoading(false); return; }
+        fetch(`/api/museums/${museum.id}`)
+            .then(r => r.json())
+            .then(res => {
+                const d = res.data;
+                if (d) setFormData(prev => ({ ...prev, visitorInfo: d.visitorInfo || [], description: d.description || prev.description }));
+            })
+            .catch(console.error)
+            .finally(() => setLoading(false));
+    }, [museum?.id]);
+
+    const handleSubmit = (e?: any) => { if (e?.preventDefault) e.preventDefault(); onSave(formData); };
+
+    const addVisitorInfo = () => setFormData({ ...formData, visitorInfo: [...formData.visitorInfo, { label: '', value: '', icon: '📌' }] });
+    const updateVi = (i: number, f: string, v: string) => { const u = [...formData.visitorInfo]; u[i] = { ...u[i], [f]: v }; setFormData({ ...formData, visitorInfo: u }); };
+    const removeVi = (i: number) => setFormData({ ...formData, visitorInfo: formData.visitorInfo.filter((_: any, j: number) => j !== i) });
+
+    const ICONS = ['🎫', '🕐', '📍', '🚇', '⏱️', '📌', '🌐', '🎨'];
+    const LABELS = ['입장료', '운영시간', '위치', '교통', '관람시간', '가는 길'];
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn">
             <div className="bg-white dark:bg-neutral-900 rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl animate-scaleUp flex flex-col">
                 <div className="px-8 py-6 border-b dark:border-neutral-800 flex justify-between items-center bg-gray-50/50 dark:bg-neutral-800/50">
                     <div>
-                        <h2 className="text-xl font-black dark:text-white uppercase tracking-tight">
-                            {museum ? '미술관/박물관 정보 수정' : '새 미술관/박물관 추가'}
-                        </h2>
-                        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-0.5">데이터베이스 엔트리</p>
+                        <h2 className="text-xl font-black dark:text-white uppercase tracking-tight">{museum ? '정보 수정' : '새로 추가'}</h2>
+                        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-0.5">미술관/박물관</p>
                     </div>
                     <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors">
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-8 overflow-y-auto space-y-6 flex-1 custom-scrollbar">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="md:col-span-2">
-                            <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">미술관/박물관 명칭</label>
-                            <input
-                                required
-                                value={formData.name}
-                                onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-black dark:focus:ring-white outline-none dark:text-white font-bold"
-                                placeholder="국립현대미술관"
-                            />
+                {loading ? (
+                    <div className="flex items-center justify-center py-20"><div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" /></div>
+                ) : (
+                    <form onSubmit={handleSubmit} className="overflow-y-auto flex-1 custom-scrollbar">
+                        <div className="p-8 space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="md:col-span-2">
+                                    <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">명칭</label>
+                                    <input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                        className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-black dark:focus:ring-white outline-none dark:text-white font-bold" />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">설명</label>
+                                    <textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })}
+                                        className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-black dark:focus:ring-white outline-none dark:text-white min-h-[100px] leading-relaxed" />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">국가 코드</label>
+                                    <input required value={formData.country} onChange={e => setFormData({ ...formData, country: e.target.value })}
+                                        className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm outline-none dark:text-white font-bold" placeholder="KR" />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">도시</label>
+                                    <input required value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })}
+                                        className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm outline-none dark:text-white font-bold" />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">위도</label>
+                                    <input type="number" step="any" required value={formData.latitude} onChange={e => setFormData({ ...formData, latitude: parseFloat(e.target.value) })}
+                                        className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm outline-none dark:text-white font-bold" />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">경도</label>
+                                    <input type="number" step="any" required value={formData.longitude} onChange={e => setFormData({ ...formData, longitude: parseFloat(e.target.value) })}
+                                        className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm outline-none dark:text-white font-bold" />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">웹사이트</label>
+                                    <input value={formData.website} onChange={e => setFormData({ ...formData, website: e.target.value })}
+                                        className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm outline-none dark:text-white" />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">이미지 URL</label>
+                                    <input value={formData.imageUrl} onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
+                                        className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm outline-none dark:text-white font-mono" placeholder="https://..." />
+                                </div>
+                            </div>
+
+                            {/* Visitor Info */}
+                            <div className="border-t dark:border-neutral-800 pt-6">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-sm font-black dark:text-white uppercase tracking-tight">방문 정보</h3>
+                                    <button type="button" onClick={addVisitorInfo} className="px-3 py-1.5 bg-purple-600 text-white rounded-xl text-xs font-bold hover:bg-purple-700 active:scale-95 transition-all">+ 추가</button>
+                                </div>
+                                <div className="space-y-3">
+                                    {formData.visitorInfo.map((item: any, idx: number) => (
+                                        <div key={idx} className="flex gap-2 items-start bg-gray-50 dark:bg-neutral-800 rounded-2xl p-3">
+                                            <select value={item.icon || '📌'} onChange={e => updateVi(idx, 'icon', e.target.value)}
+                                                className="bg-white dark:bg-neutral-700 border-none rounded-xl px-2 py-2 text-base outline-none cursor-pointer">
+                                                {ICONS.map(ic => <option key={ic} value={ic}>{ic}</option>)}
+                                            </select>
+                                            <div className="flex-1 space-y-2">
+                                                <div className="flex gap-2">
+                                                    <select value={LABELS.includes(item.label) ? item.label : '__custom'} onChange={e => { if (e.target.value !== '__custom') updateVi(idx, 'label', e.target.value); }}
+                                                        className="bg-white dark:bg-neutral-700 border-none rounded-xl px-3 py-2 text-xs font-bold outline-none dark:text-white">
+                                                        {LABELS.map(l => <option key={l} value={l}>{l}</option>)}
+                                                        <option value="__custom">직접 입력</option>
+                                                    </select>
+                                                    <input value={item.label} onChange={e => updateVi(idx, 'label', e.target.value)} placeholder="라벨"
+                                                        className="flex-1 bg-white dark:bg-neutral-700 border-none rounded-xl px-3 py-2 text-xs outline-none dark:text-white font-bold" />
+                                                </div>
+                                                <textarea value={item.value} onChange={e => updateVi(idx, 'value', e.target.value)} placeholder="값 (예: 무료, 화~일 10:00-18:00)"
+                                                    className="w-full bg-white dark:bg-neutral-700 border-none rounded-xl px-3 py-2 text-xs outline-none dark:text-white min-h-[50px]" />
+                                            </div>
+                                            <button type="button" onClick={() => removeVi(idx)} className="p-1.5 text-gray-300 hover:text-red-500 transition-colors">
+                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                            </button>
+                                        </div>
+                                    ))}
+                                    {formData.visitorInfo.length === 0 && (
+                                        <p className="text-xs text-gray-400 text-center py-4">방문 정보 없음. &quot;추가&quot;를 클릭하세요.</p>
+                                    )}
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="md:col-span-2">
-                            <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">설명</label>
-                            <textarea
-                                value={formData.description}
-                                onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-black dark:focus:ring-white outline-none dark:text-white min-h-[120px] leading-relaxed"
-                                placeholder="미술관에 대한 간략한 설명을 입력하세요..."
-                            />
+                        <div className="p-8 border-t dark:border-neutral-800 bg-gray-50/50 dark:bg-neutral-800/50 flex gap-3 sticky bottom-0">
+                            <button type="button" onClick={onClose}
+                                className="flex-1 py-4 px-6 rounded-2xl font-bold text-gray-500 bg-white dark:bg-neutral-900 dark:text-gray-400 border border-gray-200 dark:border-neutral-700 hover:bg-gray-100 transition-all active:scale-95 shadow-sm">취소</button>
+                            <button type="submit"
+                                className="flex-1 py-4 px-6 rounded-2xl font-black bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-gray-200 transition-all active:scale-95 shadow-xl">저장하기</button>
                         </div>
-
-                        <div>
-                            <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">국가</label>
-                            <input
-                                required
-                                value={formData.country}
-                                onChange={e => setFormData({ ...formData, country: e.target.value })}
-                                className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-black dark:focus:ring-white outline-none dark:text-white font-bold"
-                                placeholder="대한민국"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">도시</label>
-                            <input
-                                required
-                                value={formData.city}
-                                onChange={e => setFormData({ ...formData, city: e.target.value })}
-                                className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-black dark:focus:ring-white outline-none dark:text-white font-bold"
-                                placeholder="서울"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">위도 (Latitude)</label>
-                            <input
-                                type="number" step="any" required
-                                value={formData.latitude}
-                                onChange={e => setFormData({ ...formData, latitude: parseFloat(e.target.value) })}
-                                className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-black dark:focus:ring-white outline-none dark:text-white font-bold"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">경도 (Longitude)</label>
-                            <input
-                                type="number" step="any" required
-                                value={formData.longitude}
-                                onChange={e => setFormData({ ...formData, longitude: parseFloat(e.target.value) })}
-                                className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-black dark:focus:ring-white outline-none dark:text-white font-bold"
-                            />
-                        </div>
-
-                        <div className="md:col-span-2">
-                            <label className="block text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">대표 이미지 URL</label>
-                            <input
-                                value={formData.imageUrl}
-                                onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
-                                className="w-full bg-gray-50 dark:bg-neutral-800 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-black dark:focus:ring-white outline-none dark:text-white font-mono"
-                                placeholder="https://..."
-                            />
-                        </div>
-                    </div>
-
-                    <div className="p-8 border-t dark:border-neutral-800 bg-gray-50/50 dark:bg-neutral-800/50 flex gap-3">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="flex-1 py-4 px-6 rounded-2xl font-bold text-gray-500 bg-white dark:bg-neutral-900 dark:text-gray-400 border border-gray-200 dark:border-neutral-700 hover:bg-gray-100 transition-all active:scale-95 shadow-sm"
-                        >
-                            취소
-                        </button>
-                        <button
-                            type="submit"
-                            className="flex-1 py-4 px-6 rounded-2xl font-black bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-gray-200 transition-all active:scale-95 shadow-xl"
-                        >
-                            저장하기
-                        </button>
-                    </div>
-                </form>
-
-
+                    </form>
+                )}
             </div>
             <style jsx>{`
                 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -899,4 +915,3 @@ function MuseumEditModal({ museum, onClose, onSave }: { museum: any, onClose: ()
         </div>
     );
 }
-

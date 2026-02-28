@@ -4,6 +4,7 @@ import { headers } from 'next/headers'
 import './globals.css'
 import NavHeader from '@/components/layout/NavHeader'
 import MobileBottomNav from '@/components/layout/MobileBottomNav'
+import MainContent from '@/components/layout/MainContent'
 import { AppProvider } from '@/components/AppContext'
 import { ModalProvider } from '@/components/ui/Modal'
 import { GoogleAnalytics } from '@next/third-parties/google'
@@ -156,9 +157,9 @@ export default function RootLayout({
           <AppProvider>
             <ModalProvider>
               <NavHeader />
-              <main className="flex-1 flex flex-col relative w-full h-full pb-[70px] md:pb-0">
+              <MainContent>
                 {children}
-              </main>
+              </MainContent>
               <MobileBottomNav />
             </ModalProvider>
           </AppProvider>

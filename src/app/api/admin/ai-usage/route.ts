@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
-        // Get AI usage logs from AuditLog table (actions containing 'ai' or 'recommend' or 'translate')
+        // Get AI usage logs from AuditLog table (actions containing 'recommend' or 'translate')
         const logs = await (prisma as any).auditLog.findMany({
             where: {
                 OR: [
@@ -19,8 +19,8 @@ export async function GET(req: NextRequest) {
                     { action: { contains: 'gemini', mode: 'insensitive' } },
                 ]
             },
-            orderBy: { createdAt: 'desc' },
-            take: 100,
+            orderBy: { timestamp: 'desc' },
+            take: 500,
         });
 
         // Calculate stats
@@ -29,11 +29,11 @@ export async function GET(req: NextRequest) {
         const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
         const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-        const todayLogs = logs.filter((l: any) => new Date(l.createdAt) >= today);
-        const weekLogs = logs.filter((l: any) => new Date(l.createdAt) >= weekAgo);
-        const monthLogs = logs.filter((l: any) => new Date(l.createdAt) >= monthAgo);
+        const todayLogs = logs.filter((l: any) => new Date(l.timestamp) >= today);
+        const weekLogs = logs.filter((l: any) => new Date(l.timestamp) >= weekAgo);
+        const monthLogs = logs.filter((l: any) => new Date(l.timestamp) >= monthAgo);
 
-        // Estimate tokens (rough: 100 tokens per request for recommend, 50 for translate)
+        // Estimate tokens (rough: 150 tokens per recommend, 80 for translate)
         const estimateTokens = (actionLogs: any[]) => {
             return actionLogs.reduce((sum: number, l: any) => {
                 if (l.action?.includes('recommend')) return sum + 150;
@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
             const date = new Date(today.getTime() - i * 24 * 60 * 60 * 1000);
             const nextDate = new Date(date.getTime() + 24 * 60 * 60 * 1000);
             const dayLogs = logs.filter((l: any) => {
-                const d = new Date(l.createdAt);
+                const d = new Date(l.timestamp);
                 return d >= date && d < nextDate;
             });
             dailyBreakdown.push({
@@ -67,12 +67,12 @@ export async function GET(req: NextRequest) {
                 month: { requests: monthLogs.length, tokens: estimateTokens(monthLogs) },
                 total: { requests: logs.length, tokens: estimateTokens(logs) },
                 dailyBreakdown,
-                recentLogs: logs.slice(0, 20).map((l: any) => ({
+                recentLogs: logs.slice(0, 30).map((l: any) => ({
                     id: l.id,
                     action: l.action,
-                    detail: l.detail?.substring(0, 100),
-                    createdAt: l.createdAt,
-                    userId: l.userId,
+                    detail: l.target?.substring(0, 100),
+                    createdAt: l.timestamp,
+                    userId: l.adminId,
                 })),
             }
         });

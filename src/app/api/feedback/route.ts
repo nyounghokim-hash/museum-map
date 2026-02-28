@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     try {
         const session = await getSessionUser();
         const body = await req.json();
-        const { content } = body;
+        const { content, type, category, targetId, targetName } = body;
 
         if (!content) {
             return NextResponse.json({ error: 'Feedback content is required' }, { status: 400 });
@@ -15,7 +15,11 @@ export async function POST(req: Request) {
         const feedback = await prisma.feedback.create({
             data: {
                 content,
-                userId: session?.id || null, // Optional if guest
+                type: type || 'general',
+                category: category || null,
+                targetId: targetId || null,
+                targetName: targetName || null,
+                userId: session?.id || null,
             },
         });
 
@@ -29,13 +33,16 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
     try {
         const url = new URL(req.url);
-        // Extremely simple MVP admin check
         const password = url.searchParams.get('pw');
         if (password !== process.env.ADMIN_PASSWORD) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
+        const typeFilter = url.searchParams.get('type');
+        const where = typeFilter ? { type: typeFilter } : {};
+
         const feedbacks = await prisma.feedback.findMany({
+            where,
             orderBy: { createdAt: 'desc' },
             include: { user: { select: { name: true, email: true } } }
         });

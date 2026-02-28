@@ -4,6 +4,7 @@ import { useTranslatedText } from '@/hooks/useTranslation';
 import { useApp } from '@/components/AppContext';
 import { formatDate, type Locale } from '@/lib/i18n';
 import Link from 'next/link';
+import ReportModal from '@/components/ui/ReportModal';
 
 function InfoTable({ data, locale }: { data: any[]; locale: string }) {
     if (!data || data.length === 0) return null;
@@ -135,6 +136,7 @@ export default function BlogContentClient({ post, serverLocale }: { post: any; s
     const translatedContent = useTranslatedText(needsTranslation ? post.content?.replace(/<[^>]*>/g, '') : null, effectiveLocale as Locale);
 
     const displayTitle = needsTranslation && translatedTitle ? translatedTitle : rawTitle;
+    const [reportOpen, setReportOpen] = useState(false);
 
     return (
         <div className="p-6 sm:p-10 md:p-12">
@@ -151,7 +153,7 @@ export default function BlogContentClient({ post, serverLocale }: { post: any; s
                 )}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-5 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-2 leading-tight">
                 {displayTitle}
             </h1>
 
@@ -177,6 +179,37 @@ export default function BlogContentClient({ post, serverLocale }: { post: any; s
 
             {/* Artwork Cards */}
             <ArtworkCards data={post.artworks} locale={effectiveLocale} />
+
+            {/* Report Info Update */}
+            <div className="mt-10 pt-6 border-t border-gray-100 dark:border-neutral-800">
+                <button
+                    onClick={() => setReportOpen(true)}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800/50 text-gray-400 dark:text-gray-500 hover:text-purple-600 hover:border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10 dark:hover:border-purple-800 text-xs font-bold transition-all active:scale-95"
+                >
+                    <span className="text-sm">✏️</span>
+                    {effectiveLocale === 'ko' ? '정보 수정 요청' : 'Request info update'}
+                </button>
+            </div>
+            <ReportModal
+                isOpen={reportOpen}
+                onClose={() => setReportOpen(false)}
+                locale={effectiveLocale}
+                targetName={post.title}
+                onSubmit={async (msg) => {
+                    await fetch('/api/feedback', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            content: msg,
+                            type: 'report',
+                            category: 'story_info',
+                            targetId: post.id,
+                            targetName: post.title,
+                        })
+                    });
+                    alert(effectiveLocale === 'ko' ? '감사합니다! 수정 요청이 접수되었어요 🙏' : 'Thank you! Your request has been received 🙏');
+                }}
+            />
         </div>
     );
 }

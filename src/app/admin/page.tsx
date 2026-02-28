@@ -467,13 +467,25 @@ export default function AdminPage() {
                         {feedbacks.map((f: any) => (
                             <div key={f.id} className="border border-indigo-50 dark:border-indigo-900/20 rounded-3xl p-6 bg-white dark:bg-neutral-900 flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
-                                        사용자: {f.userId ? f.userId.slice(0, 8) : '익명'}
-                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
+                                            사용자: {f.userId ? f.userId.slice(0, 8) : '익명'}
+                                        </span>
+                                        {f.type === 'report' && (
+                                            <span className="text-[9px] font-black bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 px-2 py-0.5 rounded-full uppercase">
+                                                🚨 정보수정
+                                            </span>
+                                        )}
+                                    </div>
                                     <span className="text-[10px] font-bold text-gray-300 dark:text-neutral-600">
                                         {new Date(f.createdAt).toLocaleDateString('ko-KR')}
                                     </span>
                                 </div>
+                                {f.targetName && (
+                                    <p className="text-[10px] font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/10 px-3 py-1.5 rounded-lg">
+                                        📍 {f.targetName} ({f.category === 'museum_info' ? '박물관' : '스토리'})
+                                    </p>
+                                )}
                                 <p className="text-sm text-gray-700 dark:text-neutral-300 leading-relaxed font-medium">{f.content}</p>
                             </div>
                         ))}

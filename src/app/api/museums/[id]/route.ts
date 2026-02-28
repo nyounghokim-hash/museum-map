@@ -16,15 +16,21 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
                     take: 5,
                     orderBy: { createdAt: 'desc' },
                     include: { user: { select: { id: true, name: true, image: true } } }
+                },
+                stories: {
+                    include: { story: { select: { artworks: true } } }
                 }
             }
         });
         if (!museum) {
             return errorResponse('NOT_FOUND', 'Museum not found', 404);
         }
+        // Extract artworks from linked stories
+        const artworks = (museum as any).stories
+            ?.flatMap((sm: any) => sm.story?.artworks || []) || [];
         // strip geometry column mapping if any
-        const { location, ...safeMuseumData } = museum as any;
-        return successResponse(safeMuseumData);
+        const { location, stories: _stories, ...safeMuseumData } = museum as any;
+        return successResponse({ ...safeMuseumData, artworks });
     } catch (err: any) {
         console.error('API Error /museums/[id]:', err);
         return errorResponse('INTERNAL_SERVER_ERROR', 'Failed to fetch museum details', 500, err.message);

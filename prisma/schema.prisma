@@ -99,6 +99,7 @@ model Museum {
   createdAt          DateTime                 @default(now())
   updatedAt          DateTime                 @updatedAt
   openingHours       Json?
+  visitorInfo        Json?
   lastExhibitionSync DateTime?
   collectionItems    CollectionItem[]
   exhibitions        Exhibition[]
@@ -243,13 +244,17 @@ model ChallengeProgress {
 }
 
 model Feedback {
-  id        String   @id @default(cuid())
-  userId    String?
-  content   String
-  createdAt DateTime @default(now())
-  reply     String?
-  updatedAt DateTime @default(now()) @updatedAt
-  user      User?    @relation(fields: [userId], references: [id])
+  id         String   @id @default(cuid())
+  userId     String?
+  content    String
+  type       String   @default("general")
+  category   String?
+  targetId   String?
+  targetName String?
+  createdAt  DateTime @default(now())
+  reply      String?
+  updatedAt  DateTime @default(now()) @updatedAt
+  user       User?    @relation(fields: [userId], references: [id])
 }
 
 model AlertSubscription {

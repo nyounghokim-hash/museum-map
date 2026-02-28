@@ -7996,6 +7996,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     openingHours: number
+    visitorInfo: number
     lastExhibitionSync: number
     _all: number
   }
@@ -8062,6 +8063,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     openingHours?: true
+    visitorInfo?: true
     lastExhibitionSync?: true
     _all?: true
   }
@@ -8167,6 +8169,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     openingHours: JsonValue | null
+    visitorInfo: JsonValue | null
     lastExhibitionSync: Date | null
     _count: MuseumCountAggregateOutputType | null
     _avg: MuseumAvgAggregateOutputType | null
@@ -8204,6 +8207,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     openingHours?: boolean
+    visitorInfo?: boolean
     lastExhibitionSync?: boolean
     collectionItems?: boolean | Museum$collectionItemsArgs<ExtArgs>
     exhibitions?: boolean | Museum$exhibitionsArgs<ExtArgs>
@@ -8230,6 +8234,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     openingHours?: boolean
+    visitorInfo?: boolean
     lastExhibitionSync?: boolean
   }, ExtArgs["result"]["museum"]>
 
@@ -8248,6 +8253,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     openingHours?: boolean
+    visitorInfo?: boolean
     lastExhibitionSync?: boolean
   }, ExtArgs["result"]["museum"]>
 
@@ -8266,10 +8272,11 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     openingHours?: boolean
+    visitorInfo?: boolean
     lastExhibitionSync?: boolean
   }
 
-  export type MuseumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "country" | "city" | "type" | "website" | "imageUrl" | "latitude" | "longitude" | "popularityScore" | "createdAt" | "updatedAt" | "openingHours" | "lastExhibitionSync", ExtArgs["result"]["museum"]>
+  export type MuseumOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "country" | "city" | "type" | "website" | "imageUrl" | "latitude" | "longitude" | "popularityScore" | "createdAt" | "updatedAt" | "openingHours" | "visitorInfo" | "lastExhibitionSync", ExtArgs["result"]["museum"]>
   export type MuseumInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     collectionItems?: boolean | Museum$collectionItemsArgs<ExtArgs>
     exhibitions?: boolean | Museum$exhibitionsArgs<ExtArgs>
@@ -8309,6 +8316,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       openingHours: Prisma.JsonValue | null
+      visitorInfo: Prisma.JsonValue | null
       lastExhibitionSync: Date | null
     }, ExtArgs["result"]["museum"]>
     composites: {}
@@ -8754,6 +8762,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Museum", 'DateTime'>
     readonly updatedAt: FieldRef<"Museum", 'DateTime'>
     readonly openingHours: FieldRef<"Museum", 'Json'>
+    readonly visitorInfo: FieldRef<"Museum", 'Json'>
     readonly lastExhibitionSync: FieldRef<"Museum", 'DateTime'>
   }
     
@@ -20455,6 +20464,10 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     content: string | null
+    type: string | null
+    category: string | null
+    targetId: string | null
+    targetName: string | null
     createdAt: Date | null
     reply: string | null
     updatedAt: Date | null
@@ -20464,6 +20477,10 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     content: string | null
+    type: string | null
+    category: string | null
+    targetId: string | null
+    targetName: string | null
     createdAt: Date | null
     reply: string | null
     updatedAt: Date | null
@@ -20473,6 +20490,10 @@ export namespace Prisma {
     id: number
     userId: number
     content: number
+    type: number
+    category: number
+    targetId: number
+    targetName: number
     createdAt: number
     reply: number
     updatedAt: number
@@ -20484,6 +20505,10 @@ export namespace Prisma {
     id?: true
     userId?: true
     content?: true
+    type?: true
+    category?: true
+    targetId?: true
+    targetName?: true
     createdAt?: true
     reply?: true
     updatedAt?: true
@@ -20493,6 +20518,10 @@ export namespace Prisma {
     id?: true
     userId?: true
     content?: true
+    type?: true
+    category?: true
+    targetId?: true
+    targetName?: true
     createdAt?: true
     reply?: true
     updatedAt?: true
@@ -20502,6 +20531,10 @@ export namespace Prisma {
     id?: true
     userId?: true
     content?: true
+    type?: true
+    category?: true
+    targetId?: true
+    targetName?: true
     createdAt?: true
     reply?: true
     updatedAt?: true
@@ -20584,6 +20617,10 @@ export namespace Prisma {
     id: string
     userId: string | null
     content: string
+    type: string
+    category: string | null
+    targetId: string | null
+    targetName: string | null
     createdAt: Date
     reply: string | null
     updatedAt: Date
@@ -20610,6 +20647,10 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     content?: boolean
+    type?: boolean
+    category?: boolean
+    targetId?: boolean
+    targetName?: boolean
     createdAt?: boolean
     reply?: boolean
     updatedAt?: boolean
@@ -20620,6 +20661,10 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     content?: boolean
+    type?: boolean
+    category?: boolean
+    targetId?: boolean
+    targetName?: boolean
     createdAt?: boolean
     reply?: boolean
     updatedAt?: boolean
@@ -20630,6 +20675,10 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     content?: boolean
+    type?: boolean
+    category?: boolean
+    targetId?: boolean
+    targetName?: boolean
     createdAt?: boolean
     reply?: boolean
     updatedAt?: boolean
@@ -20640,12 +20689,16 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     content?: boolean
+    type?: boolean
+    category?: boolean
+    targetId?: boolean
+    targetName?: boolean
     createdAt?: boolean
     reply?: boolean
     updatedAt?: boolean
   }
 
-  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "content" | "createdAt" | "reply" | "updatedAt", ExtArgs["result"]["feedback"]>
+  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "content" | "type" | "category" | "targetId" | "targetName" | "createdAt" | "reply" | "updatedAt", ExtArgs["result"]["feedback"]>
   export type FeedbackInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | Feedback$userArgs<ExtArgs>
   }
@@ -20665,6 +20718,10 @@ export namespace Prisma {
       id: string
       userId: string | null
       content: string
+      type: string
+      category: string | null
+      targetId: string | null
+      targetName: string | null
       createdAt: Date
       reply: string | null
       updatedAt: Date
@@ -21095,6 +21152,10 @@ export namespace Prisma {
     readonly id: FieldRef<"Feedback", 'String'>
     readonly userId: FieldRef<"Feedback", 'String'>
     readonly content: FieldRef<"Feedback", 'String'>
+    readonly type: FieldRef<"Feedback", 'String'>
+    readonly category: FieldRef<"Feedback", 'String'>
+    readonly targetId: FieldRef<"Feedback", 'String'>
+    readonly targetName: FieldRef<"Feedback", 'String'>
     readonly createdAt: FieldRef<"Feedback", 'DateTime'>
     readonly reply: FieldRef<"Feedback", 'String'>
     readonly updatedAt: FieldRef<"Feedback", 'DateTime'>
@@ -26829,6 +26890,7 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     openingHours: 'openingHours',
+    visitorInfo: 'visitorInfo',
     lastExhibitionSync: 'lastExhibitionSync'
   };
 
@@ -26965,6 +27027,10 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     content: 'content',
+    type: 'type',
+    category: 'category',
+    targetId: 'targetId',
+    targetName: 'targetName',
     createdAt: 'createdAt',
     reply: 'reply',
     updatedAt: 'updatedAt'
@@ -27594,6 +27660,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Museum"> | Date | string
     updatedAt?: DateTimeFilter<"Museum"> | Date | string
     openingHours?: JsonNullableFilter<"Museum">
+    visitorInfo?: JsonNullableFilter<"Museum">
     lastExhibitionSync?: DateTimeNullableFilter<"Museum"> | Date | string | null
     collectionItems?: CollectionItemListRelationFilter
     exhibitions?: ExhibitionListRelationFilter
@@ -27619,6 +27686,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     openingHours?: SortOrderInput | SortOrder
+    visitorInfo?: SortOrderInput | SortOrder
     lastExhibitionSync?: SortOrderInput | SortOrder
     collectionItems?: CollectionItemOrderByRelationAggregateInput
     exhibitions?: ExhibitionOrderByRelationAggregateInput
@@ -27647,6 +27715,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Museum"> | Date | string
     updatedAt?: DateTimeFilter<"Museum"> | Date | string
     openingHours?: JsonNullableFilter<"Museum">
+    visitorInfo?: JsonNullableFilter<"Museum">
     lastExhibitionSync?: DateTimeNullableFilter<"Museum"> | Date | string | null
     collectionItems?: CollectionItemListRelationFilter
     exhibitions?: ExhibitionListRelationFilter
@@ -27672,6 +27741,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     openingHours?: SortOrderInput | SortOrder
+    visitorInfo?: SortOrderInput | SortOrder
     lastExhibitionSync?: SortOrderInput | SortOrder
     _count?: MuseumCountOrderByAggregateInput
     _avg?: MuseumAvgOrderByAggregateInput
@@ -27698,6 +27768,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Museum"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Museum"> | Date | string
     openingHours?: JsonNullableWithAggregatesFilter<"Museum">
+    visitorInfo?: JsonNullableWithAggregatesFilter<"Museum">
     lastExhibitionSync?: DateTimeNullableWithAggregatesFilter<"Museum"> | Date | string | null
   }
 
@@ -28379,6 +28450,10 @@ export namespace Prisma {
     id?: StringFilter<"Feedback"> | string
     userId?: StringNullableFilter<"Feedback"> | string | null
     content?: StringFilter<"Feedback"> | string
+    type?: StringFilter<"Feedback"> | string
+    category?: StringNullableFilter<"Feedback"> | string | null
+    targetId?: StringNullableFilter<"Feedback"> | string | null
+    targetName?: StringNullableFilter<"Feedback"> | string | null
     createdAt?: DateTimeFilter<"Feedback"> | Date | string
     reply?: StringNullableFilter<"Feedback"> | string | null
     updatedAt?: DateTimeFilter<"Feedback"> | Date | string
@@ -28389,6 +28464,10 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
     content?: SortOrder
+    type?: SortOrder
+    category?: SortOrderInput | SortOrder
+    targetId?: SortOrderInput | SortOrder
+    targetName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     reply?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
@@ -28402,6 +28481,10 @@ export namespace Prisma {
     NOT?: FeedbackWhereInput | FeedbackWhereInput[]
     userId?: StringNullableFilter<"Feedback"> | string | null
     content?: StringFilter<"Feedback"> | string
+    type?: StringFilter<"Feedback"> | string
+    category?: StringNullableFilter<"Feedback"> | string | null
+    targetId?: StringNullableFilter<"Feedback"> | string | null
+    targetName?: StringNullableFilter<"Feedback"> | string | null
     createdAt?: DateTimeFilter<"Feedback"> | Date | string
     reply?: StringNullableFilter<"Feedback"> | string | null
     updatedAt?: DateTimeFilter<"Feedback"> | Date | string
@@ -28412,6 +28495,10 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
     content?: SortOrder
+    type?: SortOrder
+    category?: SortOrderInput | SortOrder
+    targetId?: SortOrderInput | SortOrder
+    targetName?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     reply?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
@@ -28427,6 +28514,10 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Feedback"> | string
     userId?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
     content?: StringWithAggregatesFilter<"Feedback"> | string
+    type?: StringWithAggregatesFilter<"Feedback"> | string
+    category?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
+    targetId?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
+    targetName?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
     reply?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"Feedback"> | Date | string
@@ -29120,6 +29211,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
@@ -29145,6 +29237,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
@@ -29170,6 +29263,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
@@ -29195,6 +29289,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
@@ -29220,6 +29315,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
   }
 
@@ -29238,6 +29334,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -29256,6 +29353,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -29938,6 +30036,10 @@ export namespace Prisma {
   export type FeedbackCreateInput = {
     id?: string
     content: string
+    type?: string
+    category?: string | null
+    targetId?: string | null
+    targetName?: string | null
     createdAt?: Date | string
     reply?: string | null
     updatedAt?: Date | string
@@ -29948,6 +30050,10 @@ export namespace Prisma {
     id?: string
     userId?: string | null
     content: string
+    type?: string
+    category?: string | null
+    targetId?: string | null
+    targetName?: string | null
     createdAt?: Date | string
     reply?: string | null
     updatedAt?: Date | string
@@ -29956,6 +30062,10 @@ export namespace Prisma {
   export type FeedbackUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    targetId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29966,6 +30076,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    targetId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29975,6 +30089,10 @@ export namespace Prisma {
     id?: string
     userId?: string | null
     content: string
+    type?: string
+    category?: string | null
+    targetId?: string | null
+    targetName?: string | null
     createdAt?: Date | string
     reply?: string | null
     updatedAt?: Date | string
@@ -29983,6 +30101,10 @@ export namespace Prisma {
   export type FeedbackUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    targetId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29992,6 +30114,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    targetId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30870,6 +30996,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     openingHours?: SortOrder
+    visitorInfo?: SortOrder
     lastExhibitionSync?: SortOrder
   }
 
@@ -31297,6 +31424,10 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     content?: SortOrder
+    type?: SortOrder
+    category?: SortOrder
+    targetId?: SortOrder
+    targetName?: SortOrder
     createdAt?: SortOrder
     reply?: SortOrder
     updatedAt?: SortOrder
@@ -31306,6 +31437,10 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     content?: SortOrder
+    type?: SortOrder
+    category?: SortOrder
+    targetId?: SortOrder
+    targetName?: SortOrder
     createdAt?: SortOrder
     reply?: SortOrder
     updatedAt?: SortOrder
@@ -31315,6 +31450,10 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     content?: SortOrder
+    type?: SortOrder
+    category?: SortOrder
+    targetId?: SortOrder
+    targetName?: SortOrder
     createdAt?: SortOrder
     reply?: SortOrder
     updatedAt?: SortOrder
@@ -33368,6 +33507,10 @@ export namespace Prisma {
   export type FeedbackCreateWithoutUserInput = {
     id?: string
     content: string
+    type?: string
+    category?: string | null
+    targetId?: string | null
+    targetName?: string | null
     createdAt?: Date | string
     reply?: string | null
     updatedAt?: Date | string
@@ -33376,6 +33519,10 @@ export namespace Prisma {
   export type FeedbackUncheckedCreateWithoutUserInput = {
     id?: string
     content: string
+    type?: string
+    category?: string | null
+    targetId?: string | null
+    targetName?: string | null
     createdAt?: Date | string
     reply?: string | null
     updatedAt?: Date | string
@@ -33672,6 +33819,10 @@ export namespace Prisma {
     id?: StringFilter<"Feedback"> | string
     userId?: StringNullableFilter<"Feedback"> | string | null
     content?: StringFilter<"Feedback"> | string
+    type?: StringFilter<"Feedback"> | string
+    category?: StringNullableFilter<"Feedback"> | string | null
+    targetId?: StringNullableFilter<"Feedback"> | string | null
+    targetName?: StringNullableFilter<"Feedback"> | string | null
     createdAt?: DateTimeFilter<"Feedback"> | Date | string
     reply?: StringNullableFilter<"Feedback"> | string | null
     updatedAt?: DateTimeFilter<"Feedback"> | Date | string
@@ -33936,6 +34087,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
@@ -33960,6 +34112,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
@@ -34039,6 +34192,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
@@ -34063,6 +34217,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
@@ -34578,6 +34733,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
     planStops?: PlanStopCreateNestedManyWithoutMuseumInput
@@ -34602,6 +34758,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
     planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
@@ -34642,6 +34799,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
     planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
@@ -34666,6 +34824,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
     planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
@@ -34865,6 +35024,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
@@ -34889,6 +35049,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
@@ -35011,6 +35172,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
@@ -35035,6 +35197,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
@@ -35270,6 +35433,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
@@ -35294,6 +35458,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
@@ -35355,6 +35520,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
@@ -35379,6 +35545,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
@@ -35454,6 +35621,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
@@ -35478,6 +35646,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
@@ -35587,6 +35756,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
@@ -35611,6 +35781,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
@@ -35873,6 +36044,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
     planStops?: PlanStopCreateNestedManyWithoutMuseumInput
@@ -35897,6 +36069,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
     planStops?: PlanStopUncheckedCreateNestedManyWithoutMuseumInput
@@ -35999,6 +36172,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
     planStops?: PlanStopUpdateManyWithoutMuseumNestedInput
@@ -36023,6 +36197,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
     planStops?: PlanStopUncheckedUpdateManyWithoutMuseumNestedInput
@@ -36404,6 +36579,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionCreateNestedManyWithoutMuseumInput
@@ -36428,6 +36604,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: Date | string | null
     collectionItems?: CollectionItemUncheckedCreateNestedManyWithoutMuseumInput
     exhibitions?: ExhibitionUncheckedCreateNestedManyWithoutMuseumInput
@@ -36521,6 +36698,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUpdateManyWithoutMuseumNestedInput
@@ -36545,6 +36723,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     openingHours?: NullableJsonNullValueInput | InputJsonValue
+    visitorInfo?: NullableJsonNullValueInput | InputJsonValue
     lastExhibitionSync?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     collectionItems?: CollectionItemUncheckedUpdateManyWithoutMuseumNestedInput
     exhibitions?: ExhibitionUncheckedUpdateManyWithoutMuseumNestedInput
@@ -36746,6 +36925,10 @@ export namespace Prisma {
   export type FeedbackCreateManyUserInput = {
     id?: string
     content: string
+    type?: string
+    category?: string | null
+    targetId?: string | null
+    targetName?: string | null
     createdAt?: Date | string
     reply?: string | null
     updatedAt?: Date | string
@@ -36872,6 +37055,10 @@ export namespace Prisma {
   export type FeedbackUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    targetId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36880,6 +37067,10 @@ export namespace Prisma {
   export type FeedbackUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    targetId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36888,6 +37079,10 @@ export namespace Prisma {
   export type FeedbackUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    targetId?: NullableStringFieldUpdateOperationsInput | string | null
+    targetName?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reply?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

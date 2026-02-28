@@ -186,6 +186,7 @@ exports.Prisma.MuseumScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   openingHours: 'openingHours',
+  visitorInfo: 'visitorInfo',
   lastExhibitionSync: 'lastExhibitionSync'
 };
 
@@ -289,6 +290,10 @@ exports.Prisma.FeedbackScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   content: 'content',
+  type: 'type',
+  category: 'category',
+  targetId: 'targetId',
+  targetName: 'targetName',
   createdAt: 'createdAt',
   reply: 'reply',
   updatedAt: 'updatedAt'

@@ -10,6 +10,7 @@ import { t, translateCategory, translateDescription } from '@/lib/i18n';
 import { useTranslatedText } from '@/hooks/useTranslation';
 import * as gtag from '@/lib/gtag';
 import { getCountryName, getCityName } from '@/lib/countries';
+import ReportModal from '@/components/ui/ReportModal';
 
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
 
@@ -27,6 +28,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
     const [googleReviews, setGoogleReviews] = useState<any>(null);
     const [exhibitions, setExhibitions] = useState<any[]>([]);
     const [loadingLive, setLoadingLive] = useState(false);
+    const [reportOpen, setReportOpen] = useState(false);
 
     const translatedDesc = useTranslatedText(data?.description, locale);
     // Museum names should always display in their original language
@@ -168,125 +170,76 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                 </div>
 
                 <div className="p-5 sm:p-8 bg-white/50 dark:bg-neutral-900/50">
-                    {/* Visitor Information Card */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
-                        <div className="space-y-6">
-                            {/* Detailed Description */}
-                            <div>
-                                <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider mb-2">{t('detail.about', locale) || 'About'}</h3>
-                                <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm">{translatedDesc || translateDescription(data.description, locale)}</p>
+                    {/* Description */}
+                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm mb-5">{translatedDesc || translateDescription(data.description, locale)}</p>
+
+                    {/* Map-style Info List */}
+                    <div className="border-t border-gray-100 dark:border-neutral-800">
+                        {/* Website */}
+                        {data.website && (
+                            <a href={data.website} target="_blank" rel="noreferrer"
+                                className="flex items-center gap-4 py-3.5 border-b border-gray-50 dark:border-neutral-800/50 hover:bg-gray-50 dark:hover:bg-neutral-800/30 -mx-2 px-2 rounded-lg transition-colors group">
+                                <span className="text-base w-6 text-center flex-shrink-0">🌐</span>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-xs text-gray-400 dark:text-neutral-500 font-bold">{locale === 'ko' ? '웹사이트' : 'Website'}</p>
+                                    <p className="text-sm text-blue-600 dark:text-blue-400 font-bold truncate group-hover:underline">{data.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}</p>
+                                </div>
+                                <svg className="w-4 h-4 text-gray-300 dark:text-neutral-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        )}
+
+                        {/* Visitor Info Items */}
+                        {data.visitorInfo && Array.isArray(data.visitorInfo) && data.visitorInfo.map((item: any, i: number) => (
+                            <div key={i} className="flex items-start gap-4 py-3.5 border-b border-gray-50 dark:border-neutral-800/50 -mx-2 px-2">
+                                <span className="text-base w-6 text-center flex-shrink-0 mt-0.5">{item.icon || '📌'}</span>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-xs text-gray-400 dark:text-neutral-500 font-bold">{item.label}</p>
+                                    <p className="text-sm text-gray-800 dark:text-gray-200 font-medium leading-relaxed">{item.value}</p>
+                                </div>
                             </div>
+                        ))}
+                    </div>
 
-                            {/* Website Link */}
-                            {data.website && (
-                                <a
-                                    href={data.website}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="group inline-flex items-center gap-2 bg-white dark:bg-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-700 border border-gray-100 dark:border-neutral-700 hover:border-blue-200 px-4 py-3 rounded-xl transition-all shadow-sm w-full sm:w-auto"
-                                >
-                                    <span className="text-blue-600 text-lg group-hover:scale-110 transition-transform">🌐</span>
-                                    <div className="text-left">
-                                        <p className="text-[10px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-tighter leading-none mb-0.5">Official Website</p>
-                                        <p className="text-sm text-blue-600 dark:text-blue-400 font-bold leading-tight">{t('detail.visitWebsite', locale) || 'Visit Site'} →</p>
-                                    </div>
-                                </a>
-                            )}
-                        </div>
-
-                        {/* Opening Hours */}
-                        {(() => {
-                            const hours = data.openingHours as Record<string, string> | null;
-                            const dayLabels: Record<string, string> = {
-                                mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday',
-                                thu: 'Thursday', fri: 'Friday', sat: 'Saturday', sun: 'Sunday'
-                            };
-                            const dayOrder = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-
-                            return (
-                                <div className="bg-gradient-to-br from-purple-50/50 to-white dark:from-purple-900/10 dark:to-neutral-900 lg:border border-purple-100/50 dark:border-purple-900/30 rounded-2xl p-5 lg:shadow-sm">
-                                    <div className="flex items-center gap-2 mb-4">
-                                        <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-400 text-sm">🕒</div>
-                                        <h3 className="text-xs font-extrabold text-purple-900 dark:text-purple-300 uppercase tracking-widest">{t('detail.openingHours', locale)}</h3>
-                                    </div>
-
-                                    {(!hours || Object.keys(hours).length === 0) ? (
-                                        <div className="py-4 text-center">
-                                            <p className="text-sm text-gray-500 dark:text-gray-400 italic">{t('detail.hoursVary', locale)}</p>
+                    {/* Featured Artworks */}
+                    {data.artworks && data.artworks.length > 0 && (
+                        <div className="mt-6 pt-4">
+                            <h3 className="text-xs font-extrabold text-gray-500 dark:text-neutral-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                🖼️ {locale === 'ko' ? '대표 작품' : 'Featured Works'}
+                            </h3>
+                            <div className="flex gap-3 overflow-x-auto pb-3 -mx-2 px-2 snap-x snap-mandatory scrollbar-hide">
+                                {data.artworks.map((work: any, i: number) => (
+                                    <div key={i} className="min-w-[200px] max-w-[220px] flex-shrink-0 snap-start rounded-2xl overflow-hidden bg-gray-50 dark:bg-neutral-800 border border-gray-100 dark:border-neutral-700 group">
+                                        <div className="h-[140px] overflow-hidden bg-gray-100 dark:bg-neutral-700">
+                                            <img
+                                                src={work.image}
+                                                alt={work.title || ''}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                                            />
                                         </div>
-                                    ) : (
-                                        <div className="text-sm text-gray-800 dark:text-gray-200 space-y-2">
-                                            {hours.info ? (
-                                                <p className="font-medium text-gray-700 dark:text-gray-300 leading-relaxed bg-white/50 dark:bg-neutral-800/50 rounded-xl p-3 border border-dashed border-purple-100 dark:border-purple-900/30">{hours.info}</p>
-                                            ) : (
-                                                <div className="grid grid-cols-1 gap-1">
-                                                    {dayOrder.filter(d => hours[d]).map(d => (
-                                                        <div key={d} className="flex justify-between items-center px-2 py-1.5 rounded-lg hover:bg-white/60 dark:hover:bg-neutral-800/50 transition-colors">
-                                                            <span className="text-gray-500 dark:text-gray-400 font-medium text-xs">{dayLabels[d]}</span>
-                                                            <span className="font-bold text-gray-900 dark:text-white text-xs">{hours[d]}</span>
-                                                        </div>
-                                                    ))}
-                                                </div>
+                                        <div className="p-3">
+                                            <p className="text-[9px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">{work.artist}</p>
+                                            <h4 className="font-bold text-xs dark:text-white leading-tight mt-0.5 line-clamp-1">{work.title}</h4>
+                                            {work.description && (
+                                                <p className="text-[10px] text-gray-400 dark:text-neutral-500 mt-1 line-clamp-2 leading-relaxed">{work.description}</p>
                                             )}
-                                            <p className="text-[10px] text-purple-500 dark:text-purple-400 mt-3 pt-3 border-t border-purple-100/30 dark:border-purple-900/30 flex items-center gap-1">
-                                                <span className="w-1 h-1 rounded-full bg-purple-400"></span>
-                                                Hours may vary on public holidays.
-                                            </p>
                                         </div>
-                                    )}
-                                </div>
-                            );
-                        })()}
-                    </div>
-
-                    {/* Live Exhibitions & News */}
-                    <div className="mt-8">
-                        {loadingLive ? (
-                            <div className="mb-6 animate-pulse flex gap-4 overflow-x-auto pb-4">
-                                <div className="bg-gray-100 dark:bg-neutral-800 rounded-xl relative h-40 w-64 min-w-[16rem]"></div>
-                                <div className="bg-gray-100 dark:bg-neutral-800 rounded-xl relative h-40 w-64 min-w-[16rem]"></div>
+                                    </div>
+                                ))}
                             </div>
-                        ) : (exhibitions && exhibitions.length > 0) ? (
-                            <div className="mb-6">
-                                <h3 className="text-sm font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider mb-3 break-keep">📰 {t('detail.exhibitions', locale)} & News</h3>
-                                <div className="flex gap-4 overflow-x-auto pb-4 snap-x hide-scrollbar">
-                                    {exhibitions.map((exh, i) => (
-                                        <a key={i} href={exh.link || '#'} target="_blank" rel="noreferrer" className="block group relative bg-gray-900 rounded-xl overflow-hidden h-44 w-72 min-w-[18rem] snap-center shadow-md transform transition hover:-translate-y-1 hover:shadow-xl shrink-0">
-                                            <div className="absolute inset-0">
-                                                <img
-                                                    src={exh.imageUrl || data.imageUrl || '/defaultimg.png'}
-                                                    alt={exh.title}
-                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60"
-                                                    onError={(e) => { (e.target as HTMLImageElement).src = '/defaultimg.png'; }}
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                                            </div>
-                                            <div className="absolute inset-0 flex flex-col justify-end p-4">
-                                                <h4 className="font-bold text-white leading-snug line-clamp-2 mb-1 group-hover:text-purple-300 transition-colors uppercase text-xs tracking-tight">{exh.title}</h4>
-                                                {exh.description && <p className="text-[10px] text-gray-300 line-clamp-2 leading-tight">{exh.description}</p>}
-                                            </div>
-                                        </a>
-                                    ))}
-                                </div>
-                            </div>
-                        ) : null}
-                    </div>
+                        </div>
+                    )}
 
                     {/* Map Navigation */}
-                    <div className="mt-2 lg:mt-8 lg:pt-6 lg:border-t border-gray-100 dark:border-neutral-800">
-                        <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">{t('detail.getDirections', locale)}</h3>
+                    <div className="mt-6 pt-4 border-t border-gray-100 dark:border-neutral-800">
                         <div className="flex flex-wrap gap-2">
                             <a
                                 href={appleFirst ? mapLinks.appleDirections : mapLinks.googleDirections}
                                 target="_blank"
                                 rel="noreferrer"
-                                onClick={() => {
-                                    gtag.event('get_directions', {
-                                        category: 'navigation',
-                                        label: appleFirst ? 'Apple Maps' : 'Google Maps',
-                                        value: 1
-                                    });
-                                }}
+                                onClick={() => { gtag.event('get_directions', { category: 'navigation', label: appleFirst ? 'Apple Maps' : 'Google Maps', value: 1 }); }}
                                 className="inline-flex flex-1 sm:flex-none justify-center items-center gap-2 bg-blue-600 text-white px-4 py-3 sm:py-2.5 rounded-xl text-sm font-bold hover:bg-blue-700 transition active:scale-95 shadow-md"
                             >
                                 🗺️ {appleFirst ? t('map.appleMaps', locale) : t('map.googleMaps', locale)}
@@ -295,19 +248,45 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                 href={appleFirst ? mapLinks.googleDirections : mapLinks.appleDirections}
                                 target="_blank"
                                 rel="noreferrer"
-                                onClick={() => {
-                                    gtag.event('get_directions', {
-                                        category: 'navigation',
-                                        label: appleFirst ? 'Google Maps' : 'Apple Maps',
-                                        value: 1
-                                    });
-                                }}
+                                onClick={() => { gtag.event('get_directions', { category: 'navigation', label: appleFirst ? 'Google Maps' : 'Apple Maps', value: 1 }); }}
                                 className="inline-flex flex-1 sm:flex-none justify-center items-center gap-2 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-gray-700 dark:text-gray-300 px-4 py-3 sm:py-2.5 rounded-xl text-sm font-bold hover:bg-gray-50 dark:hover:bg-neutral-700 transition active:scale-95"
                             >
                                 📍 {appleFirst ? t('map.googleMaps', locale) : t('map.appleMaps', locale)}
                             </a>
                         </div>
                         <div className="pb-14 lg:pb-0"></div>
+
+                        {/* Report Info Update Button */}
+                        <button
+                            onClick={() => setReportOpen(true)}
+                            className="mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800/50 text-gray-400 dark:text-gray-500 hover:text-purple-600 hover:border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10 dark:hover:border-purple-800 text-xs font-bold transition-all active:scale-95"
+                        >
+                            <span className="text-sm">✏️</span>
+                            {locale === 'ko' ? '정보 수정 요청' : 'Request info update'}
+                        </button>
+                        <ReportModal
+                            isOpen={reportOpen}
+                            onClose={() => setReportOpen(false)}
+                            locale={locale}
+                            targetName={data.name}
+                            onSubmit={async (msg) => {
+                                await fetch('/api/feedback', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        content: msg,
+                                        type: 'report',
+                                        category: 'museum_info',
+                                        targetId: data.id,
+                                        targetName: data.name,
+                                    })
+                                });
+                                showAlert(
+                                    locale === 'ko' ? '감사합니다!' : 'Thank you!',
+                                    locale === 'ko' ? '수정 요청이 접수되었어요. 빠르게 반영하겠습니다 🙏' : 'Your request has been received. We will review it shortly 🙏'
+                                );
+                            }}
+                        />
                     </div>
                 </div>
             </GlassPanel >

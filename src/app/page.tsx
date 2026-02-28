@@ -220,7 +220,7 @@ export default function MainPage() {
 
         {/* AI Recommend — morphing pill: button ↔ search bar */}
         {!isViewingActiveRoute && !isPanelOpen && (
-          <div className="absolute bottom-[24px] lg:bottom-4 left-4 right-4 z-10 pointer-events-none">
+          <div className="absolute bottom-[50px] lg:bottom-4 left-4 right-4 z-10 pointer-events-none">
             <div className="pointer-events-auto flex flex-col-reverse gap-2">
               {/* Morphing pill container */}
               <div
@@ -306,7 +306,7 @@ export default function MainPage() {
 
         {/* Museum count — clickable expandable badge */}
         {!isViewingActiveRoute && !aiOpen && (
-          <div className="absolute bottom-[24px] lg:bottom-4 right-4 z-10">
+          <div className="absolute bottom-[50px] lg:bottom-4 right-4 z-10">
             <button
               onClick={() => setCountExpanded(prev => !prev)}
               className={`bg-black/80 text-white backdrop-blur-md rounded-2xl shadow-lg cursor-pointer hover:bg-black/90 active:scale-95 transition-all duration-300 overflow-hidden ${countExpanded ? 'px-5 py-3' : 'px-3 py-1.5 text-xs'

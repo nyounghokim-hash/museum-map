@@ -6,7 +6,7 @@ import { GlassPanel } from '@/components/ui/glass';
 import { buildMapLinks, isAppleDevice } from '@/lib/mapLinks';
 import { useApp } from '@/components/AppContext';
 import { useModal } from '@/components/ui/Modal';
-import { t, translateCategory, translateDescription } from '@/lib/i18n';
+import { t, translateCategory, translateDescription, getLocaleFromCountry, Locale } from '@/lib/i18n';
 import { useTranslatedText } from '@/hooks/useTranslation';
 import * as gtag from '@/lib/gtag';
 import { getCountryName, getCityName } from '@/lib/countries';
@@ -14,6 +14,12 @@ import ReportModal from '@/components/ui/ReportModal';
 import { translateViLabel, translateViValue, getWebsiteLabels, getFeaturedWorksTitle, getReportLabels, getCopyToast, getTapCopyHint } from '@/lib/visitorInfoI18n';
 
 import LoadingAnimation from '@/components/ui/LoadingAnimation';
+
+// Sub-component for sentence-level translation using Gemini API
+function TranslatedViText({ text, targetLocale }: { text: string; targetLocale: string }) {
+    const translated = useTranslatedText(text, targetLocale as Locale);
+    return <>{translated}</>;
+}
 
 export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { museumId: string; onClose?: () => void; isMapContext?: boolean }) {
     const [data, setData] = useState<any>(null);
@@ -206,6 +212,11 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                         {data.visitorInfo && Array.isArray(data.visitorInfo) && data.visitorInfo.map((item: any, i: number) => {
                             const displayLabel = translateViLabel(item.label, locale);
                             const isLocation = item.label === '위치';
+                            const isAccess = item.label === '교통' || item.label === '가는 길';
+                            // 위치: museum's country locale (or English if not in 13)
+                            // 교통/가는길: user's selected locale (full sentence)
+                            // others: regex-based translateViValue
+                            const museumLocale = getLocaleFromCountry(data.country);
                             return (
                                 <div key={i}>
                                     <div
@@ -215,7 +226,13 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                         <span className="text-base w-6 text-center flex-shrink-0 mt-0.5">{item.icon || '📌'}</span>
                                         <div className="flex-1 min-w-0">
                                             <p className="text-xs text-gray-400 dark:text-neutral-500 font-bold">{displayLabel}</p>
-                                            <p className="text-sm text-gray-800 dark:text-gray-200 font-medium leading-relaxed">{translateViValue(item.value, locale)}</p>
+                                            <p className="text-sm text-gray-800 dark:text-gray-200 font-medium leading-relaxed">
+                                                {isLocation
+                                                    ? (museumLocale === 'ko' ? item.value : <TranslatedViText text={item.value} targetLocale={museumLocale} />)
+                                                    : isAccess
+                                                        ? (locale === 'ko' ? item.value : <TranslatedViText text={item.value} targetLocale={locale} />)
+                                                        : translateViValue(item.value, locale)}
+                                            </p>
                                             {isLocation && (
                                                 <p className="text-[10px] text-gray-400 dark:text-neutral-500 mt-0.5">
                                                     {getTapCopyHint(locale)}

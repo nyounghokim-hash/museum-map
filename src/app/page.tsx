@@ -239,27 +239,27 @@ export default function MainPage() {
                 {/* Open state — search form */}
                 <form
                   onSubmit={(e) => { e.preventDefault(); handleAiRecommend(); }}
-                  className={`flex gap-2 p-1.5 transition-all duration-300 ${aiOpen ? 'opacity-100 max-h-16' : 'opacity-0 max-h-0 p-0 pointer-events-none overflow-hidden'}`}
+                  className={`flex items-center gap-2 p-2 transition-all duration-300 ${aiOpen ? 'opacity-100 max-h-16' : 'opacity-0 max-h-0 p-0 pointer-events-none overflow-hidden'}`}
                 >
                   <input
                     type="text"
                     value={aiQuery}
                     onChange={(e) => setAiQuery(e.target.value)}
                     placeholder={translateCategory('ai.placeholder', locale)}
-                    className="flex-1 min-w-0 px-4 py-2 bg-transparent text-sm text-gray-800 dark:text-white placeholder-gray-400 outline-none"
+                    className="flex-1 min-w-0 px-4 py-2.5 bg-gray-50 dark:bg-neutral-800 rounded-full text-sm text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:bg-white dark:focus:bg-neutral-700 transition-colors"
                     autoFocus={aiOpen}
                   />
                   <button
                     type="submit"
                     disabled={aiLoading}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-full text-sm font-bold hover:bg-purple-700 active:scale-95 transition-all disabled:opacity-50 shrink-0"
+                    className="w-10 h-10 flex items-center justify-center bg-purple-600 text-white rounded-full text-sm font-bold hover:bg-purple-700 active:scale-95 transition-all disabled:opacity-50 shrink-0"
                   >
                     {aiLoading ? '...' : '✨'}
                   </button>
                   <button
                     type="button"
                     onClick={(e) => { e.stopPropagation(); setAiOpen(false); setAiResults([]); setAiQuery(''); }}
-                    className="px-3 py-2 bg-gray-100 dark:bg-neutral-800 rounded-full text-gray-500 hover:text-gray-800 dark:hover:text-white text-sm active:scale-95 transition-all shrink-0"
+                    className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-neutral-800 rounded-full text-gray-500 hover:text-gray-800 dark:hover:text-white text-sm active:scale-95 transition-all shrink-0"
                   >✕</button>
                 </form>
               </div>

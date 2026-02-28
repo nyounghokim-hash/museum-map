@@ -455,9 +455,23 @@ export default function AdminPage() {
                 </div>
             ) : tab === 'users' ? (
                 <div className="animate-fadeIn">
-                    <div className="mb-6 text-sm font-black text-gray-400 dark:text-neutral-500 uppercase tracking-widest flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full" />
-                        총 {users.filter(u => u.username !== 'admin').length}명의 사용자 가입
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                        <div className="bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-gray-100 dark:border-neutral-800 shadow-sm">
+                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">총 사용자</div>
+                            <div className="text-2xl font-black dark:text-white">{users.length}</div>
+                        </div>
+                        <div className="bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-gray-100 dark:border-neutral-800 shadow-sm">
+                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">회원</div>
+                            <div className="text-2xl font-black text-purple-600">{users.filter(u => u.role === 'USER').length}</div>
+                        </div>
+                        <div className="bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-gray-100 dark:border-neutral-800 shadow-sm">
+                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">비회원</div>
+                            <div className="text-2xl font-black text-blue-500">{users.filter(u => u.role === 'GUEST').length}</div>
+                        </div>
+                        <div className="bg-white dark:bg-neutral-900 p-4 rounded-2xl border border-gray-100 dark:border-neutral-800 shadow-sm">
+                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">피드백</div>
+                            <div className="text-2xl font-black text-indigo-500">{feedbacks.length}</div>
+                        </div>
                     </div>
 
                     <div className="overflow-x-auto mb-16 border border-gray-100 dark:border-neutral-800 rounded-3xl bg-white dark:bg-neutral-900 shadow-sm">
@@ -465,7 +479,7 @@ export default function AdminPage() {
                             <thead className="text-[10px] text-gray-400 uppercase bg-gray-50 dark:bg-neutral-800/50 dark:text-neutral-500 font-black tracking-widest">
                                 <tr>
                                     <th scope="col" className="px-8 py-5">익명 ID</th>
-                                    <th scope="col" className="px-8 py-5">권한</th>
+                                    <th scope="col" className="px-8 py-5">유형</th>
                                     <th scope="col" className="px-8 py-5">국가/언어</th>
                                     <th scope="col" className="px-8 py-5">가입일시</th>
                                 </tr>
@@ -477,8 +491,8 @@ export default function AdminPage() {
                                             {u.id}
                                         </td>
                                         <td className="px-8 py-5">
-                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase ${u.role === 'ADMIN' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'}`}>
-                                                {u.role}
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase ${u.role === 'GUEST' ? 'bg-gray-100 text-gray-500 dark:bg-neutral-800 dark:text-neutral-400' : 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'}`}>
+                                                {u.role === 'GUEST' ? '비회원' : '회원'}
                                             </span>
                                         </td>
                                         <td className="px-8 py-5 text-xs font-bold text-gray-500">

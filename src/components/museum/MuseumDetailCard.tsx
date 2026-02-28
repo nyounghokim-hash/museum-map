@@ -240,7 +240,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                     >
                                         <span className="text-base w-6 text-center flex-shrink-0 mt-0.5">{item.icon || '📌'}</span>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-xs text-gray-400 dark:text-neutral-500 font-bold">{displayLabel}</p>
+                                            <p className="text-xs sm:text-sm text-gray-400 dark:text-neutral-500 font-bold">{displayLabel}</p>
                                             <p className="text-sm text-gray-800 dark:text-gray-200 font-medium leading-relaxed">
                                                 {isLocation
                                                     ? (museumLocale === 'ko' ? item.value : <TranslatedViText text={item.value} targetLocale={museumLocale} />)
@@ -295,7 +295,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                     {/* Featured Artworks */}
                     {data.artworks && data.artworks.length > 0 && (
                         <div className="mt-6 pt-4">
-                            <h3 className="text-xs font-extrabold text-gray-500 dark:text-neutral-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <h3 className="text-sm sm:text-base font-extrabold text-gray-500 dark:text-neutral-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                                 🖼️ {getFeaturedWorksTitle(locale)}
                             </h3>
                             <div className="flex gap-3 overflow-x-auto pb-3 -mx-2 px-2 snap-x snap-mandatory scrollbar-hide max-h-[35vh]">
@@ -311,7 +311,7 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                                         </div>
                                         <div className="p-2.5 sm:p-3">
                                             <p className="text-[9px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">{work.artist}</p>
-                                            <h4 className="font-bold text-xs dark:text-white leading-tight mt-0.5 line-clamp-1">{work.title}</h4>
+                                            <h4 className="font-bold text-sm sm:text-base dark:text-white leading-tight mt-0.5 line-clamp-1">{work.title}</h4>
                                             {work.description && (
                                                 <p className="text-[10px] text-gray-400 dark:text-neutral-500 mt-1 line-clamp-2 leading-relaxed">{work.description}</p>
                                             )}

@@ -27,7 +27,9 @@ export default function AdminPage() {
     const [dashboardData, setDashboardData] = useState<any>(null);
     const [exhibitionStats, setExhibitionStats] = useState<any[]>([]);
     const [aiUsage, setAiUsage] = useState<any>(null);
-    const [tab, setTab] = useState<'dashboard' | 'users' | 'blog' | 'museums' | 'notifications' | 'ai'>('dashboard');
+    const [gaData, setGaData] = useState<any>(null);
+    const [gaLoading, setGaLoading] = useState(false);
+    const [tab, setTab] = useState<'dashboard' | 'users' | 'blog' | 'museums' | 'notifications' | 'ai' | 'analytics'>('dashboard');
     const [notifForm, setNotifForm] = useState({ title: '', message: '', link: '', targetUserId: '' });
     const [sortCol, setSortCol] = useState<string>('name');
     const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
@@ -83,6 +85,10 @@ export default function AdminPage() {
             endpoints = [`/api/admin/museums?query=${museumQuery}&page=${museumPage}`];
         } else if (tab === 'ai') {
             endpoints = ['/api/admin/ai-usage'];
+        } else if (tab === 'analytics') {
+            setGaLoading(true);
+            fetch('/api/admin/analytics').then(r => r.json()).then(res => { setGaData(res.data); setGaLoading(false); setLoading(false); }).catch(() => { setGaLoading(false); setLoading(false); });
+            return;
         }
 
         Promise.all(endpoints.map(e => fetch(e).then(r => r.json())))
@@ -282,6 +288,12 @@ export default function AdminPage() {
                             className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'ai' ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
                         >
                             AI 사용량
+                        </button>
+                        <button
+                            onClick={() => setTab('analytics')}
+                            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${tab === 'analytics' ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg' : 'bg-gray-100 text-gray-400 dark:bg-neutral-800 dark:text-gray-500 hover:bg-gray-200'}`}
+                        >
+                            📊 Analytics
                         </button>
                     </div>
                 </div>
@@ -681,7 +693,7 @@ export default function AdminPage() {
                         </div>
                     </div>
                 </div>
-            ) : (
+            ) : tab === 'notifications' ? (
                 <div className="animate-fadeIn">
                     <div className="max-w-2xl mx-auto">
                         <div className="mb-8">
@@ -741,7 +753,60 @@ export default function AdminPage() {
                         </form>
                     </div>
                 </div>
-            )
+            ) : tab === 'analytics' ? (
+                <div className="animate-fadeIn">
+                    <div className="mb-8">
+                        <h2 className="text-xl font-black dark:text-white uppercase tracking-tight">Google Analytics</h2>
+                        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">GA4 실시간 트래픽 및 사용자 분석</p>
+                    </div>
+                    {gaLoading ? (
+                        <div className="flex items-center justify-center py-20"><div className="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" /></div>
+                    ) : !gaData ? (
+                        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/30 rounded-2xl p-6">
+                            <p className="text-sm font-bold text-yellow-800 dark:text-yellow-300">GA4 환경변수 설정 필요</p>
+                            <p className="text-xs text-yellow-600 dark:text-yellow-500 mt-1">Vercel에 <code className="bg-yellow-100 dark:bg-yellow-800/30 px-1 rounded">GA4_PROPERTY_ID</code>와 <code className="bg-yellow-100 dark:bg-yellow-800/30 px-1 rounded">GOOGLE_SERVICE_ACCOUNT_JSON</code>을 환경변수로 설정해주세요.</p>
+                        </div>
+                    ) : (
+                        <div>
+                            <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
+                                <div className="bg-gradient-to-br from-green-500 to-emerald-600 p-5 rounded-3xl shadow-lg text-white">
+                                    <h3 className="text-[10px] font-black uppercase tracking-widest opacity-80">실시간</h3>
+                                    <div className="text-3xl font-black mt-1">{gaData.realtime || 0}</div>
+                                    <p className="text-[10px] font-bold opacity-70 mt-1">활성 사용자</p>
+                                </div>
+                                {gaData.totals30d && [{ l: '30일 사용자', v: gaData.totals30d.users }, { l: '30일 세션', v: gaData.totals30d.sessions }, { l: '30일 페이지뷰', v: gaData.totals30d.pageViews }, { l: '이탈률', v: (gaData.totals30d.bounceRate * 100).toFixed(1) + '%' }].map(({ l, v }) => (
+                                    <div key={l} className="bg-white dark:bg-neutral-900 p-5 rounded-3xl border border-gray-100 dark:border-neutral-800 shadow-sm">
+                                        <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{l}</h3>
+                                        <div className="text-2xl font-black dark:text-white mt-1">{typeof v === 'number' ? v.toLocaleString() : v}</div>
+                                    </div>
+                                ))}
+                            </div>
+                            {gaData.daily?.length > 0 && (
+                                <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-gray-100 dark:border-neutral-800 p-6 mb-8 shadow-sm">
+                                    <h3 className="text-sm font-black dark:text-white uppercase tracking-tight mb-4">일별 트래픽 (7일)</h3>
+                                    <div className="flex items-end gap-2 h-32">
+                                        {gaData.daily.map((d: any) => { const mx = Math.max(...gaData.daily.map((x: any) => x.pageViews || 1)); const h = Math.max(8, (d.pageViews / mx) * 100); return (<div key={d.date} className="flex-1 flex flex-col items-center gap-1"><span className="text-[9px] font-bold text-gray-400">{d.pageViews}</span><div className="w-full bg-purple-500 rounded-t-lg transition-all" style={{ height: `${h}%` }} /><span className="text-[8px] font-bold text-gray-400">{d.date?.slice(4, 6)}/{d.date?.slice(6)}</span></div>); })}
+                                    </div>
+                                </div>
+                            )}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {gaData.topPages?.length > 0 && (
+                                    <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-gray-100 dark:border-neutral-800 p-6 shadow-sm">
+                                        <h3 className="text-sm font-black dark:text-white uppercase tracking-tight mb-4">인기 페이지 (7일)</h3>
+                                        <div className="space-y-2">{gaData.topPages.map((p: any, i: number) => (<div key={i} className="flex items-center justify-between text-xs"><span className="text-gray-600 dark:text-gray-400 truncate max-w-[70%] font-mono">{p.path}</span><span className="font-black dark:text-white">{p.views.toLocaleString()}</span></div>))}</div>
+                                    </div>
+                                )}
+                                {gaData.countries?.length > 0 && (
+                                    <div className="bg-white dark:bg-neutral-900 rounded-3xl border border-gray-100 dark:border-neutral-800 p-6 shadow-sm">
+                                        <h3 className="text-sm font-black dark:text-white uppercase tracking-tight mb-4">국가별 사용자 (7일)</h3>
+                                        <div className="space-y-2">{gaData.countries.map((c: any, i: number) => (<div key={i} className="flex items-center justify-between text-xs"><span className="text-gray-600 dark:text-gray-400">{c.country}</span><span className="font-black dark:text-white">{c.users.toLocaleString()}</span></div>))}</div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            ) : null
             }
 
             {
@@ -902,7 +967,7 @@ function MuseumEditModal({ museum, onClose, onSave }: { museum: any, onClose: ()
                     </form>
                 )}
             </div>
-            <style jsx>{`
+            <style jsx global>{`
                 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
                 @keyframes scaleUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
                 .animate-fadeIn { animation: fadeIn 200ms ease-out; }

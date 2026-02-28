@@ -96,7 +96,8 @@ export default function AdminPage() {
                 if (tab === 'dashboard') {
                     setDashboardData(results[0]?.data);
                 } else if (tab === 'users') {
-                    setUsers(Array.isArray(results[0]?.data) ? results[0].data : []);
+                    const allUsers = Array.isArray(results[0]?.data) ? results[0].data : [];
+                    setUsers(allUsers.filter((u: any) => u.role !== 'ADMIN'));
                     setFeedbacks(Array.isArray(results[1]?.data) ? results[1].data : Array.isArray(results[1]) ? results[1] : []);
                 } else if (tab === 'blog') {
                     setPosts(Array.isArray(results[0]?.data) ? results[0].data : []);

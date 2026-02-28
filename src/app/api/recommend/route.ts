@@ -182,6 +182,20 @@ For each museum, write ONE short reason (under 15 words) why it matches the sear
         };
 
         const dataWithReasons = results.map((r: any) => ({ ...r, reason: reasons[r.id] || generateFallbackReason(r) }));
+
+        // Log AI usage to AuditLog for admin dashboard
+        if (usedAI) {
+            try {
+                await prisma.auditLog.create({
+                    data: {
+                        adminId: 'system',
+                        action: `recommend:gemini:${results.length}results`,
+                        target: query.substring(0, 100),
+                    }
+                });
+            } catch { /* AuditLog is optional */ }
+        }
+
         return NextResponse.json({ data: dataWithReasons, filters, ai: usedAI });
     } catch (e: any) {
         console.error('Recommend error:', e);

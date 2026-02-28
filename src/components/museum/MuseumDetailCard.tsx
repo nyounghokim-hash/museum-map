@@ -194,6 +194,18 @@ export default function MuseumDetailCard({ museumId, onClose, isMapContext }: { 
                     {/* Description */}
                     <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm mb-5">{translatedDesc || translateDescription(data.description, locale)}</p>
 
+                    {/* Updated date chip */}
+                    {data.updatedAt && (
+                        <div className="mb-3">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gray-50 dark:bg-neutral-800/60 text-[10px] font-bold text-gray-400 dark:text-neutral-500">
+                                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {locale === 'ko' ? '정보 업데이트' : 'Updated'} {new Date(data.updatedAt).toLocaleDateString(locale === 'ko' ? 'ko-KR' : locale === 'ja' ? 'ja-JP' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                            </span>
+                        </div>
+                    )}
+
                     {/* Map-style Info List */}
                     <div className="border-t border-gray-100 dark:border-neutral-800">
                         {/* Website */}

@@ -275,6 +275,9 @@ type TranslationKeys = {
     'notif.list': string;
     'notif.label': string;
     'notif.goToLink': string;
+    'blog.visitorInfo': string;
+    'blog.featuredWorks': string;
+    'blog.requestInfoUpdate': string;
     'auth.logout': string;
     'legal.privacy.s9.content': string;
 };
@@ -514,6 +517,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Teavitused',
         'notif.label': 'Teavitus',
         'notif.goToLink': 'Mine lingile',
+        'blog.visitorInfo': 'Külastajate info',
+        'blog.featuredWorks': 'Esiletõstetud teosed',
+        'blog.requestInfoUpdate': 'Teavita info muutusest',
         'auth.logout': 'Logi välja',
     },
     sv: {
@@ -750,6 +756,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Aviseringar',
         'notif.label': 'Avisering',
         'notif.goToLink': 'Gå till länk',
+        'blog.visitorInfo': 'Besökarinformation',
+        'blog.featuredWorks': 'Utvalda verk',
+        'blog.requestInfoUpdate': 'Begär uppdatering av info',
         'auth.logout': 'Logga ut',
     },
     fi: {
@@ -986,6 +995,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Ilmoitukset',
         'notif.label': 'Ilmoitus',
         'notif.goToLink': 'Siirry linkkiin',
+        'blog.visitorInfo': 'Kävijätiedot',
+        'blog.featuredWorks': 'Esitellyt teokset',
+        'blog.requestInfoUpdate': 'Pyydä tietojen päivitystä',
         'auth.logout': 'Kirjaudu ulos',
     },
     da: {
@@ -1222,6 +1234,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Notifikationer',
         'notif.label': 'Notifikation',
         'notif.goToLink': 'Gå til link',
+        'blog.visitorInfo': 'Besøgsinformation',
+        'blog.featuredWorks': 'Udvalgte værker',
+        'blog.requestInfoUpdate': 'Anmod om opdatering af info',
         'auth.logout': 'Log ud',
     },
     en: {
@@ -1459,6 +1474,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Notifications',
         'notif.label': 'Notification',
         'notif.goToLink': 'Go to link',
+        'blog.visitorInfo': 'Visitor Info',
+        'blog.featuredWorks': 'Featured Works',
+        'blog.requestInfoUpdate': 'Request info update',
         'auth.logout': 'Logout',
     },
     ko: {
@@ -1697,6 +1715,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': '알림 목록',
         'notif.label': '알림',
         'notif.goToLink': '바로 가기',
+        'blog.visitorInfo': '방문 정보',
+        'blog.featuredWorks': '주요 작품',
+        'blog.requestInfoUpdate': '정보 수정 요청',
         'auth.logout': '로그아웃',
     },
     ja: {
@@ -1933,6 +1954,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': '通知一覧',
         'notif.label': '通知',
         'notif.goToLink': 'リンクへ移動',
+        'blog.visitorInfo': '訪問情報',
+        'blog.featuredWorks': '注目の作品',
+        'blog.requestInfoUpdate': '情報の修正をリクエスト',
         'auth.logout': 'ログアウト',
     },
     de: {
@@ -2169,6 +2193,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Benachrichtigungen',
         'notif.label': 'Benachrichtigung',
         'notif.goToLink': 'Zum Link gehen',
+        'blog.visitorInfo': 'Besucherinfo',
+        'blog.featuredWorks': 'Ausgewählte Werke',
+        'blog.requestInfoUpdate': 'Info-Aktualisierung anfordern',
         'auth.logout': 'Abmelden',
     },
     fr: {
@@ -2405,6 +2432,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Notifications',
         'notif.label': 'Notification',
         'notif.goToLink': 'Aller au lien',
+        'blog.visitorInfo': 'Infos visiteurs',
+        'blog.featuredWorks': 'Œuvres en vedette',
+        'blog.requestInfoUpdate': 'Demander une mise à jour',
         'auth.logout': 'Déconnexion',
     },
     es: {
@@ -2637,6 +2667,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Notificaciones',
         'notif.label': 'Notificación',
         'notif.goToLink': 'Ir al enlace',
+        'blog.visitorInfo': 'Info para visitantes',
+        'blog.featuredWorks': 'Obras destacadas',
+        'blog.requestInfoUpdate': 'Solicitar actualización de info',
         'auth.logout': 'Cerrar sesión',
         'map.googleMaps': 'Google Maps',
         'plans.activeRoute': 'Ruta activa',
@@ -2871,6 +2904,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Notificações',
         'notif.label': 'Notificação',
         'notif.goToLink': 'Ir para o link',
+        'blog.visitorInfo': 'Info para visitantes',
+        'blog.featuredWorks': 'Obras em destaque',
+        'blog.requestInfoUpdate': 'Solicitar atualização de info',
         'auth.logout': 'Sair',
         'map.googleMaps': 'Google Maps',
         'plans.activeRoute': 'Rota ativa',
@@ -3104,6 +3140,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': '通知列表',
         'notif.label': '通知',
         'notif.goToLink': '前往連結',
+        'blog.visitorInfo': '訪客資訊',
+        'blog.featuredWorks': '精選作品',
+        'blog.requestInfoUpdate': '請求更新資訊',
         'auth.logout': '登出',
     },
     'zh-CN': {
@@ -3335,6 +3374,9 @@ const translations: Record<Locale, Record<string, string>> = {
         'notif.list': '通知列表',
         'notif.label': '通知',
         'notif.goToLink': '前往链接',
+        'blog.visitorInfo': '訪客信息',
+        'blog.featuredWorks': '精選作品',
+        'blog.requestInfoUpdate': '請求更新信息',
         'auth.logout': '退出登录',
     },
 };
@@ -3587,6 +3629,9 @@ const categoryTranslations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Notifications',
         'notif.label': 'Notification',
         'notif.goToLink': 'Aller au lien',
+        'blog.visitorInfo': 'Infos visiteurs',
+        'blog.featuredWorks': 'Œuvres en vedette',
+        'blog.requestInfoUpdate': 'Demander une mise à jour',
         'auth.logout': 'Déconnexion',
         'plans.dragReorder': 'Faites glisser pour réorganiser',
         'plans.activeRoute': 'Itinéraire actif',
@@ -3626,6 +3671,9 @@ const categoryTranslations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Notificaciones',
         'notif.label': 'Notificación',
         'notif.goToLink': 'Ir al enlace',
+        'blog.visitorInfo': 'Info para visitantes',
+        'blog.featuredWorks': 'Obras destacadas',
+        'blog.requestInfoUpdate': 'Solicitar actualización de info',
         'auth.logout': 'Cerrar sesión',
         'plans.dragReorder': 'Arrastra para reordenar',
         'plans.activeRoute': 'Ruta activa',
@@ -3665,6 +3713,9 @@ const categoryTranslations: Record<Locale, Record<string, string>> = {
         'notif.list': 'Notificações',
         'notif.label': 'Notificação',
         'notif.goToLink': 'Ir para o link',
+        'blog.visitorInfo': 'Info para visitantes',
+        'blog.featuredWorks': 'Obras em destaque',
+        'blog.requestInfoUpdate': 'Solicitar atualização de info',
         'auth.logout': 'Sair',
         'plans.dragReorder': 'Arraste para reordenar',
         'plans.activeRoute': 'Rota ativa',

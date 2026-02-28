@@ -1,17 +1,21 @@
 'use client';
 import { useState } from 'react';
-import { useTranslatedText } from '@/hooks/useTranslation';
+import { useTranslatedText, useTranslatedTexts } from '@/hooks/useTranslation';
 import { useApp } from '@/components/AppContext';
-import { formatDate, type Locale } from '@/lib/i18n';
+import { formatDate, t, type Locale } from '@/lib/i18n';
 import Link from 'next/link';
 import ReportModal from '@/components/ui/ReportModal';
 
 function InfoTable({ data, locale }: { data: any[]; locale: string }) {
+    // Collect all translatable strings
+    const allTexts = data ? data.flatMap((row: any) => [row.label || '', row.value || '']) : [];
+    const translations = useTranslatedTexts(allTexts, locale as Locale);
+
     if (!data || data.length === 0) return null;
     return (
         <div className="mt-10">
             <h2 className="text-xl font-extrabold dark:text-white mb-4 flex items-center gap-2">
-                📋 <span>{locale === 'ko' ? '방문 정보' : 'Visitor Info'}</span>
+                📋 <span>{t('blog.visitorInfo', locale)}</span>
             </h2>
             <div className="overflow-hidden rounded-2xl border border-gray-100 dark:border-neutral-800">
                 <table className="w-full text-sm">
@@ -19,10 +23,10 @@ function InfoTable({ data, locale }: { data: any[]; locale: string }) {
                         {data.map((row: any, i: number) => (
                             <tr key={i} className={`${i % 2 === 0 ? 'bg-gray-50 dark:bg-neutral-800/50' : 'bg-white dark:bg-neutral-900'}`}>
                                 <td className="px-5 py-3.5 font-bold text-gray-700 dark:text-gray-300 whitespace-nowrap w-[140px] border-r border-gray-100 dark:border-neutral-800">
-                                    {row.label}
+                                    {translations.get(row.label) || row.label}
                                 </td>
                                 <td className="px-5 py-3.5 text-gray-600 dark:text-gray-400">
-                                    {row.value}
+                                    {translations.get(row.value) || row.value}
                                 </td>
                             </tr>
                         ))}
@@ -35,22 +39,22 @@ function InfoTable({ data, locale }: { data: any[]; locale: string }) {
 
 function SafeImage({ src, alt, className, fallbackIcon }: { src: string; alt: string; className: string; fallbackIcon?: string }) {
     const [error, setError] = useState(false);
-    if (error || !src) {
-        return (
-            <div className={`${className} bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 flex items-center justify-center`}>
-                <span className="text-2xl">{fallbackIcon || '🖼️'}</span>
-            </div>
-        );
+    if (!src || error) {
+        return <div className={`${className} flex items-center justify-center bg-gray-100 dark:bg-neutral-800`}><span className="text-4xl opacity-50">{fallbackIcon || '🖼️'}</span></div>;
     }
-    return <img src={src} alt={alt} className={className} onError={() => setError(true)} loading="lazy" />;
+    return <img src={src} alt={alt} className={className} onError={() => setError(true)} />;
 }
 
 function ArtworkCards({ data, locale }: { data: any[]; locale: string }) {
+    // Collect all translatable strings
+    const allTexts = data ? data.flatMap((w: any) => [w.title || '', w.description || '']) : [];
+    const translations = useTranslatedTexts(allTexts, locale as Locale);
+
     if (!data || data.length === 0) return null;
     return (
         <div className="mt-10">
             <h2 className="text-xl font-extrabold dark:text-white mb-4 flex items-center gap-2">
-                🖼️ <span>{locale === 'ko' ? '주요 작품' : 'Featured Works'}</span>
+                🖼️ <span>{t('blog.featuredWorks', locale)}</span>
             </h2>
             <div className="flex gap-4 overflow-x-auto pb-4 -mx-2 px-2 snap-x snap-mandatory scrollbar-hide">
                 {data.map((work: any, i: number) => (
@@ -68,11 +72,11 @@ function ArtworkCards({ data, locale }: { data: any[]; locale: string }) {
                                 {work.artist}
                             </p>
                             <h3 className="font-bold text-sm dark:text-white leading-tight mb-2">
-                                {work.title}
+                                {translations.get(work.title) || work.title}
                             </h3>
                             {work.description && (
                                 <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-3">
-                                    {work.description}
+                                    {translations.get(work.description) || work.description}
                                 </p>
                             )}
                         </div>
@@ -187,7 +191,7 @@ export default function BlogContentClient({ post, serverLocale }: { post: any; s
                     className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-800/50 text-gray-400 dark:text-gray-500 hover:text-purple-600 hover:border-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/10 dark:hover:border-purple-800 text-xs font-bold transition-all active:scale-95"
                 >
                     <span className="text-sm">✏️</span>
-                    {effectiveLocale === 'ko' ? '정보 수정 요청' : 'Request info update'}
+                    {t('blog.requestInfoUpdate', effectiveLocale)}
                 </button>
             </div>
             <ReportModal

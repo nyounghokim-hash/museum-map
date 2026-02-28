@@ -215,8 +215,12 @@ export default function MainPage() {
                 </FilterChip>
               ))}
             </div>
+          </div>
+        )}
 
-            {/* AI Recommend Button / Panel */}
+        {/* AI Recommend — PC: bottom-left, Mobile/Tablet: above bottom nav */}
+        {!isViewingActiveRoute && !isPanelOpen && (
+          <div className="absolute bottom-20 lg:bottom-4 left-4 right-4 lg:right-auto lg:max-w-md z-10 pointer-events-none">
             <div className="pointer-events-auto">
               {!aiOpen ? (
                 <button
@@ -297,7 +301,7 @@ export default function MainPage() {
 
         {/* Museum count — clickable expandable badge */}
         {!isViewingActiveRoute && (
-          <div className="absolute bottom-4 right-4 z-10">
+          <div className="absolute bottom-20 lg:bottom-4 right-4 z-10">
             <button
               onClick={() => setCountExpanded(prev => !prev)}
               className={`bg-black/80 text-white backdrop-blur-md rounded-2xl shadow-lg cursor-pointer hover:bg-black/90 active:scale-95 transition-all duration-300 overflow-hidden ${countExpanded ? 'px-5 py-3' : 'px-3 py-1.5 text-xs'
